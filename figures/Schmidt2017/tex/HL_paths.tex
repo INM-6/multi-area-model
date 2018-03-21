@@ -1,0 +1,40 @@
+\documentclass[pstricks=true, preview]{standalone}
+%\documentclass{article}
+
+%%\usepackage{pstricks}
+\usepackage{pst-all}
+\usepackage{graphicx}
+
+%\usepackage[helvet]{sfmath}
+\renewcommand*{\familydefault}{\sfdefault}
+
+\input{defs.tex}
+\input{define_bools.tex}
+
+\begin{document}
+\begin{figure}
+\begin{pspicture}(6.5,5.)
+
+\rput[Rt](3.,4.85){\textbf{High to low type}}
+
+\psframe[linestyle=none, 
+         fillcolor=mygray, 
+         fillstyle=solid](2.3,0.7)(4.,4.2)
+
+\rput[Lt](3.1, 0.65){\footnotesize{Intermediate steps}}
+\pspolygon[linestyle=none, 
+         fillcolor=mygray, 
+         fillstyle=solid](2.3,0.4)(4.,0.4)(6., 0.0)(0.3, 0.0)
+
+\input{define_pops.tex}
+\input{lw_HL_paths.tex}
+\input{draw_paths.tex}
+\input{draw_pops.tex}
+\end{pspicture}
+\end{figure}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
