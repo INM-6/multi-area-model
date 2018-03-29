@@ -309,13 +309,16 @@ class Theory():
                                                self.NP['V_reset'],
                                                mu[ii], sigma[ii]) for ii in range(N.size)])
 
+        # Unit: 1/(mV)**2
         slope_sigma = np.array([d_nu_d_sigma_fb_numeric(1.e-3*self.NP['tau_m'],
                                                         1.e-3*self.NP['tau_syn'],
                                                         1.e-3*self.NP['t_ref'],
                                                         self.NP['V_th'],
                                                         self.NP['V_reset'],
                                                         mu[ii], sigma[ii])*1/(
-                                                            2. * sigma[ii]) for ii in range(N.size)])  # 1/(mV)**2
+                                                            2. * sigma[ii])
+                                for ii in range(N.size)])
+
         slope_matrix = np.zeros_like(J)
         slope_sigma_matrix = np.zeros_like(J)
         for ii in range(N.size):
@@ -337,11 +340,12 @@ class Theory():
         Computes radius of eigenvalue spectrum of the stability matrix.
         """
         if full_output:
-            M, slope, slope_sigma, M, EV, C, V, G_N = self.stability_matrix(rates,
-                                                                            matrix_filter=matrix_filter,
-                                                                            vector_filter=vector_filter,
-                                                                            full_output=full_output,
-                                                                            replace_cc=replace_cc)
+            (M, slope, slope_sigma,
+             M, EV, C, V, G_N) = self.stability_matrix(rates,
+                                                       matrix_filter=matrix_filter,
+                                                       vector_filter=vector_filter,
+                                                       full_output=full_output,
+                                                       replace_cc=replace_cc)
         else:
             M = self.stability_matrix(rates, matrix_filter=matrix_filter,
                                       vector_filter=vector_filter,
@@ -349,6 +353,6 @@ class Theory():
         EV = np.linalg.eig(M)
         lambda_max = np.sqrt(np.max(np.real(EV[0])))
         if full_output:
-            return lambda_max, slope, slope_sigma, M, EV, C, V, G
+            return lambda_max, slope, slope_sigma, M, EV, C, V
         else:
             return lambda_max

@@ -3,11 +3,13 @@
 VisualCortexData
 ================
 
-This script provides the function process_raw_data which fulfils two tasks:
-1) Load the experimental data from the raw data files stored in raw_data/ and stores
-   it to viscorted_raw_data.json.
-2) Process the data to derive complete sets of FLN, SLN, neuronal densities
-   and laminar thicknesses and store these values to viscortex_processed_data.json.
+This script provides the function process_raw_data which fulfils two
+tasks:
+1) Load the experimental data from the raw data files stored in
+   raw_data/ and stores it to viscorted_raw_data.json.
+2) Process the data to derive complete sets of FLN, SLN, neuronal
+   densities and laminar thicknesses and store these values to
+   viscortex_processed_data.json.
 
 All details of the procedures in this scripts are described in
 Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ (2017)
@@ -50,8 +52,8 @@ will be stored in the corresponding dictionaries:
    ----> SLN_Data
 10. Intrinsic connection probabilities from Potjans et al. (2012)
    ----> intrinsic_connectivity
-11. Layer-specific number of neurons for cat V1 from Potjans et al. (2012)
-    constructed from Binzegger et al. (2004)
+11. Layer-specific number of neurons for cat V1 from Potjans et al.
+    (2012) constructed from Binzegger et al. (2004)
     ----> Num_V1
 12a. Thickness of layers from Beaulieu et al. (1983)
      ---> laminar_Thickness_cat
@@ -60,7 +62,8 @@ will be stored in the corresponding dictionaries:
 13. Total cortical thicknesses from Barbas lab
     ---> total_thickness_data
 14. Translation from different schemes to FV91 scheme
-15. Binzegger Data about relating synapse location to location of cell bodies
+15. Binzegger Data about relating synapse location to location of cell
+    bodies
 16. Average In-Degree from Cragg 1967 ---> AvInDegree
 
 
@@ -772,7 +775,8 @@ def process_raw_data():
             if architecture_completed[area] in range(1, 9, 1):
                 if area in list(neuronal_density_data_FV91_4layers.keys()):
                     for key in list(neuronal_density_data_FV91_4layers[area].keys()):
-                        neuronal_densities[area][key] = neuronal_density_data_FV91_4layers[area][key]
+                        neuronal_densities[area][key] = neuronal_density_data_FV91_4layers[
+                            area][key]
                 else:
                     neuronal_densities[area] = category_density[architecture_completed[area]]
             else:
@@ -913,7 +917,6 @@ def process_raw_data():
                 laminar_thicknesses_completed[area][layer] = 0.001 * relative_layer_thicknesses[
                     area][layer] * total_thicknesses[area] / sum_rel_thick
 
-
         """
         Finally, we compute neuron numbers for each population.
         We assume a laminar-specific ratio of excitatory
@@ -921,9 +924,12 @@ def process_raw_data():
         """
         EI_ratio = {'23': num_V1['23E']['neurons'] / (
             num_V1['23E']['neurons'] + num_V1['23I']['neurons']),
-                    '4': num_V1['4E']['neurons'] / (num_V1['4E']['neurons'] + num_V1['4I']['neurons']),
-                    '5': num_V1['5E']['neurons'] / (num_V1['5E']['neurons'] + num_V1['5I']['neurons']),
-                    '6': num_V1['6E']['neurons'] / (num_V1['6E']['neurons'] + num_V1['6I']['neurons'])}
+                    '4': num_V1['4E']['neurons'] / (num_V1['4E']['neurons'] +
+                                                    num_V1['4I']['neurons']),
+                    '5': num_V1['5E']['neurons'] / (num_V1['5E']['neurons'] +
+                                                    num_V1['5I']['neurons']),
+                    '6': num_V1['6E']['neurons'] / (num_V1['6E']['neurons'] +
+                                                    num_V1['6I']['neurons'])}
 
         """
         Then, we compute the number of neurons in
@@ -933,20 +939,22 @@ def process_raw_data():
         realistic_neuronal_numbers = nested_dict()
         for area in list(neuronal_densities.keys()):
             S = surface_data[area]
-            realistic_neuronal_numbers[area]['23E'] = (S * laminar_thicknesses_completed[area]['23'] *
-                                                       neuronal_densities[area]['23'] * EI_ratio['23'])
+            ltc = laminar_thicknesses_completed[area]
+            nd = neuronal_densities[area]
+            realistic_neuronal_numbers[area]['23E'] = (S * ltc['23'] *
+                                                       nd['23'] * EI_ratio['23'])
             realistic_neuronal_numbers[area]['23I'] = (realistic_neuronal_numbers[area]['23E'] *
                                                        (1. - EI_ratio['23']) / EI_ratio['23'])
-            realistic_neuronal_numbers[area]['4E'] = (S * laminar_thicknesses_completed[area]['4'] *
-                                                      neuronal_densities[area]['4'] * EI_ratio['4'])
+            realistic_neuronal_numbers[area]['4E'] = (S * ltc['4'] *
+                                                      nd['4'] * EI_ratio['4'])
             realistic_neuronal_numbers[area]['4I'] = (realistic_neuronal_numbers[area]['4E'] *
                                                       (1. - EI_ratio['4']) / EI_ratio['4'])
-            realistic_neuronal_numbers[area]['5E'] = (S * laminar_thicknesses_completed[area]['5'] *
-                                                      neuronal_densities[area]['5'] * EI_ratio['5'])
+            realistic_neuronal_numbers[area]['5E'] = (S * ltc['5'] *
+                                                      nd['5'] * EI_ratio['5'])
             realistic_neuronal_numbers[area]['5I'] = (realistic_neuronal_numbers[area]['5E'] *
                                                       (1. - EI_ratio['5']) / EI_ratio['5'])
-            realistic_neuronal_numbers[area]['6E'] = (S * laminar_thicknesses_completed[area]['6'] *
-                                                      neuronal_densities[area]['6'] * EI_ratio['6'])
+            realistic_neuronal_numbers[area]['6E'] = (S * ltc['6'] *
+                                                      nd['6'] * EI_ratio['6'])
             realistic_neuronal_numbers[area]['6I'] = (realistic_neuronal_numbers[area]['6E'] *
                                                       (1. - EI_ratio['6']) / EI_ratio['6'])
             realistic_neuronal_numbers[area]['total'] = sum(
@@ -1347,8 +1355,10 @@ def process_raw_data():
                         value = SLN_Data_FV91_mapped[target][source]
                         s += 1
                     else:
-                        x = R_fit[1] * float(np.log(neuronal_densities[target]['overall']) -
-                                             np.log(neuronal_densities[source]['overall'])) + R_fit[0]
+                        nd_target = neuronal_densities[target]
+                        nd_source = neuronal_densities[source]
+                        x = R_fit[1] * float(np.log(nd_target['overall']) -
+                                             np.log(nd_source['overall'])) + R_fit[0]
                         value = probit(x)
                         s2 += 1
                     SLN_completed[target][source] = value

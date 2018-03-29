@@ -106,7 +106,8 @@ mod_list = []
 
 # Shuffling of the connectivity
 # In the connectivity matrix, rows == targets, columns == sources
-# For each column, we shuffle the rows and therefore conserve the total outdegree of each area.
+# For each column, we shuffle the rows and therefore conserve the
+# total outdegree of each area.
 
 for ii in range(1000):
     for jj in range(32):

@@ -184,7 +184,8 @@ connection_params = {
 
     # scaling factor for cortico-cortical connections (chi)
     'cc_weights_factor': 1.,
-    # factor to scale cortico-cortical inh. weights in relation to exc. weights (chi_I)
+    # factor to scale cortico-cortical inh. weights in relation
+    # to exc. weights (chi_I)
     'cc_weights_I_factor': 1.,
 
     # 'switch whether to distribute weights lognormally

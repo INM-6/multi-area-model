@@ -16,7 +16,6 @@ if NEURON_DENSITIES_AVAILABLE:
     neuron_densities = proc['neuronal_densities']
     architecture_completed = proc['architecture_completed']
 
-
     categories = {}
     for ii in np.arange(0, 9, 1):
         categories[ii] = []
@@ -193,22 +192,20 @@ if NEURON_DENSITIES_AVAILABLE:
 
     ax.legend(loc=(0.035, 0.45), edgecolor='k')
 
-
     ##################################################
     barbas_array = np.zeros(len(area_list))
     for i, area in enumerate(area_list):
         barbas_array[i] = total_thickness_data[area] / 1000.
 
-
     gradient, intercept, r_value, p_value, std_err = stats.linregress(
-        log_density_array[np.isfinite(barbas_array)], barbas_array[np.isfinite(barbas_array)])
+        log_density_array[np.isfinite(barbas_array)],
+        barbas_array[np.isfinite(barbas_array)])
 
     print('total thicknesses from Barbas lab vs log. densities:')
     print('gradient: ', gradient)
     print('intercept: ', intercept)
     print('r-value: ', r_value)
     print('p-value: ', p_value)
-
 
     ax = axes['B']
 
@@ -220,9 +217,6 @@ if NEURON_DENSITIES_AVAILABLE:
     ax.set_xticks([4.7, 5.0])
 
     ax.set_yticks(np.arange(1., 3., 0.5))
-
-
-    ############################################################
 
     ax = axes['C']
 
@@ -247,4 +241,3 @@ if NEURON_DENSITIES_AVAILABLE:
 else:
     print("Figure 2 can currently not be produced because"
           "we cannot publish the underlying raw data.")
-        

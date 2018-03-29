@@ -147,7 +147,8 @@ ax_hist.yaxis.set_ticks_position("none")
 ax_hist.xaxis.set_ticks_position("none")
 
 colors = sm.to_rgba(bins[:-1])
-ax_hist.bar(bins[:-1], vals, width=np.diff(bins), color=colors, edgecolor='k', align='edge')
+ax_hist.bar(bins[:-1], vals, width=np.diff(bins), color=colors,
+            edgecolor='k', align='edge')
 ax_hist.set_xscale('Log')
 ax_hist.set_xlim(cb.get_clim())
 ax_hist.set_xticks([])
@@ -194,7 +195,8 @@ ax_hist.yaxis.set_ticks_position("none")
 ax_hist.xaxis.set_ticks_position("none")
 
 colors = sm.to_rgba(bins[:-1])
-ax_hist.bar(bins[:-1], vals, width=np.diff(bins), color=colors, edgecolor='k', align='edge')
+ax_hist.bar(bins[:-1], vals, width=np.diff(bins), color=colors,
+            edgecolor='k', align='edge')
 ax_hist.set_xscale('Log')
 ax_hist.set_xlim(cb.get_clim())
 ax_hist.set_xticks([])

@@ -75,7 +75,8 @@ ax.set_ylabel(r'Average indegree $(\times 10^3)$')
 ax.set_yticks([5000., 10000., 15000., 20000.])
 ax.set_yticklabels([r'5', r'10', r'15', r'20'])
 
-print(("Average indegree across all areas: {}".format(np.average(indegrees, weights=num_list))))
+print(("Average indegree across all areas: {}".format(np.average(indegrees,
+                                                                 weights=num_list))))
 
 p.savefig('Fig3_construction_mpl.eps')
 

@@ -8,13 +8,12 @@ Schmidt et al. (2018).
 
 Classes
 -------
-Simulation : Loads a parameter file that specifies simulation parameters for a
-simulation of the instance of the model. A simulation is identified by a unique
-hash label.
+Simulation : Loads a parameter file that specifies simulation
+parameters for a simulation of the instance of the model. A simulation
+is identified by a unique hash label.
 
 """
 
-import h5py_wrapper as h5w
 import json
 import nest
 import numpy as np
@@ -42,7 +41,8 @@ class Simulation:
         """
         Simulation class.
         An instance of the simulation class with the given parameters.
-        Can be created as a member class of a multiarea_model instance or standalone.
+        Can be created as a member class of a multiarea_model instance
+        or standalone.
 
         Parameters
         ----------
@@ -227,13 +227,15 @@ class Simulation:
                 # Loop source area though complete list of areas
                 for source_area_name in self.network.area_list:
                     if target_area.name != source_area_name:
-                        # If source_area is part of the simulated network, connect it to target_area
+                        # If source_area is part of the simulated network,
+                        # connect it to target_area
                         if source_area_name in self.areas:
                             source_area = self.areas[self.areas.index(source_area_name)]
                             connect(self,
                                     target_area,
                                     source_area)
-                        # Else, replace the input from source_area with the chosen method
+                        # Else, replace the input from source_area with the
+                        # chosen method
                         else:
                             target_area.create_additional_input(replace_non_simulated_areas,
                                                                 source_area_name,
@@ -374,8 +376,9 @@ class Area:
         return s
 
     def __eq__(self, other):
-        # If other is an instance of area, it should be the exact same area
-        # This opens the possibility to have multiple instance of one cortical areas
+        # If other is an instance of area, it should be the exact same
+        # area This opens the possibility to have multiple instance of
+        # one cortical areas
         if isinstance(other, Area):
             return self.name == other.name and self.gids == other.gids
         elif isinstance(other, str):
@@ -437,8 +440,8 @@ class Area:
 
     def create_devices(self):
         """
-        Create devices for all populations. Depending on the configuration, this
-        will create:
+        Create devices for all populations. Depending on the
+        configuration, this will create:
         - spike detectors
         - voltmeters
         - Poisson generators
@@ -499,15 +502,18 @@ class Area:
 
         Parameters
         ----------
-        input_type : str, {'het_current_nonstat', 'hom_poisson_stat', 'het_poisson_stat'}
-            Type of input to replace source area. The source area can be replaced by
-            Poisson sources with the same global rate rate_ext ('hom_poisson_stat') or
-            by specific rates ('het_poisson_stat') or by time-varying specific current
+        input_type : str, {'het_current_nonstat', 'hom_poisson_stat',
+                           'het_poisson_stat'}
+            Type of input to replace source area. The source area can
+            be replaced by Poisson sources with the same global rate
+            rate_ext ('hom_poisson_stat') or by specific rates
+            ('het_poisson_stat') or by time-varying specific current
             ('het_current_nonstat')
         source_area_name: str
             Name of the source area to be replaced.
         cc_input : dict
-            Dictionary of cortico-cortical input of the process replacing the source area.
+            Dictionary of cortico-cortical input of the process
+            replacing the source area.
         """
         synapses = extract_area_dict(self.network.synapses,
                                      self.network.structure,

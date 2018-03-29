@@ -11,8 +11,10 @@ macaque visual cortex (Schmidt et al. 2018).
 
 Functions
 --------
-_create_parameter_dict : Create parameter dict for functions of data class.
-_check_stored_data : Check if stored data was computed with the correct Parameters.
+_create_parameter_dict : Create parameter dict for functions
+                         of data class.
+_check_stored_data : Check if stored data was computed
+                     with the correct Parameters.
 online_hist : Compute spike histogram on a spike file line by line.
 pop_rate : Compute average firing rate.
 pop_rate_distribution : Compute distribution of single-cell firing rates.
@@ -38,7 +40,7 @@ Sacha van Albada
 
 """
 
-from copy import copy, deepcopy
+from copy import copy
 from nested_dict import nested_dict
 import numpy as np
 import json
@@ -53,7 +55,9 @@ area_list = ['V1', 'V2', 'VP', 'V3', 'PIP', 'V3A', 'MT', 'V4t', 'V4',
 pop_list = ['23E', '23I', '4E',  '4I', '5E', '5I', '6E', '6I']
 
 
-def model_iter(mode='single', areas=None, pops='complete', areas2=None, pops2='complete'):
+def model_iter(mode='single',
+               areas=None, pops='complete',
+               areas2=None, pops2='complete'):
     """
     Helper function to create a an iterator over all possible pairs of
     populations in the model, possible restricted by specifying areas
@@ -68,13 +72,14 @@ def model_iter(mode='single', areas=None, pops='complete', areas2=None, pops2='c
         Defaults to 'single'.
 
     areas, areas2 : list, optional
-        If specified, loop only over these areas as target and source areas.
-        Defaults to None, which correspons to taking all areas into account.
+        If specified, loop only over these areas as target and source
+        areas. Defaults to None, which correspons to taking all areas
+        into account.
     pops, pops2 : string or list, optional
-        If specified, loop only over these populations as target and source
-        populations. Defaults to 'complete', which corresponds to taking all
-        areas into account.
-        If None, loop only over areas.
+        If specified, loop only over these populations as target and
+        source populations. Defaults to 'complete', which corresponds
+        to taking all areas into account. If None, loop only over
+        areas.
 
     Returns
     -------
@@ -158,7 +163,8 @@ def sort_gdf_by_id(data, idmin=None, idmax=None):
     ----------
 
     data: numpy.array (dtype=object) with lists ['int', 'float']
-          The nest output loaded from gdf format. Each row contains a global id
+          The nest output loaded from gdf format. Each row contains a
+          global id
     idmin, idmax : int, optional
             The minimum/maximum neuron id to be considered.
 
@@ -167,7 +173,8 @@ def sort_gdf_by_id(data, idmin=None, idmax=None):
     ids : list of ints
           Neuron ids, e.g., [id1,id2,...]
     srt : list of lists of floats
-          Spike trains corresponding to the neuron ids, e.g., [[t1,t2,...],...]
+          Spike trains corresponding to the neuron ids, e.g.,
+          [[t1,t2,...],...]
     """
 
     assert((idmin is None and idmax is None)
@@ -251,9 +258,11 @@ def _check_stored_data(fp, fn_iter, param_dict):
     param_dict_copy = copy(param_dict)
     param_dict2_copy = copy(param_dict2)
     for k in param_dict:
-        if isinstance(param_dict_copy[k], list) or isinstance(param_dict_copy[k], np.ndarray):
+        if (isinstance(param_dict_copy[k], list) or
+                isinstance(param_dict_copy[k], np.ndarray)):
             param_dict_copy[k] = set(param_dict_copy[k])
-        if isinstance(param_dict2_copy[k], list) or isinstance(param_dict2_copy[k], np.ndarray):
+        if (isinstance(param_dict2_copy[k], list) or
+                isinstance(param_dict2_copy[k], np.ndarray)):
             param_dict2_copy[k] = set(param_dict2_copy[k])
     if param_dict_copy == param_dict2_copy:
         print("Loading data from file")
@@ -360,8 +369,9 @@ def online_hist(fname, tmin, tmax, resolution=1.):
 def pop_rate(data_array, t_min, t_max, num_neur):
     """
     Calculates firing rate of a given array of spikes.
-    Rates are calculated in spikes/s. Assumes spikes are sorted according to time.
-    First calculates rates for individual neurons and then averages over neurons.
+    Rates are calculated in spikes/s. Assumes spikes are sorted
+    according to time. First calculates rates for individual neurons
+    and then averages over neurons.
 
     Parameters
     ----------
@@ -397,8 +407,8 @@ def pop_rate(data_array, t_min, t_max, num_neur):
         if num_spikes > 0:
             rates.append(num_spikes / ((t_max - t_min) / 1000.))
         else:  # we arrived at the last neuron
-            rates.append((data_array[:, 0].size - last_index) / ((t_max -
-                                                                  t_min) / 1000.))
+            rates.append((data_array[:, 0].size - last_index) /
+                         ((t_max - t_min) / 1000.))
         last_index += num_spikes
     while len(rates) < num_neur:
         rates.append(0.0)
@@ -413,9 +423,10 @@ def pop_rate(data_array, t_min, t_max, num_neur):
 
 def pop_rate_distribution(data_array, t_min, t_max, num_neur):
     """
-    Calculates firing rate distribution over neurons in a given array of spikes.
-    Rates are calculated in spikes/s. Assumes spikes are sorted according to time.
-    First calculates rates for individual neurons and then averages over neurons.
+    Calculates firing rate distribution over neurons in a given array
+    of spikes. Rates are calculated in spikes/s. Assumes spikes are
+    sorted according to time. First calculates rates for individual
+    neurons and then averages over neurons.
 
     Parameters
     ----------
@@ -461,7 +472,8 @@ def pop_rate_distribution(data_array, t_min, t_max, num_neur):
     rates /= (t_max - t_min) / 1000.
     vals, bins = np.histogram(rates, bins=100)
     vals = vals / float(np.sum(vals))
-    if num_neur > 0. and t_max != t_min and len(data_array) > 0 and len(indices) > 0:
+    if (num_neur > 0. and t_max != t_min
+            and len(data_array) > 0 and len(indices) > 0):
         return bins[0:-1], vals, np.mean(rates), np.std(rates)
     else:
         return np.arange(0, 20., 20. / 100.), np.zeros(100), 0.0, 0.0
@@ -470,7 +482,8 @@ def pop_rate_distribution(data_array, t_min, t_max, num_neur):
 def pop_rate_time_series(data_array, num_neur, t_min, t_max,
                          resolution=10., kernel='binned'):
     """
-    Computes time series of the population-averaged rates of a group of neurons.
+    Computes time series of the population-averaged rates of a group
+    of neurons.
 
     Parameters
     ----------
@@ -485,9 +498,11 @@ def pop_rate_time_series(data_array, num_neur, t_min, t_max,
         Number of recorded neurons. Needs to provided explicitly
         to avoid corruption of results by silent neurons not
         present in the given data.
-    kernel : {'gauss_time_window', 'alpha_time_window', 'rect_time_window'}, optional
-        Specifies the kernel to be convolved with the spike histogram.
-        Defaults to 'binned', which corresponds to no convolution.
+    kernel : {'gauss_time_window', 'alpha_time_window',
+        'rect_time_window'}, optional
+        Specifies the kernel to be
+        convolved with the spike histogram. Defaults to 'binned',
+        which corresponds to no convolution.
     resolution: float, optional
         Width of the convolution kernel. Specifically it correponds to:
         - 'binned' : bin width of the histogram

@@ -847,11 +847,14 @@ class Analysis:
             if pop:
                 plt.savefig(os.path.join(self.output_dir,
                                          '{}_power_spectrum_{}_{}.{}'.format(self.simulation.label,
-                                                                             area, pop, keywords['output'])))
+                                                                             area,
+                                                                             pop,
+                                                                             keywords['output'])))
             else:
                 plt.savefig(os.path.join(self.output_dir,
                                          '{}_power_spectrum_{}.{}'.format(self.simulation.label,
-                                                                          area, keywords['output'])))
+                                                                          area,
+                                                                          keywords['output'])))
         else:
             fig.show()
 
