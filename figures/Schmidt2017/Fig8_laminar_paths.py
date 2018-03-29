@@ -28,7 +28,7 @@ SLN_completed = proc['SLN_completed']
 SLN_Data_FV91 = proc['SLN_Data_FV91']
 arch_types = proc['architecture_completed']
 
-par = {'g': -4.}
+par = {'connection_params': {'g': -4.}}
 M = MultiAreaModel(par, theory=True, simulation=False)
 
 gain_matrix = M.K_matrix[:, :-1] * np.absolute(M.J_matrix[:, :-1])
@@ -176,7 +176,7 @@ for target_area in area_list:
                               source_areas=[source_area],
                               complete_area_list=area_list,
                               external=False)
-        pM = path_length_matrix[indices]
+        pM = path_length_matrix[indices[:, :-1]]
         pM = pM.reshape(
             (len(M.structure[target_area]), len(M.structure[source_area])))
         imin = np.unravel_index(np.argmin(pM), pM.shape)
