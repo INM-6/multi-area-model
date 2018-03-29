@@ -11,7 +11,7 @@ multi-area model of macaque visual cortex (Schmidt et al. 2017).
 Classes
 --------
 
-analysis : loads the data of the specified simulation and provides members
+Analysis : loads the data of the specified simulation and provides members
 functions to post-process the data and plot it in various visualizations.
 
 Authors
@@ -22,7 +22,6 @@ Sacha van Albada
 """
 from . import analysis_helpers as ah
 import glob
-import h5py_wrapper.wrapper as h5w
 import inspect
 import json
 import matplotlib.pyplot as plt
@@ -30,6 +29,7 @@ import numpy as np
 import os
 import pandas as pd
 
+from copy import copy
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import FixedLocator
 from nested_dict import nested_dict
@@ -101,38 +101,35 @@ class Analysis:
         rec_dir = os.path.join(self.simulation.data_dir, 'recordings')
         for data_type in data_list:
             if data_type == 'spikes':
-                h5_file = os.path.join(rec_dir, '_'.join((self.simulation.label,
-                                                         'spike_data.h5')))
-                d = 'spike_dict'
                 columns = ['senders', 'times']
+                d = 'spike_dict'
             elif data_type == 'vm':
                 assert(self.simulation.params['recording_dict']['record_vm']), "Trying to "
                 "load membrane potentials, but these data have not been recorded"
-                h5_file = os.path.join(rec_dir, '_'.join((self.simulation.label,
-                                                          'vm_data.h5')))
                 d = 'vm_dict'
                 columns = ['senders', 'times', 'V_m']
             print('loading {}'.format(data_type))
             data = {}
-            # Check if the data has been merged into one common file.
-            try:
-                lazy_load = h5w.load(h5_file, lazy=True)
-            except IOError:
-                lazy_load = {}
-                h5w.save(h5_file, {})
+            # Check if the data has already been stored in binary file
             for area in self.areas_loaded:
-                if area in lazy_load:
-                    data[area] = h5w.load(h5_file, path=area)
-                else:
-                    area_dat = {}
+                data[area] = {}
+                fp = '-'.join((self.simulation.label,
+                               self.simulation.params['recording_dict'][d]['label'],
+                               area,
+                               '*'))
+                files = glob.glob(os.path.join(rec_dir, fp))
+                if len(files) == 0:
+                    continue
+                for pop in self.network.structure[area]:
                     fp = '-'.join((self.simulation.label,
                                    self.simulation.params['recording_dict'][d]['label'],
                                    area,
-                                   '*'))
-                    files = glob.glob(os.path.join(rec_dir, fp))
-                    if len(files) == 0:
-                        continue
-                    for pop in self.network.structure[area]:
+                                   pop))
+                    fn = os.path.join(rec_dir,
+                                      '.'.join((fp, 'npy')))
+                    try:
+                        data[area][pop] = np.load(fn)
+                    except FileNotFoundError:
                         fp = '-'.join((self.simulation.label,
                                        self.simulation.params['recording_dict'][d]['label'],
                                        area,
@@ -145,10 +142,9 @@ class Analysis:
                                                          names=columns, sep='\t',
                                                          index_col=False),
                                              ignore_index=True)
-                        area_dat[pop] = np.array(dat)
-                    data[area] = area_dat
+                        np.save(fn, np.array(dat))
+                        data[area][pop] = np.array(dat)
                     # Store spike data to single hdf5 file
-                    h5w.save(h5_file, data[area], path=area, write_mode='a')
                 if data_type == 'spikes':
                     self.spike_data = data
                 elif data_type == 'vm':
@@ -206,9 +202,13 @@ class Analysis:
         default_dict = {'areas': self.areas_loaded,
                         'pops': 'complete', 'compute_stat': False}
         params = ah._create_parameter_dict(default_dict, self.T, **keywords)
+        iterator = ah.model_iter(mode='single',
+                                 areas=params['areas'],
+                                 pops=params['pops'])
         # Check if population rates have been stored with the same parameters
-        self.pop_rates = ah._check_stored_data(os.path.join(self.output_dir, 'pop_rates.json'),
-                                               params)
+        fp = os.path.join(self.output_dir, 'pop_rates.json')
+        self.pop_rates = ah._check_stored_data(fp,
+                                               copy(iterator), params)
 
         if self.pop_rates is None:
             print("Computing population rates")
@@ -231,9 +231,7 @@ class Analysis:
                             total_rates += rate[2]
                         d[area]['total'] = (np.mean(total_rates), np.std(total_rates))
             else:
-                for area, pop in ah.model_iter(mode='single',
-                                               areas=params['areas'],
-                                               pops=params['pops']):
+                for area, pop in iterator:
                     if pop in self.network.structure[area]:
                         spikes = self.spike_data[area][pop][:, 1]
                         indices = np.where(np.logical_and(spikes > params['t_min'],
@@ -256,7 +254,7 @@ class Analysis:
         Calculate single neuron population rates and store them in member pop_rate_dists.
         If the distributions had previously been stored with the
         same parameters, they are loaded from file.
-        Relies on helper function pop_rate_distribution.
+        Uses helper function pop_rate_distribution.
 
         Parameters
         ----------
@@ -278,18 +276,20 @@ class Analysis:
         default_dict = {'areas': self.areas_loaded, 'pops': 'complete'}
         params = ah._create_parameter_dict(
             default_dict, self.T, **keywords)
+        iterator = ah.model_iter(mode='single',
+                                 areas=params['areas'],
+                                 pops=params['pops'])
 
         # Check if population rates have been stored with the same parameters
         self.pop_rate_dists = ah._check_stored_data(os.path.join(self.output_dir,
-                                                                 'pop_rate_dists.h5'), params)
+                                                                 'pop_rate_dists'),
+                                                    copy(iterator), params)
 
         if self.pop_rate_dists is None:
             print("Computing population dists")
             d = nested_dict()
             d['Parameters'] = params
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
+            for area, pop in iterator:
                 if pop in self.network.structure[area]:
                     res = list(ah.pop_rate_distribution(self.spike_data[area][pop],
                                                         params['t_min'],
@@ -303,7 +303,7 @@ class Analysis:
     def create_synchrony(self, **keywords):
         """
         Calculate synchrony as the coefficient of variation of the population rate
-        and store in member synchrony. Relies on helper function synchrony.
+        and store in member synchrony. Uses helper function synchrony.
         If the synchrony has previously been stored with the
         same parameters, they are loaded from file.
 
@@ -331,19 +331,19 @@ class Analysis:
                         'pops': 'complete', 'resolution': 1.0}
         params = ah._create_parameter_dict(
             default_dict, self.T, **keywords)
-
+        iterator = ah.model_iter(mode='single',
+                                 areas=params['areas'],
+                                 pops=params['pops'])
         # Check if synchrony values have been stored with the same parameters
         self.synchrony = ah._check_stored_data(os.path.join(self.output_dir, 'synchrony.json'),
-                                               params)
+                                               copy(iterator), params)
 
         if self.synchrony is None:
             print("Computing synchrony")
             d = nested_dict()
             d['Parameters'] = params
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
-                if pop in self.network.structure[area] > 0.:
+            for area, pop in iterator:
+                if pop in self.network.structure[area]:
                     d[area][pop] = ah.synchrony(self.spike_data[area][pop],
                                                 self.network.N[area][pop],
                                                 params['t_min'],
@@ -365,7 +365,7 @@ class Analysis:
     def create_rate_time_series(self, **keywords):
         """
         Calculate time series of population- and area-averaged firing rates.
-        Relies on ah.pop_rate_time_series.
+        Uses ah.pop_rate_time_series.
         If the rates have previously been stored with the
         same parameters, they are loaded from file.
 
@@ -401,10 +401,16 @@ class Analysis:
             default_dict, self.T, **keywords)
 
         # Check if firing rates have been stored with the same parameters
-        fn = os.path.join(self.output_dir, 'rate_time_series.h5')
-        self.rate_time_series = ah._check_stored_data(fn, params)
-        fn = os.path.join(self.output_dir, 'rate_time_series_pops.h5')
-        self.rate_time_series_pops = ah._check_stored_data(fn, params)
+        fp = os.path.join(self.output_dir, 'rate_time_series')
+        iterator_areas = ah.model_iter(mode='single',
+                                       areas=params['areas'],
+                                       pops=None)
+        iterator_pops = ah.model_iter(mode='single',
+                                      areas=params['areas'],
+                                      pops=params['pops'])
+        self.rate_time_series = ah._check_stored_data(fp, copy(iterator_areas), params)
+        fp = os.path.join(self.output_dir, 'rate_time_series_pops')
+        self.rate_time_series_pops = ah._check_stored_data(fp, copy(iterator_pops), params)
 
         if self.rate_time_series is None:
             print('Computing rate time series')
@@ -415,10 +421,7 @@ class Analysis:
             # population-averaged firing rates
             d_pops = nested_dict()
             d_pops['Parameters'] = params
-
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
+            for area, pop in iterator_pops:
                 if pop in self.network.structure[area]:
                     time_series = ah.pop_rate_time_series(self.spike_data[area][pop],
                                                           self.network.N[area][pop],
@@ -444,7 +447,7 @@ class Analysis:
     def create_synaptic_input(self, **keywords):
         """
         Calculate synaptic input of populations and areas using the spike data.
-        Relies on function ah.pop_synaptic_input.
+        Uses function ah.pop_synaptic_input.
         If the synaptic inputs have previously been stored with the
         same parameters, they are loaded from file.
 
@@ -479,10 +482,16 @@ class Analysis:
             default_dict, self.T, **keywords)
 
         # Check if synaptic inputs have been stored with the same parameters
-        fn = os.path.join(self.output_dir, 'synaptic_input.h5')
-        self.synaptic_input = ah._check_stored_data(fn, params)
-        fn = os.path.join(self.output_dir, 'synaptic_input_pops.h5')
-        self.synaptic_input_pops = ah._check_stored_data(fn, params)
+        iterator_areas = ah.model_iter(mode='single',
+                                       areas=params['areas'],
+                                       pops=None)
+        iterator_pops = ah.model_iter(mode='single',
+                                      areas=params['areas'],
+                                      pops=params['pops'])
+        fp = os.path.join(self.output_dir, 'synaptic_input')
+        self.synaptic_input = ah._check_stored_data(fp, copy(iterator_areas), params)
+        fp = os.path.join(self.output_dir, 'synaptic_input_pops')
+        self.synaptic_input_pops = ah._check_stored_data(fp, copy(iterator_pops), params)
 
         if self.synaptic_input is None:
             print('Computing rate time series')
@@ -491,32 +500,27 @@ class Analysis:
 
             d_pops = nested_dict()
             d_pops['Parameters'] = params
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
+            for area, pop in copy(iterator_pops):
                 if pop in self.network.structure[area]:
                     if 'I' in pop:
-                        tau_syn = self.network.params['neuron_params']['single_neuron_dict']['tau_syn_in']
+                        tau_syn = self.network.params['neuron_params'][
+                            'single_neuron_dict']['tau_syn_in']
                     else:
-                        tau_syn = self.network.params['neuron_params']['single_neuron_dict']['tau_syn_ex']
-#                    if pop in self.rate_time_series_pops[area]:
+                        tau_syn = self.network.params['neuron_params'][
+                            'single_neuron_dict']['tau_syn_ex']
                     time_series = ah.synaptic_output(self.rate_time_series_pops[area][pop],
                                                      tau_syn, params['t_min'], params['t_max'],
                                                      resolution=params['resolution'])
-                    # else:
-                    #     time_series = np.ones(params['t_max'] - params['t_min']) * np.nan
                     d_pops[area][pop] = time_series
             self.synaptic_output_pops = d_pops.to_dict()
 
             d_pops = nested_dict()
             d_pops['Parameters'] = params
             d_pops['Parameters'] = params
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
+            for area, pop in iterator_pops:
                 if pop in self.network.structure[area]:
                     time_series = np.zeros(
-                        (params['t_max'] - params['t_min']) / params['resolution'])
+                        int((params['t_max'] - params['t_min']) / params['resolution']))
                     for source_area, source_pop in ah.model_iter(mode='single',
                                                                  areas=self.areas_loaded):
                         if source_pop in self.network.structure[source_area]:
@@ -530,7 +534,7 @@ class Analysis:
             d['Parameters'] = params
             for area in params['areas']:
                 d[area] = np.zeros(
-                    (params['t_max'] - params['t_min']) / params['resolution'])
+                    int((params['t_max'] - params['t_min']) / params['resolution']))
                 for pop in self.network.structure[area]:
                     d[area] += d_pops[area][pop] * self.network.N[area][pop]
                 d[area] /= self.network.N[area]['total']
@@ -540,7 +544,7 @@ class Analysis:
     def create_pop_cv_isi(self, **keywords):
         """
         Calculate population-averaged CV ISI values and store as member pop_cv_isi.
-        Relies on helper function cv_isi.
+        Uses helper function cv_isi.
         If the CV ISI have previously been stored with the
         same parameters, they are loaded from file.
 
@@ -565,17 +569,19 @@ class Analysis:
         params = ah._create_parameter_dict(
             default_dict, self.T, **keywords)
         # Check if CV ISI have been stored with the same parameters
-        self.pop_cv_isi = ah._check_stored_data(os.path.join(self.output_dir, 'pop_cv_isi.json'),
-                                                params)
+        iterator = ah.model_iter(mode='single',
+                                 areas=params['areas'],
+                                 pops=params['pops'])
+        fp = os.path.join(self.output_dir, 'pop_cv_isi.json')
+        self.pop_cv_isi = ah._check_stored_data(fp,
+                                                copy(iterator), params)
 
         if self.pop_cv_isi is None:
             print("Computing population CV ISI")
             d = nested_dict()
             d['Parameters'] = params
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
-                if pop in self.network.structure[area] > 0.:
+            for area, pop in iterator:
+                if pop in self.network.structure[area]:
                     d[area][pop] = ah.pop_cv_isi(self.spike_data[area][pop],
                                                  params['t_min'],
                                                  params['t_max'])
@@ -584,7 +590,7 @@ class Analysis:
     def create_pop_LvR(self, **keywords):
         """
         Calculate poulation-averaged LvR (see Shinomoto et al. 2009) and
-        store as member pop_LvR. Relies on helper function LvR.
+        store as member pop_LvR. Uses helper function LvR.
 
         Parameters
         ----------
@@ -607,22 +613,24 @@ class Analysis:
             default_dict, self.T, **keywords)
 
         # Check if LvR have been stored with the same parameters
-        self.pop_LvR = ah._check_stored_data(os.path.join(self.output_dir, 'pop_LvR.json'),
-                                             params)
+        iterator = ah.model_iter(mode='single',
+                                 areas=params['areas'],
+                                 pops=params['pops'])
+        fp = os.path.join(self.output_dir, 'pop_LvR.json')
+        self.pop_LvR = ah._check_stored_data(fp,
+                                             copy(iterator), params)
         if self.pop_LvR is None:
             print("Computing population LvR")
             d = nested_dict()
             d['Parameters'] = params
-            for area, pop in ah.model_iter(mode='single',
-                                           areas=params['areas'],
-                                           pops=params['pops']):
-                if pop in self.network.structure[area] > 0.:
+            for area, pop in iterator:
+                if pop in self.network.structure[area]:
                     if self.network.N[area][pop] > 0.:
                         d[area][pop] = ah.pop_LvR(self.spike_data[area][pop],
                                                   2.0,
                                                   params['t_min'],
                                                   params['t_max'])[0]
-        self.pop_LvR = d.to_dict()
+            self.pop_LvR = d.to_dict()
 
 # ______________________________________________________________________________
 # Function for plotting data
@@ -839,11 +847,11 @@ class Analysis:
             if pop:
                 plt.savefig(os.path.join(self.output_dir,
                                          '{}_power_spectrum_{}_{}.{}'.format(self.simulation.label,
-                                                                   area, pop, keywords['output'])))
+                                                                             area, pop, keywords['output'])))
             else:
                 plt.savefig(os.path.join(self.output_dir,
                                          '{}_power_spectrum_{}.{}'.format(self.simulation.label,
-                                                                area, keywords['output'])))
+                                                                          area, keywords['output'])))
         else:
             fig.show()
 
@@ -928,19 +936,17 @@ class Analysis:
         """
         members = inspect.getmembers(self)
         save_list_json = ['structure', 'pop_rates', 'synchrony',
-                          'func_conn', 'func_conn_pops', 'pop_cv_isi',
+                          'pop_cv_isi', 'pop_LvR',
                           'indegree_data', 'indegree_areas_data',
-                          'outdegree_data', 'outdegree_areas_data',
-                          'pop_LvR']
-        save_list_hdf5 = ['activity_flux', 'activity_flux_pops',
-                          'pop_rate_dists', 'rate_time_series',
-                          'rate_time_series_pops', 'bold_signal',
-                          'synaptic_input', 'synaptic_input_pops']
+                          'outdegree_data', 'outdegree_areas_data']
+        save_list_npy = ['pop_rate_dists', 'rate_time_series',
+                         'rate_time_series_pops', 'bold_signal',
+                         'synaptic_input', 'synaptic_input_pops']
         for i in range(0, len(members)):
             if members[i][0] in save_list_json:
                 f = open(self.output_dir + members[i][0] + '.json', 'w')
                 json.dump(members[i][1], f)
                 f.close()
-            if members[i][0] in save_list_hdf5:
-                f = self.output_dir + members[i][0] + '.h5'
-                h5w.save(f, members[i][1], write_mode='w')
+            if members[i][0] in save_list_npy:
+                f = self.output_dir + members[i][0]
+                ah._save_dict_to_npy(f, members[i][1])

@@ -38,13 +38,12 @@ Sacha van Albada
 
 """
 
-import copy
+from copy import copy, deepcopy
+from nested_dict import nested_dict
 import numpy as np
-import h5py_wrapper.wrapper as h5w
 import json
 from itertools import product
 from scipy.signal import welch
-#################################
 
 
 area_list = ['V1', 'V2', 'VP', 'V3', 'PIP', 'V3A', 'MT', 'V4t', 'V4',
@@ -73,8 +72,9 @@ def model_iter(mode='single', areas=None, pops='complete', areas2=None, pops2='c
         Defaults to None, which correspons to taking all areas into account.
     pops, pops2 : string or list, optional
         If specified, loop only over these populations as target and source
-        populations. Defaults to 'complete', which correspons to taking all
+        populations. Defaults to 'complete', which corresponds to taking all
         areas into account.
+        If None, loop only over areas.
 
     Returns
     -------
@@ -83,6 +83,8 @@ def model_iter(mode='single', areas=None, pops='complete', areas2=None, pops2='c
     """
     if mode == 'single':
         assert((areas2 is None) and (pops2 is 'complete'))
+    if pops is None or pops2 is None:
+        assert((pops is None) and (pops2 is None) or mode == 'single')
     if pops == 'complete':
         pops = pop_list
     if areas is None:
@@ -92,9 +94,15 @@ def model_iter(mode='single', areas=None, pops='complete', areas2=None, pops2='c
     if areas2 is None:
         areas2 = area_list
     if mode == 'single':
-        return product(areas, pops)
+        if pops is None:
+            return product(areas)
+        else:
+            return product(areas, pops)
     elif mode == 'pairs':
-        return product(areas, pops, areas2, pops2)
+        if pops is None:
+            return product(areas, areas2)
+        else:
+            return product(areas, pops, areas2, pops2)
 
 
 def area_spike_train(spike_data):
@@ -117,7 +125,7 @@ def area_spike_train(spike_data):
     data_array = np.array([])
     for pop in spike_data:
         data_array = np.append(data_array, spike_data[pop])
-    data_array = np.reshape(data_array, (len(data_array) * 0.5, 2))
+    data_array = np.reshape(data_array, (-1, 2))
     return data_array
 
 
@@ -131,7 +139,7 @@ def centralize(data, time=False, units=False):
     """
 
     assert(time is not False or units is not False)
-    res = copy.copy(data)
+    res = copy(data)
     if time is True:
         res = np.array([x - np.mean(x) for x in res])
     if units is True:
@@ -179,8 +187,10 @@ def sort_gdf_by_id(data, idmin=None, idmax=None):
         print('CT warning(sort_spiketrains_by_id): empty gdf data!')
         return None, None
 
-# ______________________________________________________________________________
-# Helper functions for data loading
+
+"""
+Helper functions for data loading
+"""
 
 
 def _create_parameter_dict(default_dict, T, **keywords):
@@ -210,7 +220,7 @@ def _create_parameter_dict(default_dict, T, **keywords):
     return d
 
 
-def _check_stored_data(fn, param_dict):
+def _check_stored_data(fp, fn_iter, param_dict):
     """
     Check if a data member of the data class has already
     been computed with the same parameters.
@@ -223,21 +233,23 @@ def _check_stored_data(fn, param_dict):
         Parameters of the calculation to compare with
         the parameters of the stored data.
     """
-    if 'json' in fn:
+    if 'json' in fp:
         try:
-            f = open(fn)
+            f = open(fp)
             data = json.load(f)
             f.close()
         except IOError:
             return None
-    elif 'hdf5' in fn:
+        param_dict2 = data['Parameters']
+    else:
         try:
-            data = h5w.load(fn)
+            data = _load_npy_to_dict(fp, fn_iter)
         except IOError:
             return None
-    param_dict2 = data['Parameters']
-    param_dict_copy = copy.copy(param_dict)
-    param_dict2_copy = copy.copy(param_dict2)
+        with open('-'.join((fp, 'parameters')), 'r') as f:
+            param_dict2 = json.load(f)
+    param_dict_copy = copy(param_dict)
+    param_dict2_copy = copy(param_dict2)
     for k in param_dict:
         if isinstance(param_dict_copy[k], list) or isinstance(param_dict_copy[k], np.ndarray):
             param_dict_copy[k] = set(param_dict_copy[k])
@@ -251,8 +263,59 @@ def _check_stored_data(fn, param_dict):
               "with different parameters")
         return None
 
-# ______________________________________________________________________________
-# Analysis functions
+
+def _save_dict_to_npy(fp, data):
+    """
+    Save data dictionary to binary numpy files
+    by iteratively going through the dictionary.
+
+    Parameters
+    ----------
+    fp : str
+       File pattern to which the keys of the dictionary are attached.
+    data : dict
+       Dictionary containing the data
+    """
+    for key, val in data.items():
+        if key != 'Parameters':
+            fp_key = '-'.join((fp, key))
+            if isinstance(val, dict):
+                _save_dict_to_npy(fp_key, val)
+            else:
+                np.save(fp_key, val)
+        else:
+            fp_key = '-'.join((fp, 'parameters'))
+            with open(fp_key, 'w') as f:
+                json.dump(val, f)
+
+
+def _load_npy_to_dict(fp, fn_iter):
+    """
+    Load data stored in the files defined by fp
+    and fn_iter to a dictionary.
+
+    Parameters
+    ----------
+    fp : str
+       Base file pattern of the npy files
+    fn_iter : iterable
+       Iterable defining all the suffixes that are
+       appended to fp to form the file names.
+    """
+    data = nested_dict()
+    for it in fn_iter:
+        fp_it = (fp,) + it
+        fp_ = '{}.npy'.format('-'.join(fp_it))
+        if len(it) == 1:
+            data[it[0]] = np.load(fp_)
+        else:
+            data[it[0]][it[1]] = np.load(fp_)
+    return data
+
+
+"""
+Analysis functions
+"""
 
 
 def online_hist(fname, tmin, tmax, resolution=1.):
@@ -383,8 +446,11 @@ def pop_rate_distribution(data_array, t_min, t_max, num_neur):
                                       data_array[:, 1] < t_max))
     neurons = data_array[:, 0][indices]
     neurons = np.sort(neurons)
-    n = neurons[0]
-    rates = np.zeros(num_neur)
+    if len(neurons) > 0:
+        n = neurons[0]
+    else:  # No spikes in [t_min, t_max]
+        n = None
+    rates = np.zeros(int(num_neur))
     ii = 0
     for i in range(neurons.size):
         if neurons[i] == n:
@@ -474,8 +540,6 @@ def pop_rate_time_series(data_array, num_neur, t_min, t_max,
 
     return time_series
 
-# Regularity measures
-
 
 def pop_cv_isi(data_array, t_min, t_max):
     """
@@ -537,7 +601,7 @@ def ISI_SCC(data_array, t_min, t_max):
     -------
     bins : numpy.ndarray
         ISI lags
-    valyes : numpy.ndarray
+    values : numpy.ndarray
         Serial correlation coefficient values
     """
     indices = np.where(np.logical_and(data_array[:, 1] > t_min,
@@ -546,9 +610,8 @@ def ISI_SCC(data_array, t_min, t_max):
     half = max(1000, 2 * (t_max - t_min)) / 2.0
     if len(data_array) > 1 and len(indices) > 1:
         for i in np.unique(data_array[:, 0]):
-            print(i)
             intervals = np.diff(data_array[indices][
-                                mlab.find(data_array[indices, 0] == i), 1])
+                                np.where(data_array[indices, 0] == i), 1])
 
             if intervals.size > 1:
                 mean = np.mean(intervals)
@@ -562,7 +625,6 @@ def ISI_SCC(data_array, t_min, t_max):
     else:
         print('cv_isi: no or only one spike in data_array, returning 0.0')
         return 0.0
-
 
 
 def pop_LvR(data_array, t_ref, t_min, t_max):
@@ -594,7 +656,7 @@ def pop_LvR(data_array, t_ref, t_min, t_max):
     LvR = np.array([])
     for i in np.unique(data_array[:, 0]):
         intervals = np.diff(data_array[i_min:i_max][
-                            mlab.find(data_array[i_min:i_max, 0] == i), 1])
+                            np.where(data_array[i_min:i_max, 0] == i), 1])
         if intervals.size > 1:
             val = np.sum((1. - 4 * intervals[0:-1] * intervals[1:] / (intervals[0:-1] + intervals[
                          1:]) ** 2) * (1 + 4 * t_ref / (intervals[0:-1] + intervals[1:])))
@@ -604,7 +666,6 @@ def pop_LvR(data_array, t_ref, t_min, t_max):
     return np.mean(LvR), LvR
 
 
-# Synchrony measures
 def synchrony(data_array, num_neur, t_min, t_max, resolution=1.0):
     """
     Compute the synchrony of an array of spikes as the coefficient

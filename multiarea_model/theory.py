@@ -10,15 +10,9 @@ Schmidt et al., 2017) to the network connectivity.
 
 Classes
 --------
-
-theory : provides functionality to predict the stable fixed point of
+Theory : provides functionality to predict the stable fixed point of
 the model, perform further analysis and execute the stabilization
 provedure.
-
-Authors
---------
-Maximilian Schmidt
-Jannis Schuecker
 
 """
 
@@ -197,7 +191,8 @@ class Theory():
         mu_CC = np.array([])
         sigma2_CC = np.array([])
         if self.network.params['connection_params']['replace_cc'] == 'het_poisson_stat':
-            with open(self.network.params['connection_params']['replace_cc_input_file'], 'r') as f:
+            with open(self.network.params['connection_params'][
+                    'replace_cc_input_source'], 'r') as f:
                 rates = json.load(f)
                 self.cc_input_rates = dict_to_vector(rates,
                                                      self.network.area_list,

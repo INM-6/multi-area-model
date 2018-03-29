@@ -129,7 +129,7 @@ connection_params = {
     # Poisson input with population-specific rates (het_poisson_stat)
     # or by time-varying current input (het_current_nonstat)
     # while still simulating all areas. In both cases, the data to replace
-    # the cortico-cortical input is loaded from `replace_cc_input_file`.
+    # the cortico-cortical input is loaded from `replace_cc_input_source`.
     'replace_cc': False,
 
     # Whether to replace non-simulated areas by poisson sources
@@ -137,11 +137,17 @@ connection_params = {
     # by specific rates ('het_poisson_stat')
     # or by time-varying specific current ('het_current_nonstat')
     # In the two latter cases, the data to replace the cortico-cortical
-    # input is loaded from `replace_cc_input_file`
+    # input is loaded from `replace_cc_input_source`
     'replace_non_simulated_areas': None,
 
-    # File holding the input rates to replace cortico-cortical input
-    'replace_cc_input_file': None,
+    # Source of the input rates to replace cortico-cortical input
+    # Either a json file (has to end on .json) holding a scalar values
+    # for each population or
+    # a base name such that files with names
+    # $(replace_cc_input_source)-area-population.npy
+    # (e.g. '$(replace_cc_input_source)-V1-23E.npy')
+    # contain the time series for each population.
+    'replace_cc_input_source': None,
 
     # whether to redistribute CC synapse to meet literature value
     # of E-specificity

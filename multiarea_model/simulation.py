@@ -8,9 +8,10 @@ Schmidt et al. (2018).
 
 Classes
 -------
-simulation : Loads a parameter file that specifies simulation parameters for a
+Simulation : Loads a parameter file that specifies simulation parameters for a
 simulation of the instance of the model. A simulation is identified by a unique
 hash label.
+
 """
 
 import h5py_wrapper as h5w
@@ -22,6 +23,7 @@ import pprint
 import shutil
 import time
 
+from .analysis_helpers import _load_npy_to_dict, model_iter
 from config import base_path, data_path
 from copy import copy
 from .default_params import nested_update, sim_params
@@ -123,8 +125,16 @@ class Simulation:
                               ''.join(('custom_Data_Model_', self.network.label, '.json'))),
                  os.path.join('config_files',
                               '_'.join((self.network.label, 'config')))]
-        if self.network.params['connection_params']['replace_cc_input_file'] is not None:
-            files.append(self.network.params['connection_params']['replace_cc_input_file'])
+        if self.network.params['connection_params']['replace_cc_input_source'] is not None:
+            fs = self.network.params['connection_params']['replace_cc_input_source']
+            if '.json' in fs:
+                files.append(fs)
+            else:  # Assume that the cc input is stored in one npy file per population
+                fn_iter = model_iter(mode='single', areas=self.network.area_list)
+                for it in fn_iter:
+                    fp_it = (fs,) + it
+                    fp_ = '{}.npy'.format('-'.join(fp_it))
+                    files.append(fp_)
         for f in files:
             shutil.copy2(os.path.join(base_path, f),
                          self.data_dir)
@@ -170,18 +180,19 @@ class Simulation:
         replace_cc = self.network.params['connection_params']['replace_cc']
         replace_non_simulated_areas = self.network.params['connection_params'][
             'replace_non_simulated_areas']
-        if self.network.params['connection_params']['replace_cc_input_file'] is None:
-            replace_cc_input_file = None
+        if self.network.params['connection_params']['replace_cc_input_source'] is None:
+            replace_cc_input_source = None
         else:
-            replace_cc_input_file = os.path.join(self.data_dir,
-                                                 self.network.params['connection_params'][
-                                                  'replace_cc_input_file'])
+            replace_cc_input_source = os.path.join(self.data_dir,
+                                                   self.network.params['connection_params'][
+                                                       'replace_cc_input_source'])
 
         if not replace_cc and set(self.areas_simulated) != set(self.network.area_list):
             if replace_non_simulated_areas == 'het_current_nonstat':
-                non_simulated_cc_input = h5w.load(replace_cc_input_file)
+                fn_iter = model_iter(mode='single', areas=self.network.area_list)
+                non_simulated_cc_input = _load_npy_to_dict(replace_cc_input_source, fn_iter)
             elif replace_non_simulated_areas == 'het_poisson_stat':
-                fn = self.network.params['connection_params']['replace_cc_input_file']
+                fn = self.network.params['connection_params']['replace_cc_input_source']
                 with open(fn, 'r') as f:
                     non_simulated_cc_input = json.load(f)
             elif replace_non_simulated_areas == 'hom_poisson_stat':
@@ -196,9 +207,11 @@ class Simulation:
                                " replace non-simulated areas.")
 
         if replace_cc == 'het_current_nonstat':
-            cc_input = h5w.load(replace_cc_input_file)
+            fn_iter = model_iter(mode='single', areas=self.network.area_list)
+            cc_input = _load_npy_to_dict(replace_cc_input_source, fn_iter)
         elif replace_cc == 'het_poisson_stat':
-            with open(self.network.params['connection_params']['replace_cc_input_file'], 'r') as f:
+            with open(self.network.params['connection_params'][
+                    'replace_cc_input_source'], 'r') as f:
                 cc_input = json.load(f)
         elif replace_cc == 'hom_poisson_stat':
             cc_input = {source_area_name:

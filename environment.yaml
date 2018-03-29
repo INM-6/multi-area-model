@@ -1,16 +1,12 @@
 name: multiarea_model
 dependencies:
- - future
  - numpy
  - matplotlib
  - pandas
  - python==3.6
  - scipy
  - pip:
-   - h5py
-   - h5py_wrapper
    - nested_dict
-   - requests
    - https://github.com/INM-6/python-dicthash/archive/master.zip
    - pyx
   
