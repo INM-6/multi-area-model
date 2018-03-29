@@ -1,5 +1,5 @@
 from multiarea_model import MultiAreaModel
-from multiarea_model.multiarea_helpers import dict_to_matrix, create_mask, dict_to_vector
+from multiarea_model.multiarea_helpers import create_mask
 import numpy as np
 from multiarea_model.default_params import av_indegree_Cragg, av_indegree_OKusky
 
