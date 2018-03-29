@@ -3,7 +3,6 @@ import numpy as np
 import json
 import pyx
 import subprocess
-import sys
 import os
 
 from helpers import area_list, population_labels, layer_labels
@@ -17,7 +16,6 @@ from multiarea_model.multiarea_helpers import create_mask
 """
 Layout
 """
-sys.path.append('/home/schmidt/model-june/data_multi_area/')
 rc_file('plotstyle.rc')
 
 nrows = 2.2
