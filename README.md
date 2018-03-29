@@ -169,7 +169,7 @@ It can be conveniently run by executing `pytest` in the `tests/` folder:
 ## Requirements
 python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
 correlation\_toolbox ([https://github.com/INM-6/correlation-toolbox](https://github.com/INM-6/correlation-toolbox)),
-pandas, numpy, nested_dict, matplotlib (2.1.2), pyx, scipy, NEST 2.14.0
+pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, NEST 2.14.0
 
 Optional: seaborn, Sumatra
 
@@ -179,7 +179,7 @@ To install the required packages in a conda environment, execute:
 
 Note that NEST needs to be installed separately, see <http://www.nest-simulator.org/installation/>.
 
-In addition, reproducing the figures of [1] requires python-igraph and networkx. To install these additional packages, execute:
+In addition, reproducing the figures of [1] requires networkx, python-igraph and pyx. To install these additional packages, execute:
 
 `pip install -r figures/Schmidt2017/additional_requirements.txt`
 
