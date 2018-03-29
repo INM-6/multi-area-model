@@ -7,7 +7,7 @@ The model has been documented in the following publications:
 
 1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ (2017)
    Multi-scale account of the network structure of macaque visual cortex
-   Brain Struct Funct (2017) [https://doi.org/10.1007/s00429-017-1554-4](https://doi.org/10.1007/s00429-017-1554-4)
+   Brain Structure and Function (2017) [https://doi.org/10.1007/s00429-017-1554-4](https://doi.org/10.1007/s00429-017-1554-4)
 
 2. Schuecker J, Schmidt M, van Albada SJ, Diesmann M & Helias M (2017)
    Fundamental Activity Constraints Lead to Specific Interpretations of the Connectome.

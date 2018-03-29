@@ -12,7 +12,7 @@ This script provides the function process_raw_data which fulfils two tasks:
 All details of the procedures in this scripts are described in
 Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ (2017)
 "Multi-scale account of the network structure of macaque visual cortex"
-Brain Struct Funct (2017)
+Brain Structure and Function (2017)
 
 
 Experimental Data
