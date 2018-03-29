@@ -52,8 +52,8 @@ class Simulation:
             default parameters defined in default_params.py
         """
         self.params = copy(sim_params)
-        check_custom_params(sim_spec, self.params)
         if isinstance(sim_spec, dict):
+            check_custom_params(sim_spec, self.params)
             self.custom_params = sim_spec
         else:
             fn = os.path.join(data_path,
