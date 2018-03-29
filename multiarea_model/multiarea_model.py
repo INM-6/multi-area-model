@@ -224,8 +224,12 @@ class MultiAreaModel:
             load_areas = ana_spec['load_areas']
         else:
             load_areas = None
+        if 'data_list' in ana_spec:
+            data_list = ana_spec['data_list']
+        else:
+            data_list = ['spikes']
         self.analysis = Analysis(self, self.simulation,
-                                 data_list=ana_spec['data_list'],
+                                 data_list=data_list,
                                  load_areas=load_areas)
 
     def scale_network(self):
