@@ -32,6 +32,19 @@ In principle, we strictly separate the structure of the network
 input, etc.). The complete set of default parameters for all components
 of the framework is defined in `default_params.py`.
 
+--------------------------------------------------------------------------------
+
+To start using the framework, the user has to define a few environment variables
+in a new file called `config.py`. The file `config_template.py` lists the required
+environment variables that need to specified by the user.
+
+Furthermore, please add the path to the `multiarea_model` subfolder to your PYTHONPATH:
+
+`export PYTHONPATH=/path/to/repository/multiarea_model/:$PYTHONPATH`.
+
+
+--------------------------------------------------------------------------------
+
 `MultiAreaModel`
 
 The central class that initializes the network and contains all
@@ -73,10 +86,6 @@ If snakemake is installed, the figures can be produced by executing
 
 
 ## Running a simulation
-
-To start using the framework, the user has to define a few environment variables
-in a new file called `config.py`. The file `config_template.py` lists the required
-environment variables that need to specified by the user.
 
 A simple simulation can be run in the following way:
 1. Define custom parameters
@@ -148,7 +157,11 @@ The multi-area model can be run in different modes.
 ## Testsuite
 
 The `tests/` folder holds a testsuite that tests different aspects of network model initalization and meanfield calculations.
-It can be conveniently run by executing `pytest` in the `tests/` folder.
+It can be conveniently run by executing `pytest` in the `tests/` folder:
+
+	cd tests/
+	pytest
+
 
 ## Requirements
 h5py\_wrapper, python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
