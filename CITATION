@@ -1,6 +1,6 @@
 @article{Schuecker17,
     author = {Schuecker, Jannis and Schmidt, Maximilian and van Albada, Sacha J. and Diesmann, Markus and Helias, Moritz},
-    journal = ploscb,
+    journal = {PLOS Computational Biology},
     publisher = {Public Library of Science},
     title = {Fundamental Activity Constraints Lead to Specific Interpretations of the Connectome},
     year = {2017},
@@ -8,18 +8,21 @@
     volume = {13},
     pages = {1-25},
     number = {2},
-    doi = {10.1371/journal.pcbi.1005179}
+    doi = {10.1371/jour.pcbi.1005179}
 }
 
-@article{Schmidt17,
-  title={Multi-scale account of the network structure of macaque visual cortex},
-  author={Schmidt, Maximilian and Bakker, Rembrandt and Hilgetag, Claus Christian and Diesmann, Markus and van Albada, Sacha Jennifer},
-  journal=bsf,
-  year={2017},
-  doi={https://doi.org/10.1007/s00429-017-1554-4}
+@article{Schmidt18_1,
+    title={Multi-scale account of the network structure of macaque visual cortex},
+    author={Schmidt, Maximilian and Bakker, Rembrandt and Hilgetag, Claus Christian and Diesmann, Markus and van Albada, Sacha Jennifer},
+    journal={Brain Structure and Function},
+    year={2018},
+    volume={223},
+    number={3},
+    pages={1409--1435},
+    doi={https://doi.org/10.1007/s00429-017-1554-4}
 }
 
-@article{Schmidt18,
+@article{Schmidt18_2,
   title={A multi-scale layer-resolved spiking network model of resting-state dynamics in macaque visual cortical areas}
   author={Schmidt, Maximilian and Bakker, Rembrandt and Shen, Kelly and Bezgin, Gleb and Diesmann, Markus and Sacha Jennifer van Albada},
   year={2018},

@@ -3,7 +3,7 @@ theory
 ============
 
 Theory package to predict the stable fixed points of the multi-area
-model of macaque visual cortex (Schmidt et al. 2015), perform further
+model of macaque visual cortex (Schmidt et al. 2018), perform further
 analysis on them and to apply the stabilization procedure (Schuecker,
 Schmidt et al., 2017) to the network connectivity.
 

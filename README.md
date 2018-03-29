@@ -5,9 +5,9 @@ This code implements the spiking network model of macaque visual cortex develope
 at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich. 
 The model has been documented in the following publications:
 
-1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ (2017)
+1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ
    Multi-scale account of the network structure of macaque visual cortex
-   Brain Structure and Function (2017) [https://doi.org/10.1007/s00429-017-1554-4](https://doi.org/10.1007/s00429-017-1554-4)
+   Brain Structure and Function (2018), 223:1409 [https://doi.org/10.1007/s00429-017-1554-4](https://doi.org/10.1007/s00429-017-1554-4)
 
 2. Schuecker J, Schmidt M, van Albada SJ, Diesmann M & Helias M (2017)
    Fundamental Activity Constraints Lead to Specific Interpretations of the Connectome.
@@ -84,7 +84,7 @@ the figures from [1]. The scripts for [2] and [3] will follow soon.
 If snakemake is installed, the figures can be produced by executing
 `snakemake` in the respective folder:
 	
-	cd figures/Schmidt2017/
+	cd figures/Schmidt2018/
 	snakemake
 
 
@@ -181,11 +181,11 @@ Note that NEST needs to be installed separately, see <http://www.nest-simulator.
 
 In addition, reproducing the figures of [1] requires networkx, python-igraph and pyx. To install these additional packages, execute:
 
-`pip install -r figures/Schmidt2017/additional_requirements.txt`
+`pip install -r figures/Schmidt2018/additional_requirements.txt`
 
 In addition, Figure 7 of [1] requires installing the `infomap` package to perform the map equation clustering. See <http://www.mapequation.org/code.html> for all necessary information.
 
-The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2017/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
+The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
 
 ## Contributors
 

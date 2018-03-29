@@ -2,9 +2,9 @@
 Model
 ================
 
-This script defines the model described in Schmidt et al. (2017).
+This script defines the model described in Schmidt et al. (2018).
 The procedures are described in detail in the Methods section of
-Schmidt et al. (2017).
+Schmidt et al. (2018).
 It loads the data prepared by VisualCortexData.py and computes
 neuronal numbers for each population, the external inputs
 to each population and the number of synapses of each connection
@@ -491,7 +491,7 @@ def compute_Model_params(out_label='', mode='default'):
     """
     2. Process Binzegger data
        The notation follows Eqs. (11-12 and following) in
-       Schmidt et al. (2017):
+       Schmidt et al. (2018):
        v : layer of cortico-cortical synapse
        cb : cell type
        cell_layer : layer of the cell

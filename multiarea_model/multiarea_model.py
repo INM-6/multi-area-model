@@ -3,7 +3,7 @@ multiarea_model
 ==============
 
 Network class to instantiate and administer instances of the
-multi-area model of macaque visual cortex by Schmidt el. (2016).
+multi-area model of macaque visual cortex by Schmidt el. (2018).
 
 Classes
 -------
@@ -17,7 +17,7 @@ label. As members, it may contain three classes:
 - theory : theory class that serves to estimate the stationary state
   of the network using mean-field theory
 
-  Schuecker J, Schmidt M, van Albada SJ, Diesmann M, HeliasM(2017)
+  Schuecker J, Schmidt M, van Albada SJ, Diesmann M, Helias M (2017)
   Fundamental Activity Constraints Lead to Specific Interpretations of
   the Connectome. PLoS Comput Biol 13(2): e1005179.
   doi:10.1371/journal.pcbi.1005179

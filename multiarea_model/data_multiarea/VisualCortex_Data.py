@@ -12,9 +12,9 @@ tasks:
    viscortex_processed_data.json.
 
 All details of the procedures in this scripts are described in
-Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ (2017)
+Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ
 "Multi-scale account of the network structure of macaque visual cortex"
-Brain Structure and Function (2017)
+Brain Structure and Function (2018), 223:1409
 
 
 Experimental Data

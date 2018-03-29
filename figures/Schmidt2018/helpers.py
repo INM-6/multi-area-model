@@ -61,7 +61,7 @@ def structural_gradient(target_area, source_area, structure):
     """
     Returns the structural gradient between two areas
     See Schmidt, M., Bakker, R., Hilgetag, C.C. et al.
-    Brain Structure and Function (2017),
+    Brain Structure and Function (2018), 223:1409,
     for a definition.
 
     Parameters

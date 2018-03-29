@@ -101,7 +101,7 @@ def modularity(g, membership):
     and cluster memberships.
 
     See Schmidt, M., Bakker, R., Hilgetag, C.C. et al.
-    Brain Structure and Function (2017),
+    Brain Structure and Function (2018), 223:1409,
     for a derivation.
 
     Parameters
@@ -138,7 +138,7 @@ def all_pairs_bellman_ford_path(g, weight='distance'):
     Compute the shorted paths between nodes of a graph
     using the Bellman-Ford algorithm.
     See Schmidt, M., Bakker, R., Hilgetag, C.C. et al.
-    Brain Structure and Function (2017),
+    Brain Structure and Function (2018), 223:1409,
     for details.
 
     Parameters
