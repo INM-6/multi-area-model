@@ -28,9 +28,8 @@ import pprint
 from copy import deepcopy
 from nested_dict import nested_dict
 from itertools import product
-# from .. import default_params as defpar
-from ..default_params import network_params, nested_update
-from .VisualCortex_Data import process_raw_data
+from multiarea_model.default_params import network_params, nested_update
+from multiarea_model.data_multiarea.VisualCortex_Data import process_raw_data
 
 
 def compute_Model_params(out_label='', mode='default'):
