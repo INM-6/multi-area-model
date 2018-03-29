@@ -161,10 +161,12 @@ To install the required packages in a conda environment, execute:
 
 `conda env create -f environment.yaml`
 
+Note that NEST needs to be installed separately, see <http://www.nest-simulator.org/installation/>.
+
 ## Contributors
 
 All authors of the publications [1-3] made contributions to the scientific content.
-The code base was written by Maximilian Schmidt, Jannis Schuecker, Sacha van Albada, and Alexander van Meegen.
+The code base was written by Maximilian Schmidt, Jannis Schuecker, and Sacha van Albada. Testing and review was supported by Alexander van Meegen.
 
 ## Citation
 
