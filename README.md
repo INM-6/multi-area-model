@@ -21,7 +21,7 @@ The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
 
 ## Python framework for the multi-area model
-[![www.python.org](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org)  [![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a>
+[![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a>
 
 The entire framework is summarized in the figure below:
 ![Sketch of the framework](framework_sketch.png)
