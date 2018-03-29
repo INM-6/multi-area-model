@@ -176,9 +176,11 @@ To install the required packages in a conda environment, execute:
 
 Note that NEST needs to be installed separately, see <http://www.nest-simulator.org/installation/>.
 
-In addition, reproducing the figures of Schmidt et al. (2017) requires python-igraph and networkx. To install these additional packages, execute:
+In addition, reproducing the figures of [1] requires python-igraph and networkx. To install these additional packages, execute:
 
 `pip install -r figures/Schmidt2017/additional_requirements.txt`
+
+In addition, Figure 7 of [1] requires installing the `infomap` package to perform the map equation clustering. See <http://www.mapequation.org/code.html> for all necessary information.
 
 The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2017/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
 

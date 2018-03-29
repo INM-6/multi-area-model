@@ -5,7 +5,7 @@ import numpy as np
 import os
 
 
-def perform_map_equation(graph_matrix, node_list, filename=''):
+def perform_map_equation(graph_matrix, node_list, filename='', infomap_path=None):
     """
     Perform the map equation of
     Rosvall M, Axelsson D, Bergstrom CT (2009) The map equation.
@@ -21,6 +21,9 @@ def perform_map_equation(graph_matrix, node_list, filename=''):
         the graph_matrix and node_list.
     filename : str
         Output file name without ending.
+    infomap_path : str
+        Path to installation of infomap. If None, the
+        infomap executable has to be in the system path.
 
     Returns
     -------
@@ -58,7 +61,8 @@ def perform_map_equation(graph_matrix, node_list, filename=''):
     """
     2. Execute map equation algorithm
     """
-    os.chdir('/home/schmidt/opt/infomap')
+    if infomap_path:
+        os.chdir(infomap_path)
     os.system('./Infomap --directed --clu --map --verbose ' +
               base_dir + '/' + net_fn + ' ' + base_dir)
 
