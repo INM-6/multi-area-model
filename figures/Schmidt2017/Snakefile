@@ -15,7 +15,7 @@ rule VisualCortexData:
     output:
         os.path.join(datapath, 'viscortex_processed_data.json')
     shell:
-        'python ../../data_multiarea/VisualCortex_Data.py'
+        'python ../../multiarea_model/data_multiarea/VisualCortex_Data.py'
 
 rule Fig2_anatomy:
     output:
