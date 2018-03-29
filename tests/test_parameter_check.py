@@ -1,9 +1,8 @@
 import pytest
 from multiarea_model import MultiAreaModel
-from multiarea_model.default_params import network_params
 
 """
-Test if the check for unused keys in 
+Test if the check for unused keys in
 custom parameters works.
 """
 
@@ -11,22 +10,22 @@ custom parameters works.
 def test_network_params():
     net_params = {'x': 3}
     with pytest.raises(KeyError):
-        M = MultiAreaModel(net_params)
+        MultiAreaModel(net_params)
 
 
 def test_conn_params():
     net_params = {'connection_params': {'x': 3}}
     with pytest.raises(KeyError):
-        M = MultiAreaModel(net_params)
+        MultiAreaModel(net_params)
 
 
 def test_sim_params():
     sim_params = {'x': 3}
     with pytest.raises(KeyError):
-        M = MultiAreaModel({}, simulation=True, sim_spec=sim_params)
+        MultiAreaModel({}, simulation=True, sim_spec=sim_params)
 
 
 def test_theory_params():
     theory_params = {'x': 3}
     with pytest.raises(KeyError):
-        M = MultiAreaModel({}, theory=True, theory_spec=theory_params)
+        MultiAreaModel({}, theory=True, theory_spec=theory_params)
