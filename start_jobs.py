@@ -20,6 +20,8 @@ def start_job(label, submit_cmd, jobscript_template, sumatra=False, reason=None,
 
     label : str
         Simulation label identifying the simulation to be run.
+        The function loads all necessary files from the subfolder
+        identified by the label.
     submit_cmd : str
         Submit command of the queueing system used.
     job_script_template : formatted str
