@@ -69,7 +69,7 @@ neuron_params = {'V0_mean': -150.,
                  'V0_sd': 50.}
 network_params = {'N_scaling': 0.01,
                   'K_scaling': 0.01,
-                  'fullscale_rates': 'fullscale_rates.json',
+                  'fullscale_rates': 'tests/fullscale_rates.json',
                   'connection_params': conn_params,
                   'neuron_params': neuron_params}
 
