@@ -82,7 +82,10 @@ basic analysis and plotting.
 The `figures` folder contains a subfolder with all scripts necessary to produce
 the figures from [1]. The scripts for [2] and [3] will follow soon.
 If snakemake is installed, the figures can be produced by executing
-`snakemake` in the respective folder.
+`snakemake` in the respective folder:
+	
+	cd figures/Schmidt2017/
+	snakemake
 
 
 ## Running a simulation

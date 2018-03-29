@@ -114,7 +114,9 @@ cbar.set_alpha(0.)
 cbar.remove()
 
 """
-Panel B: Data from Markov et al. (2014)
+Panel B: Data from Markov et al. (2014) "A weighted and directed
+interareal connectivity matrix for macaque cerebral cortex."
+Cerebral Cortex, 24(1), 17–36.
 """
 ax = axes['B']
 ax.set_aspect(1. / ax.get_data_ratio())
@@ -143,7 +145,7 @@ cbar = pl.colorbar(im, ticks=t, fraction=0.046, ax=ax)
 cbar.set_alpha(0.)
 
 """
-Panel C: Exponential distance rule of FLN
+Panel C: Exponential decay of FLN with distance
 """
 FLN_values_FV91 = np.array([])
 distances_FV91 = np.array([])
@@ -157,7 +159,7 @@ for target_area in FLN_Data_FV91:
                 distances_FV91 = np.append(distances_FV91, median_distance_data[
                                            target_area][source_area])
 
-# Linear Fit to log values"
+# Linear fit of distances vs. log FLN
 print("\n \n Linear fit to logarithmic values")
 gradient, intercept, r_value, p_value, std_err = stats.linregress(
     distances_FV91, np.log(FLN_values_FV91))
@@ -221,7 +223,7 @@ ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
 ax.set_yticklabels(area_list[::-1], size=6.)
 
 ax.set_ylabel('Target area')
-ax.set_xlabel('Source area')  # , labelpad=-0.01)
+ax.set_xlabel('Source area')
 im = ax.pcolormesh(masked_matrix, cmap=cmap,
                    edgecolors='None', norm=LogNorm(vmin=1e-6, vmax=1.))
 

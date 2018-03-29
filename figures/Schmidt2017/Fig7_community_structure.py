@@ -3,7 +3,7 @@ import copy
 from helpers import area_list
 import numpy as np
 from config import base_path
-from graph_helpers import perform_map_equation, modularity
+from graph_helpers import apply_map_equation, modularity
 from graph_helpers import create_graph, plot_clustered_graph
 from multiarea_model import MultiAreaModel
 from multiarea_model.multiarea_helpers import load_degree_data
@@ -62,7 +62,7 @@ g_abs = create_graph(conn_matrix_abs, area_list)
 """
 Determine clusters using the map equation.
 """
-modules, modules_areas, index = perform_map_equation(
+modules, modules_areas, index = apply_map_equation(
     conn_matrix, area_list, filename='Model')
 
 f = open('Model.map', 'r')
@@ -108,11 +108,11 @@ mod_list = []
 # In the connectivity matrix, rows == targets, columns == sources
 # For each column, we shuffle the rows and therefore conserve the total outdegree of each area.
 
-for ii in range(10):
+for ii in range(1000):
     for jj in range(32):
         ind = np.extract(np.arange(32) != jj, np.arange(32))
         null_model[:, jj][ind] = null_model[:, jj][ind][np.random.shuffle(ind)]
-    modules, modules_areas, index = perform_map_equation(null_model, area_list, filename='null')
+    modules, modules_areas, index = apply_map_equation(null_model, area_list, filename='null')
     g_null = create_graph(null_model, area_list)
     mod_list.append(modularity(g_null, modules[index]))
 

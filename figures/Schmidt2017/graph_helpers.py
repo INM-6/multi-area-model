@@ -5,9 +5,9 @@ import numpy as np
 import os
 
 
-def perform_map_equation(graph_matrix, node_list, filename='', infomap_path=None):
+def apply_map_equation(graph_matrix, node_list, filename='', infomap_path=None):
     """
-    Perform the map equation of
+    Apply the map equation algorithm of
     Rosvall M, Axelsson D, Bergstrom CT (2009) The map equation.
     Eur Phys J Spec Top 178(1):13–23
 
@@ -63,7 +63,7 @@ def perform_map_equation(graph_matrix, node_list, filename='', infomap_path=None
     """
     if infomap_path:
         os.chdir(infomap_path)
-    os.system('./Infomap --directed --clu --map --verbose ' +
+    os.system('Infomap --directed --clu --map --verbose ' +
               base_dir + '/' + net_fn + ' ' + base_dir)
 
     os.chdir(base_dir)

@@ -5,8 +5,9 @@ mp.use('GTKAgg')
 
 
 class panel_factory():
-    """Class that generates a subpanel in the PloS figure"""
-
+    """
+    Class for generating subpanels
+    """
     def __init__(self, scale, figure, n_pan_x, n_pan_y, hoffset,
                  voffset, hspace, vspace, panel_width, panel_height):
         self.scale = scale

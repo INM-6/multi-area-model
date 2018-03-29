@@ -80,7 +80,7 @@ Nsyn = M.K_matrix[:, :-1] * Npost
 outdegree = Nsyn / Npre
 indegree = M.K_matrix[:, :-1]
 
-plot_areas = ['V1', 'V2']  # , 'V2', 'MT', 'FEF', '46', 'TH']
+plot_areas = ['V1', 'V2']
 mask = create_mask(M.structure, target_areas=plot_areas,
                    source_areas=plot_areas,
                    extern=False)[:, :-1]
@@ -124,8 +124,6 @@ ax.set_ylim((0, new_size))
 ax.set_xticks(np.arange(16) + 0.5)
 ax.set_xticklabels(2 * population_labels, rotation=90, size=7.)
 
-# ax.set_xticks(ticks)
-# ax.set_xticklabels(plot_areas, rotation=90, size=7.)
 ax.set_yticks(np.arange(16)[::-1] + 0.5)
 ax.set_yticklabels(2 * population_labels, size=7.)
 
@@ -154,9 +152,6 @@ ax_hist.set_xscale('Log')
 ax_hist.set_xlim(cb.get_clim())
 ax_hist.set_xticks([])
 ax_hist.set_yticks([])
-
-# ax.set_yticks(ticks_r)
-# ax.set_yticklabels(plot_areas, size=7.)
 
 ax = axes['B']
 

@@ -27,8 +27,6 @@ thicknesses = raw['laminar_thicknesses']
 total_thickness_data = raw['total_thickness_data']
 
 # calculate average relative layer thicknesses for each area
-# where possible, compare with total thickness, with total thickness
-# without L1, and compare L23-L4, L23-L5, L23-L6, L4-L5, L4-L6, and L5-L6
 frac_of_total = {}
 for area in list(thicknesses.keys()):
     area_dict_total = {}
@@ -168,7 +166,6 @@ for l in layers:
     else:
         rho[l] = np.zeros(8)
 
-# ax.bar(x - 0.4, y)
 bottom = np.zeros(8)
 for l in layers[:]:
     bottom += rho[l]
@@ -196,12 +193,6 @@ ax.legend(loc=(0.035, 0.45), edgecolor='k')
 
 
 ##################################################
-# total thicknesses from Barbas lab vs architectural type
-
-
-# total cortical thicknesses from Barbas lab
-
-
 barbas_array = np.zeros(len(area_list))
 for i, area in enumerate(area_list):
     barbas_array[i] = total_thickness_data[area] / 1000.
@@ -224,7 +215,6 @@ line = gradient * log_density_array + intercept
 ax.plot(log_density_array, line, '-', linewidth=1.5, color='k')
 ax.set_xlabel('Log neuron density', labelpad=0.3)
 ax.set_ylabel('Total thickness (mm)')
-# ax.set_xlim((0, 9))
 ax.set_xticks([4.7, 5.0])
 
 ax.set_yticks(np.arange(1., 3., 0.5))
@@ -246,7 +236,7 @@ for i, data in enumerate([frac1_of_total, frac23_of_total,
     ax.plot(log_density_array, line, '-', linewidth=2.0, c=colors[i])
 
 ax.set_xlabel('Log neuron density', labelpad=0.3)
-ax.set_ylabel('Proportion of \n total thickness')  # ,size=16.5)
+ax.set_ylabel('Proportion of \n total thickness')
 ax.set_xlim((4.6, 5.3))
 ax.set_xticks([4.7, 5.0])
 ax.set_yticks(np.arange(0., 0.7, 0.2))

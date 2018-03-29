@@ -10,7 +10,7 @@ from multiarea_model import MultiAreaModel
 from plotfuncs import create_fig
 
 """
-Loading and procesing of data
+Loading and processing of data
 """
 M = MultiAreaModel({})
 with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:

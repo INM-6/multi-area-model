@@ -176,7 +176,7 @@ corr_bb = round(np.corrcoef(
 print("SLN Fit: R={}, Chi2={}".format(corr_bb, goodness_bb))
 
 
-# Target - source relationship
+# Target-source relationship
 
 target_low_SLN_unweighted = np.zeros(6)
 target_medium_SLN_unweighted = np.zeros(6)

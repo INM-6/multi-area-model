@@ -1,8 +1,8 @@
-# Absolut path of repository
+# Absolute path of repository
 base_path = None
 # Place to store simulations
 data_path = None
-# Template for jobscripts
+# Template for job scripts
 jobscript_template = """
 # Instruction for the queuing system
 

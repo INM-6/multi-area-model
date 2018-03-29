@@ -115,7 +115,6 @@ height = 5.25
 print(width, height)
 pl.rcParams['figure.figsize'] = (width, height)
 
-# ################### Figure layout ####################
 fine_tune_cols = 2
 
 fig = pl.figure()
@@ -154,8 +153,9 @@ and write out the linewidths for the corresponding tex plots to file.
 
 1. Distinguish using SLN
 """
-# Differential analysis of hierarchically directed connections (hierarchy_criterion=SLN)
-hierarchy_criterion = 'SLN'
+# Differential analysis of hierarchically directed connections
+# FF = feedforward
+# FB = feedback
 FF_path_pairs = []
 FB_path_pairs = []
 lateral_path_pairs = []
@@ -228,9 +228,8 @@ write_out_lw(fn, C)
 """
 2. Use architectural types
 """
-hierarchy_criterion = 'arch_types'
-# HL = early to late
-# LH = late to early
+# HL = high to low type
+# LH = low to high type
 # HZ = equal arch. types
 HL_path_pairs = []
 LH_path_pairs = []
@@ -344,7 +343,7 @@ layout_barplot_axes(axes['HL'])
 
 C = Counter(HL_single_area_patterns)
 counts = list(C.values())
-# Manually define order of pairs to stick to originally published figure
+# Define order of pairs consistently across panels
 pairs = ['5E', '23E', '4I+23E', '6E']
 counts = [C[p] for p in pairs]
 # Add 0 value for last pair
@@ -362,7 +361,7 @@ layout_barplot_axes(axes['HZ'])
 
 C = Counter(HZ_single_area_patterns)
 counts = list(C.values())
-# Manually define order of pairs to stick to originally published figure
+# Define order of pairs consistently across panels
 pairs = ['5E', '23E', '4I+23E', '6E']
 counts = [C[p] for p in pairs]
 # Add 0 value for last pair
@@ -380,7 +379,7 @@ layout_barplot_axes(axes['LH'])
 
 C = Counter(LH_single_area_patterns)
 counts = list(C.values())
-# Manually define order of pairs to stick to originally published figure
+# Define order of pairs consistently across panels
 pairs = ['5E', '23E', '4I+23E', '6E']
 counts = [C[p] for p in pairs]
 
@@ -412,9 +411,6 @@ Finally, merge the tex-created figures into the main figure.
 import pyx
 
 c = pyx.canvas.canvas()
-# c.text(0.4, 12.3,r'\textbf{\textsf{A}}')
-# c.text(6., 12.3,r'\textbf{\textsf{B}}')
-
 c.insert(pyx.epsfile.epsfile(0., 0., "Fig8_laminar_paths_mpl.eps", width=17.3))
 
 
