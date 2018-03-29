@@ -28,7 +28,11 @@ from .default_params import nested_update, sim_params
 from .default_params import check_custom_params
 from dicthash import dicthash
 from .multiarea_helpers import extract_area_dict, create_vector_mask
-from .sumatra_helpers import register_runtime
+try:
+    from .sumatra_helpers import register_runtime
+    sumatra_found = True
+except ImportError:
+    sumatra_found = False
 
 
 class Simulation:
@@ -295,7 +299,11 @@ class Simulation:
                 json.dump(d, f)
 
     def register_runtime(self):
-        register_runtime(self.label)
+        if sumatra_found:
+            register_runtime(self.label)
+        else:
+            raise ImportWarning('Sumatra is not installed, so'
+                                'cannot register the runtime.')
 
 
 class Area:

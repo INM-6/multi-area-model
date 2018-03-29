@@ -4,7 +4,11 @@ import shutil
 
 from config import base_path, data_path
 from multiarea_model.default_params import nested_update, sim_params
-from multiarea_model.sumatra_helpers import register_record
+try:
+    from multiarea_model.sumatra_helpers import register_record
+    sumatra_found = True
+except ImportError:
+    sumatra_found = False
 
 
 def start_job(label, submit_cmd, jobscript_template, sumatra=False, reason=None, tag=None):
@@ -70,7 +74,11 @@ def start_job(label, submit_cmd, jobscript_template, sumatra=False, reason=None,
 
     # If chosen, register simulation to sumatra
     if sumatra:
-        register_record(label, reason=reason, tag=tag)
+        if sumatra_found:
+            register_record(label, reason=reason, tag=tag)
+        else:
+            raise ImportWarning('Sumatra is not installed, so'
+                                'cannot register simulation record.')
 
     # Submit job
     os.system('{submit_cmd} {job_script_fn}'.format(submit_cmd=submit_cmd,
