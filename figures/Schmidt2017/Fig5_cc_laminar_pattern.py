@@ -147,12 +147,17 @@ Fit of SLN vs. architectural type differences
 SLN_array = np.array(data[:, 10], dtype=np.float)
 densities = np.array(data[:, 7], dtype=np.float)
 
-proc = subprocess.Popen(
-    ["Rscript", os.path.join(datapath, 'SLN_logdensities.R')],
-    stdout=subprocess.PIPE)
-out = proc.communicate()[0].decode('utf-8')
-R_fit = [float(out.split('\n')[1].split(' ')[1]),
-         float(out.split('\n')[1].split(' ')[3])]
+# Call R script to perform SLN fit
+try:
+    proc = subprocess.Popen(["Rscript",
+                             os.path.join(datapath, 'SLN_logdensities.R')],
+                            stdout=subprocess.PIPE)
+    out = proc.communicate()[0].decode('utf-8')
+    R_fit = [float(out.split('\n')[1].split(' ')[1]),
+             float(out.split('\n')[1].split(' ')[3])]
+except OSError:
+    print("No R installation, taking hard-coded fit parameters.")
+    R_fit = [-0.1516142, -1.5343200]
 
 print(R_fit)
 ax = axes['A']

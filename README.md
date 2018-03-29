@@ -176,6 +176,12 @@ To install the required packages in a conda environment, execute:
 
 Note that NEST needs to be installed separately, see <http://www.nest-simulator.org/installation/>.
 
+In addition, reproducing the figures of Schmidt et al. (2017) requires python-igraph and networkx. To install these additional packages, execute:
+
+`pip install -r figures/Schmidt2017/additional_requirements.txt`
+
+The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2017/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
+
 ## Contributors
 
 All authors of the publications [1-3] made contributions to the scientific content.
@@ -183,6 +189,6 @@ The code base was written by Maximilian Schmidt, Jannis Schuecker, and Sacha van
 
 ## Citation
 
-If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
+If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
 
 <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="200"/>
