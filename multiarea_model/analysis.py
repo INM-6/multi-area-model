@@ -23,6 +23,7 @@ Sacha van Albada
 from . import analysis_helpers as ah
 import glob
 import inspect
+from itertools import chain, product
 import json
 import matplotlib.pyplot as plt
 import numpy as np
@@ -279,11 +280,13 @@ class Analysis:
         iterator = ah.model_iter(mode='single',
                                  areas=params['areas'],
                                  pops=params['pops'])
-
+        elements = [('histogram',), ('stats-mu',), ('stats-sigma',)]
+        iter_list = [tuple(chain.from_iterable(prod)) for
+                     prod in product(iterator, elements)]
         # Check if population rates have been stored with the same parameters
         self.pop_rate_dists = ah._check_stored_data(os.path.join(self.output_dir,
                                                                  'pop_rate_dists'),
-                                                    copy(iterator), params)
+                                                    iter_list, params)
 
         if self.pop_rate_dists is None:
             print("Computing population dists")

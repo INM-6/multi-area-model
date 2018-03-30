@@ -1,5 +1,7 @@
 import os
+import sys
 from multiarea_model import MultiAreaModel
+from io import StringIO
 
 """
 Test analysis class:
@@ -31,3 +33,15 @@ def test_analysis():
     M.analysis.create_pop_LvR(t_min=100.)
 
     M.analysis.save()
+    out = StringIO()
+    sys.stdout = out
+    M.analysis.create_pop_rates(t_min=100.)
+    M.analysis.create_pop_rate_dists(t_min=100.)
+    M.analysis.create_synchrony(t_min=100.)
+    M.analysis.create_rate_time_series(t_min=100.)
+    M.analysis.create_synaptic_input(t_min=100.)
+    M.analysis.create_pop_cv_isi(t_min=100.)
+    M.analysis.create_pop_LvR(t_min=100.)
+    sys.stdout = sys.__stdout__
+    val = out.getvalue()
+    assert(val.count("Loading data from") == 9)

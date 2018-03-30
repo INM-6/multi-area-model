@@ -25,12 +25,12 @@ def test_network_scaling():
                        M0.area_list,
                        M0.structure)
 
-    with open('fullscale_rates.json', 'w') as f:
+    with open('mf_rates.json', 'w') as f:
         json.dump(d, f)
 
     network_params = {'N_scaling': .1,
                       'K_scaling': .1,
-                      'fullscale_rates': 'fullscale_rates.json'}
+                      'fullscale_rates': 'mf_rates.json'}
     theory_params = {'initial_rates': r0[:, -1]}
     M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
 
