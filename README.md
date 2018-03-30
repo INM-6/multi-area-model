@@ -38,9 +38,9 @@ To start using the framework, the user has to define a few environment variables
 in a new file called `config.py`. The file `config_template.py` lists the required
 environment variables that need to specified by the user.
 
-Furthermore, please add the path to the `multiarea_model` subfolder to your PYTHONPATH:
+Furthermore, please add the path to the repository to your PYTHONPATH:
 
-`export PYTHONPATH=/path/to/repository/multiarea_model/:$PYTHONPATH`.
+`export PYTHONPATH=/path/to/repository/:$PYTHONPATH`.
 
 
 --------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ In addition, reproducing the figures of [1] requires networkx, python-igraph and
 
 In addition, Figure 7 of [1] requires installing the `infomap` package to perform the map equation clustering. See <http://www.mapequation.org/code.html> for all necessary information.
 
-The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
+The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` is currently not possible because of copyright issues.
 
 ## Contributors
 
