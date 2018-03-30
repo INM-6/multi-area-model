@@ -1328,16 +1328,11 @@ def process_raw_data():
         return res
 
     # Call R script to perform SLN fit
-    try:
-        proc = subprocess.Popen(["Rscript",
-                                 os.path.join(basepath, 'SLN_logdensities.R')],
-                                stdout=subprocess.PIPE)
-        out = proc.communicate()[0].decode('utf-8')
-        R_fit = [float(out.split('\n')[1].split(' ')[1]),
-                 float(out.split('\n')[1].split(' ')[3])]
-    except OSError:
-        print("No R installation, taking hard-coded fit parameters.")
-        R_fit = [-0.1516142, -1.5343200]
+    print("We currently cannot publish the R code because of "
+          "copyright issues, there taking hard-coded fit parameters. "
+          "See Schmidt et al. (2018) for a full explanation "
+          "of the procedure.")
+    R_fit = [-0.1516142, -1.5343200]
 
     """
     4. Fill missing data with fitted values.
