@@ -17,11 +17,21 @@ with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
     proc = json.load(f)
 density = proc['neuronal_densities']
 
-ordered_density = OrderedDict(
-    sorted(list(density.items()), key=lambda t: t[1]['overall'], reverse=True))
+if density is None:
+    print("Since we cannot publish the underlying density data, we"
+          "here hard-code the list of areas sorted by their overall"
+          "density.")
+    areas_sorted_density = ['V1', 'V2', 'V3', 'VP', 'V4', 'MT', 'V4t',
+                            'PITv', 'PITd', 'VOT', 'V3A', 'LIP', 'MIP', 'MDP', 'PO', 'PIP',
+                            'MSTl', 'VIP', 'MSTd', 'DP', 'TF', 'FEF', 'CITv', 'CITd', 'AITv',
+                            'AITd', 'STPa', 'STPp', 'FST', '46', '7a', 'TH']
+else:
+    ordered_density = OrderedDict(
+        sorted(list(density.items()), key=lambda t: t[1]['overall'], reverse=True))
+    areas_sorted_density = list(ordered_density.keys())
 
 average_indegree = {}
-for area in list(ordered_density.keys()):
+for area in areas_sorted_density:
     s = 0
     for pop in population_list:
         for source_area in list(area_list):
@@ -32,7 +42,7 @@ for area in list(ordered_density.keys()):
 
 indegrees = []
 num_list = []
-for area in list(ordered_density.keys()):
+for area in areas_sorted_density:
     indegrees.append(average_indegree[area])
     num_list.append(M.N[area]['total'])
 

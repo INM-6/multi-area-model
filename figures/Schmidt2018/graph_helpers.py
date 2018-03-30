@@ -63,8 +63,12 @@ def apply_map_equation(graph_matrix, node_list, filename='', infomap_path=None):
     """
     if infomap_path:
         os.chdir(infomap_path)
-    os.system('Infomap --directed --clu --map --verbose ' +
-              base_dir + '/' + net_fn + ' ' + base_dir)
+    ret = os.system('./Infomap --directed --clu --map --verbose ' +
+                    base_dir + '/' + net_fn + ' ' + base_dir)
+    if ret != 0:
+        raise OSError("Executing infomap failed. Did you install "
+                      "infomap and provide the correct path by "
+                      "defining the variable infomap_path?")
 
     os.chdir(base_dir)
 

@@ -239,5 +239,5 @@ if NEURON_DENSITIES_AVAILABLE:
 
     pl.savefig('Fig2_anatomy.eps', dpi=600)
 else:
-    print("Figure 2 can currently not be produced because"
+    print("Figure 2 can currently not be produced because "
           "we cannot publish the underlying raw data.")

@@ -251,7 +251,7 @@ for target_area in area_list:
                               source_areas=[source_area],
                               complete_area_list=area_list,
                               external=False)
-        pM = path_length_matrix[indices]
+        pM = path_length_matrix[indices[:, :-1]]
         pM = pM.reshape(
             (len(M.structure[target_area]), len(M.structure[source_area])))
         imin = np.unravel_index(np.argmin(pM), pM.shape)
