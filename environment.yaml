@@ -1,5 +1,6 @@
 name: multiarea_model
 dependencies:
+ - future
  - numpy
  - matplotlib
  - pandas
