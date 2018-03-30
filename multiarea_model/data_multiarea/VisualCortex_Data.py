@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 VisualCortexData
 ================
@@ -1365,7 +1364,7 @@ def process_raw_data():
     else:
         # Load data that cannot be computed from json file or set to None
         with open(os.path.join(out_path,
-                               ''.join(('viscortex_processed_data', out_label, '.json'))),
+                               ''.join(('viscortex_processed_data_backup.json'))),
                   'r') as f:
             dat = json.load(f)
         SLN_completed = dat['SLN_completed']
