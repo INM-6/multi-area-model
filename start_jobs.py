@@ -24,7 +24,7 @@ def start_job(label, submit_cmd, jobscript_template, sumatra=False, reason=None,
         identified by the label.
     submit_cmd : str
         Submit command of the queueing system used.
-    job_script_template : formatted str
+    jobscript_template : formatted str
         Formatted string defining the template for the job script.
         Can include the following keyword arguments:
             sim_dir : str

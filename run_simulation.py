@@ -1,3 +1,16 @@
+"""
+This script is used to run a simulation from the given command-line
+arguments:
+1. Label of the simulation
+2. Label of the network to be simulated
+
+It initializes the network class and then runs the simulate method of
+the simulation class instance.
+
+This script should be used in the `jobscript_template` defined in the
+config.py file. See config_template.py.
+"""
+
 import json
 import nest
 import os

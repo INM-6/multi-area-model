@@ -1,4 +1,4 @@
-From multiarea_model import MultiAreaModel
+from multiarea_model import MultiAreaModel
 from start_jobs import start_job
 from config import submit_cmd, jobscript_template
 
