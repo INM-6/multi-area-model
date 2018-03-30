@@ -1329,7 +1329,7 @@ def process_raw_data():
 
     # Call R script to perform SLN fit
     print("We currently cannot publish the R code because of "
-          "copyright issues, there taking hard-coded fit parameters. "
+          "copyright issues, therefore taking hard-coded fit parameters. "
           "See Schmidt et al. (2018) for a full explanation "
           "of the procedure.")
     R_fit = [-0.1516142, -1.5343200]
