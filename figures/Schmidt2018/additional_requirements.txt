@@ -1,3 +1,4 @@
-python-igraph
 networkx
+pycairo
+python-igraph
 pyx

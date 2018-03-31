@@ -2,7 +2,6 @@ import matplotlib.pyplot as pl
 import numpy as np
 import json
 import pyx
-import subprocess
 import os
 
 from helpers import area_list, population_labels, layer_labels
@@ -31,7 +30,6 @@ if NEURON_DENSITIES_AVAILABLE:
     print(width, height)
     pl.rcParams['figure.figsize'] = (width, height)
 
-
     axes = {}
     gs1 = gridspec.GridSpec(1, 1)
     gs1.update(left=0.1, right=0.47, top=0.95, bottom=0.75, wspace=0.1, hspace=0.3)
@@ -42,7 +40,6 @@ if NEURON_DENSITIES_AVAILABLE:
     axes['B'] = pl.subplot(gs2[:1, :1])
     axes['B2'] = pl.subplot(gs2[1:2, :1])
     axes['B3'] = pl.subplot(gs2[2:3, :1])
-
 
     gs3 = gridspec.GridSpec(3, 1)
     gs3.update(left=0.6, right=0.95, top=0.65, bottom=0.1, wspace=0.1, hspace=0.8)
@@ -79,7 +76,6 @@ if NEURON_DENSITIES_AVAILABLE:
                 fontdict={'fontsize': 10, 'weight': 'bold',
                           'horizontalalignment': 'left', 'verticalalignment':
                           'bottom'}, transform=axes[label].transAxes)
-
 
     data = np.loadtxt(os.path.join(raw_datapath, 'RData_prepared_logdensities.txt'),
                       skiprows=3, dtype='S10')
@@ -124,10 +120,8 @@ if NEURON_DENSITIES_AVAILABLE:
                     y += overlap['visual'][area_key + '_M132'][FV91] / 100.
             neuron_densities[area] = {'overall': x / y}
 
-
     def integrand(x, mu, sigma):
         return 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-(x - mu) ** 2 / (2. * sigma ** 2))
-
 
     def probit(x,):
         if isinstance(x, np.ndarray):
@@ -137,10 +131,8 @@ if NEURON_DENSITIES_AVAILABLE:
             res = integrate.quad(integrand, -1000., x, args=(0., 1.))[0]
         return res
 
-
     def chi2(x, y, z, n):
         return 1. / (n) * np.sum(((x - y) / z) ** 2)
-
 
     """
     Fit of SLN vs. architectural type differences

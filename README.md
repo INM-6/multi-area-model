@@ -184,7 +184,7 @@ To install the required packages in a conda environment, execute:
 
 Note that NEST needs to be installed separately, see <http://www.nest-simulator.org/installation/>.
 
-In addition, reproducing the figures of [1] requires networkx, python-igraph and pyx. To install these additional packages, execute:
+In addition, reproducing the figures of [1] requires networkx, python-igraph, pycairo and pyx. To install these additional packages, execute:
 
 `pip install -r figures/Schmidt2018/additional_requirements.txt`
 
