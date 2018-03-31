@@ -3,7 +3,7 @@ multiarea_model
 ==============
 
 Network class to instantiate and administer instances of the
-multi-area model of macaque visual cortex by Schmidt el. (2018).
+multi-area model of macaque visual cortex by Schmidt et al. (2018).
 
 Classes
 -------
@@ -90,7 +90,7 @@ class MultiAreaModel:
             self.custom_params = network_spec
             p_ = 'multiarea_model/data_multiarea/custom_data_files'
             # Draw random integer label for data script to avoid clashes with
-            # parallely created class instances
+            # parallelly created class instances
             rand_data_label = np.random.randint(10000)
             print("RAND_DATA_LABEL", rand_data_label)
             tmp_parameter_fn = os.path.join(base_path,
@@ -238,14 +238,14 @@ class MultiAreaModel:
 
         This function:
         - adjusts the synaptic weights such that the population-averaged
-          stationary spike rates approximately match the given `fullscale_rates`.
+          stationary spike rates approximately match the given `full-scale_rates`.
         - scales the population sizes with `N_scaling` and indegrees with `K_scaling`.
         - scales the synapse numbers with `N_scaling`*`K_scaling`.
         """
         # population sizes
         self.N_vec *= self.params['N_scaling']
 
-        # Scale the synaptic weights before the indegrees to use fullscale indegrees
+        # Scale the synaptic weights before the indegrees to use full-scale indegrees
         self.adj_W_to_K()
         # Then scale the indegrees and synapse numbers
         self.K_matrix *= self.params['K_scaling']

@@ -1,4 +1,4 @@
-# Taken from Binzegger, T., Douglas, R. J., & Martin, K. a C. (2004). A quantitative map of the circuit of cat primary visual cortex. The Journal of Neuroscience : The Official Journal of the Society for Neuroscience, 24(39), 8441–53. https://doi.org/10.1523/JNEUROSCI.1400-04.2004
+# Taken from Binzegger, T., Douglas, R. J., & Martin, K. a C. (2004). A quantitative map of the circuit of cat primary visual cortex. The Journal of Neuroscience : The Official Journal of the Society for Neuroscience, 24(39), 8441–53. https://doi.org/10.1523/JNEUROSCI.1400-04.2004. The full table of data is also available in Izhikevich, E. M., & Edelman, G. M. (2008). Large-scale model of mammalian thalamocortical systems. Proceedings of the National Academy of Sciences of the United States of America, 105(9), 3593–8. https://doi.org/10.1073/pnas.0712231105.
 																										
 		percent of cells (respect to total area)	number of synapses per neuron	nb1	p2/3	b2/3	nb2/3	ss4(L4)	ss4(L2/3)	p4	b4	nb4	p5(L2/3)	p5(L5/6)	b5	nb5	p6(L4)	p6(L5/6)	b6	nb6	corticocortical	TCs	TCn	TIs	TIn	TRN
 nb1		1.5	8890	10.1	6.3	0.6	1.1	0	0	0.1	0	0	0.1	0	0	0	0	0	0	0	77.6	0	4.1			

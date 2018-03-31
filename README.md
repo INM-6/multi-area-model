@@ -26,11 +26,11 @@ reproduce the results of all three papers.
 The entire framework is summarized in the figure below:
 ![Sketch of the framework](framework_sketch.png)
 
-In principle, we strictly separate the structure of the network
-(defined by population sizes, synapse numbers/indegrees etc.) from its dynamics
-(neuron model, neuron parameters, strength of external
-input, etc.). The complete set of default parameters for all components
-of the framework is defined in `default_params.py`.
+We separate the structure of the network (defined by population sizes,
+synapse numbers/indegrees etc.) from its dynamics (neuron model,
+neuron parameters, strength of external input, etc.). The complete set
+of default parameters for all components of the framework is defined
+in `default_params.py`.
 
 --------------------------------------------------------------------------------
 
@@ -127,8 +127,8 @@ The multi-area model can be run in different modes.
 
 1. Full model
 
-   Simulating the entire networks with all 32 areas and the connections between
-   them is the default mode configure in `default_params.py`.
+   Simulating the entire networks with all 32 areas with default
+   connectivity as defined in `default_params.py`.
 
 2. Down-scaled model
 
@@ -154,13 +154,18 @@ The multi-area model can be run in different modes.
 
 4. Cortico-cortical connections replaced
 
-   In addition, it is possible to replace the cortico-cortical connections between simulated
-   areas with the options `het_poisson_stat` or `current_nonstat`.
+   In addition, it is possible to replace the cortico-cortical
+   connections between simulated areas with the options
+   `het_poisson_stat` or `current_nonstat`. This mode can be used with
+   the full network of 32 areas or for a subset of them (therefore
+   combining this mode with the previous mode 'Subset of the
+   network').
 
 ## Testsuite
 
-The `tests/` folder holds a testsuite that tests different aspects of network model initalization and meanfield calculations.
-It can be conveniently run by executing `pytest` in the `tests/` folder:
+The `tests/` folder holds a testsuite that tests different aspects of
+network model initalization and mean-field calculations. It can be
+conveniently run by executing `pytest` in the `tests/` folder:
 
 	cd tests/
 	pytest
@@ -189,8 +194,11 @@ The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figure
 
 ## Contributors
 
-All authors of the publications [1-3] made contributions to the scientific content.
-The code base was written by Maximilian Schmidt, Jannis Schuecker, and Sacha van Albada. Testing and review was supported by Alexander van Meegen.
+All authors of the publications [1-3] made contributions to the
+scientific content. The code base was written by Maximilian Schmidt,
+Jannis Schuecker, and Sacha van Albada with small contributions from
+Moritz Helias. Testing and review was supported by Alexander van
+Meegen.
 
 ## Citation
 

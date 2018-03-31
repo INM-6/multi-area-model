@@ -1,4 +1,4 @@
-#Taken from Cocomac database (www.cocomac.org), the center of the areas is computed (Details to be clarified) and the distance between two areas is taken to be the euclidian distance between the center points
+# Taken from CoCoMac database (www.cocomac.org), the distance between two areas is taken to be the Euclidian distance between the center points
 
 	V1	V2	V3	VP	V3A	V4	VOT	V4t	MT	FST	PITd	PITv	CITd	CITv	AITd	AITv	STPp	STPa	TF	TH	MSTd	MSTl	PO	PIP	LIP	VIP	MIP	MDP	DP	7a	FEF	46
 V1	0	7.669	10.407	14.918	9.502	20.718	20.303	15.964	17.943	26.424	22.552	25.953	29.645	32.295	35.085	34.961	35.125	34.287	20.186	15.843	13.643	19.724	9.591	4.85	18.223	14.97	12.83	18.891	16.286	21.617	49.116	53.474

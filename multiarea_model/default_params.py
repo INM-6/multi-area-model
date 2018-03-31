@@ -36,7 +36,7 @@ av_indegree_OKusky = raw_data['av_indegree_OKusky']
 Simulation parameters
 """
 sim_params = {
-    # master seed for random
+    # master seed for random number generators
     'master_seed': 0,
     # simulation step (in ms)
     'dt': 0.1,
@@ -62,7 +62,7 @@ network_params = {
     'N_scaling': 1.,
     # Scaling of indegrees
     'K_scaling': 1.,
-    # Full_scale rates for scaling synaptic weights
+    # Full-scale rates for scaling synaptic weights
     'fullscale_rates': None
 }
 
@@ -120,8 +120,7 @@ connection_params = {
     # Whether to apply the stabilization method of
     # Schuecker, Schmidt et al. (2017). Default is False.
     # Options are True to perform the stabilization or
-    # a numpy.ndarray specifying the stabilized matrix or
-    # a tuple of strings where the first component specifies a binary
+    # a string that specifies the name of a binary
     # numpy file containing the connectivity matrix
     'K_stable': False,
 
@@ -132,7 +131,7 @@ connection_params = {
     # the cortico-cortical input is loaded from `replace_cc_input_source`.
     'replace_cc': False,
 
-    # Whether to replace non-simulated areas by poisson sources
+    # Whether to replace non-simulated areas by Poisson sources
     # with the same global rate rate_ext ('hom_poisson_stat') or
     # by specific rates ('het_poisson_stat')
     # or by time-varying specific current ('het_current_nonstat')
@@ -164,7 +163,7 @@ connection_params = {
     # constant --> conserve syn. volume density
     'rho_syn': 'constant',
 
-    # Increase the external poisson indegree onto 5E and 6E
+    # Increase the external Poisson indegree onto 5E and 6E
     'fac_nu_ext_5E': 1.,
     'fac_nu_ext_6E': 1.,
     # to increase the ext. input to 23E and 5E in area TH
@@ -222,7 +221,7 @@ input_params = {
     # synapse type for Poisson input
     'syn_type_ext': 'static_synapse_hpc',
 
-    # Rate of the Poissonian spike generator (in Hz).
+    # Rate of the Poissonian spike generator (in spikes/s).
     'rate_ext': 10.,
 
     # Whether to switch on time-dependent DC input

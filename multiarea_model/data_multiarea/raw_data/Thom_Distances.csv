@@ -1,4 +1,4 @@
-#Taken from Cocomac database (www.cocomac.org), the center of the areas is computed (Details to be clarified) and the distance between two areas is taken to be the distance between the center points, which is computed via a sophisticated method of Thom Oostendorp
+#Taken from CoCoMac database (www.cocomac.org), the distance between two areas is taken to be the distance between the center points, which is computed via a sophisticated method of Thom Oostendorp
 
 	V1	V2	V3	VP	V3A	V4	VOT	V4t	MT	FST	PITd	PITv	CITd	CITv	AITd	AITv	STPp	STPa	TF	TH	MSTd	MSTl	PO	PIP	LIP	VIP	MIP	MDP	DP	7a	FEF	46
 V1	0	18.71	10.685	19.494	9.639	21.216	22.492	16.695	18.994	26.502	23.301	26.687	30.883	34.236	37.03	37.114	36.349	34.388	23.492	20.946	13.495	19.112	8.973	4.904	19.298	15.454	13.004	18.594	17.428	23.416	49.578	52.619

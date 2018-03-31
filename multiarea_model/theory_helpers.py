@@ -4,7 +4,7 @@ theory_helpers
 
 Helper function for the theory class.
 Evaluates the Siegert formula and its
-derivations.
+derivatives.
 
 
 Functions
@@ -15,6 +15,7 @@ Authors
 --------
 Maximilian Schmidt
 Jannis Schuecker
+Moritz Helias
 
 """
 
@@ -29,7 +30,7 @@ def nu0_fb(tau_m, tau_s, tau_r, V_th, V_r, mu, sigma):
     """
     Compute the stationary firing rate of a neuron with synaptic
     filter of time constant tau_s driven by Gaussian white noise, from
-    Fourcoud & Brunel 2002. #
+    Fourcaud & Brunel 2002. #
 
     Parameters
     ----------

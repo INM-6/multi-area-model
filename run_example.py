@@ -16,8 +16,7 @@ Full model. Needs to be simulated with sufficient
 resources, for instance on a compute cluster.
 """
 d = {}
-conn_params = {'replace_non_simulated_areas': 'het_poisson_stat',
-               'g': -11.,
+conn_params = {'g': -11.,
                'K_stable': 'K_stable.npy',
                'fac_nu_ext_TH': 1.2,
                'fac_nu_ext_5E': 1.125,
@@ -32,7 +31,7 @@ network_params = {'N_scaling': 1.,
                   'neuron_params': neuron_params}
 
 sim_params = {'t_sim': 2000.,
-              'num_processes': 360,
+              'num_processes': 720,
               'num_rec_processes': 1,
               'local_num_threads': 1,
               'input_params': input_params,
@@ -51,7 +50,7 @@ start_job(M.simulation.label, submit_cmd, jobscript_template)
 """
 Down-scaled model.
 Neurons and indegrees are both scaled down to 10 %.
-Can be usually simulated on a local machine.
+Can usually be simulated on a local machine.
 
 Warning: This will not yield reasonable dynamical results from the
 network and is only meant to demonstrate the simulation workflow.
