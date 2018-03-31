@@ -57,16 +57,8 @@ def compute_Model_params(out_label='', mode='default'):
 
     # Load and process raw data
     process_raw_data()
-    if sys.argv[-1] in ['local']:
-        raw_fn = os.path.join(basepath, '.'.join(('_'.join('viscortex_raw_data',
-                                                           out_label),
-                                                 'json')))
-        proc_fn = os.path.join(basepath, '.'.join(('_'.join('viscortex_proc_data',
-                                                            out_label),
-                                                  'json')))
-    else:
-        raw_fn = os.path.join(basepath, 'viscortex_raw_data.json')
-        proc_fn = os.path.join(basepath, 'viscortex_processed_data.json')
+    raw_fn = os.path.join(basepath, 'viscortex_raw_data.json')
+    proc_fn = os.path.join(basepath, 'viscortex_processed_data.json')
 
     """
     Load data
@@ -253,7 +245,7 @@ def compute_Model_params(out_label='', mode='default'):
     """
 
     # constants for the connection probability transfer
-    # from Potjans & Diesmann (2104) (PD14)
+    # from Potjans & Diesmann (2014) (PD14)
     sigma = 0.29653208289812366  # mm
     C0 = 0.1429914097112598
 
