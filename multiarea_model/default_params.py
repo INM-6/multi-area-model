@@ -62,7 +62,8 @@ network_params = {
     'N_scaling': 1.,
     # Scaling of indegrees
     'K_scaling': 1.,
-    # Full-scale rates for scaling synaptic weights
+    # Absolute path to the file holding full-scale rates for scaling
+    # synaptic weights
     'fullscale_rates': None
 }
 
@@ -146,6 +147,7 @@ connection_params = {
     # $(replace_cc_input_source)-area-population.npy
     # (e.g. '$(replace_cc_input_source)-V1-23E.npy')
     # contain the time series for each population.
+    # We recommend using absolute paths rather than relative paths.
     'replace_cc_input_source': None,
 
     # whether to redistribute CC synapse to meet literature value

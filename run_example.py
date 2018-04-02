@@ -1,6 +1,9 @@
+import os
+
 from multiarea_model import MultiAreaModel
 from start_jobs import start_job
 from config import submit_cmd, jobscript_template
+from config import base_path
 
 """
 Example script showing how to simulate the multi-area model
@@ -17,7 +20,7 @@ resources, for instance on a compute cluster.
 """
 d = {}
 conn_params = {'g': -11.,
-               'K_stable': 'K_stable.npy',
+               'K_stable': os.path.join(base_path, 'K_stable.npy'),
                'fac_nu_ext_TH': 1.2,
                'fac_nu_ext_5E': 1.125,
                'fac_nu_ext_6E': 1.41666667,
@@ -68,7 +71,7 @@ neuron_params = {'V0_mean': -150.,
                  'V0_sd': 50.}
 network_params = {'N_scaling': 0.01,
                   'K_scaling': 0.01,
-                  'fullscale_rates': 'tests/fullscale_rates.json',
+                  'fullscale_rates': os.path.join(base_path, 'tests/fullscale_rates.json'),
                   'connection_params': conn_params,
                   'neuron_params': neuron_params}
 
