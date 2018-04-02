@@ -26,7 +26,7 @@ import scipy.stats
 import scipy.special
 
 
-def nu0_fb(tau_m, tau_s, tau_r, V_th, V_r, mu, sigma):
+def nu0_fb(mu, sigma, tau_m, tau_s, tau_r, V_th, V_r):
     """
     Compute the stationary firing rate of a neuron with synaptic
     filter of time constant tau_s driven by Gaussian white noise, from

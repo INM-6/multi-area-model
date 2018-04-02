@@ -18,6 +18,7 @@ provedure.
 
 import json
 import pprint
+import multiprocessing
 import nest
 import numpy as np
 
@@ -25,8 +26,10 @@ from copy import copy
 from .default_params import nested_update, theory_params
 from .default_params import check_custom_params
 from dicthash import dicthash
+from functools import partial
 from .multiarea_helpers import create_mask, create_vector_mask, dict_to_vector
 from .theory_helpers import d_nu_d_mu_fb_numeric, d_nu_d_sigma_fb_numeric
+from .theory_helpers import nu0_fb
 
 
 class Theory():
@@ -61,7 +64,7 @@ class Theory():
     def __hash__(self):
         return hash(self.label)
 
-    def integrate_siegert(self, full_output=True):
+    def integrate_siegert_nest(self, full_output=True):
         """
         Integrate siegert formula to obtain stationary rates. See Eq. (3)
         and following in Schuecker, Schmidt et al. (2017).
@@ -184,6 +187,99 @@ class Theory():
         else:
             return self.network.structure_vec, rates
 
+    def integrate_siegert_python(self, full_output=True, parallel=True):
+        """
+        Integrate siegert formula to obtain stationary rates. See Eq. (3)
+        and following in Schuecker, Schmidt et al. (2017).
+
+        Use Runge-Kutta in Python.
+        """
+        dt = self.params['dt']
+        T = self.params['T']
+        K = copy(self.network.K_matrix)
+        tau = self.NP['tau_m'] * 1e-3
+        dim = np.shape(K)[0]
+
+        # Set initial rates of neurons:
+        # If defined as None, set them 0
+        if self.params['initial_rates'] is None:
+            num_iter = 1
+            gen = (np.zeros(dim) for ii in range(num_iter))
+        # iterate over different initial conditions drawn from a random distribution
+        elif self.params['initial_rates'] == 'random_uniform':
+                gen = self.initial_rates(self.params['initial_rates_iter'],
+                                         dim,
+                                         mode=self.params['initial_rates'],
+                                         rate_max=1000.)
+                num_iter = self.params['initial_rates_iter']
+        # initial rates are explicitly defined in self.params
+        elif isinstance(self.params['initial_rates'], np.ndarray):
+                num_iter = 1
+                gen = (self.params['initial_rates'] for ii in range(num_iter))
+
+        rates = []
+        # Loop over all iterations of different initial conditions
+        for nsim in range(num_iter):
+            print("Iteration {}".format(nsim))
+            initial_rates = next(gen)
+
+            self.t = np.arange(0, T, dt)
+            y = np.zeros((len(self.t), dim), dtype=float)
+            y[0, :] = initial_rates
+
+            # Integration loop
+            for i, tl in enumerate(self.t[:-1]):
+                print(tl)
+                delta_y, new_mu, new_sigma = self.Phi(
+                    y[i, :], parallel=parallel, return_mu_sigma=True)
+                k1 = delta_y
+                k2 = self.Phi(
+                    y[i, :] + dt * 1e-3 / tau / 2 * k1, parallel=parallel, return_mu_sigma=False)
+                k3 = self.Phi(
+                    y[i, :] + dt * 1e-3 / tau / 2 * k2, parallel=parallel, return_mu_sigma=False)
+                k4 = self.Phi(
+                    y[i, :] + dt * 1e-3 / tau * k3, parallel=parallel, return_mu_sigma=False)
+                y[i + 1, :] = y[i, :].copy() + dt * 1e-3 / 6. * (k1 + 2 * k2 + 2 * k3 + k4) / tau
+
+            if full_output:
+                rates.append(y.T)
+            else:
+                # Keep only initial and final rates
+                rates.append(y.T[:, [0, -1]])
+
+        if num_iter == 1:
+            return self.network.structure_vec, rates[0]
+        else:
+            return self.network.structure_vec, rates
+
+    def nu0_fb(self, arg):
+        mu = arg[0]
+        sigma = arg[1]
+        return nu0_fb(mu, sigma,
+                      self.NP['tau_m'] * 1e-3,
+                      self.NP['tau_syn'] * 1e-3,
+                      self.NP['t_ref'] * 1e-3,
+                      self.NP['theta'],
+                      self.NP['V_reset'])
+
+    def Phi(self, rates, parallel=False,
+            return_mu_sigma=False, return_leak=True):
+        mu, sigma = self.mu_sigma(rates, external=True)
+        if parallel:
+            pool = multiprocessing.Pool(processes=4)
+            new_rates = np.array(
+                pool.map(self.nu0_fb, zip(mu, sigma)))
+            pool.close()
+            pool.join()
+        else:
+            new_rates = [self.nu0_fb((m, s)) for m, s in zip(mu, sigma)]
+        if return_leak:
+            new_rates -= rates
+        if return_mu_sigma:
+            return (new_rates), mu, sigma
+        else:
+            return (new_rates)
+
     def replace_cc_input(self):
         """
         Helper function to replace cortico-cortical input by different variants.
@@ -233,7 +329,7 @@ class Theory():
             n += 1
 
     def mu_sigma(self, rates, external=True, matrix_filter=None,
-                 vector_filter=None, replace_cc=None):
+                 vector_filter=None):
         """
         Calculates mean and variance according to the
         theory.
@@ -246,8 +342,9 @@ class Theory():
         else:
             K = self.network.K_matrix
             J = self.network.J_matrix
-        if replace_cc is not None:
-            mu_CC, sigma2_CC = self.replace_cc_input(replace_cc)
+        if (self.network.params['connection_params']['replace_cc'] in
+                ['hom_poisson_stat', 'het_poisson_stat']):
+            mu_CC, sigma2_CC = self.replace_cc_input()
             mask = create_mask(self.network.structure, cortico_cortical=True, external=False)
             K[mask] = 0.
         else:
@@ -297,7 +394,7 @@ class Theory():
 
         # Connection probabilities between populations
         C = 1. - (1.-1./(N_pre * N_post))**(K*N_post)
-        mu, sigma = self.mu_sigma(rates, replace_cc=replace_cc)
+        mu, sigma = self.mu_sigma(rates)
 
         if np.any(vector_filter is not None):
             mu = mu[vector_filter]
