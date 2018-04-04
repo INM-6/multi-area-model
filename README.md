@@ -1,4 +1,6 @@
 # Multi-scale spiking network model of macaque visual cortex
+[![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a> [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 ![Model overview](model_construction.png)
 
 This code implements the spiking network model of macaque visual cortex developed
@@ -21,7 +23,6 @@ The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
 
 ## Python framework for the multi-area model
-[![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a>
 
 The entire framework is summarized in the figure below:
 ![Sketch of the framework](framework_sketch.png)
@@ -201,7 +202,6 @@ Moritz Helias. Testing and review was supported by Alexander van
 Meegen.
 
 ## Citation
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
 
