@@ -270,6 +270,7 @@ Theory params
 theory_params = {'neuron_params': neuron_params,
                  'input_params': input_params,
                  'initial_rates': None,
+                 'initial_rates_iter': None,
                  'T': 50.,
                  'dt': 0.1}
 
