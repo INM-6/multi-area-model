@@ -269,9 +269,22 @@ Theory params
 
 theory_params = {'neuron_params': neuron_params,
                  'input_params': input_params,
+                 # Initial rates can be None (start integration at
+                 # zero rates), a numpy.ndarray defining the initial
+                 # rates or 'random_uniform' which leads to randomly
+                 # drawn initial rates from a uniform distribution.
                  'initial_rates': None,
+                 # If 'initial_rates' is set to 'random_uniform',
+                 # 'initial_rates_iter' defines the number of
+                 # different initial conditions
                  'initial_rates_iter': None,
+                 # If 'initial_rates' is set to 'random_uniform',
+                 # 'initial_rates_max' defines the maximum rate of the
+                 # uniform distribution to draw the initial rates from
+                 'initial_rates_max': 1000.,
+                 # The simulation time of the mean-field theory integration
                  'T': 50.,
+                 # The time step of the mean-field theory integration
                  'dt': 0.1}
 
 

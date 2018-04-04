@@ -138,7 +138,7 @@ class Theory():
                 gen = self.initial_rates(self.params['initial_rates_iter'],
                                          dim,
                                          mode=self.params['initial_rates'],
-                                         rate_max=1000.)
+                                         rate_max=self.params['initial_rates_max'])
                 num_iter = self.params['initial_rates_iter']
             # initial rates are explicitly defined in self.params
             elif isinstance(self.params['initial_rates'], np.ndarray):
@@ -321,11 +321,27 @@ class Theory():
     def initial_rates(self, num_iter, dim, mode='random_uniform', rate_max=100., rng_seed=123):
         """
         Helper function to create generator for initial rates
+
+        Parameters
+        ----------
+        num_iter : int
+           Number of elements in generator
+        dim : int
+           Dimension of each element, i.e. number of populations in
+           the network
+        mode : str
+           Mode defining the process to generate each element.
+           Currently only 'random_uniform' is supported: each element
+           is drawn from a uniform distribution
+        rate_max : float
+           Maximal rate for uniform distribution.
+        rng_seed : int
+           Seed for random number generation. Defaults to 123.
         """
-        np.random.seed(rng_seed)
+        rng = np.random.RandomState(seed=rng_seed)
         n = 0
         while n < num_iter:
-            yield rate_max * np.random.rand(dim)
+            yield rate_max * rng.rand(dim)
             n += 1
 
     def mu_sigma(self, rates, external=True, matrix_filter=None,
@@ -333,6 +349,20 @@ class Theory():
         """
         Calculates mean and variance according to the
         theory.
+
+        Parameters
+        ----------
+        rates : numpy.ndarray
+            Stationary rates of the network.
+        external : bool
+            Whether to include external input into the calculation.
+            Defaults to False.
+         matrix_filter : numpy.ndarray
+            Filter to filter for a subset of the network. Defaults to
+            None.
+        vector_filter : numpy.ndarray
+            Filter to filter for a subset of the network. Defaults to
+            None.
         """
         if matrix_filter is not None:
             K = copy(self.network.K_matrix)
@@ -369,9 +399,23 @@ class Theory():
         return mu, sigma
 
     def stability_matrix(self, rates, matrix_filter=None,
-                         vector_filter=None, full_output=False, replace_cc=None):
+                         vector_filter=None, full_output=False):
         """
         Computes stability matrix on the population level.
+
+        Parameters
+        ----------
+        rates : numpy.ndarray
+            Stationary rates of the network.
+        matrix_filter : numpy.ndarray
+            Filter to filter for a subset of the network. Defaults to
+            None.
+        vector_filter : numpy.ndarray
+            Filter to filter for a subset of the network. Defaults to
+            None.
+        full_output : bool
+            Whether to return only the matrix itself or all variables
+            contributing. Defaults to False.
         """
         if np.any(matrix_filter is not None):
             assert(np.any(vector_filter is not None))
@@ -432,21 +476,34 @@ class Theory():
             return M
 
     def lambda_max(self, rates, matrix_filter=None,
-                   vector_filter=None, full_output=False, replace_cc=None):
+                   vector_filter=None, full_output=False):
         """
         Computes radius of eigenvalue spectrum of the stability matrix.
+
+        Parameters
+        ----------
+        rates : numpy.ndarray
+            Stationary rates of the network.
+        matrix_filter : numpy.ndarray
+            Filter to filter for a subset of the network. Defaults to
+            None.
+        vector_filter : numpy.ndarray
+            Filter to filter for a subset of the network. Defaults to
+            None.
+        full_output : bool
+            Whether to return only the value itself or all variables
+            contributing. Defaults to False.
         """
         if full_output:
             (M, slope, slope_sigma,
              M, EV, C, V, G_N) = self.stability_matrix(rates,
                                                        matrix_filter=matrix_filter,
                                                        vector_filter=vector_filter,
-                                                       full_output=full_output,
-                                                       replace_cc=replace_cc)
+                                                       full_output=full_output)
         else:
             M = self.stability_matrix(rates, matrix_filter=matrix_filter,
                                       vector_filter=vector_filter,
-                                      full_output=full_output, replace_cc=replace_cc)
+                                      full_output=full_output)
         EV = np.linalg.eig(M)
         lambda_max = np.sqrt(np.max(np.real(EV[0])))
         if full_output:
