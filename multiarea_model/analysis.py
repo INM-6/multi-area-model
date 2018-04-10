@@ -282,7 +282,7 @@ class Analysis:
                                  pops=params['pops'])
         elements = [('histogram',), ('stats-mu',), ('stats-sigma',)]
         iter_list = [tuple(chain.from_iterable(prod)) for
-                     prod in product(iterator, elements)]
+                     prod in product(copy(iterator), elements)]
         # Check if population rates have been stored with the same parameters
         self.pop_rate_dists = ah._check_stored_data(os.path.join(self.output_dir,
                                                                  'pop_rate_dists'),
