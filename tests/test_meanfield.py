@@ -10,4 +10,4 @@ def test_meanfield():
     network_params = {}
     theory_params = {}
     M0 = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
-    p, r0 = M0.theory.integrate_siegert_nest()
+    p, r0 = M0.theory.integrate_siegert()

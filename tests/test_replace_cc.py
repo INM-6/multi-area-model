@@ -16,7 +16,7 @@ def test_het_poisson_stat_mf():
     network_params = {}
     theory_params = {}
     M0 = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
-    p, r0 = M0.theory.integrate_siegert_nest()
+    p, r0 = M0.theory.integrate_siegert()
 
     rates = vector_to_dict(r0[:, -1], M0.area_list, M0.structure)
     with open('mf_rates.json', 'w') as f:
@@ -26,7 +26,7 @@ def test_het_poisson_stat_mf():
                                             'replace_cc_input_source': 'mf_rates.json'}}
     theory_params = {}
     M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
-    p, r = M.theory.integrate_siegert_nest()
+    p, r = M.theory.integrate_siegert()
 
     assert(np.allclose(r0[:, -1], r[:, -1]))
 
@@ -35,7 +35,7 @@ def test_hom_poisson_stat_mf():
     network_params = {'connection_params': {'replace_cc': 'hom_poisson_stat'}}
     theory_params = {}
     M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
-    p, r = M.theory.integrate_siegert_nest()
+    p, r = M.theory.integrate_siegert()
 
     mu, sigma = M.theory.replace_cc_input()
     # Test for V1

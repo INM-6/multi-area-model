@@ -19,7 +19,7 @@ K0 = M0.K_matrix
 W0 = M0.W_matrix
 N0 = M0.N_vec
 syn0 = M0.syn_matrix
-p, r0 = M0.theory.integrate_siegert_nest()
+p, r0 = M0.theory.integrate_siegert()
 
 d = vector_to_dict(r0[:, -1],
                    M0.area_list,
@@ -39,7 +39,7 @@ K = M.K_matrix
 W = M.W_matrix
 N = M.N_vec
 syn = M.syn_matrix
-p, r = M.theory.integrate_siegert_nest()
+p, r = M.theory.integrate_siegert()
 
 assert(np.allclose(K, network_params['K_scaling'] * K0))
 assert(np.allclose(N, network_params['N_scaling'] * N0))
@@ -58,8 +58,24 @@ sigma0 = np.sqrt(1e-3 * tau_m * np.dot(M0.K_matrix * M0.J_matrix**2, r0_extend))
 sigma = np.sqrt(1e-3 * tau_m * np.dot(M.K_matrix * M.J_matrix**2, r0_extend))
 
 
-p, r0_py = M0.theory.integrate_siegert_python(parallel=False)
-p, r_py = M.theory.integrate_siegert_python(parallel=False)
+r0_alex_loaded = np.load('test_network_scaling_r0.npy')
+r_alex_loaded = np.load('test_network_scaling_r.npy')
+
+network_params = {}
+theory_params = {'initial_rates': r0_alex_loaded[:, -1],
+                 'T': 50.}
+M0_alex = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+p, r0_alex = M0_alex.theory.integrate_siegert()
+
+network_params = {}
+theory_params = {'initial_rates': r_alex_loaded[:, -1],
+                 'T': 50.}
+M0_alex = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+p, r_alex = M0_alex.theory.integrate_siegert()
+
+
+# p, r0_py = M0.theory.integrate_siegert_python(parallel=False)
+# p, r_py = M.theory.integrate_siegert_python(parallel=False)
 
 assert(np.allclose(mu, mu0))
 assert(np.allclose(sigma, sigma0))
