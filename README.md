@@ -191,7 +191,7 @@ In addition, reproducing the figures of [1] requires networkx, python-igraph, py
 
 In addition, Figure 7 of [1] requires installing the `infomap` package to perform the map equation clustering. See <http://www.mapequation.org/code.html> for all necessary information.
 
-The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` is currently not possible because of copyright issues.
+The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
 
 ## Contributors
 

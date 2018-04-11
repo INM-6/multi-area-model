@@ -72,19 +72,20 @@ Maximilian Schmidt
 Sacha van Albada
 
 """
-
 import numpy as np
 import re
 import copy
 import json
 import csv
+import os
+import pandas as pd
+import subprocess
+
+from itertools import product
+from config import base_path
+from nested_dict import nested_dict
 from scipy import stats
 from scipy import integrate
-import os
-import subprocess
-from nested_dict import nested_dict
-from itertools import product
-import pandas as pd
 
 
 def process_raw_data():
@@ -193,7 +194,6 @@ def process_raw_data():
                     pass
     else:
         neuronal_density_data = None
-                    
 
     """
     3. Architectural Types
@@ -1327,12 +1327,22 @@ def process_raw_data():
             res = integrate.quad(integrand, -1000., x, args=(0., 1.))[0]
         return res
 
-    # Call R script to perform SLN fit
-    print("We currently cannot publish the R code because of "
-          "copyright issues, therefore taking hard-coded fit parameters. "
-          "See Schmidt et al. (2018) for a full explanation "
-          "of the procedure.")
-    R_fit = [-0.1516142, -1.5343200]
+    if NEURON_DENSITIES_AVAILABLE:
+        # Call R script to perform SLN fit
+        try:
+            proc = subprocess.Popen(["Rscript",
+                                     os.path.join(basepath, 'SLN_logdensities.R'),
+                                     base_path],
+                                    stdout=subprocess.PIPE)
+            out = proc.communicate()[0].decode('utf-8')
+            R_fit = [float(out.split('\n')[1].split(' ')[1]),
+                     float(out.split('\n')[1].split(' ')[3])]
+        except OSError:
+            print("No R installation, taking hard-coded SLN fit parameters.")
+            R_fit = [-0.1516142, -1.5343200]
+    else:
+        print("Neuron densities not available, taking hard-coded SLN fit parameters.")
+        R_fit = [-0.1516142, -1.5343200]
 
     """
     4. Fill missing data with fitted values.

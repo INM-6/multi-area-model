@@ -3,7 +3,9 @@ import numpy as np
 import json
 import pyx
 import os
+import subprocess
 
+from config import base_path
 from helpers import area_list, population_labels, layer_labels
 from helpers import datapath, raw_datapath
 from scipy import integrate
@@ -141,6 +143,18 @@ if NEURON_DENSITIES_AVAILABLE:
     densities = np.array(data[:, 7], dtype=np.float)
 
     # Call R script to perform SLN fit
+    try:
+        proc = subprocess.Popen(["Rscript",
+                                 os.path.join(datapath, 'SLN_logdensities.R'),
+                                 base_path],
+                                stdout=subprocess.PIPE)
+        out = proc.communicate()[0].decode('utf-8')
+        R_fit = [float(out.split('\n')[1].split(' ')[1]),
+                 float(out.split('\n')[1].split(' ')[3])]
+    except OSError:
+        print("No R installation, taking hard-coded fit parameters.")
+        R_fit = [-0.1516142, -1.5343200]
+
     print("We currently cannot publish the R code because of "
           "copyright issues, there taking hard-coded fit parameters. "
           "See Schmidt et al. (2018) for a full explanation "
