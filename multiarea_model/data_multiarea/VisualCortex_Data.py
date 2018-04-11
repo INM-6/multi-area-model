@@ -400,12 +400,13 @@ def process_raw_data():
     """
     9. SLN data
     """
-    temp = pd.read_csv(os.path.join(datapath, 'RData_prepared_logdensities.txt'),
+    temp = pd.read_csv(os.path.join(datapath, 'SLN_Data.csv'),
                        skiprows=3,
                        sep=' ',
                        names=['index', 'target_area', 'source_area', 'S', 'I',
                               'TOT', 'DIST', 'DENS', 'monkey', 'lFLN', 'SLN',
                               'INJ', 'FLN', 'cSLN'])
+
     SLN_Data = {}
 
     for i in range(0, len(temp)):
