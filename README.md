@@ -206,3 +206,20 @@ Meegen.
 If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
 
 <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="200"/>
+
+## Acknowledgements
+
+We thank Sarah Beul for discussions on cortical architecture; Kenneth Knoblauch for sharing his R code
+for the SLN fit (`multiarea_model/data_multiarea/bbalt.R`); and Susanne Kunkel for help with creating Fig. 3a of [1] (`figures/Schmidt2018/Fig3_syntypes.eps`).
+
+This work was supported by the Helmholtz Portfolio Supercomputing and
+Modeling for the Human Brain (SMHB), the European Union 7th Framework
+Program (Grant 269921, BrainScaleS and 604102, Human Brain Project,
+Ramp up phase) and European Unions Horizon 2020 research and
+innovation program (Grant 720270, Human Brain Project, SGA1), the
+Jülich Aachen Research Alliance (JARA), the Helmholtz young
+investigator group VH-NG-1028,and the German Research Council (DFG
+Grants SFB936/A1,Z1 and TRR169/A2) and computing time granted by the
+JARA-HPC Ver- gabegremium and provided on the JARA-HPC Partition part
+of the supercomputer JUQUEEN (Jülich Supercomputing Centre 2015) at
+Forschungszentrum Jülich (VSR Computation Time Grant JINB33).
