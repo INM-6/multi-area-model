@@ -1,3 +1,4 @@
+
 """
 multiarea_model
 ==============
@@ -163,6 +164,28 @@ class Simulation:
         self.pyrngs = [np.random.RandomState(s) for s in list(range(
             master_seed + vp + 1, master_seed + 2 * (vp + 1)))]
 
+    def create_recording_devices(self):
+        """
+        Create devices for all populations. Depending on the
+        configuration, this will create:
+        - spike detector
+        - voltmeter
+        """
+        self.spike_detector = nest.Create('spike_detector', 1)
+        status_dict = self.params['recording_dict']['spike_dict']
+        label = '-'.join((self.label,
+                          status_dict['label']))
+        status_dict.update({'label': label})
+        nest.SetStatus(self.spike_detector, status_dict)
+
+        if self.params['recording_dict']['record_vm']:
+            self.voltmeter = nest.Create('voltmeter')
+            status_dict = self.params['recording_dict']['vm_dict']
+            label = '-'.join((self.label,
+                              status_dict['label']))
+            status_dict.update({'label': label})
+            nest.SetStatus(self.voltmeter, status_dict)
+
     def create_areas(self):
         """
         Create all areas with their populations and internal connections.
@@ -262,6 +285,7 @@ class Simulation:
         self.time_prepare = t1 - t0
         print("Prepared simulation in {0:.2f} seconds.".format(self.time_prepare))
 
+        self.create_recording_devices()
         self.create_areas()
         t2 = time.time()
         self.time_network_local = t2 - t1
@@ -274,6 +298,8 @@ class Simulation:
         self.time_network_global = t3 - t2
         print("Created cortico-cortical connections in {0:.2f} seconds.".format(
             self.time_network_global))
+
+        self.save_network_gids()
 
         nest.Simulate(self.T)
         t4 = time.time()
@@ -313,12 +339,23 @@ class Simulation:
             with open(fn, 'w') as f:
                 json.dump(d, f)
 
+    def save_network_gids(self):
+        with open(os.path.join(self.data_dir,
+                               'recordings',
+                               'network_gids.txt'), 'w') as f:
+            for area in self.areas:
+                for pop in self.network.structure[area.name]:
+                    f.write("{area},{pop},{g0},{g1}\n".format(area=area.name,
+                                                              pop=pop,
+                                                              g0=area.gids[pop][0],
+                                                              g1=area.gids[pop][1]))
+
     def register_runtime(self):
         if sumatra_found:
             register_runtime(self.label)
         else:
-            raise ImportWarning('Sumatra is not installed, so'
-                                'cannot register the runtime.')
+            raise ImportWarning('Sumatra is not installed, the '
+                                'runtime cannot be registered.')
 
 
 class Area:
@@ -364,7 +401,7 @@ class Area:
             self.external_synapses[pop] = self.network.K[self.name][pop]['external']['external']
 
         self.create_populations()
-        self.create_devices()
+        self.connect_devices()
         self.connect_populations()
         print("Rank {}: created area {} with {} local nodes".format(nest.Rank(),
                                                                     self.name,
@@ -438,49 +475,20 @@ class Area:
                 self,
                 self)
 
-    def create_devices(self):
-        """
-        Create devices for all populations. Depending on the
-        configuration, this will create:
-        - spike detectors
-        - voltmeters
-        - Poisson generators
-        """
+    def connect_devices(self):
         if self.name in self.simulation.params['recording_dict']['areas_recorded']:
-            self.spike_detectors = []
             for pop in self.populations:
-                sd = nest.Create('spike_detector', 1)
-                status_dict = copy(
-                    self.simulation.params['recording_dict']['spike_dict'])
-                label = '-'.join((self.simulation.label,
-                                  status_dict['label'],
-                                  self.name,
-                                  pop))
-                status_dict.update({'label': label})
-                nest.SetStatus(sd, status_dict)
-                self.spike_detectors.append(sd[0])
                 # Always record spikes from all neurons to get correct
                 # statistics
-                nest.Connect(tuple(range(self.gids[pop][0], self.gids[pop][1] + 1)), sd)
+                nest.Connect(tuple(range(self.gids[pop][0], self.gids[pop][1] + 1)),
+                             self.simulation.spike_detector)
 
-            if self.simulation.params['recording_dict']['record_vm']:
-                self.voltmeters = []
-                for pop in self.populations:
-                    vm = nest.Create('voltmeter')
-                    status_dict = copy(
-                        self.simulation.params['recording_dict']['vm_dict'])
-                    label = '-'.join((self.simulation.label,
-                                      status_dict['label'],
-                                      self.name,
-                                      pop))
-                    status_dict.update({'label': label})
-                    nest.SetStatus(vm, status_dict)
-
-                    nrec = int(self.simulation.params['recording_dict']['Nrec_vm_fraction'] *
-                               self.neuron_numbers[pop])
-                    nest.Connect(vm,
-                                 tuple(range(self.gids[pop][0], self.gids[pop][0] + nrec + 1)))
-                    self.voltmeters.append(vm[0])
+        if self.simulation.params['recording_dict']['record_vm']:
+            for pop in self.populations:
+                nrec = int(self.simulation.params['recording_dict']['Nrec_vm_fraction'] *
+                           self.neuron_numbers[pop])
+                nest.Connect(self.simulation.voltmeter,
+                             tuple(range(self.gids[pop][0], self.gids[pop][0] + nrec + 1)))
         if self.simulation.params['input_params']['poisson_input']:
             self.poisson_generators = []
             for pop in self.populations:
