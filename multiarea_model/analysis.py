@@ -100,6 +100,8 @@ class Analysis:
             list of observables to be loaded. Can contain 'spikes' and 'vm'
         """
         rec_dir = os.path.join(self.simulation.data_dir, 'recordings')
+        self.network_gids = pd.read_csv(os.path.join(rec_dir, 'network_gids.txt'),
+                                        names=['area', 'population', 'min_gid', 'max_gid'])
         for data_type in data_list:
             if data_type == 'spikes':
                 columns = ['senders', 'times']
@@ -114,13 +116,6 @@ class Analysis:
             # Check if the data has already been stored in binary file
             for area in self.areas_loaded:
                 data[area] = {}
-                fp = '-'.join((self.simulation.label,
-                               self.simulation.params['recording_dict'][d]['label'],
-                               area,
-                               '*'))
-                files = glob.glob(os.path.join(rec_dir, fp))
-                if len(files) == 0:
-                    continue
                 for pop in self.network.structure[area]:
                     fp = '-'.join((self.simulation.label,
                                    self.simulation.params['recording_dict'][d]['label'],
@@ -131,34 +126,42 @@ class Analysis:
                     try:
                         data[area][pop] = np.load(fn)
                     except FileNotFoundError:
-                        fp = '-'.join((self.simulation.label,
-                                       self.simulation.params['recording_dict'][d]['label'],
-                                       area,
-                                       pop,
-                                       '*'))
-                        files = glob.glob(os.path.join(rec_dir, fp))
-                        dat = pd.DataFrame(columns=columns)
-                        for f in files:
-                            dat = dat.append(pd.read_csv(f,
-                                                         names=columns, sep='\t',
-                                                         index_col=False),
-                                             ignore_index=True)
+                        if not hasattr(self, 'all_spikes'):
+                            fp = '.'.join(('-'.join((self.simulation.label,
+                                                     self.simulation.params[
+                                                         'recording_dict'][d]['label'],
+                                                     '*')),
+                                           'gdf'))
+                            files = glob.glob(os.path.join(rec_dir, fp))
+                            dat = pd.DataFrame(columns=columns)
+                            for f in files:
+                                dat = dat.append(pd.read_csv(f,
+                                                             names=columns, sep='\t',
+                                                             index_col=False),
+                                                 ignore_index=True)
+                            self.all_spikes = dat
+                        print(area, pop)
+                        gids = self.network_gids[(self.network_gids.area == area) &
+                                                 (self.network_gids.population == pop)]
+                        ind = ((self.all_spikes.senders >= gids.min_gid.values[0]) &
+                               (self.all_spikes.senders <= gids.max_gid.values[0]))
+                        dat = self.all_spikes[ind]
+                        self.all_spikes.drop(np.where(ind)[0])
                         np.save(fn, np.array(dat))
                         data[area][pop] = np.array(dat)
-                    # Store spike data to single hdf5 file
-                if data_type == 'spikes':
-                    self.spike_data = data
-                elif data_type == 'vm':
-                    # Sort membrane potentials to reduce data load
-                    self.vm_data = {}
-                    for area in data:
-                        self.vm_data[area] = {}
-                        for pop in data[area]:
-                            neurons, time, vm = ah.sort_membrane_by_id(data[area][pop])
-                            self.vm_data[area][pop] = {'neurons': neurons,
-                                                       'V_m': vm,
-                                                       'time': (time[0], time[-1])}
-                    self._set_num_vm_neurons()
+            if data_type == 'spikes':
+                self.spike_data = data
+            elif data_type == 'vm':
+                # Sort membrane potentials to reduce data load
+                self.vm_data = {}
+                for area in data:
+                    self.vm_data[area] = {}
+                    for pop in data[area]:
+                        neurons, time, vm = ah.sort_membrane_by_id(data[area][pop])
+                        self.vm_data[area][pop] = {'neurons': neurons,
+                                                   'V_m': vm,
+                                                   'time': (time[0], time[-1])}
+                self._set_num_vm_neurons()
 
     def _set_num_vm_neurons(self):
         """
