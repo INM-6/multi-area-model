@@ -136,7 +136,8 @@ class MultiAreaModel:
             self.K = ind
         else:
             if self.params['connection_params']['K_stable'] is True:
-                print('Stabilization procedure has to be integrated.')
+                raise NotImplementedError('Stabilization procedure has '
+                                          'to be integrated.')
             elif isinstance(self.params['connection_params']['K_stable'], np.ndarray):
                 raise ValueError("Not supported. Please store the "
                                  "matrix in a file and define the path to the file as "
@@ -160,7 +161,14 @@ class MultiAreaModel:
         self.label = dicthash.generate_hash_from_dict({'params': self.params,
                                                        'K': self.K,
                                                        'N': self.N,
-                                                       'structure': self.structure})
+                                                       'structure': self.structure},
+                                                      blacklist=[('params', 'fullscale_rates'),
+                                                                 ('params',
+                                                                  'connection_params',
+                                                                  'K_stable'),
+                                                                 ('params',
+                                                                  'connection_params',
+                                                                  'replace_cc_input_source')])
 
         if isinstance(network_spec, dict):
             parameter_fn = os.path.join(base_path,
