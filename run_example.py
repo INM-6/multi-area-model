@@ -35,7 +35,6 @@ network_params = {'N_scaling': 1.,
 
 sim_params = {'t_sim': 2000.,
               'num_processes': 720,
-              'num_rec_processes': 1,
               'local_num_threads': 1,
               'input_params': input_params,
               'recording_dict': {'record_vm': False}}
