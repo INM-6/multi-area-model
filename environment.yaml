@@ -8,4 +8,4 @@ dependencies:
  - scipy
  - pip:
    - nested_dict
-   - https://github.com/INM-6/python-dicthash/archive/master.zip
+   - dicthash
