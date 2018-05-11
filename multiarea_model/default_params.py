@@ -42,8 +42,6 @@ sim_params = {
     'dt': 0.1,
     # simulated time (in ms)
     't_sim': 10.0,
-    # no. of recording processes holding global spike detectors
-    'num_rec_processes': 0,
     # no. of MPI processes:
     'num_processes': 1,
     # no. of threads per MPI process':
