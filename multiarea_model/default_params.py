@@ -228,7 +228,6 @@ input_params = {
     'dc_stimulus': False,
 }
 
-sim_params.update({'input_params': input_params})
 network_params.update({'input_params': input_params})
 
 """
@@ -266,7 +265,6 @@ Theory params
 """
 
 theory_params = {'neuron_params': neuron_params,
-                 'input_params': input_params,
                  # Initial rates can be None (start integration at
                  # zero rates), a numpy.ndarray defining the initial
                  # rates or 'random_uniform' which leads to randomly

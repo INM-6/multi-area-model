@@ -30,7 +30,7 @@ def nu0_fb(mu, sigma, tau_m, tau_s, tau_r, V_th, V_r):
     """
     Compute the stationary firing rate of a neuron with synaptic
     filter of time constant tau_s driven by Gaussian white noise, from
-    Fourcaud & Brunel 2002. #
+    Fourcaud & Brunel 2002.
 
     Parameters
     ----------
@@ -56,7 +56,6 @@ def nu0_fb(mu, sigma, tau_m, tau_s, tau_r, V_th, V_r):
 
     # effective reset
     V_r1 = V_r + sigma * alpha / 2. * np.sqrt(tau_s / tau_m)
-
     # use standard Siegert with modified threshold and reset
     return nu_0(tau_m, tau_r, V_th1, V_r1, mu, sigma)
 
@@ -86,7 +85,6 @@ def nu_0(tau_m, tau_r, V_th, V_r, mu, sigma):
     sigma : float
         Variance of the input current to the neurons in mV
     """
-
     if mu <= V_th + (0.95 * abs(V_th) - abs(V_th)):
         # if  mu <= 0.95*V_th:
         return siegert1(tau_m, tau_r, V_th, V_r, mu, sigma)
