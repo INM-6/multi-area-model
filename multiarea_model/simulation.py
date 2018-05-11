@@ -220,7 +220,7 @@ class Simulation:
             elif replace_non_simulated_areas == 'hom_poisson_stat':
                 non_simulated_cc_input = {source_area_name:
                                           {source_pop:
-                                           self.params['input_params']['rate_ext']
+                                           self.network.params['input_params']['rate_ext']
                                            for source_pop in
                                            self.network.structure[source_area_name]}
                                           for source_area_name in self.network.area_list}
@@ -238,7 +238,7 @@ class Simulation:
         elif replace_cc == 'hom_poisson_stat':
             cc_input = {source_area_name:
                         {source_pop:
-                         self.params['input_params']['rate_ext']
+                         self.network.params['input_params']['rate_ext']
                          for source_pop in
                          self.network.structure[source_area_name]}
                         for source_area_name in self.network.area_list}
