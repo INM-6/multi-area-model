@@ -289,7 +289,7 @@ class Theory:
         if external:
             rates = np.hstack((rates, self.network.params['input_params']['rate_ext']))
         else:
-            rates = np.hstack((rates, np.zeros(self.dim_ext)))
+            rates = np.hstack((rates, np.zeros(1)))
         # if dist:
         #     # due to distributed weights with std = 0.1
         #     J2[:, :7] += 0.01 * J[:, :7] * J[:, :7]
