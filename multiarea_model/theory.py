@@ -152,7 +152,7 @@ class Theory():
 
         # Loop over all iterations of different initial conditions
         for nsim in range(num_iter):
-            print("Iteration {}".format(nsim))
+            print('Iteration: {}'.format(nsim))
             initial_rates = next(gen)
             for ii in range(dim):
                 nest.SetStatus([neurons[ii]], {'rate': initial_rates[ii]})
@@ -344,7 +344,6 @@ class Theory():
             N_post[:, ii] = N
 
         # Connection probabilities between populations
-        C = 1. - (1.-1./(N_pre * N_post))**(K*N_post)
         mu, sigma = self.mu_sigma(rates)
 
         if np.any(vector_filter is not None):
@@ -370,17 +369,14 @@ class Theory():
         slope_matrix = np.zeros_like(J)
         slope_sigma_matrix = np.zeros_like(J)
         for ii in range(N.size):
-            slope_matrix[:, ii] = slope
-            slope_sigma_matrix[:, ii] = slope_sigma
-        V = C*(1-C)
-        G = (self.NP['tau_m'] * 1e-3)**2 * (slope_matrix*J +
-                                            slope_sigma_matrix*J**2)**2
-        G_N = N_pre * G
-        M = G_N * V
+            slope_mu_matrix[:, ii] = d_nu_d_mu
+            slope_sigma_matrix[:, ii] = d_nu_d_sigma
+        G = self.NP['tau_m'] * 1e-3 * (slope_mu_matrix * K * J +
+                                       slope_sigma_matrix * K * J**2)
         if full_output:
-            return M, slope, slope_sigma, M, C, V, G_N, J, N_pre
+            return G, d_nu_d_mu, d_nu_d_sigma
         else:
-            return M
+            return G
 
     def lambda_max(self, rates, matrix_filter=None,
                    vector_filter=None, full_output=False):

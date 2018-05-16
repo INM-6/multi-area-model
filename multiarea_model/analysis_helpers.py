@@ -327,45 +327,6 @@ Analysis functions
 """
 
 
-def online_hist(fname, tmin, tmax, resolution=1.):
-    """
-    Compute spike histogram from gdf file by reading line after line.
-    Avoids reading in the entire file first, which makes it more suitable
-    for very large spike files.
-
-    Parameters
-    ----------
-    fname : string
-        Name of file to be read.
-    tmin : float
-        Minimal time for the calculation of the histogram.
-    tmax : float
-        Maximal time for the calculation of the histogram.
-    resolution : float, optional
-        Bin width of the histogram. Defaults to 1 ms.
-
-    Returns
-    -------
-    bins : numpy.ndarray
-        Array containing the left edges of the histogram bins
-    valyes : numpy.ndarray
-        Array containing the population rate value in each bin
-    """
-    gdf_file = open(fname, 'r')
-    bins = np.arange(tmin, tmax + resolution, resolution) + resolution / 2.
-    vals = np.zeros_like(bins)
-    current_bin_index = 0
-    for l in gdf_file:
-        data = l.split()
-        if np.logical_and(float(data[1]) > tmin, float(data[1]) < tmax):
-            while float(data[1]) >= bins[current_bin_index + 1]:
-                current_bin_index += 1
-            vals[current_bin_index] += 1
-        elif float(data[1]) > tmax:
-            break
-    return bins[:-1], vals[:-1] / (resolution / 1000.)
-
-
 def pop_rate(data_array, t_min, t_max, num_neur):
     """
     Calculates firing rate of a given array of spikes.

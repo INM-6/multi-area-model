@@ -139,9 +139,9 @@ class MultiAreaModel:
                 raise NotImplementedError('Stabilization procedure has '
                                           'to be integrated.')
             elif isinstance(self.params['connection_params']['K_stable'], np.ndarray):
-                raise ValueError("Not supported. Please store the "
-                                 "matrix in a file and define the path to the file as "
-                                 "the parameter value.")
+                raise NotImplementedError("Not supported. Please store the "
+                                          "matrix in a file and define the path to the file as "
+                                          "the parameter value.")
             else:  # Assume that the parameter defines a filename containing the matrix
                 K_stable = np.load(self.params['connection_params']['K_stable'])
             ext = {area: {pop: ind[area][pop]['external'] for pop in
