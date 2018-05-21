@@ -25,16 +25,16 @@ assert(method in ['subsample', 'full', 'auto_kernel'])
 #               (see Method parts of the paper)
 
 load_path = os.path.join(data_path,
-                       label,
-                       'recordings')
+                         label,
+                         'recordings')
 save_path = os.path.join(data_path,
                          label,
                          'Analysis',
                          'rate_time_series_{}'.format(method))
 
 with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
-    par = json.load(f)
-T = par['T']
+    sim_params = json.load(f)
+T = sim_params['T']
 
 """
 Create MultiAreaModel instance to have access to data structures

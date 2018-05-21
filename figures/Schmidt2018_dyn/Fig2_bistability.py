@@ -84,7 +84,7 @@ pl.savefig('Fig2_bistability_mpl.eps')
 """
 Merging files
 """
-pyx.text.set(mode='latex')
+pyx.text.set(cls=pyx.text.LatexRunner)
 pyx.text.preamble(r"\usepackage{helvet}")
 
 c = pyx.canvas.canvas()

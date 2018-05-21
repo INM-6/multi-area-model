@@ -294,7 +294,7 @@ pl.savefig('Fig4_metastability_mpl.eps')
 """
 Merge with sketch figure
 """
-pyx.text.set(mode='latex')
+pyx.text.set(cls=pyx.text.LatexRunner)
 pyx.text.preamble(r"\usepackage{helvet}")
 
 c = pyx.canvas.canvas()

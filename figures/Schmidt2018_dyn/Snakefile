@@ -37,7 +37,8 @@ ORIGINAL_SIMULATIONS = {'all': ['533d73357fbe99f6178029e6054b571b485f40f6',
                         'Fig6': ['33fb5955558ba8bb15a3fdce49dfd914682ef3ea',
                                  '5bdd72887b191ec22a5abcc04ca4a488ea216e32',
                                  '99c0024eacc275d13f719afd59357f7d12f02b77',
-                                 '3afaec94d650c637ef8419611c3f80b3cb3ff539']}
+                                 '3afaec94d650c637ef8419611c3f80b3cb3ff539'],
+                        'Fig7': ['99c0024eacc275d13f719afd59357f7d12f02b77']}
 
 
 if LOAD_ORIGINAL_DATA:
@@ -51,7 +52,8 @@ rule all:
         'Fig3_ground_state_chi1.eps',
         'Fig4_metastability.eps',
         'Fig5_ground_state.eps',
-        'Fig6_comparison_exp_spiking_data.eps'
+        'Fig6_comparison_exp_spiking_data.eps',
+        'Fig7_temporal_hierarchy.eps'
 
 include: './Snakefile_preprocessing'
 
@@ -137,3 +139,14 @@ rule Fig6_comparison_exp_spiking_data:
         'Fig6_comparison_exp_spiking_data.eps'
     shell:
         'python3 Fig6_comparison_exp_spiking_data.py'
+
+rule Fig7_temporal_hierarchy:
+    input:
+        expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'rate_time_series_full', 'rate_time_series_full_{area}.npy'),
+               simulation=SIMULATIONS['Fig7'], area=area_list),
+        expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'cross_correlation', 'cross_correlation_{area1}_{area2}.npy'),
+               simulation=SIMULATIONS['Fig7'], area1=area_list, area2=area_list),
+    output:
+        'Fig7_temporal_hierarchy.eps'
+    shell:
+        'python3 Fig7_temporal_hierarchy.py'
