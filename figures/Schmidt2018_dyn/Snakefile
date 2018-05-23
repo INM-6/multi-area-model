@@ -38,7 +38,18 @@ ORIGINAL_SIMULATIONS = {'all': ['533d73357fbe99f6178029e6054b571b485f40f6',
                                  '5bdd72887b191ec22a5abcc04ca4a488ea216e32',
                                  '99c0024eacc275d13f719afd59357f7d12f02b77',
                                  '3afaec94d650c637ef8419611c3f80b3cb3ff539'],
-                        'Fig7': ['99c0024eacc275d13f719afd59357f7d12f02b77']}
+                        'Fig7': ['99c0024eacc275d13f719afd59357f7d12f02b77'],
+                        'Fig8': ['33fb5955558ba8bb15a3fdce49dfd914682ef3ea',
+                                 '783cedb0ff27240133e3daa63f5d0b8d3c2e6b79',
+                                 '380856f3b32f49c124345c08f5991090860bf9a3',
+                                 '5a7c6c2d6d48a8b687b8c6853fb4d98048681045',
+                                 'c1876856b1b2cf1346430cf14e8d6b0509914ca1',
+                                 'a30f6fba65bad6d9062e8cc51f5483baf84a46b7',
+                                 '1474e1884422b5b2096d3b7a20fd4bdf388af7e0',
+                                 'f18158895a5d682db5002489d12d27d7a974146f',
+                                 '08a3a1a88c19193b0af9d9d8f7a52344d1b17498',
+                                 '5bdd72887b191ec22a5abcc04ca4a488ea216e32',
+                                 '99c0024eacc275d13f719afd59357f7d12f02b77']}
 
 
 if LOAD_ORIGINAL_DATA:
@@ -53,7 +64,8 @@ rule all:
         'Fig4_metastability.eps',
         'Fig5_ground_state.eps',
         'Fig6_comparison_exp_spiking_data.eps',
-        'Fig7_temporal_hierarchy.eps'
+        'Fig7_temporal_hierarchy.eps',
+        'Fig8_interactions.eps'
 
 include: './Snakefile_preprocessing'
 
@@ -150,3 +162,17 @@ rule Fig7_temporal_hierarchy:
         'Fig7_temporal_hierarchy.eps'
     shell:
         'python3 Fig7_temporal_hierarchy.py'
+
+rule Fig8_interactions:
+    input:
+        expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity_synaptic_input.npy'),
+               simulation=SIMULATIONS['Fig8']),
+        expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'FC_synaptic_input_communities.json'),
+               simulation=SIMULATIONS['Fig8'][-1]),
+        expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity_bold_signal.npy'),
+               simulation=SIMULATIONS['Fig8'][-1])
+    output:
+        'Fig8_interactions.eps'
+    shell:
+        'python3 Fig8_interactions.py'
+        

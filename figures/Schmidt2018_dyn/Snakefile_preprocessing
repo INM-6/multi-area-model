@@ -80,3 +80,40 @@ rule cross_correlation:
                      'cross_correlation_{area1}_{area2}.npy')
     shell:
         'python3 compute_cross_correlation.py {} {{wildcards.simulation}} {{wildcards.area1}} {{wildcards.area2}}'.format(DATA_DIR)
+
+rule synaptic_input:
+    input:
+        expand(os.path.join(DATA_DIR, '{{simulation}}', 'Analysis',
+                            'rate_time_series_full',
+                            'rate_time_series_full_{{area}}_{pop}.npy'),
+               pop=population_list),
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'synaptic_input', 'synaptic_input_{area}.npy')
+    shell:
+        'python3 compute_synaptic_input.py {} {{wildcards.simulation}} {{wildcards.area}}'.format(DATA_DIR)
+
+rule functional_connectivity:
+    input:
+        expand(os.path.join(DATA_DIR, '{{simulation}}', 'Analysis', '{{method}}', '{{method}}_{area}.npy'),
+               area=area_list)
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity_{method}.npy')
+    shell:
+        'python3 compute_functional_connectivity.py {} {{wildcards.simulation}} {{wildcards.method}}'.format(DATA_DIR)
+
+rule communities_FC:
+    input:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity.npy')
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'FC_synaptic_input_communities.json')
+    shell:
+        'python3 compute_louvain_communities.py {} {{wildcards.simulation}}'.format(DATA_DIR)
+
+rule bold_signal:
+    input:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'synaptic_input', 'synaptic_input_{area}.npy')
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'bold_signal', 'bold_signal_{area}.npy')
+    shell:
+        'python3 compute_bold_signal.py {} {{wildcards.simulation}} {{wildcards.area}}'.format(DATA_DIR)
+
