@@ -20,6 +20,10 @@ population_labels = ['2/3E', '2/3I', '4E', '4I', '5E', '5I', '6E', '6I']
 layer_labels = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6']
 tex_names = {'23': 'twothree', '4': 'four', '5': 'five', '6': 'six'}
 
+# This path determines the location of the infomap
+# installation and needs to be provided to execute the script for Fig. 7
+infomap_path = None
+
 
 def hierarchical_relation(target_area, source_area, SLN_completed, thresh=(0.35, 0.65)):
     """

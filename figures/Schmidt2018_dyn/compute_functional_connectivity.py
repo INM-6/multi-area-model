@@ -29,6 +29,8 @@ for area in M.area_list:
     fn = os.path.join(load_path,
                       '{}_{}.npy'.format(method, area))
     si = np.load(fn)
+    if method == 'bold_signal':  # Cut off the long initial transient of the BOLD signal
+        si = si[5000:]
     time_series.append(ch.centralize(si, units=True))
 
 D = pdist(time_series, metric='correlation')

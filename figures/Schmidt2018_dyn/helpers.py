@@ -6,3 +6,8 @@ original_data_path = '/media/schmidt/3f02772f-a786-428b-8a91-a22e0745e052/MAM_pa
 chu2014_path = '/home/schmidt/Documents/work/Juelich/manuscripts/multiarea_manuscript/data/Chu2014_data/crcns-pvc5/'
 
 population_labels = ['2/3E', '2/3I', '4E', '4I', '5E', '5I', '6E', '6I']
+
+
+# This path determines the location of the infomap
+# installation and needs to be provided to execute the script for Fig. 7
+infomap_path = '/home/schmidt/opt/infomap'

@@ -29,11 +29,13 @@ T = sim_params['T']
 """
 Create MultiAreaModel instance to have access to data structures
 """
-connection_params = {'cc_weights_factor': sim_params['cc_weights_factor'],
+connection_params = {'g': -11.,
+                     'cc_weights_factor': sim_params['cc_weights_factor'],
                      'cc_weights_I_factor': sim_params['cc_weights_I_factor'],
                      'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
+network_params = {'connection_params': connection_params}
+M = MultiAreaModel(network_params)
 
-M = MultiAreaModel({})
 
 """
 Synaptic filtering kernel
@@ -67,7 +69,7 @@ for pop in M.structure[area]:
                             abs(weight) *
                             M.K[area][pop][source_area][source_pop])
     syn_current = np.convolve(kernel, time_series, mode='same')
-    synaptic_input_list.append(time_series)
+    synaptic_input_list.append(syn_current)
     N_list.append(M.N[area][pop])
 
     fp = '_'.join(('synaptic_input',
@@ -77,7 +79,7 @@ for pop in M.structure[area]:
         os.mkdir(save_path)
     except FileExistsError:
         pass
-    np.save('{}/{}.npy'.format(save_path, fp), time_series)
+    np.save('{}/{}.npy'.format(save_path, fp), syn_current)
 
 synaptic_input_list = np.array(synaptic_input_list)
 area_time_series = np.average(synaptic_input_list, axis=0, weights=N_list)

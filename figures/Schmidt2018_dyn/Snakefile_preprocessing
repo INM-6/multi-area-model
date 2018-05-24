@@ -103,11 +103,19 @@ rule functional_connectivity:
 
 rule communities_FC:
     input:
-        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity.npy')
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity_{method}.npy')
     output:
-        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'FC_synaptic_input_communities.json')
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'FC_{method}_communities.json')
     shell:
-        'python3 compute_louvain_communities.py {} {{wildcards.simulation}}'.format(DATA_DIR)
+        'python3 compute_louvain_communities.py {} {{wildcards.simulation}} {{wildcards.method}}'.format(DATA_DIR)
+
+rule communities_FC_exp:
+    input:
+        'Fig8_exp_func_conn.csv'
+    output:
+        'FC_exp_communities.json'
+    shell:
+        'python3 compute_louvain_communities.py None exp None'
 
 rule bold_signal:
     input:

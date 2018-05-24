@@ -169,6 +169,8 @@ rule Fig8_interactions:
                simulation=SIMULATIONS['Fig8']),
         expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'FC_synaptic_input_communities.json'),
                simulation=SIMULATIONS['Fig8'][-1]),
+        'Fig8_exp_func_conn.csv',
+        'FC_exp_communities.json',
         expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'functional_connectivity_bold_signal.npy'),
                simulation=SIMULATIONS['Fig8'][-1])
     output:

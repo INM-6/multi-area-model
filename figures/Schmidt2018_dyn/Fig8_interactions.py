@@ -1,16 +1,13 @@
 import csv
-import correlation_toolbox.helper as ch
+import copy
 import json
 import numpy as np
 import os
 import pyx
-import scipy.io
 
-from helpers import original_data_path
+from helpers import original_data_path, infomap_path
 from multiarea_model.multiarea_model import MultiAreaModel
 from plotcolors import myred, myblue
-from scipy.spatial.distance import pdist
-from scipy.spatial.distance import squareform
 
 import matplotlib.pyplot as pl
 from matplotlib import gridspec
@@ -60,7 +57,7 @@ for label in ['A', 'B', 'C', 'D', 'E', 'F']:
     if label in ['E', 'F']:
         label_pos = [-0.08, 1.01]
     else:
-        label_pos = [-0.2, 1.01]
+        label_pos = [-0.1, 1.01]
     pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
             fontdict={'fontsize': 16, 'weight': 'bold',
                       'horizontalalignment': 'left', 'verticalalignment':
@@ -88,8 +85,16 @@ Load data
 """
 Create MultiAreaModel instance to have access to data structures
 """
-M = MultiAreaModel({})
-
+conn_params = {'g': -16.,
+               'fac_nu_ext_TH': 1.2,
+               'fac_nu_ext_5E': 1.125,
+               'fac_nu_ext_6E': 1.41666667,
+               'av_indegree_V1': 3950.,
+               'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
+network_params = {'N_scaling': 1.,
+                  'K_scaling': 1.,
+                  'connection_params': conn_params}
+M = MultiAreaModel(network_params)
 
 # Load experimental functional connectivity
 func_conn_data = {}
@@ -111,6 +116,11 @@ exp_FC = np.zeros((len(M.area_list),
 for i, area1 in enumerate(M.area_list):
     for j, area2 in enumerate(M.area_list):
         exp_FC[i][j] = func_conn_data[area1][area2]
+
+fn = 'FC_exp_communities.json'
+with open(fn, 'r') as f:
+    part_exp = json.load(f)
+part_exp_list = [part_exp[area] for area in M.area_list]
 
 
 """
@@ -143,6 +153,14 @@ if LOAD_ORIGINAL_DATA:
                           'functional_connectivity_synaptic_input.npy')
         sim_FC[label] = np.load(fn)
 
+    sim_FC_bold = {}
+    for label in ['99c0024eacc275d13f719afd59357f7d12f02b77']:
+        fn = os.path.join(original_data_path,
+                          label,
+                          'Analysis',
+                          'functional_connectivity_bold_signal.npy')
+        sim_FC_bold[label] = np.load(fn)
+
     label = '99c0024eacc275d13f719afd59357f7d12f02b77'
     fn = os.path.join(original_data_path,
                       label,
@@ -151,23 +169,29 @@ if LOAD_ORIGINAL_DATA:
     with open(fn, 'r') as f:
         part_sim = json.load(f)
     part_sim_list = [part_sim[area] for area in M.area_list]
-    part_sim_index = np.argsort(part_sim_list, kind='heapsort')
+    part_sim_index = np.argsort(part_sim_list, kind='mergesort')
+    # Manually position MDP in between the two clusters for visual purposes
+    ind_MDP = M.area_list.index('MDP')
+    ind_MDP_index = np.where(part_sim_index == ind_MDP)[0][0]
+    part_sim_index = np.append(part_sim_index[:ind_MDP_index], part_sim_index[ind_MDP_index+1:])
+    new_ind_MDP_index = np.where(np.array(part_sim_list)[part_sim_index] == 0.)[0][-1]
+    part_sim_index = np.insert(part_sim_index, new_ind_MDP_index, ind_MDP)
 
-
-# """
-# Load bold signals
-# """
-# label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-# bold_load_path = '../data/'
-# bold = {}
-# base_fn = 'bold_signal_syn_input/bold_signal_syn_input_{}'.format(label)
-# for area in M.area_list:
-#     bold[area] = np.load('{}_{}.npy'.format(base_fn, area))
-
-# data[label].bold_signal = bold
+    
+def zero_diagonal(matrix):
+    """
+    Return copy of a matrix with diagonal set to zero.
+    """
+    M = copy.copy(matrix)
+    for i in range(M.shape[0]):
+        M[i, i] = 0
+    return M
 
 
 def matrix_plot(ax, matrix, index, vlim, pos=None):
+    """
+    Plot matrix into matplotlib axis sorted according to index.
+    """
     ax.yaxis.set_ticks_position('none')
     ax.xaxis.set_ticks_position('none')
 
@@ -210,86 +234,68 @@ ax = axes['A']
 label = '99c0024eacc275d13f719afd59357f7d12f02b77'
 
 
-matrix_plot(ax, sim_FC[label],
-            part_sim_index[::-1], 1., pos=(0, 0))
+matrix_plot(ax, zero_diagonal(sim_FC[label]),
+            part_sim_index, 1., pos=(0, 0))
 
 ax = axes['B']
-matrix_plot(ax, FC_exp,
-            louvain_sim_mat_index[::-1], 1., pos=(0, 1))
+label = '99c0024eacc275d13f719afd59357f7d12f02b77'
 
-# ax = axes['C']
+matrix_plot(ax, zero_diagonal(sim_FC_bold[label]),
+            part_sim_index, 1., pos=(0, 0))
 
-# matrix_plot(ax, exp_FC, louvain_sim_mat_index[::-1], 1., pos=(0, 2))
+ax = axes['C']
+matrix_plot(ax, zero_diagonal(exp_FC),
+            part_sim_index, 1., pos=(0, 2))
 
-# indices = np.array(1. - np.eye(32), dtype=np.bool)
+
+ax = axes['D']
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.yaxis.set_ticks_position("left")
+ax.xaxis.set_ticks_position("bottom")
+
+cc_list = []
+for i, label in enumerate(labels):
+    cc = np.corrcoef(zero_diagonal(sim_FC[label]).flatten(),
+                     zero_diagonal(exp_FC).flatten())[0][1]
+    cc_list.append(cc)
+    
+
+ax.plot(cc_weights_factor[1:], cc_list[1:], '.', ms=10,
+        markeredgecolor='none', label='Sim. vs. Exp.', color='k')
+ax.plot(cc_weights_factor[0], cc_list[0], '^', ms=5,
+        markeredgecolor='none', label='Sim. vs. Exp.', color='k')
+
+label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+cc_bold = np.corrcoef(zero_diagonal(sim_FC_bold[label]).flatten(),
+                      zero_diagonal(exp_FC).flatten())[0][1]
+ax.plot([1.9], cc_bold, '.',
+        ms=10, markeredgecolor='none', color=myred)
+
+# Correlation between exp. FC and structural connectivity
+# Construct the structural connectivity as the matrix of relative
+conn_matrix = np.zeros((len(M.area_list), len(M.area_list)))
+for ii, area1 in enumerate(M.area_list):
+    s = np.sum(list(M.K_areas[area1].values()))
+    for jj, area2 in enumerate(M.area_list):
+        value = M.K_areas[area1][area2] / s
+        conn_matrix[ii][jj] = value
 
 
-# def compute_cc(label, cmp_matrix, measure='synaptic_input'):
-#     ts = []
-#     if measure == 'synaptic_input':
-#         d = data[label].synaptic_input
-#     elif measure == 'bold':
-#         d = data[label].bold_signal
-#     for area in M.area_list:
-#         ts.append(ch.centralize(d[area], units=True))
+cc = np.corrcoef(zero_diagonal(conn_matrix).flatten(),
+                 zero_diagonal(exp_FC).flatten())[0][1]
 
-#     D = pdist(ts, metric='correlation')
-#     correlation_matrix = 1. - squareform(D)
-#     for i in range(32):
-#         correlation_matrix[i][i] = 0.
-
-#     cc = np.corrcoef(correlation_matrix[indices].flatten(),
-#                      cmp_matrix[indices].flatten())[0][1]
-#     return cc
-
-# for k in labels:
-#     cc_exp = compute_cc(k, func_conn)
-#     corrcoeffs['sim_exp'].append(cc_exp)
-#     cc_struct = compute_cc(label, conn_matrix)
-#     corrcoeffs['sim_struct'].append(cc_struct)
-
-# label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-# cc_exp = compute_cc(label, func_conn)
-# cc_struct = compute_cc(label, conn_matrix)
-# ##########################################################################
-
-# ax = axes['D']
-# ax.spines['right'].set_color('none')
-# ax.spines['top'].set_color('none')
-# ax.yaxis.set_ticks_position("left")
-# ax.xaxis.set_ticks_position("bottom")
-
-# ax.plot(cc_weights_factor_100[0], cc_exp, '.',
-#         ms=10, markeredgecolor='none', color='k')
-
-# ax.plot(cc_weights_factor[1:], corrcoeffs[
-#         'sim_exp'][1:], '.', ms=10, markeredgecolor='none', label='Sim. vs. Exp.', color='k')
-# ax.plot(cc_weights_factor[0], corrcoeffs[
-#         'sim_exp'][0], '^', ms=5, markeredgecolor='none', label='Sim. vs. Exp.', color='k')
-
-# cc_bold = compute_cc('99c0024eacc275d13f719afd59357f7d12f02b77', func_conn, measure='bold')
-# ax.plot(cc_weights_factor_100[0], cc_bold, '.',
-#         ms=10, markeredgecolor='none', color=myred)
-
-# print(("Corr. with HiRes",
-#        np.corrcoef(correlation_matrix[indices].flatten(),
-#                    func_conn[indices].flatten())[0][1]))
-# print(("Corr. with HiRes", corrcoeffs['sim_exp']))
-# print(("Corr. of structur with HiRes",
-#        np.corrcoef(conn_matrix[indices].flatten(),
-#                    func_conn[indices].flatten())[0][1]))
-
-# ax.hlines(corrcoeffs['struct_exp'], -0.1,
-#           2.5, linestyle='dashed', color='k')
-# ax.set_xlabel(r'Cortico-cortical weight factor $\chi$',
-#               labelpad=-0.1, size=16)
-# ax.set_ylabel(r'$r_{\mathrm{Pearson}}$', size=16)
-# ax.set_xlim((0.9, 2.7))
-# ax.set_ylim((-0.1, 0.6))
-# ax.set_yticks([0., 0.2, 0.4])
-# ax.set_yticklabels([0., 0.2, 0.4], size=13)
-# ax.set_xticks([1., 1.5, 2., 2.5])
-# ax.set_xticklabels([1., 1.5, 2., 2.5], size=13)
+# Formatting
+ax.hlines(cc, -0.1, 2.5, linestyle='dashed', color='k')
+ax.set_xlabel(r'Cortico-cortical weight factor $\chi$',
+              labelpad=-0.1, size=16)
+ax.set_ylabel(r'$r_{\mathrm{Pearson}}$', size=16)
+ax.set_xlim((0.9, 2.7))
+ax.set_ylim((-0.1, 0.6))
+ax.set_yticks([0., 0.2, 0.4])
+ax.set_yticklabels([0., 0.2, 0.4], size=13)
+ax.set_xticks([1., 1.5, 2., 2.5])
+ax.set_xticklabels([1., 1.5, 2., 2.5], size=13)
 
 
 """
@@ -297,58 +303,55 @@ Save figure
 """
 pl.savefig('Fig8_interactions_mpl.eps')
 
-# """
-# We compare the clusters found in the functional connectivity to
-# clusters found in the structural connectivity of the network. To
-# detect the clusters in the structural connectivity, we repeat the the
-# procedure from Fig. 7 of Schmidt et al. 'Multi-scale account of the
-# network structure of macaque visual cortex' and apply the map equation
-# method (see Materials & Methods in Schmidt et al. 2018) to the
-# structural connectivity of the network.
+"""
+We compare the clusters found in the functional connectivity to
+clusters found in the structural connectivity of the network. To
+detect the clusters in the structural connectivity, we repeat the the
+procedure from Fig. 7 of Schmidt et al. 'Multi-scale account of the
+network structure of macaque visual cortex' and apply the map equation
+method (see Materials & Methods in Schmidt et al. 2018) to the
+structural connectivity of the network.
 
-# This requires installation of the infomap executable and defining the
-# path to the executable.
-# """
-# infomap_path = None
-# filename = 'Fig8_structural_clusters'
-# modules, modules_areas, index = apply_map_equation(M.K_matrix,
-#                                                    M.area_list,
-#                                                    filename='stab',
-#                                                    infomap_path=infomap_path)
-# files = 'Fig8_structural_clusters.map'
-# map_equation_dict = {}
-# with open('{}.map'.format(fn), 'r') as f:
-#     line = ''
-#     while '*Nodes' not in line:
-#         line = f.readline()
-#     line = f.readline()
-#     map_equation = []
-#     map_equation_areas = []
-#     while "*Links" not in line:
-#         map_equation.append(int(line.split(':')[0]))
-#         map_equation_areas.append(line.split('"')[1])
-#         line = f.readline()
-#     f.close()
-#     map_equation = np.array(map_equation)
-#     map_equation_dict[label] = dict(
-#         list(zip(map_equation_areas, map_equation)))
+This requires installation of the infomap executable and defining the
+path to the executable.
+"""
+fn = 'Fig8_structural_clusters'
+modules, modules_areas, index = apply_map_equation(conn_matrix,
+                                                   M.area_list,
+                                                   filename=fn,
+                                                   infomap_path=infomap_path)
+with open('{}.map'.format(fn), 'r') as f:
+    line = ''
+    while '*Nodes' not in line:
+        line = f.readline()
+    line = f.readline()
+    map_equation = []
+    map_equation_areas = []
+    while "*Links" not in line:
+        map_equation.append(int(line.split(':')[0]))
+        map_equation_areas.append(line.split('"')[1])
+        line = f.readline()
+    f.close()
+    map_equation = np.array(map_equation)
+    map_equation_dict = dict(
+        list(zip(map_equation_areas, map_equation)))
 
 # To create the alluvial input, we rename the simulated clusters
-# 1S --> 2S, 2S ---> 1S
-# f = open('alluvial_input.txt', 'w')
-# f.write("area,map_equation, louvain, louvain_exp\n")
-# for i, area in enumerate(M.area_list):
-#     if part_sim_mat[i] == 1:
-#         psm = 2
-#     elif part_sim_mat[i] == 2:
-#         psm = 1
-#     s = '{}, {}, {}, {}, {}'.format(area,
-#                                     map_equation_dict[area],
-#                                     psm,
-#                                     part_exp_mat[i])
-#     f.write(s)
-#     f.write('\n')
-# f.close()
+# 1S --> 2S, 2S ---> 1S for visual purposes
+f = open('alluvial_input.txt', 'w')
+f.write("area,map_equation, louvain, louvain_exp\n")
+for i, area in enumerate(M.area_list):
+    if part_sim_list[i] == 1:
+        psm = 2
+    elif part_sim_list[i] == 0:
+        psm = 1
+    s = '{}, {}, {}, {}'.format(area,
+                                map_equation_dict[area],
+                                psm,
+                                part_exp_list[i])
+    f.write(s)
+    f.write('\n')
+f.close()
 
 # The alluvial plot cannot be created with a script. To reproduce the alluvial
 # plot, go to http://app.rawgraphs.io/ and proceed from there.
