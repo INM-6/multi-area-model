@@ -49,7 +49,9 @@ ORIGINAL_SIMULATIONS = {'all': ['533d73357fbe99f6178029e6054b571b485f40f6',
                                  'f18158895a5d682db5002489d12d27d7a974146f',
                                  '08a3a1a88c19193b0af9d9d8f7a52344d1b17498',
                                  '5bdd72887b191ec22a5abcc04ca4a488ea216e32',
-                                 '99c0024eacc275d13f719afd59357f7d12f02b77']}
+                                 '99c0024eacc275d13f719afd59357f7d12f02b77'],
+                        'Fig8': '99c0024eacc275d13f719afd59357f7d12f02b77',
+                        'Fig9': '99c0024eacc275d13f719afd59357f7d12f02b77'}
 
 
 if LOAD_ORIGINAL_DATA:
@@ -65,7 +67,8 @@ rule all:
         'Fig5_ground_state.eps',
         'Fig6_comparison_exp_spiking_data.eps',
         'Fig7_temporal_hierarchy.eps',
-        'Fig8_interactions.eps'
+        'Fig8_interactions.eps',
+        'Fig9_laminar_interactions.eps'
 
 include: './Snakefile_preprocessing'
 
@@ -178,3 +181,11 @@ rule Fig8_interactions:
     shell:
         'python3 Fig8_interactions.py'
         
+rule Fig9_laminar_interactions:
+    input:
+        expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'granger_causality', 'granger_causality_{area}_{pop}.json'),
+               simulation=SIMULATIONS['Fig9'], area=area_list, pop=population_list)
+    output:
+        'Fig9_laminar_interactions.eps'
+    shell:
+        'python3 Fig9_laminar_interactions.py'

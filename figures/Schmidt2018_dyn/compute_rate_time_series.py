@@ -31,6 +31,10 @@ save_path = os.path.join(data_path,
                          label,
                          'Analysis',
                          'rate_time_series_{}'.format(method))
+try:
+    os.mkdir(save_path)
+except FileExistsError:
+    pass
 
 with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
     sim_params = json.load(f)
@@ -90,10 +94,6 @@ for pop in M.structure[area]:
                    method,
                    area,
                    pop))
-    try:
-        os.mkdir(save_path)
-    except FileExistsError:
-        pass
     np.save('{}/{}.npy'.format(save_path, fp), time_series)
 
 time_series_list = np.array(time_series_list)

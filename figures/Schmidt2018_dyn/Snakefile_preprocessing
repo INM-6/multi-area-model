@@ -34,14 +34,14 @@ rule power_spectrum:
     shell:
         'python3 compute_power_spectrum.py {} {{wildcards.simulation}} {{wildcards.area}} {{wildcards.method}}'.format(DATA_DIR)
 
-rule stationary_rate:
+rule pop_rates:
     input:
         expand(os.path.join(DATA_DIR, '{{simulation}}', 'recordings', 'spikes_{area}_{pop}.npy'),
                area=area_list, pop=population_list)
     output:
         os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'pop_rates.json')
     shell:
-        'python3 compute_stationary_rate.py {{wildcards.simulation}}'.format(DATA_DIR)
+        'python3 compute_pop_rates.py {{wildcards.simulation}}'.format(DATA_DIR)
 
 rule process_chu2014_data:
     input:
@@ -125,3 +125,13 @@ rule bold_signal:
     shell:
         'python3 compute_bold_signal.py {} {{wildcards.simulation}} {{wildcards.area}}'.format(DATA_DIR)
 
+rule granger_causality:
+    input:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis',
+                     'rate_time_series_full', 'rate_time_series_full_{area}_{pop}.npy')
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis',
+                     'granger_causality', 'granger_causality_{area}_{pop}.json')
+    shell:
+        'python3 compute_granger_causality.py {} {{wildcards.simulation}} {{wildcards.area}} {{wildcards.pop}}'.format(DATA_DIR)
+        
