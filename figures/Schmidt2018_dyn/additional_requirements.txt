@@ -1,0 +1,5 @@
+statsmodels
+R
+networkx
+pyx
+python-louvain
