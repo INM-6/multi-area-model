@@ -7,6 +7,12 @@ from multiarea_model import MultiAreaModel
 from scipy.spatial.distance import pdist
 from scipy.spatial.distance import squareform
 
+"""
+Compute the functional connectivity between all areas of a given
+simulation based on their time series of spiking rates or their
+estimated BOLD signal.
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 method = sys.argv[3]

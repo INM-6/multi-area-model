@@ -6,6 +6,11 @@ import correlation_toolbox.helper as ch
 from multiarea_model import MultiAreaModel
 import sys
 
+"""
+Compute correlation coefficients for a subsample
+of neurons for the entire network from raw spike files of a given simulation.
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 
@@ -31,7 +36,7 @@ M = MultiAreaModel({})
 
 spike_data = {}
 cc_dict = {}
-for area in ['V1', 'V2', 'FEF']:
+for area in M.area_list:
     cc_dict[area] = {}
     LvR_list = []
     N = []

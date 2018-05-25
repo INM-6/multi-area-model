@@ -5,6 +5,11 @@ import numpy as np
 import os
 import sys
 
+""" 
+Compute the cross-correlation betwen two given areas from their
+time series of population-averaged spike rates of a given simulation.
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 area1 = sys.argv[3]

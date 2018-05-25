@@ -6,6 +6,12 @@ import sys
 from multiarea_model import MultiAreaModel
 from multiarea_model.analysis_helpers import pop_rate_distribution
 
+
+"""
+Compute histogram of spike rates over single neurons for a given area
+from raw spike files of a given simulation.
+"""
+
 assert(len(sys.argv) == 4)
 data_path = sys.argv[1]
 label = sys.argv[2]

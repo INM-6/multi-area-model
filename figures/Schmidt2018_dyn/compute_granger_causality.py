@@ -9,6 +9,13 @@ from multiarea_model.multiarea_helpers import create_mask
 from scipy.stats import levene
 from statsmodels.tsa.vector_ar.var_model import VAR
 
+
+"""
+Compute the conditional Granger causality to a given population of an
+area based on the population-averaged spike rates from a given
+simulation.
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 area = sys.argv[3]

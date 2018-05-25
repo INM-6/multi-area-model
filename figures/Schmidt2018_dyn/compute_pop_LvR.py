@@ -6,6 +6,11 @@ from multiarea_model.analysis_helpers import pop_LvR
 from multiarea_model import MultiAreaModel
 import sys
 
+"""
+Compute LvR for the entire network from raw spike
+files of a given simulation.
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 

@@ -3,6 +3,12 @@ import os
 import sys
 
 
+"""
+Compute BOLD signal for a given area from the time series of
+population-averaged spike rates of a given simulation using the
+neuRosim package of R (see Schmidt et al. 2018 for more details).
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 area = sys.argv[3]

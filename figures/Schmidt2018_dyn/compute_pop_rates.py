@@ -6,6 +6,11 @@ from multiarea_model.analysis_helpers import pop_rate
 from multiarea_model import MultiAreaModel
 import sys
 
+"""
+Compute stationary spike rates for the entire network from raw spike
+files of a given simulation.
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 
@@ -27,7 +32,7 @@ M = MultiAreaModel({})
 
 spike_data = {}
 pop_rates = {}
-for area in ['V1', 'V2', 'FEF']:
+for area in M.area_list:
     pop_rates[area] = {}
     rate_list = []
     N = []

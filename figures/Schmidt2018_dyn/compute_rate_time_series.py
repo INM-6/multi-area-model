@@ -2,13 +2,23 @@ import json
 import neo
 import numpy as np
 import os
-import pandas as pd
 import quantities as pq
 
 from multiarea_model.analysis_helpers import pop_rate_time_series
 from elephant.statistics import instantaneous_rate
 from multiarea_model import MultiAreaModel
 import sys
+
+"""
+Compute time series of population-averaged spike rates for a given
+area from raw spike files of a given simulation.
+
+Implements three different methods:
+- binned spike histograms on all neurons ('full')
+- binned spike histograms on a subsample of 140 neurons ('subsample')
+- spike histograms convolved with a Gaussian kernel of optimal width
+  after Shimazaki et al. (2010)
+"""
 
 assert(len(sys.argv) == 5)
 

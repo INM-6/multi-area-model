@@ -6,6 +6,18 @@ from multiarea_model import MultiAreaModel
 from multiarea_model.analysis_helpers import centralize
 from scipy.signal import welch
 
+
+"""
+Compute the power spectrum time series for a given area of
+population-averaged spike rates of a given simulation.
+
+The spike rates can be based on three different methods:
+- binned spike histograms on all neurons ('full')
+- binned spike histograms on a subsample of 140 neurons ('subsample')
+- spike histograms convolved with a Gaussian kernel of optimal width
+  after Shimazaki et al. (2010)
+"""
+
 # Parameters for Welch Power Spectral density and spectrogram
 noverlap = 1000
 nperseg = 1024

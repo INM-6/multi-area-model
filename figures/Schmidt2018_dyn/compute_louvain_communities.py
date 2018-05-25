@@ -8,6 +8,13 @@ import sys
 
 from multiarea_model.multiarea_model import MultiAreaModel
 
+"""
+Determines communities in the functional connectivity of either the
+experimental fMRI data used in Schmidt et al. 2018 or of a given
+simulation (the functional connectivity being based either on spike
+rates or an estimated BOLD signal).
+"""
+
 data_path = sys.argv[1]
 label = sys.argv[2]
 method = sys.argv[3]
