@@ -72,8 +72,6 @@ def load_degree_data(fn):
     f.close()
     syn = dat['synapses']
     num = dat['neuron_numbers']
-    # indegrees = copy.deepcopy(syn)  # copy syn dictionary to get its structure
-    # outdegrees = copy.deepcopy(syn)  # copy syn dictionary to get its structure
     indegrees = nested_dict()
     outdegrees = nested_dict()
     for target_area, target_pop, source_area, source_pop in product(complete_area_list,

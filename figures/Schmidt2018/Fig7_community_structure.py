@@ -1,6 +1,6 @@
 import os
 import copy
-from helpers import area_list
+from helpers import area_list, infomap_path
 import numpy as np
 from config import base_path
 from graph_helpers import apply_map_equation, modularity
@@ -62,9 +62,6 @@ g_abs = create_graph(conn_matrix_abs, area_list)
 """
 Determine clusters using the map equation.
 """
-# This path determines the location of the infomap
-# installation and needs to be provided to execute the script
-infomap_path = None
 modules, modules_areas, index = apply_map_equation(
     conn_matrix, area_list, filename='Model', infomap_path=infomap_path)
 
