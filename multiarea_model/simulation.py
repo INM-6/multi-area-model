@@ -431,7 +431,7 @@ class Area:
                               int(self.neuron_numbers[pop]))
             mask = create_vector_mask(self.network.structure, areas=[self.name], pops=[pop])
             I_e = self.network.add_DC_drive[mask][0]
-            if not self.simulation.params['input_params']['poisson_input']:
+            if not self.network.params['input_params']['poisson_input']:
                 K_ext = self.external_synapses[pop]
                 W_ext = self.network.W[self.name][pop]['external']['external']
                 tau_syn = self.network.params['neuron_params']['single_neuron_dict']['tau_syn_ex']
@@ -488,14 +488,14 @@ class Area:
                            self.neuron_numbers[pop])
                 nest.Connect(self.simulation.voltmeter,
                              tuple(range(self.gids[pop][0], self.gids[pop][0] + nrec + 1)))
-        if self.simulation.params['input_params']['poisson_input']:
+        if self.network.params['input_params']['poisson_input']:
             self.poisson_generators = []
             for pop in self.populations:
                 K_ext = self.external_synapses[pop]
                 W_ext = self.network.W[self.name][pop]['external']['external']
                 pg = nest.Create('poisson_generator', 1)
                 nest.SetStatus(
-                    pg, {'rate': self.simulation.params['input_params']['rate_ext'] * K_ext})
+                    pg, {'rate': self.network.params['input_params']['rate_ext'] * K_ext})
                 syn_spec = {'weight': W_ext}
                 nest.Connect(pg,
                              tuple(
