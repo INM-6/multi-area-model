@@ -184,8 +184,65 @@ rule Fig8_interactions:
 rule Fig9_laminar_interactions:
     input:
         expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'granger_causality', 'granger_causality_{area}_{pop}.json'),
-               simulation=SIMULATIONS['Fig9'], area=area_list, pop=population_list)
+               simulation=SIMULATIONS['Fig9'], area=area_list, pop=population_list),
+        'Fig9_{}_significant_channels.json'.format(SIMULATIONS['Fig9']),
+        'Fig9_{}_HL_interactions.eps'.format(SIMULATIONS['Fig9']),
+        'Fig9_{}_HZ_interactions.eps'.format(SIMULATIONS['Fig9']),
+        'Fig9_{}_LH_interactions.eps'.format(SIMULATIONS['Fig9']),
+        'Fig9_{}_HL_paths.eps'.format(SIMULATIONS['Fig9']),
+        'Fig9_{}_HZ_paths.eps'.format(SIMULATIONS['Fig9']),
+        'Fig9_{}_LH_paths.eps'.format(SIMULATIONS['Fig9']),
     output:
         'Fig9_laminar_interactions.eps'
     shell:
         'python3 Fig9_laminar_interactions.py'
+
+rule Fig9_significant_channels:
+    input:
+        expand(os.path.join(DATA_DIR, '{{simulation}}', 'Analysis', 'granger_causality', 'granger_causality_{area}_{pop}.json'),
+               area=area_list, pop=population_list)
+    output:
+        'Fig9_{simulation}_significant_channels.json',
+        'Fig9_tex_files/{simulation}_lw_HL_interactions.tex',
+        'Fig9_tex_files/{simulation}_lw_LH_interactions.tex',
+        'Fig9_tex_files/{simulation}_lw_HZ_interactions.tex'
+    shell:
+        'python3 Fig9_significant_channels.py {} {{wildcards.simulation}}'.format(DATA_DIR)
+
+
+rule Fig9_interactions:
+    input:
+        'Fig9_tex_files/{simulation}_lw_{type}_interactions.tex'
+    output:
+        'Fig9_{simulation}_{type}_interactions.eps'
+    shell:
+        'cd Fig9_tex_files &&'
+        'mv {wildcards.simulation}_lw_{wildcards.type}_interactions.tex lw_{wildcards.type}_interactions.tex &&'
+        'latex {wildcards.type}_interactions.tex &&'
+        'dvipdf {wildcards.type}_interactions.dvi &&'
+        'pdftops -eps {wildcards.type}_interactions.pdf &&'
+        'mv {wildcards.type}_interactions.eps ../Fig9_{wildcards.simulation}_{wildcards.type}_interactions.eps'
+
+rule Fig9_path_analysis:
+    input:
+        expand(os.path.join(DATA_DIR, '{{simulation}}', 'Analysis', 'pop_rates.json'),
+               area=area_list, pop=population_list)
+    output:
+        'Fig9_tex_files/{simulation}_lw_HL_paths.tex',
+        'Fig9_tex_files/{simulation}_lw_LH_paths.tex',
+        'Fig9_tex_files/{simulation}_lw_HZ_paths.tex'
+    shell:
+        'python3 Fig9_path_analysis.py {} {{wildcards.simulation}}'.format(DATA_DIR)
+    
+rule Fig9_paths:
+    input:
+        'Fig9_tex_files/{simulation}_lw_{type}_paths.tex'
+    output:
+        'Fig9_{simulation}_{type}_paths.eps'
+    shell:
+        'cd Fig9_tex_files &&'
+        'mv {wildcards.simulation}_lw_{wildcards.type}_paths.tex lw_{wildcards.type}_paths.tex &&'
+        'latex {wildcards.type}_paths.tex &&'
+        'dvipdf {wildcards.type}_paths.dvi &&'
+        'pdftops -eps {wildcards.type}_paths.pdf &&'
+        'mv {wildcards.type}_paths.eps ../Fig9_{wildcards.simulation}_{wildcards.type}_paths.eps'

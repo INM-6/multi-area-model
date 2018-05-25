@@ -1,5 +1,5 @@
 """
-Snakemake rules for preprocessing of the raw spike data
+Snakemake rules for preprocessing of the simulation data
 """
 
 rule rate_time_series:
@@ -42,6 +42,24 @@ rule pop_rates:
         os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'pop_rates.json')
     shell:
         'python3 compute_pop_rates.py {{wildcards.simulation}}'.format(DATA_DIR)
+
+rule pop_LvR:
+    input:
+        expand(os.path.join(DATA_DIR, '{{simulation}}', 'recordings', 'spikes_{area}_{pop}.npy'),
+               area=area_list, pop=population_list)
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'pop_LvR.json')
+    shell:
+        'python3 compute_pop_LvR.py {{wildcards.simulation}}'.format(DATA_DIR)
+
+rule corrcoeff:
+    input:
+        expand(os.path.join(DATA_DIR, '{{simulation}}', 'recordings', 'spikes_{area}_{pop}.npy'),
+               area=area_list, pop=population_list)
+    output:
+        os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'corrcoeff.json')
+    shell:
+        'python3 compute_corrcoeff.py {{wildcards.simulation}}'.format(DATA_DIR)
 
 rule process_chu2014_data:
     input:

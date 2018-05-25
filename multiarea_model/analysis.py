@@ -635,7 +635,8 @@ class Analysis:
                         d[area][pop] = ah.pop_LvR(self.spike_data[area][pop],
                                                   2.0,
                                                   params['t_min'],
-                                                  params['t_max'])[0]
+                                                  params['t_max'],
+                                                  self.network.N[area][pop])
             self.pop_LvR = d.to_dict()
 
 # ______________________________________________________________________________
