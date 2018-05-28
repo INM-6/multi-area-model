@@ -344,11 +344,8 @@ layout_barplot_axes(axes['HL'])
 C = Counter(HL_single_area_patterns)
 counts = list(C.values())
 # Define order of pairs consistently across panels
-pairs = ['5E', '23E', '4I+23E', '6E']
+pairs = ['5E', '23E', '6E']
 counts = [C[p] for p in pairs]
-# Add 0 value for last pair
-pairs += ['4E+5E']
-counts += [0]
 
 axes['HL'].bar(list(range(len(counts))), counts,
                color=myblue, edgecolor='none')
@@ -362,11 +359,8 @@ layout_barplot_axes(axes['HZ'])
 C = Counter(HZ_single_area_patterns)
 counts = list(C.values())
 # Define order of pairs consistently across panels
-pairs = ['5E', '23E', '4I+23E', '6E']
+pairs = ['5E', '23E', '6E']
 counts = [C[p] for p in pairs]
-# Add 0 value for last pair
-pairs += ['4E+5E']
-counts += [0]
 
 axes['HZ'].bar(list(range(len(counts))), counts,
                color=myblue, edgecolor='none')
@@ -380,7 +374,7 @@ layout_barplot_axes(axes['LH'])
 C = Counter(LH_single_area_patterns)
 counts = list(C.values())
 # Define order of pairs consistently across panels
-pairs = ['5E', '23E', '4I+23E', '6E']
+pairs = ['5E', '23E', '6E']
 counts = [C[p] for p in pairs]
 
 axes['LH'].bar(list(range(len(counts))), counts,
@@ -422,30 +416,16 @@ c.insert(pyx.epsfile.epsfile(0.2, 4.8, "tex/HL_paths.eps", width=5.))
 c.insert(pyx.epsfile.epsfile(6.2, 4.8, "tex/HZ_paths.eps", width=5.))
 c.insert(pyx.epsfile.epsfile(12.2, 4.8, "tex/LH_paths.eps", width=5.))
 
-c.insert(pyx.epsfile.epsfile(0.53, 0.8, "tex/indirect_5E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    1.45, 0.8, "tex/indirect_23E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    2.42, 0.8, "tex/indirect_4E23E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(3.35, 0.8, "tex/indirect_6E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    4.3, 0.8, "tex/indirect_4E5E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(0.98, 0.8, "tex/indirect_5E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(2.48, 0.8, "tex/indirect_23E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(4.0, 0.8, "tex/indirect_6E.eps", width=0.75))
 
-c.insert(pyx.epsfile.epsfile(6.57, 0.8, "tex/indirect_5E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    7.505, 0.8, "tex/indirect_23E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    8.45, 0.8, "tex/indirect_4E23E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    9.375, 0.8, "tex/indirect_6E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    10.3, 0.8, "tex/indirect_4E5E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(7.02, 0.8, "tex/indirect_5E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(8.535, 0.8, "tex/indirect_23E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(10.075, 0.8, "tex/indirect_6E.eps", width=0.75))
 
-c.insert(pyx.epsfile.epsfile(12.6, 0.8, "tex/indirect_5E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    13.83, 0.8, "tex/indirect_23E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(
-    14.97, 0.8, "tex/indirect_4E23E.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(16.2, 0.8, "tex/indirect_6E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(13.0, 0.8, "tex/indirect_5E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(14.5, 0.8, "tex/indirect_23E.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(16.05, 0.8, "tex/indirect_6E.eps", width=0.75))
 
 c.writeEPSfile("Fig8_laminar_paths.eps")
