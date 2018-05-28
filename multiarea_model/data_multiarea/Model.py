@@ -690,9 +690,9 @@ def compute_Model_params(out_label='', mode='default'):
                 elif source_pop in origin_patterns['I']:
                     X = 1.0 - SLN_Data[target_area][source_area]
                     infra_neurons = 0.0
-                    for ii in origin_patterns['I']:
+                    for i in origin_patterns['I']:
                         infra_neurons += neuronal_numbers_fullscale[
-                            source_area][ii]
+                            source_area][i]
                     Y = num_source / infra_neurons
 
             # target side
@@ -721,12 +721,12 @@ def compute_Model_params(out_label='', mode='default'):
                 p_T = np.sum(10 ** tp[np.where(tp > 0.)[0]])
                 Nsyn = 0.0
                 su = 0.
-                for ii in range(len(T)):
-                    if T[ii] in [2, 3]:
+                for i in range(len(T)):
+                    if T[i] in [2, 3]:
                         syn_layer = '23'
                     else:
-                        syn_layer = str(T[ii])
-                    Z = 10 ** tp[np.where(tp > 0.)[0]][ii] / p_T
+                        syn_layer = str(T[i])
+                    Z = 10 ** tp[np.where(tp > 0.)[0]][i] / p_T
                     if target_pop in synapse_to_cell_body[target_area][syn_layer]:
                         Nsyn += synapse_to_cell_body[target_area][syn_layer][
                             target_pop] * Nsyn_tot * FLN_BA * X * Y * Z
@@ -744,9 +744,9 @@ def compute_Model_params(out_label='', mode='default'):
                     T = termination_layers['F']
 
                 p_T = 0.0
-                for ii in T:
-                    if ii != '1':
-                        p_T += laminar_thicknesses[target_area][ii]
+                for i in T:
+                    if i != '1':
+                        p_T += laminar_thicknesses[target_area][i]
 
                 Nsyn = 0.0
                 for syn_layer in T:
@@ -863,23 +863,23 @@ def compute_Model_params(out_label='', mode='default'):
     for area in area_list:
         nonvisual_fraction_matrix = np.zeros(
             (len(structure[area]) + 1, len(structure[area])))
-        for ii in range(len(structure[area])):
+        for i in range(len(structure[area])):
             nonvisual_fraction_matrix[
-                ii] = 1. / len(structure[area]) * np.ones(len(structure[area]))
-            nonvisual_fraction_matrix[ii][ii] -= 1
+                i] = 1. / len(structure[area]) * np.ones(len(structure[area]))
+            nonvisual_fraction_matrix[i][i] -= 1
 
-        for ii in range(len(structure[area])):
+        for i in range(len(structure[area])):
             nonvisual_fraction_matrix[-1][
-                ii] = neuronal_numbers[area][structure[area][ii]]
+                i] = neuronal_numbers[area][structure[area][i]]
 
         vector = np.zeros(len(structure[area]) + 1)
         ext_syn = External_synapses[area]
         vector[-1] = ext_syn
         solution, residues, rank, s = np.linalg.lstsq(
             nonvisual_fraction_matrix, vector)
-        for ii, pop in enumerate(structure[area]):
+        for i, pop in enumerate(structure[area]):
             synapse_numbers[area][pop]['external'] = {
-                'external': solution[ii] * neuronal_numbers[area][pop]}
+                'external': solution[i] * neuronal_numbers[area][pop]}
 
     synapse_numbers['TH']['4E']['external'] = {'external': 0.0}
     synapse_numbers['TH']['4I']['external'] = {'external': 0.0}

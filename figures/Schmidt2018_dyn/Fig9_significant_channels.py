@@ -42,19 +42,18 @@ for area in M.area_list:
 def area_pair_matrix(target_area, source_area):
     matrix = np.nan * np.zeros((len(M.structure[target_area]),
                                 len(M.structure[source_area])))
-    for ii, target_pop in enumerate(M.structure[target_area]):
-        for jj, source_pop in enumerate(M.structure[source_area]):
+    for i, target_pop in enumerate(M.structure[target_area]):
+        for j, source_pop in enumerate(M.structure[source_area]):
             if source_area in gc[target_area][target_pop]:
                 if source_pop in gc[target_area][target_pop][source_area]:
-                    matrix[ii][jj] = gc[target_area][target_pop][source_area][source_pop][1]
+                    matrix[i][j] = gc[target_area][target_pop][source_area][source_pop][1]
     return np.ma.masked_where(np.isnan(matrix), matrix)
 
 
 def significant_pop_pairs(target_area, source_area):
     significant_pop_pairs = []
-    # for ii, target_pop in enumerate(M.structure[target_area]):
-    for ii, target_pop in enumerate(gc[target_area].keys()):
-        for jj, source_pop in enumerate(M.structure[source_area]):
+    for i, target_pop in enumerate(gc[target_area].keys()):
+        for j, source_pop in enumerate(M.structure[source_area]):
             if source_area in gc[target_area][target_pop]:
                 if source_pop in gc[target_area][target_pop][source_area]:
                     if gc[target_area][target_pop][source_area][source_pop][1] < 0.05:

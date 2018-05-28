@@ -55,9 +55,9 @@ Take only neurons of the first 113 electrodes into account which are
 less than 1 mm apart
 """
 ind_mm = []
-for ii, id in enumerate(data_pvc5['ids']):
+for i, id in enumerate(data_pvc5['ids']):
     if int(id_to_channel[id]) <= 112:
-        ind_mm.append(ii)
+        ind_mm.append(i)
 
 np.save(os.path.join(save_path,
                      'spike_data_1mm.npy'),
@@ -135,8 +135,8 @@ for ti in t[ind_high]:
     time_ind_high += list(np.where(np.logical_and(time > 1e3*(ti - 5.),
                                                   time <= 1e3*(ti+5.)))[0])
 
-for ii, (phase, times) in enumerate(zip(['low_fluct', 'high_fluct', 'full'],
-                                        [time_ind_low, time_ind_high, None])):
+for phase, times in zip(['low_fluct', 'high_fluct', 'full'],
+                        [time_ind_low, time_ind_high, None]):
     if times is not None:
         rate = pop_rate[times]
     else:

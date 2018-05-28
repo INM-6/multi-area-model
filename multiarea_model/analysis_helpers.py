@@ -415,13 +415,13 @@ def pop_rate_distribution(data_array, t_min, t_max, num_neur):
     else:  # No spikes in [t_min, t_max]
         n = None
     rates = np.zeros(int(num_neur))
-    ii = 0
+    s = 0
     for i in range(neurons.size):
         if neurons[i] == n:
-            rates[ii] += 1
+            rates[s] += 1
         else:
             n = neurons[i]
-            ii += 1
+            s += 1
     rates /= (t_max - t_min) / 1000.
     vals, bins = np.histogram(rates, bins=100)
     vals = vals / float(np.sum(vals))
@@ -476,10 +476,10 @@ def pop_rate_time_series(data_array, num_neur, t_min, t_max,
         rates = np.array([])
         last_time_step = times[0]
 
-        for ii in range(1, times.size):
+        for i in range(1, times.size):
             rates = np.append(
-                rates, rate[ii - 1] * np.ones_like(np.arange(last_time_step, times[ii], 1.0)))
-            last_time_step = times[ii]
+                rates, rate[i - 1] * np.ones_like(np.arange(last_time_step, times[i], 1.0)))
+            last_time_step = times[i]
 
         time_series = rates
     else:

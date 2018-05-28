@@ -48,12 +48,12 @@ for area in area_list:
             paths[target_pop][source_pop] = []
 
 path_length_matrix = np.zeros((254, 254))
-for ii, source in enumerate(M.structure_vec):
-    for jj, target in enumerate(M.structure_vec):
+for i, source in enumerate(M.structure_vec):
+    for j, target in enumerate(M.structure_vec):
         if target in path_lengths[source]:
-            path_length_matrix[jj][ii] = path_lengths[source][target]
+            path_length_matrix[j][i] = path_lengths[source][target]
         else:
-            path_length_matrix[jj][ii] = np.inf
+            path_length_matrix[j][i] = np.inf
 
 # Create dictionary containing the shortest path between any pair of areas
 CC_paths = {area: {} for area in area_list}
@@ -73,9 +73,9 @@ for target_area in area_list:
 # Create area-level graph
 K_area = np.zeros((32, 32))
 
-for ii, target in enumerate(area_list):
-    for jj, source in enumerate(area_list):
-        K_area[ii][jj] = M.K_areas[target][source]
+for i, target in enumerate(area_list):
+    for j, source in enumerate(area_list):
+        K_area[i][j] = M.K_areas[target][source]
 
 area_gain_matrix = K_area * np.ones_like(K_area) * M.J_matrix[0][0]
 eig = np.linalg.eig(area_gain_matrix)

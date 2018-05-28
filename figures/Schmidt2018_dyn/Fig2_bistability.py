@@ -47,9 +47,9 @@ if LOAD_ORIGINAL_DATA:
 
 labels = ['A', 'B', 'C']
 
-for ii, k in enumerate(['LA', 'HA', 'LA_post']):
-    ax = axes[labels[ii]]
-    ax2 = axes[labels[ii] + '2']
+for i, k in enumerate(['LA', 'HA', 'LA_post']):
+    ax = axes[labels[i]]
+    ax2 = axes[labels[i] + '2']
     print(k)
     matrix = np.zeros((len(M.area_list), 8))
 
@@ -66,11 +66,11 @@ for ii, k in enumerate(['LA', 'HA', 'LA_post']):
 
     matrix = np.transpose(matrix)
 
-    if ii == 0:
+    if i == 0:
         matrix_plot(panel_factory.figure, ax, matrix, position='left')
         rate_histogram_plot(panel_factory.figure, ax2,
                             matrix, position='left')
-    elif ii == 1:
+    elif i == 1:
         matrix_plot(panel_factory.figure, ax, matrix, position='center')
         rate_histogram_plot(panel_factory.figure, ax2,
                             matrix, position='center')

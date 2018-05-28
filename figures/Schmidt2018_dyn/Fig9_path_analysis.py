@@ -78,12 +78,12 @@ for area in M.area_list:
             paths[target_pop][source_pop] = []
 
 path_length_matrix = np.zeros((254, 254))
-for ii, source in enumerate(M.structure_vec):
-    for jj, target in enumerate(M.structure_vec):
+for i, source in enumerate(M.structure_vec):
+    for j, target in enumerate(M.structure_vec):
         if target in path_lengths[source]:
-            path_length_matrix[jj][ii] = path_lengths[source][target]
+            path_length_matrix[j][i] = path_lengths[source][target]
         else:
-            path_length_matrix[jj][ii] = np.inf
+            path_length_matrix[j][i] = np.inf
 
 # Create dictionary containing the shortest path between any pair of areas
 CC_paths = {area: {} for area in M.area_list}

@@ -129,9 +129,9 @@ def process_raw_data():
                             names=['area', 'level'])
 
     hierarchy = {area: level for area, level in hier_temp.values}
-    for ii in hierarchy.keys():
-        if hierarchy[ii] != '?':
-            hierarchy[ii] = float(hierarchy[ii])
+    for i in hierarchy.keys():
+        if hierarchy[i] != '?':
+            hierarchy[i] = float(hierarchy[i])
     hierarchy['MIP'] = .5
     hierarchy['MDP'] = .5
 
@@ -142,9 +142,9 @@ def process_raw_data():
                             names=['area', 'level', 'rescaled level'])
 
     hierarchy_markov = {}
-    for ii in range(len(hier_temp)):
-        hierarchy_markov[hier_temp.iloc[ii]['area']] = {'level': hier_temp.iloc[ii][
-            'level'], 'rescaled level': hier_temp.iloc[ii]['rescaled level']}
+    for i in range(len(hier_temp)):
+        hierarchy_markov[hier_temp.iloc[i]['area']] = {'level': hier_temp.iloc[i][
+            'level'], 'rescaled level': hier_temp.iloc[i]['rescaled level']}
 
     """
     2. Neuronal densities
@@ -203,9 +203,9 @@ def process_raw_data():
                        skiprows=2,
                        names=['area', 'structure'])
     architecture = {area: architecture for area, architecture in temp.values}
-    for ii in architecture:
-        if architecture[ii] != '?':
-            architecture[ii] = int(architecture[ii])
+    for i in architecture:
+        if architecture[i] != '?':
+            architecture[i] = int(architecture[i])
 
     """
     4. Distances
@@ -216,12 +216,12 @@ def process_raw_data():
         temp = next(myreader)
         areas = temp
         median_distance_data = {}
-        for ii in range(1, 82, 1):
+        for i in range(1, 82, 1):
             temp = next(myreader)
             dict_ = {}
             for i in range(1, 82, 1):
                 dict_[areas[i]] = float(temp[i])
-            median_distance_data[areas[ii]] = dict_
+            median_distance_data[areas[i]] = dict_
 
     with open(os.path.join(datapath, 'Thom_Distances.csv'), 'rt') as f:
         myreader = csv.reader(f, delimiter='\t')
@@ -229,12 +229,12 @@ def process_raw_data():
         temp = next(myreader)
         areas = temp
         thom_distance_data = {}
-        for ii in range(1, 33, 1):
+        for i in range(1, 33, 1):
             temp = next(myreader)
             dict_ = {}
             for i in range(1, 33, 1):
                 dict_[areas[i]] = float(temp[i])
-            thom_distance_data[areas[ii]] = dict_
+            thom_distance_data[areas[i]] = dict_
 
     # Distances for area in the parcellation used by Markov et al. (2014)
     with open(os.path.join(datapath, 'Thom_Distances_MERetal12.csv'), 'rt') as f:
@@ -243,12 +243,12 @@ def process_raw_data():
         temp = next(myreader)
         areas = temp
         thom_distance_data_markov = {}
-        for ii in range(1, 93, 1):
+        for i in range(1, 93, 1):
             temp = next(myreader)
             dict_ = {}
             for i in range(1, 93, 1):
                 dict_[areas[i]] = float(temp[i])
-            thom_distance_data_markov[areas[ii]] = dict_
+            thom_distance_data_markov[areas[i]] = dict_
 
     with open(os.path.join(datapath, 'Euclidean_Distances.csv'), 'rt') as f:
         myreader = csv.reader(f, delimiter='\t')
@@ -256,12 +256,12 @@ def process_raw_data():
         temp = next(myreader)
         areas = temp
         euclidean_distance_data = {}
-        for ii in range(1, 33, 1):
+        for i in range(1, 33, 1):
             temp = next(myreader)
             dict_ = {}
             for i in range(1, 33, 1):
                 dict_[areas[i]] = float(temp[i])
-            euclidean_distance_data[areas[ii]] = dict_
+            euclidean_distance_data[areas[i]] = dict_
 
     """
     5. Surface areas
@@ -392,7 +392,7 @@ def process_raw_data():
         myreader = csv.reader(f, delimiter='\t')
         skip_header()
         Intrinsic_FLN_Data = {}
-        for ii in range(4):
+        for i in range(4):
             temp = next(myreader)
             dict_ = {'mean': float(temp[1]), 'error': float(temp[2])}
             Intrinsic_FLN_Data[temp[0]] = dict_
@@ -445,12 +445,12 @@ def process_raw_data():
 
         areas = temp
 
-        for ii in range(1, 9, 1):
+        for i in range(1, 9, 1):
             temp = next(myreader)
             dict_ = {}
             for i in range(1, 10, 1):
                 dict_[areas[i]] = float(temp[i])
-            intrinsic_connectivity[areas[ii]] = dict_
+            intrinsic_connectivity[areas[i]] = dict_
 
     """
     11. Numbers of neurons and external inputs in V1
@@ -459,7 +459,7 @@ def process_raw_data():
         myreader = csv.reader(f, delimiter='\t')
         skip_header()
         num_V1 = {}
-        for ii in range(0, 9, 1):
+        for i in range(0, 9, 1):
             temp = next(myreader)
             num_V1[temp[0]] = {'neurons': float(
                 temp[1]), 'ext_inputs': float(temp[2])}
@@ -473,7 +473,7 @@ def process_raw_data():
         skip_header()
         Laminar_Thickness_cat = {}
 
-        for ii in range(10):
+        for i in range(10):
             temp = next(myreader)
             Laminar_Thickness_cat[temp[0]] = {
                 'thickness': float(temp[1]), 'error': float(temp[2])}
@@ -484,9 +484,9 @@ def process_raw_data():
         myreader = csv.reader(f, delimiter='\t')
         skip_header()
         names = next(myreader)[1:16]
-        for ii in range(0, len(names)):
-            names[ii] = re.sub('L', '', names[ii])
-            names[ii] = re.sub('/', '', names[ii])
+        for i in range(0, len(names)):
+            names[i] = re.sub('L', '', names[i])
+            names[i] = re.sub('/', '', names[i])
         laminar_thicknesses = {}
         line = True
         while line:
@@ -496,29 +496,29 @@ def process_raw_data():
                 line = False
             if temp[0] in laminar_thicknesses:
                 if np.isscalar(laminar_thicknesses[temp[0]][names[0]]):
-                    for jj in range(len(temp) - 3):
-                        if temp[jj + 1]:
-                            laminar_thicknesses[temp[0]][names[jj]] = [
-                                laminar_thicknesses[temp[0]][names[jj]]] + [float(temp[jj + 1])]
+                    for j in range(len(temp) - 3):
+                        if temp[j + 1]:
+                            laminar_thicknesses[temp[0]][names[j]] = [
+                                laminar_thicknesses[temp[0]][names[j]]] + [float(temp[j + 1])]
                         else:
-                            laminar_thicknesses[temp[0]][names[jj]] = [
-                                laminar_thicknesses[temp[0]][names[jj]]] + [np.nan]
+                            laminar_thicknesses[temp[0]][names[j]] = [
+                                laminar_thicknesses[temp[0]][names[j]]] + [np.nan]
                 else:
-                    for jj in range(len(temp) - 3):
-                        if temp[jj + 1]:
-                            laminar_thicknesses[temp[0]][names[jj]] = laminar_thicknesses[
-                                temp[0]][names[jj]] + [float(temp[jj + 1])]
+                    for j in range(len(temp) - 3):
+                        if temp[j + 1]:
+                            laminar_thicknesses[temp[0]][names[j]] = laminar_thicknesses[
+                                temp[0]][names[j]] + [float(temp[j + 1])]
                         else:
-                            laminar_thicknesses[temp[0]][names[jj]] = laminar_thicknesses[
-                                temp[0]][names[jj]] + [np.nan]
+                            laminar_thicknesses[temp[0]][names[j]] = laminar_thicknesses[
+                                temp[0]][names[j]] + [np.nan]
             else:
                 laminar_thicknesses[temp[0]] = {}
-                for jj in range(len(temp) - 3):
-                    if temp[jj + 1]:
+                for j in range(len(temp) - 3):
+                    if temp[j + 1]:
                         laminar_thicknesses[temp[0]
-                                            ][names[jj]] = float(temp[jj + 1])
+                                            ][names[j]] = float(temp[j + 1])
                     else:
-                        laminar_thicknesses[temp[0]][names[jj]] = np.nan
+                        laminar_thicknesses[temp[0]][names[j]] = np.nan
 
     """
     13. Total cortical thicknesses from Barbas lab
@@ -531,7 +531,7 @@ def process_raw_data():
         for area in area_list:
             total_thickness_data[area] = np.nan
 
-        for ii in range(0, 30, 1):
+        for i in range(0, 30, 1):
             temp = next(myreader)
             if temp[4]:
                 total_thickness_data[temp[0]] = float(
@@ -550,8 +550,8 @@ def process_raw_data():
         else:
             translation[i] = np.array([j])
 
-    for ii in translation:
-        translation[ii] = list(np.unique(translation[ii]))
+    for i in translation:
+        translation[i] = list(np.unique(translation[i]))
 
     f = open(os.path.join(datapath, 'overlap.json'), 'r')
     overlap = json.load(f)
@@ -566,7 +566,7 @@ def process_raw_data():
 
         pre_cells = next(myreader)
         binzegger_data = {}
-        for ii in range(1, 38, 1):
+        for i in range(1, 38, 1):
             temp = next(myreader)
             if temp[0] != '':
                 subdict = {}
@@ -574,11 +574,11 @@ def process_raw_data():
                     syn_layer = re.sub("\D", "", re.sub(".*\(", "", temp[0]))
                 else:
                     syn_layer = re.sub("\D", "", temp[1])
-                for jj in range(3, len(temp), 1):
+                for j in range(3, len(temp), 1):
                     try:
-                        subdict[pre_cells[jj]] = float(temp[jj])
+                        subdict[pre_cells[j]] = float(temp[j])
                     except:
-                        subdict[pre_cells[jj]] = temp[jj]
+                        subdict[pre_cells[j]] = temp[j]
                 if temp[0] in binzegger_data:
                     binzegger_data[temp[0]]['syn_dict'].update(
                         {syn_layer: subdict})
@@ -672,26 +672,26 @@ def process_raw_data():
 
         # map Neuronal density data to FV91 scheme
         neuronal_density_data_updated_FV91 = {}
-        for ii in list(neuronal_density_data_updated.keys()):
-            if ii not in area_list:
-                if ii in translation:
-                    areas_FV91 = translation[ii]
+        for i in list(neuronal_density_data_updated.keys()):
+            if i not in area_list:
+                if i in translation:
+                    areas_FV91 = translation[i]
                     for kk in areas_FV91:
                         neuronal_density_data_updated_FV91[
-                            kk] = neuronal_density_data_updated[ii]
+                            kk] = neuronal_density_data_updated[i]
             else:
                 neuronal_density_data_updated_FV91[
-                    ii] = neuronal_density_data_updated[ii]
+                    i] = neuronal_density_data_updated[i]
 
         neuronal_density_data_FV91 = {}
-        for ii in list(neuronal_density_data.keys()):
-            if ii not in area_list:
-                areas_FV91 = translation[ii]
+        for i in list(neuronal_density_data.keys()):
+            if i not in area_list:
+                areas_FV91 = translation[i]
                 for kk in areas_FV91:
-                    neuronal_density_data_FV91[kk] = neuronal_density_data[ii].copy(
+                    neuronal_density_data_FV91[kk] = neuronal_density_data[i].copy(
                     )
             else:
-                neuronal_density_data_FV91[ii] = neuronal_density_data[ii].copy()
+                neuronal_density_data_FV91[i] = neuronal_density_data[i].copy()
 
         # map Neuronal density data to 4 layers by dividing
         neuronal_density_data_FV91_4layers = {}
@@ -700,28 +700,28 @@ def process_raw_data():
                                                            '4': {'value': 0.0, 'error': 0.0},
                                                            '5': 0., '6': 0.}})
 
-        for ii in list(neuronal_density_data_FV91_4layers.keys()):
+        for i in list(neuronal_density_data_FV91_4layers.keys()):
             for layer in ['23', '4', '56']:
-                if neuronal_density_data_FV91[ii][layer]['value'] > 0.:
+                if neuronal_density_data_FV91[i][layer]['value'] > 0.:
                     # Assign equal density to layers 5 and 6
                     if layer == '56':
-                        neuronal_density_data_FV91_4layers[ii]['5'] = neuronal_density_data_FV91[
-                            ii]['56']['value'] * gradient + intercept
-                        neuronal_density_data_FV91_4layers[ii]['6'] = neuronal_density_data_FV91[
-                            ii]['56']['value'] * gradient + intercept
+                        neuronal_density_data_FV91_4layers[i]['5'] = neuronal_density_data_FV91[
+                            i]['56']['value'] * gradient + intercept
+                        neuronal_density_data_FV91_4layers[i]['6'] = neuronal_density_data_FV91[
+                            i]['56']['value'] * gradient + intercept
                     else:
-                        neuronal_density_data_FV91_4layers[ii][layer] = neuronal_density_data_FV91[
-                            ii][layer]['value'] * gradient + intercept
+                        neuronal_density_data_FV91_4layers[i][layer] = neuronal_density_data_FV91[
+                            i][layer]['value'] * gradient + intercept
                 else:
-                    neuronal_density_data_FV91_4layers[ii][layer] = 0.
+                    neuronal_density_data_FV91_4layers[i][layer] = 0.
             # if there is Nissl data, then take it, otherwise
             # transform NeuN data with the linear fit
-            if ii in neuronal_density_data_updated_FV91:
-                neuronal_density_data_FV91_4layers[ii][
-                    'overall'] = neuronal_density_data_updated_FV91[ii]
+            if i in neuronal_density_data_updated_FV91:
+                neuronal_density_data_FV91_4layers[i][
+                    'overall'] = neuronal_density_data_updated_FV91[i]
             else:
-                neuronal_density_data_FV91_4layers[ii]['overall'] = neuronal_density_data_FV91[
-                    ii]['overall']['value'] * gradient + intercept
+                neuronal_density_data_FV91_4layers[i]['overall'] = neuronal_density_data_FV91[
+                    i]['overall']['value'] * gradient + intercept
 
         """
         We build a dictionary containing neuron densities
@@ -760,11 +760,11 @@ def process_raw_data():
 
         for x in range(8):
             dict_ = {}
-            for ii in list(neuronal_density_list[0].keys()):
-                if len(neuronal_density_list[x][ii]) == 0:
-                    dict_[ii] = np.nan
+            for i in list(neuronal_density_list[0].keys()):
+                if len(neuronal_density_list[x][i]) == 0:
+                    dict_[i] = np.nan
                 else:
-                    dict_[ii] = np.mean(neuronal_density_list[x][ii])
+                    dict_[i] = np.mean(neuronal_density_list[x][i])
                 category_density[x + 1] = dict_
 
         # Step 2: For areas with out experimental data,
@@ -1092,24 +1092,24 @@ def process_raw_data():
             sp = cocomac_data[target][source]['source_pattern']
             tp = cocomac_data[target][source]['target_pattern']
             if sp is not None:
-                for ii in range(6):
-                    if sp[ii] == 'X':
-                        sp[ii] = 2
-                    if sp[ii] == '?' and ii in [0, 3]:
-                        sp[ii] = 0
-                    if sp[ii] == '?' and ii in [1, 2, 4, 5]:
+                for i in range(6):
+                    if sp[i] == 'X':
+                        sp[i] = 2
+                    if sp[i] == '?' and i in [0, 3]:
+                        sp[i] = 0
+                    if sp[i] == '?' and i in [1, 2, 4, 5]:
                         # Dummy value to enable transformation of this list into a
                         # numpy array
-                        sp[ii] = -1
+                        sp[i] = -1
 
             if tp is not None:
-                for ii in range(6):
-                    if tp[ii] == 'X':
-                        tp[ii] = 2.
-                    if tp[ii] == '?':
+                for i in range(6):
+                    if tp[i] == 'X':
+                        tp[i] = 2.
+                    if tp[i] == '?':
                         # Dummy value to enable transformation of this list into a
                         # numpy array
-                        tp[ii] = -1
+                        tp[i] = -1
 
             cocomac_completed[target][source] = {
                 'source_pattern': sp, 'target_pattern': tp}
@@ -1322,8 +1322,8 @@ def process_raw_data():
 
     def probit(x,):
         if isinstance(x, np.ndarray):
-            res = [integrate.quad(integrand, -1000., ii,
-                                  args=(0., 1.))[0] for ii in x]
+            res = [integrate.quad(integrand, -1000., i,
+                                  args=(0., 1.))[0] for i in x]
         else:
             res = integrate.quad(integrand, -1000., x, args=(0., 1.))[0]
         return res
