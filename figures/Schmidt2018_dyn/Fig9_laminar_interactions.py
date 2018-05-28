@@ -79,8 +79,8 @@ Bottom row
 gs1 = gridspec.GridSpec(2, 3)
 gs1.update(left=0.1, right=0.95, top=0.95, wspace=0.4, bottom=0.3)
 
-for ii, ax_label in enumerate(['A', 'B']):
-    ax = pl.subplot(gs1[ii:ii + 1, :])
+for i, ax_label in enumerate(['A', 'B']):
+    ax = pl.subplot(gs1[i:i + 1, :])
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.spines['left'].set_color('none')
@@ -122,10 +122,10 @@ for target_area in gc:
             prop[grad]['significant'] += s_sign
 
 colors = ['0.1', '0.1', '0.1', mypurple]
-for ii, typ in enumerate(['HL', 'HZ', 'HL', 'same-area']):
-    ax.bar([(ii + 1) / 5.], [prop[typ]['significant'] / prop[typ]['total']],
+for i, typ in enumerate(['HL', 'HZ', 'HL', 'same-area']):
+    ax.bar([(i + 1) / 5.], [prop[typ]['significant'] / prop[typ]['total']],
            width=0.2,
-           color=colors[ii])
+           color=colors[i])
 
 s_total_overall = 0
 s_sign_overall = 0
@@ -159,7 +159,7 @@ ax.xaxis.set_ticks_position("none")
 balance_EI = {}
 NI_overall = 0
 NE_overall = 0
-for ii, typ in enumerate(['HL', 'HZ', 'HL']):
+for i, typ in enumerate(['HL', 'HZ', 'HL']):
     C = Counter(significant_channels[typ])
     NI, NE = 0, 0
     for channel in C:
@@ -172,7 +172,7 @@ for ii, typ in enumerate(['HL', 'HZ', 'HL']):
     balance_EI[typ] = {'E': float(NE) / (NE + NI),
                        'I': float(NI) / (NE + NI)}
 
-    ax.bar(np.array([0, 1]) + (ii + 1) / 5., [balance_EI[typ]['E'], balance_EI[typ]['I']],
+    ax.bar(np.array([0, 1]) + (i + 1) / 5., [balance_EI[typ]['E'], balance_EI[typ]['I']],
            width=0.2,
            color=[myblue, myred],
            edgecolor='1.')

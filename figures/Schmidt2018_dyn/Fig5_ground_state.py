@@ -153,8 +153,8 @@ ecolor = myblue
 
 frac_neurons = 0.03
 
-for ii, area in enumerate(areas):
-    ax = axes[labels[ii]]
+for i, area in enumerate(areas):
+    ax = axes[labels[i]]
 
     if area in spike_data:
         n_pops = len(spike_data[area])
@@ -204,13 +204,13 @@ for ii, area in enumerate(areas):
 
         
 def set_boxplot_props(d):
-    for ii in range(len(d['boxes'])):
-        if ii % 2 == 0:
-            d['boxes'][ii].set_facecolor(icolor)
-            d['boxes'][ii].set_color(icolor)
+    for i in range(len(d['boxes'])):
+        if i % 2 == 0:
+            d['boxes'][i].set_facecolor(icolor)
+            d['boxes'][i].set_color(icolor)
         else:
-            d['boxes'][ii].set_facecolor(ecolor)
-            d['boxes'][ii].set_color(ecolor)
+            d['boxes'][i].set_facecolor(ecolor)
+            d['boxes'][i].set_color(ecolor)
     pl.setp(d['whiskers'], color='k')
     pl.setp(d['fliers'], color='k', markerfacecolor='k', marker='+')
     pl.setp(d['medians'], color='none')
@@ -340,31 +340,31 @@ colors = ['0.5', '0.3', '0.0']
 t_min = 500.
 t_max = 10000.
 time = np.arange(500., t_max)
-for ii, area in enumerate(areas[::-1]):
-    ax[ii].spines['right'].set_color('none')
-    ax[ii].spines['top'].set_color('none')
-    ax[ii].yaxis.set_ticks_position("left")
-    ax[ii].xaxis.set_ticks_position("none")
+for i, area in enumerate(areas[::-1]):
+    ax[i].spines['right'].set_color('none')
+    ax[i].spines['top'].set_color('none')
+    ax[i].yaxis.set_ticks_position("left")
+    ax[i].xaxis.set_ticks_position("none")
 
     binned_spikes = rate_time_series[area][np.where(
         np.logical_and(time >= t_min, time < t_max))]
-    ax[ii].plot(time, binned_spikes, color=colors[0], label=area)
+    ax[i].plot(time, binned_spikes, color=colors[0], label=area)
     rate = rate_time_series_auto_kernel[area]
-    ax[ii].plot(time, rate, color=colors[2], label=area)
-    ax[ii].set_xlim((500., t_max))
+    ax[i].plot(time, rate, color=colors[2], label=area)
+    ax[i].set_xlim((500., t_max))
 
-    ax[ii].text(0.8, 0.7, area, transform=ax[ii].transAxes)
+    ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
 
-    if ii > 0:
-        ax[ii].spines['bottom'].set_color('none')
-        ax[ii].set_xticks([])
-        ax[ii].set_yticks([0., 30.])
+    if i > 0:
+        ax[i].spines['bottom'].set_color('none')
+        ax[i].set_xticks([])
+        ax[i].set_yticks([0., 30.])
     else:
-        ax[ii].set_xticks([1000., 5000., 10000.])
-        ax[ii].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
-        ax[ii].set_yticks([0., 5.])
-    if ii == 1:
-        ax[ii].set_ylabel(r'Rate (spikes/s)')
+        ax[i].set_xticks([1000., 5000., 10000.])
+        ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
+        ax[i].set_yticks([0., 5.])
+    if i == 1:
+        ax[i].set_ylabel(r'Rate (spikes/s)')
 
 ax[0].set_xlabel('Time (s)', labelpad=-0.05)
 

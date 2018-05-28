@@ -170,8 +170,8 @@ Plotting
 """
 print("Plotting rate time series")
 area = 'V1'
-for ii, (cc, label) in enumerate(zip(chi_list, labels)):
-    ax = ax_rates[ii]
+for i, (cc, label) in enumerate(zip(chi_list, labels)):
+    ax = ax_rates[i]
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.yaxis.set_ticks_position("left")
@@ -182,7 +182,7 @@ for ii, (cc, label) in enumerate(zip(chi_list, labels)):
     ax.set_ylim((-5., 60.))
     ax.set_yticks([5., 40.])
     ax.text(51500., 48., r'$\chi = $' + str(cc))
-    if ii == len(labels) - 1:
+    if i == len(labels) - 1:
         ax.vlines(0., 0., 40.)
         ax.hlines(0., 0., 2.)
 
@@ -191,7 +191,7 @@ for ii, (cc, label) in enumerate(zip(chi_list, labels)):
         ax.set_xticklabels([0, 10, 20, 30, 40, 50])
     else:
         ax.set_xticks([])
-    if ii == 3:
+    if i == 3:
         ax.set_ylabel(r'Rate $(\mathrm{spikes/s})$')
 
 print("Plotting critical eigenvalues")
@@ -246,13 +246,13 @@ ax.set_yticklabels(chi_list[:-1])
 
         
 load_path = 'Fig4_theory_data'
-for ii, cc_weights_factor in enumerate(chi_list):
-    ax = ax_phasespace[ii]
+for i, cc_weights_factor in enumerate(chi_list):
+    ax = ax_phasespace[i]
     ax.spines['right'].set_color('none')
     ax.spines['left'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.set_xticks([0., 5., 35.])
-    if ii != len(labels) - 1:
+    if i != len(labels) - 1:
         ax.set_xticklabels([])
     else:
         ax.set_xlabel(r'Average activity ($\mathrm{spikes/s}$)')

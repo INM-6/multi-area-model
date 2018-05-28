@@ -275,11 +275,11 @@ ax.plot([1.9], cc_bold, '.',
 # Correlation between exp. FC and structural connectivity
 # Construct the structural connectivity as the matrix of relative
 conn_matrix = np.zeros((len(M.area_list), len(M.area_list)))
-for ii, area1 in enumerate(M.area_list):
+for i, area1 in enumerate(M.area_list):
     s = np.sum(list(M.K_areas[area1].values()))
-    for jj, area2 in enumerate(M.area_list):
+    for j, area2 in enumerate(M.area_list):
         value = M.K_areas[area1][area2] / s
-        conn_matrix[ii][jj] = value
+        conn_matrix[i][j] = value
 
 
 cc = np.corrcoef(zero_diagonal(conn_matrix).flatten(),
