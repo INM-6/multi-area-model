@@ -32,39 +32,81 @@ ax = panel_factory.new_empty_panel(
 """
 Load data
 """
-load_path = os.getenv('HOME') + '/datasets_USB/datasets/Simulations/data_dynamics_manuscript/'
-data = {}
 
+# Common parameter settings
+input_params = {'rate_ext': 10.}
+neuron_params = {'V0_mean': -150.,
+                 'V0_sd': 50.}
 
-os.chdir(os.path.join('sim_Model1B_533d73357fbe99f6178029e6054b571b485f40f6'))
-with open('Analysis/pop_rates.json', 'r') as f:
-    data['LA'] = json.load(f)
+sim_params = {'t_sim': 10500.,
+              'num_processes': 720,  # Needs to be adapted to the HPC system used
+              'local_num_threads': 1,  # Needs to be adapted to the HPC system used
+              'recording_dict': {'record_vm': False}}
 
-os.chdir(os.path.join('sim_Model1B_0adda4a542c3d5d43aebf7c30d876b6c5fd1d63e'))
-with open('Analysis/pop_rates.json', 'r') as f:
-    data['HA'] = json.load(f)
+theory_params = {'T': 30.,
+                 'dt': 0.01}
 
+"""
+Simulation with kappa = 1. leading to the low-activity fixed point
+shown in Fig. 4D.
+"""
+d = {}
+conn_params = {'g': -16.,
+               'fac_nu_ext_TH': 1.2,
+               'fac_nu_ext_5E': 1.,
+               'fac_nu_ext_6E': 1.,
+               'av_indegree_V1': 3950.}
+network_params = {'N_scaling': 1.,
+                  'K_scaling': 1.,
+                  'connection_params': conn_params,
+                  'neuron_params': neuron_params,
+                  'input_params': input_params}
 
-labels_top = ['C', 'D']
-labels_bottom = ['E', 'F']
+M_LA = MultiAreaModel(network_params, simulation=True,
+                      sim_spec=sim_params,
+                      analysis=True)
+M_LA.analysis.create_pop_rates()
 
-M = MultiAreaModel({})
+"""
+Simulation with kappa = 1.125 leading to the high-activity fixed point
+shown in Fig. 4E.
+"""
+conn_params = {'g': -16.,
+               'fac_nu_ext_TH': 1.2,
+               'fac_nu_ext_5E': 1.125,
+               'fac_nu_ext_6E': 1.41666667,
+               'av_indegree_V1': 3950.}
+network_params = {'N_scaling': 1.,
+                  'K_scaling': 1.,
+                  'connection_params': conn_params,
+                  'neuron_params': neuron_params}
+
+M_HA = MultiAreaModel(network_params, simulation=True,
+                      sim_spec=sim_params,
+                      analysis=True)
+M_HA.analysis.create_pop_rates()
+
+data = {'LA': M_LA.pop_rates,
+        'HA': M_HA.pop_rates}
 
 """
 Plot data of LA and HA state using
 plot functions define rate_matrix_plot.py
 """
-for ii, k in enumerate(['LA', 'HA']):
+labels_top = ['C', 'D']
+labels_bottom = ['E', 'F']
+
+for i, k in enumerate(['LA', 'HA']):
     ax = panel_factory.new_panel(
-        ii, 2, labels_top[ii], label_position=-0.25)
+        i, 2, labels_top[i], label_position=-0.25)
     ax.yaxis.set_ticks_position('none')
     ax.xaxis.set_ticks_position('bottom')
 
     matrix = np.zeros((len(area_list), 8))
 
     for i, area in enumerate(area_list):
-        for j, pop in enumerate(M.structure['V1'][::-1]):
-            if pop not in M.structure[area]:
+        for j, pop in enumerate(M_LA.structure['V1'][::-1]):
+            if pop not in M_LA.structure[area]:
                 rate = np.nan
             else:
                 rate = data[k][area][pop][0]
@@ -75,9 +117,9 @@ for ii, k in enumerate(['LA', 'HA']):
 
     matrix = np.transpose(matrix)
     ax2 = panel_factory.new_empty_panel(
-        ii, 3, labels_bottom[ii], label_position=-0.2)
+        i, 3, labels_bottom[i], label_position=-0.2)
 
-    if ii == 0:
+    if i == 0:
         rate_matrix_plot(panel_factory.figure, ax, matrix, position='left')
         rate_histogram_plot(panel_factory.figure, ax2,
                             matrix, position='left')
