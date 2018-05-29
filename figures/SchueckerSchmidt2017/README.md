@@ -16,7 +16,7 @@ Specifically, the following deviations can be observed:
 - Generally, we find that the algorithm visits the unstable fixed points in a different order. While the first unstable fixed points (iteration 1) is the same in both cases, the second unstable fixed point differs. This can be seen in Figure 6, but also in Fig. 5D.
 - Figure 4: The minima of the trajectories are sharper and deeper compared to the published Figures in the paper (cf. panel C). This is likely due to the use of a different numerical method and allows better determination of the unstable fixed points.
 - Figure 5: Since the determination of the unstable fixed points is an approximate procedure, its properties are subject to small deviations. This can be seen in the eigenspace (panel A) and the resulting changes (panel B).
-- Figure 7: Panel a shows transitions to the high-activity points at different values of the parameters. The reason for this is that we use a pseudo-time evolution to solve Eq. 1 of Schuecker, Schmidt et al. that follows different trajectories depending on the numerical method and the initial condition.
+- Figure 7: Panel A shows transitions to the high-activity points at different values of the parameters. The reason for this is that we use a pseudo-time evolution to solve Eq. 1 of Schuecker, Schmidt et al. that follows different trajectories depending on the numerical method and the initial condition.
 
 Overall, these differences are not significant and the resulting connectivity matrix exhibits very similar properties to the published results, cf. Fig. 8.
 
