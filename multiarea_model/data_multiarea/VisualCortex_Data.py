@@ -449,7 +449,7 @@ def process_raw_data():
             temp = next(myreader)
             dict_ = {}
             for j in range(1, 10, 1):
-                dict_[areas[j]] = float(temp[j])
+                    dict_[areas[j]] = float(temp[j])
             intrinsic_connectivity[areas[i]] = dict_
 
     """
