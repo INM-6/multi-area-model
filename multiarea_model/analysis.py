@@ -61,7 +61,8 @@ class Analysis:
             Specifies which type of data is to load. Defaults to ['spikes'].
         load_areas : list of strings with area names, optional
             Specifies the areas for which data is to be loaded.
-            Default value is None and leads to loading of data for all areas.
+            Default value is None and leads to loading of data for all
+            simulated areas.
         """
 
         self.network = network
@@ -77,10 +78,10 @@ class Analysis:
 
         self.areas_simulated = self.simulation.areas_simulated
         self.areas_recorded = self.simulation.areas_recorded
-        if load_areas:
-            self.areas_loaded = load_areas
-        else:
+        if load_areas is None:
             self.areas_loaded = self.areas_simulated
+        else:
+            self.areas_loaded = load_areas
 
         assert(all([area in self.areas_recorded for area in
                     self.areas_loaded])), "Tried to load areas which "
@@ -636,7 +637,7 @@ class Analysis:
                                                   2.0,
                                                   params['t_min'],
                                                   params['t_max'],
-                                                  self.network.N[area][pop])
+                                                  int(self.network.N[area][pop]))[0]
             self.pop_LvR = d.to_dict()
 
 # ______________________________________________________________________________
@@ -955,6 +956,7 @@ class Analysis:
         for i in range(0, len(members)):
             if members[i][0] in save_list_json:
                 f = open(self.output_dir + members[i][0] + '.json', 'w')
+                print(members[i][0])
                 json.dump(members[i][1], f)
                 f.close()
             if members[i][0] in save_list_npy:
