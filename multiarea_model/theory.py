@@ -18,7 +18,6 @@ provedure.
 
 import json
 import pprint
-import multiprocessing
 import nest
 import numpy as np
 
@@ -26,13 +25,11 @@ from copy import copy
 from .default_params import nested_update, theory_params
 from .default_params import check_custom_params
 from dicthash import dicthash
-from functools import partial
 from .multiarea_helpers import create_mask, create_vector_mask, dict_to_vector
 from .theory_helpers import d_nu_d_mu_fb_numeric, d_nu_d_sigma_fb_numeric
-from .theory_helpers import nu0_fb
 
 
-class Theory():
+class Theory:
     def __init__(self, network, theory_spec):
         self.params = copy(theory_params)
         check_custom_params(theory_spec, self.params)
@@ -48,7 +45,6 @@ class Theory():
                    'tau_syn': self.params['neuron_params']['single_neuron_dict']['tau_syn_ex'],
                    't_ref': self.params['neuron_params']['single_neuron_dict']['t_ref'],
                    'tau': 1.}
-
         self.label = dicthash.generate_hash_from_dict({'params': self.params,
                                                        'network_label': self.network.label})
 
@@ -71,13 +67,13 @@ class Theory():
         """
         dt = self.params['dt']
         T = self.params['T']
-        rate_ext = self.params['input_params']['rate_ext']
+        rate_ext = self.network.params['input_params']['rate_ext']
         K = copy(self.network.K_matrix)
         J = copy(self.network.J_matrix)
         tau = self.NP['tau_m'] * 1e-3
         dim = np.shape(K)[0]
         nest.ResetKernel()
-        nest.set_verbosity('M_ERROR')
+        nest.set_verbosity('M_FATAL')
         nest.SetKernelStatus({'resolution': dt,
                               'use_wfr': False,
                               'print_time': False,
@@ -85,6 +81,7 @@ class Theory():
         # create neurons for external drive
         drive = nest.Create(
             'siegert_neuron', 1, params={'rate': rate_ext, 'mean': rate_ext})
+
         # create neurons representing populations
         neurons = nest.Create(
             'siegert_neuron', dim, params=self.NP)
@@ -152,14 +149,13 @@ class Theory():
 
         # Loop over all iterations of different initial conditions
         for nsim in range(num_iter):
-            print('Iteration: {}'.format(nsim))
             initial_rates = next(gen)
             for i in range(dim):
                 nest.SetStatus([neurons[i]], {'rate': initial_rates[i]})
 
             # create recording device
             multimeter = nest.Create('multimeter', params={'record_from':
-                                                           ['rate'], 'interval': 1.,
+                                                           ['rate'], 'interval': dt,
                                                            'to_screen': False,
                                                            'to_file': False,
                                                            'to_memory': True})
@@ -202,7 +198,7 @@ class Theory():
                                                      self.network.structure)
         elif self.network.params['connection_params']['replace_cc'] == 'hom_poisson_stat':
             self.cc_input_rates = (np.ones(self.network.K_matrix.shape[0]) *
-                                   self.network.params['input_params']['rate_ext'])
+                                   self.network.network.params['input_params']['rate_ext'])
         for area in self.network.area_list:
             area_dim = len(self.network.structure[area])
             mask = create_mask(self.network.structure,
@@ -289,14 +285,14 @@ class Theory():
             sigma2_CC = np.zeros_like(rates)
         KJ = K * J
         J2 = J * J
+        KJ2 = K * J2
         if external:
-            rates = np.hstack((rates, self.params['input_params']['rate_ext']))
+            rates = np.hstack((rates, self.network.params['input_params']['rate_ext']))
         else:
-            rates = np.hstack((rates, np.zeros(self.dim_ext)))
+            rates = np.hstack((rates, np.zeros(1)))
         # if dist:
         #     # due to distributed weights with std = 0.1
         #     J2[:, :7] += 0.01 * J[:, :7] * J[:, :7]
-        KJ2 = K * J2
         C_m = self.network.params['neuron_params']['single_neuron_dict']['C_m']
         mu = self.NP['tau_m'] * 1e-3 * np.dot(KJ, rates) + mu_CC + self.NP[
             'tau_m'] / C_m * self.network.add_DC_drive
@@ -335,7 +331,7 @@ class Theory():
         return d_nu_d_mu, d_nu_d_sigma
 
     def gain_matrix(self, rates, matrix_filter=None,
-                         vector_filter=None, full_output=False):
+                    vector_filter=None, full_output=False):
         """
         Computes stability matrix on the population level.
 
