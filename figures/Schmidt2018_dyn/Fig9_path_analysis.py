@@ -154,11 +154,6 @@ for target_area in M.area_list:
                 HZ_path_lengths.append(
                     path_lengths[source_pop][target_pop])
 
-# ## Statistics of path stages
-HL_stages = [len(path) for path in HL_paths]
-LH_stages = [len(path) for path in LH_paths]
-HZ_stages = [len(path) for path in HZ_paths]
-
 C = Counter(HL_path_pairs)
 fn = 'Fig9_tex_files/{}_lw_HL_paths.tex'.format(label)
 write_out_lw(fn, C)
