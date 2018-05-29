@@ -50,12 +50,13 @@ network_params = {'N_scaling': 1.,
 ana_spec = {'load_areas': []}
 M = MultiAreaModel(network_params,
                    analysis=True,
+                   ana_spec=ana_spec,
                    simulation=True,
                    sim_spec=sim_params,
                    theory=True,
                    theory_spec=theory_params)
 p, r_stab = M.theory.integrate_siegert()
-M.analysis.create_pop_rates()
+M.analysis.create_pop_rates(areas=M.area_list)
 
 
 """
@@ -83,8 +84,6 @@ for i, area in enumerate(area_list):
 matrix = np.transpose(matrix)
 rate_matrix_plot(panel_factory.figure, ax, matrix, position='left')
 
-print("Meanfield: Area-averaged population rates: ", np.mean(matrix, axis=1))
-
 
 """
 Panel B
@@ -110,8 +109,6 @@ for i, area in enumerate(M.area_list):
 
 matrix_sim = np.transpose(matrix_sim)
 rate_matrix_plot(panel_factory.figure, ax, matrix, position='right')
-
-print("Area-averaged population rates: ", np.mean(matrix, axis=0))
 
 
 """
