@@ -1,0 +1,30 @@
+\documentclass[pstricks=true, preview]{standalone}
+%\documentclass{article}
+
+%%\usepackage{pstricks}
+\usepackage{pst-all}
+\usepackage{graphicx}
+%\usepackage[helvet]{sfmath}
+\renewcommand*{\familydefault}{\sfdefault}
+
+\input{defs.tex}
+\input{define_bools.tex}
+
+\begin{document}
+\begin{figure}
+\begin{pspicture}(6.5,5.)
+\rput[Rt](3.,4.85){\textbf{Horizontal (HZ)}}
+
+\input{define_pops.tex}
+\input{lw_HZ_interactions.tex}
+\input{draw_paths.tex}
+\input{draw_pops.tex}
+
+\end{pspicture}
+\end{figure}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

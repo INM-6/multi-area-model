@@ -70,12 +70,12 @@ median_distance_data = raw['median_distance_data']
 
 cocomac = np.zeros((32, 32))
 conn_matrix = np.zeros((32, 32))
-for ii, area1 in enumerate(area_list[::-1]):
-    for jj, area2 in enumerate(area_list):
+for i, area1 in enumerate(area_list[::-1]):
+    for j, area2 in enumerate(area_list):
         if M.K_areas[area1][area2] > 0. and area2 in cocomac_data[area1]:
-            cocomac[ii][jj] = 1.
+            cocomac[i][j] = 1.
         if area2 in FLN_Data_FV91[area1]:
-            conn_matrix[ii][jj] = FLN_Data_FV91[area1][area2]
+            conn_matrix[i][j] = FLN_Data_FV91[area1][area2]
 
 """
 Panel A: CoCoMac Data
@@ -197,9 +197,9 @@ print(np.corrcoef(gradient * distances_FV91 + intercept, np.log(FLN_values_FV91)
 Panel D: Resulting connectivity matrix
 """
 conn_matrix = np.zeros((32, 32))
-for ii, area1 in enumerate(area_list[::-1]):
-    for jj, area2 in enumerate(area_list):
-        conn_matrix[ii][jj] = M.K_areas[area1][
+for i, area1 in enumerate(area_list[::-1]):
+    for j, area2 in enumerate(area_list):
+        conn_matrix[i][j] = M.K_areas[area1][
             area2] / np.sum(list(M.K_areas[area1].values()))
 
 ax = axes['D']

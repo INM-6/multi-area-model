@@ -1,4 +1,10 @@
 # Script provided by Kenneth Knoblauch
+# This code is based on functions from the aod package of R written by
+# Matthieu Lesnoff and Renaud Lancelot
+# (https://cran.r-project.org/web/packages/aod/index.html), published
+# under the GPL-3 license
+# (https://cran.r-project.org/web/licenses/GPL-3).
+
 betabin <- function (formula, random, data = NULL, link = c("logit", "probit", "cloglog"), 
     phi.ini = NULL, warnings = FALSE, na.action = na.omit, fixpar = list(), 
     hessian = TRUE, control = list(maxit = 2000), ...) 

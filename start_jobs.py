@@ -53,8 +53,8 @@ def start_job(label, submit_cmd, jobscript_template, sumatra=False, reason=None,
     nested_update(sim_params, custom_params['sim_params'])
 
     # Copy custom param file for each MPI process
-    for ii in range(sim_params['num_processes']):
-        shutil.copy(fn, '_'.join((fn, str(ii))))
+    for i in range(sim_params['num_processes']):
+        shutil.copy(fn, '_'.join((fn, str(i))))
     # Collect relevant arguments for job script
     num_vp = sim_params['num_processes'] * sim_params[
         'local_num_threads']

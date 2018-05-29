@@ -205,6 +205,8 @@ Meegen.
 
 If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
 
+If you have questions regarding the code or scientific content, please create an issue on github.
+
 <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="200"/>
 
 ## Acknowledgements

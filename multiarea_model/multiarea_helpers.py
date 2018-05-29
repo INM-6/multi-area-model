@@ -72,8 +72,6 @@ def load_degree_data(fn):
     f.close()
     syn = dat['synapses']
     num = dat['neuron_numbers']
-    # indegrees = copy.deepcopy(syn)  # copy syn dictionary to get its structure
-    # outdegrees = copy.deepcopy(syn)  # copy syn dictionary to get its structure
     indegrees = nested_dict()
     outdegrees = nested_dict()
     for target_area, target_pop, source_area, source_pop in product(complete_area_list,
@@ -229,11 +227,11 @@ def matrix_to_dict(m, area_list, structure, external=None):
             x = np.insert(x, 2, np.zeros((2, 8), dtype=float), axis=0)
         else:
             x = x.reshape((8, 8))
-        for ii, pop in enumerate(population_list):
-            for jj, pop2 in enumerate(population_list):
-                if x[ii][jj] < 1e-20:
-                    x[ii][jj] = 0.
-                dic[area][pop][area2][pop2] = x[ii][jj]
+        for i, pop in enumerate(population_list):
+            for j, pop2 in enumerate(population_list):
+                if x[i][j] < 1e-20:
+                    x[i][j] = 0.
+                dic[area][pop][area2][pop2] = x[i][j]
     if external is not None:
         if isinstance(external, np.ndarray):
             for area in dic:
@@ -274,8 +272,8 @@ def vector_to_dict(v, area_list, structure, external=None):
     dic = nested_dict()
     for area in area_list:
         vmask = create_vector_mask(structure, areas=[area])
-        for ii, pop in enumerate(structure[area]):
-            dic[area][pop] = v[vmask][ii]
+        for i, pop in enumerate(structure[area]):
+            dic[area][pop] = v[vmask][i]
         for pop in population_list:
             if pop not in structure[area]:
                 dic[area][pop] = 0.

@@ -71,9 +71,9 @@ for area in area_list:
         num_vector[index] = M.N[area][pop]
         index += 1
 
-for ii in range(254):
-    Npre[ii] = num_vector
-    Npost[:, ii] = num_vector
+for i in range(254):
+    Npre[i] = num_vector
+    Npost[:, i] = num_vector
 
 C = 1. - (1. - 1. / (Npre * Npost))**(M.K_matrix[:, :-1] * Npost)
 Nsyn = M.K_matrix[:, :-1] * Npost
@@ -98,7 +98,7 @@ ticks_r = []
 for area in plot_areas:
     ticks.append(t_index + 0.5 * len(M.structure[area]))
     ticks_r.append(new_size - (t_index + 0.5 * len(M.structure[area])))
-    for ii, pop in enumerate(M.structure[area]):
+    for pop in M.structure[area]:
         t_index += 1
 
 
