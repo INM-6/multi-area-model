@@ -73,7 +73,7 @@ def model_iter(mode='single',
 
     areas, areas2 : list, optional
         If specified, loop only over these areas as target and source
-        areas. Defaults to None, which correspons to taking all areas
+        areas. Defaults to None, which corresponds to taking all areas
         into account.
     pops, pops2 : string or list, optional
         If specified, loop only over these populations as target and
@@ -327,46 +327,7 @@ Analysis functions
 """
 
 
-def online_hist(fname, tmin, tmax, resolution=1.):
-    """
-    Compute spike histogram from gdf file by reading line after line.
-    Avoids reading in the entire file first, which makes it more suitable
-    for very large spike files.
-
-    Parameters
-    ----------
-    fname : string
-        Name of file to be read.
-    tmin : float
-        Minimal time for the calculation of the histogram.
-    tmax : float
-        Maximal time for the calculation of the histogram.
-    resolution : float, optional
-        Bin width of the histogram. Defaults to 1 ms.
-
-    Returns
-    -------
-    bins : numpy.ndarray
-        Array containing the left edges of the histogram bins
-    valyes : numpy.ndarray
-        Array containing the population rate value in each bin
-    """
-    gdf_file = open(fname, 'r')
-    bins = np.arange(tmin, tmax + resolution, resolution) + resolution / 2.
-    vals = np.zeros_like(bins)
-    current_bin_index = 0
-    for l in gdf_file:
-        data = l.split()
-        if np.logical_and(float(data[1]) > tmin, float(data[1]) < tmax):
-            while float(data[1]) >= bins[current_bin_index + 1]:
-                current_bin_index += 1
-            vals[current_bin_index] += 1
-        elif float(data[1]) > tmax:
-            break
-    return bins[:-1], vals[:-1] / (resolution / 1000.)
-
-
-def pop_rate(data_array, t_min, t_max, num_neur):
+def pop_rate(data_array, t_min, t_max, num_neur, return_stat=False):
     """
     Calculates firing rate of a given array of spikes.
     Rates are calculated in spikes/s. Assumes spikes are sorted
@@ -382,7 +343,7 @@ def pop_rate(data_array, t_min, t_max, num_neur):
         Minimal time stamp to be considered in ms.
     tmax : float
         Maximal time stamp to be considered in ms.
-    num_neur: int
+    num_neur : int
         Number of recorded neurons. Needs to provided explicitly
         to avoid corruption of results by silent neurons not
         present in the given data.
@@ -398,27 +359,19 @@ def pop_rate(data_array, t_min, t_max, num_neur):
 
     indices = np.where(np.logical_and(data_array[:, 1] > t_min,
                                       data_array[:, 1] < t_max))
-    rates = []
     data_array = data_array[indices]
-    data_array = data_array[np.argsort(data_array[:, 0])]
-    last_index = 0
-    for i in np.unique(data_array[:, 0]):
-        num_spikes = np.argmax(data_array[:, 0] > i) - last_index
-        if num_spikes > 0:
+    if return_stat:
+        rates = []
+        for i in np.unique(data_array[:, 0]):
+            num_spikes = np.where(data_array[:, 0] == i)[0].size
             rates.append(num_spikes / ((t_max - t_min) / 1000.))
-        else:  # we arrived at the last neuron
-            rates.append((data_array[:, 0].size - last_index) /
-                         ((t_max - t_min) / 1000.))
-        last_index += num_spikes
-    while len(rates) < num_neur:
-        rates.append(0.0)
-    if (num_neur > 0. and t_max != t_min and len(data_array) > 0 and
-            len(indices) > 0):
-        mean = np.mean(rates)
-        std = np.std(rates)
-        return mean, std, rates
+            while len(rates) < num_neur:
+                rates.append(0.0)
+            mean = np.mean(rates)
+            std = np.std(rates)
+            return mean, std, rates
     else:
-        return 0.0, 0.0, []
+        return data_array[:, 1].size / (num_neur * (t_max - t_min) / 1000.)
 
 
 def pop_rate_distribution(data_array, t_min, t_max, num_neur):
@@ -462,13 +415,13 @@ def pop_rate_distribution(data_array, t_min, t_max, num_neur):
     else:  # No spikes in [t_min, t_max]
         n = None
     rates = np.zeros(int(num_neur))
-    ii = 0
+    s = 0
     for i in range(neurons.size):
         if neurons[i] == n:
-            rates[ii] += 1
+            rates[s] += 1
         else:
             n = neurons[i]
-            ii += 1
+            s += 1
     rates /= (t_max - t_min) / 1000.
     vals, bins = np.histogram(rates, bins=100)
     vals = vals / float(np.sum(vals))
@@ -523,10 +476,10 @@ def pop_rate_time_series(data_array, num_neur, t_min, t_max,
         rates = np.array([])
         last_time_step = times[0]
 
-        for ii in range(1, times.size):
+        for i in range(1, times.size):
             rates = np.append(
-                rates, rate[ii - 1] * np.ones_like(np.arange(last_time_step, times[ii], 1.0)))
-            last_time_step = times[ii]
+                rates, rate[i - 1] * np.ones_like(np.arange(last_time_step, times[i], 1.0)))
+            last_time_step = times[i]
 
         time_series = rates
     else:
@@ -642,7 +595,7 @@ def ISI_SCC(data_array, t_min, t_max):
         return 0.0
 
 
-def pop_LvR(data_array, t_ref, t_min, t_max):
+def pop_LvR(data_array, t_ref, t_min, t_max, num_neur):
     """
     Compute the LvR value of the given data_array.
     See Shinomoto et al. 2009 for details.
@@ -658,6 +611,10 @@ def pop_LvR(data_array, t_ref, t_min, t_max):
         Minimal time for the calculation.
     t_max : float
         Maximal time for the calculation.
+    num_neur: int
+        Number of recorded neurons. Needs to provided explicitly
+        to avoid corruption of results by silent neurons not
+        present in the given data.
 
     Returns
     -------
@@ -669,15 +626,18 @@ def pop_LvR(data_array, t_ref, t_min, t_max):
     i_min = np.searchsorted(data_array[:, 1], t_min)
     i_max = np.searchsorted(data_array[:, 1], t_max)
     LvR = np.array([])
+    data_array = data_array[i_min:i_max]
     for i in np.unique(data_array[:, 0]):
-        intervals = np.diff(data_array[i_min:i_max][
-                            np.where(data_array[i_min:i_max, 0] == i), 1])
+        intervals = np.diff(data_array[
+                            np.where(data_array[:, 0] == i)[0], 1])
         if intervals.size > 1:
             val = np.sum((1. - 4 * intervals[0:-1] * intervals[1:] / (intervals[0:-1] + intervals[
                          1:]) ** 2) * (1 + 4 * t_ref / (intervals[0:-1] + intervals[1:])))
             LvR = np.append(LvR, val * 3 / (intervals.size - 1.))
         else:
             LvR = np.append(LvR, 0.0)
+    if len(LvR) < num_neur:
+        LvR = np.append(LvR, np.zeros(num_neur - len(LvR)))
     return np.mean(LvR), LvR
 
 

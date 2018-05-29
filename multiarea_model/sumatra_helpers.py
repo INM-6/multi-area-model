@@ -60,10 +60,10 @@ def register_runtime(label):
                       'runtime_*')
     files = glob.glob(fp)
 
-    for ii, fn in enumerate(files):
+    for i, fn in enumerate(files):
         with open(fn, 'r') as f:
             d = json.load(f)
-        if ii == 0:
+        if i == 0:
             data = {key: [value] for key, value in d.items()}
         else:
             for key, value in d.items():

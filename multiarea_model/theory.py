@@ -140,18 +140,18 @@ class Theory:
             # initial rates are explicitly defined in self.params
             elif isinstance(self.params['initial_rates'], np.ndarray):
                 num_iter = 1
-                gen = (self.params['initial_rates'] for ii in range(num_iter))
+                gen = (self.params['initial_rates'] for i in range(num_iter))
         # if initial rates are not defined, set them 0
         else:
             num_iter = 1
-            gen = (np.zeros(dim) for ii in range(num_iter))
+            gen = (np.zeros(dim) for i in range(num_iter))
         rates = []
 
         # Loop over all iterations of different initial conditions
         for nsim in range(num_iter):
             initial_rates = next(gen)
-            for ii in range(dim):
-                nest.SetStatus([neurons[ii]], {'rate': initial_rates[ii]})
+            for i in range(dim):
+                nest.SetStatus([neurons[i]], {'rate': initial_rates[i]})
 
             # create recording device
             multimeter = nest.Create('multimeter', params={'record_from':
@@ -169,8 +169,8 @@ class Theory:
             data = nest.GetStatus(multimeter)[0]['events']
             res = np.array([np.insert(data['rate'][np.where(data['senders'] == n)],
                                       0,
-                                      initial_rates[ii])
-                            for ii, n in enumerate(neurons)])
+                                      initial_rates[i])
+                            for i, n in enumerate(neurons)])
 
             if full_output:
                 rates.append(res)
@@ -289,7 +289,7 @@ class Theory:
         if external:
             rates = np.hstack((rates, self.network.params['input_params']['rate_ext']))
         else:
-            rates = np.hstack((rates, np.zeros(self.dim_ext)))
+            rates = np.hstack((rates, np.zeros(1)))
         # if dist:
         #     # due to distributed weights with std = 0.1
         #     J2[:, :7] += 0.01 * J[:, :7] * J[:, :7]
@@ -302,25 +302,36 @@ class Theory:
         return mu, sigma
 
     def d_nu(self, mu, sigma):
+        """
+        Compute the derivative of the Siegert function by mu and sigma
+        for given mu and sigma.
+
+        Parameters
+        ----------
+        mu : numpy.ndarray
+            Mean input to the populations
+        sigma : numpy.ndarray
+            Variance of input to the populations
+        """
         d_nu_d_mu = np.array([d_nu_d_mu_fb_numeric(1.e-3*self.NP['tau_m'],
                                                    1.e-3*self.NP['tau_syn'],
                                                    1.e-3*self.NP['t_ref'],
                                                    self.NP['theta'],
                                                    self.NP['V_reset'],
-                                                   mu[ii], sigma[ii]) for ii in range(len(mu))])
+                                                   mu[i], sigma[i]) for i in range(len(mu))])
         # Unit: 1/(mV)**2
         d_nu_d_sigma = np.array([d_nu_d_sigma_fb_numeric(1.e-3*self.NP['tau_m'],
                                                          1.e-3*self.NP['tau_syn'],
                                                          1.e-3*self.NP['t_ref'],
                                                          self.NP['theta'],
                                                          self.NP['V_reset'],
-                                                         mu[ii], sigma[ii])*1/(
-                                                             2. * sigma[ii])
-                                 for ii in range(len(mu))])
+                                                         mu[i], sigma[i])*1/(
+                                                             2. * sigma[i])
+                                 for i in range(len(mu))])
         return d_nu_d_mu, d_nu_d_sigma
-    
-    def stability_matrix(self, rates, matrix_filter=None,
-                         vector_filter=None, full_output=False):
+
+    def gain_matrix(self, rates, matrix_filter=None,
+                    vector_filter=None, full_output=False):
         """
         Computes stability matrix on the population level.
 
@@ -353,33 +364,30 @@ class Theory:
 
         N_pre = np.zeros_like(K)
         N_post = np.zeros_like(K)
-        for ii in range(N.size):
-            N_pre[ii] = N
-            N_post[:, ii] = N
+        for i in range(N.size):
+            N_pre[i] = N
+            N_post[:, i] = N
 
         # Connection probabilities between populations
-        C = 1. - (1.-1./(N_pre * N_post))**(K*N_post)
         mu, sigma = self.mu_sigma(rates)
 
         if np.any(vector_filter is not None):
             mu = mu[vector_filter]
             sigma = sigma[vector_filter]
+
         d_nu_d_mu, d_nu_d_sigma = self.d_nu(mu, sigma)
 
         slope_mu_matrix = np.zeros_like(J)
         slope_sigma_matrix = np.zeros_like(J)
-        for ii in range(N.size):
-            slope_mu_matrix[:, ii] = d_nu_d_mu
-            slope_sigma_matrix[:, ii] = d_nu_d_sigma
-        V = C*(1-C)
-        G = (self.NP['tau_m'] * 1e-3)**2 * (slope_mu_matrix*J +
-                                            slope_sigma_matrix*J**2)**2
-        G_N = N_pre * G
-        M = G_N * V
+        for i in range(N.size):
+            slope_mu_matrix[:, i] = d_nu_d_mu
+            slope_sigma_matrix[:, i] = d_nu_d_sigma
+        G = self.NP['tau_m'] * 1e-3 * (slope_mu_matrix * K * J +
+                                       slope_sigma_matrix * K * J**2)
         if full_output:
-            return M, d_nu_d_mu, d_nu_d_sigma, M, C, V, G_N, J, N_pre
+            return G, d_nu_d_mu, d_nu_d_sigma
         else:
-            return M
+            return G
 
     def lambda_max(self, rates, matrix_filter=None,
                    vector_filter=None, full_output=False):
@@ -401,18 +409,17 @@ class Theory:
             contributing. Defaults to False.
         """
         if full_output:
-            (M, slope, slope_sigma,
-             M, EV, C, V, G_N) = self.stability_matrix(rates,
+            (G, slope, slope_sigma) = self.gain_matrix(rates,
                                                        matrix_filter=matrix_filter,
                                                        vector_filter=vector_filter,
                                                        full_output=full_output)
         else:
-            M = self.stability_matrix(rates, matrix_filter=matrix_filter,
-                                      vector_filter=vector_filter,
-                                      full_output=full_output)
-        EV = np.linalg.eig(M)
+            G = self.gain_matrix(rates, matrix_filter=matrix_filter,
+                                 vector_filter=vector_filter,
+                                 full_output=full_output)
+        EV = np.linalg.eig(G)
         lambda_max = np.sqrt(np.max(np.real(EV[0])))
         if full_output:
-            return lambda_max, slope, slope_sigma, M, EV, C, V
+            return lambda_max, slope, slope_sigma, G, EV
         else:
             return lambda_max

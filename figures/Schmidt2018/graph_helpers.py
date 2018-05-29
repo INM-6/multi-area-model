@@ -43,19 +43,19 @@ def apply_map_equation(graph_matrix, node_list, filename='', infomap_path=None):
     # nodes
     f = open(net_fn, 'w')
     f.write('*Vertices ' + str(len(node_list)) + '\n')
-    for ii, area in enumerate(node_list):
-        f.write(str(ii + 1) + ' "' + area + '"\n')
+    for i, area in enumerate(node_list):
+        f.write(str(i + 1) + ' "' + area + '"\n')
 
     # Determine number of vertices in the network
     k = np.where(graph_matrix != 0)[0].size
     f.write('*Arcs ' + str(k) + '\n')
 
     # edges
-    for ii in range(len(node_list)):
-        for jj in range(len(node_list)):
-            if graph_matrix[ii][jj] > 0.:
-                f.write(str(jj + 1) + ' ' + str(ii + 1) +
-                        ' ' + str(graph_matrix[ii][jj]) + '\n')
+    for i in range(len(node_list)):
+        for j in range(len(node_list)):
+            if graph_matrix[i][j] > 0.:
+                f.write(str(j + 1) + ' ' + str(i + 1) +
+                        ' ' + str(graph_matrix[i][j]) + '\n')
     f.close()
 
     """
@@ -91,8 +91,8 @@ def apply_map_equation(graph_matrix, node_list, filename='', infomap_path=None):
 
     # sort map_equation lists
     index = []
-    for ii in range(32):
-        index.append(map_equation_areas.index(node_list[ii]))
+    for i in range(32):
+        index.append(map_equation_areas.index(node_list[i]))
 
     map_equation = np.array(map_equation)
 
@@ -123,12 +123,12 @@ def modularity(g, membership):
     m = np.sum(g.es['weight'])
 
     Q = 0.
-    for ii, area in enumerate(g.vs):
-        k_out = np.sum(g.es.select(_source=ii)['weight'])
-        for jj, area2 in enumerate(g.vs):
-            k_in = np.sum(g.es.select(_target=jj)['weight'])
-            if membership[ii] == membership[jj]:
-                weight = g.es.select(_source=ii, _target=jj)['weight']
+    for i, area in enumerate(g.vs):
+        k_out = np.sum(g.es.select(_source=i)['weight'])
+        for j, area2 in enumerate(g.vs):
+            k_in = np.sum(g.es.select(_target=j)['weight'])
+            if membership[i] == membership[j]:
+                weight = g.es.select(_source=i, _target=j)['weight']
                 if len(weight) > 0:
                     Q += weight[0] - k_out * k_in / m
                 else:
@@ -241,11 +241,11 @@ def plot_clustered_graph(g, g_abs, membership, filename, center_of_masses, color
     layout = gcopy.layout("kk", **layout_params)
     coords = np.array(copy.copy(layout.coords))
     # For better visibility, place clusters at defined positions
-    for ii in range(np.max(membership)):
-        coo = coords[np.where(membership == ii + 1)]
+    for i in range(np.max(membership)):
+        coo = coords[np.where(membership == i + 1)]
         com = np.mean(coo, axis=0)
-        coo = np.array(coo) - (com - center_of_masses[ii])
-        coords[np.where(membership == ii + 1)] = coo
+        coo = np.array(coo) - (com - center_of_masses[i])
+        coords[np.where(membership == i + 1)] = coo
     # Define layout parameters
     gplot.es["color"] = edges_colors
     visual_style = {}
@@ -295,10 +295,10 @@ def create_graph(matrix, area_list):
     g = igraph.Graph(directed=True)
     g.add_vertices(area_list)
 
-    for ii in range(32):
-        for jj in range(32):
-            if matrix[ii][jj] != 0:
-                g.add_edge(jj, ii, weight=matrix[ii][jj])
+    for i in range(32):
+        for j in range(32):
+            if matrix[i][j] != 0:
+                g.add_edge(j, i, weight=matrix[i][j])
     return g
 
 
@@ -326,13 +326,13 @@ def create_networkx_graph(matrix, complete_population_list, relative=False):
     g = nx.DiGraph()
     g.add_nodes_from(complete_population_list)
 
-    for ii, target in enumerate(complete_population_list):
-        for jj, source in enumerate(complete_population_list):
-            if matrix[ii][jj] != 0:
+    for i, target in enumerate(complete_population_list):
+        for j, source in enumerate(complete_population_list):
+            if matrix[i][j] != 0:
                 if relative:
-                    weight = matrix[ii][jj] / np.sum(matrix[ii][:-1])
+                    weight = matrix[i][j] / np.sum(matrix[i][:-1])
                 else:
-                    weight = matrix[ii][jj]
+                    weight = matrix[i][j]
                 g.add_edge(source, target, weight=weight,
                            distance=np.log10(1. / weight))
     return g
@@ -362,13 +362,13 @@ def create_networkx_area_graph(matrix, area_list, relative=False):
     G = nx.DiGraph()
     G.add_nodes_from(area_list)
 
-    for ii, target in enumerate(area_list):
-        for jj, source in enumerate(area_list):
-            if matrix[ii][jj] > 0:
+    for i, target in enumerate(area_list):
+        for j, source in enumerate(area_list):
+            if matrix[i][j] > 0:
                 if relative:
-                    weight = matrix[ii][jj] / np.sum(matrix[ii])
+                    weight = matrix[i][j] / np.sum(matrix[i])
                 else:
-                    weight = matrix[ii][jj]
+                    weight = matrix[i][j]
                 G.add_edge(source, target, weight=weight,
                            distance=np.log10(1. / weight))
     return G

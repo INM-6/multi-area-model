@@ -127,8 +127,8 @@ if NEURON_DENSITIES_AVAILABLE:
 
     def probit(x,):
         if isinstance(x, np.ndarray):
-            res = [integrate.quad(integrand, -1000., ii,
-                                  args=(0., 1.))[0] for ii in x]
+            res = [integrate.quad(integrand, -1000., i,
+                                  args=(0., 1.))[0] for i in x]
         else:
             res = integrate.quad(integrand, -1000., x, args=(0., 1.))[0]
         return res
@@ -202,7 +202,6 @@ if NEURON_DENSITIES_AVAILABLE:
                         target_high_SLN_unweighted[layer] += int(int(cocomac[target][
                             source]['target_pattern'][layer]) > 0)
 
-
     SLN_labels = [r' $\mathbf{SLN < 0.35}$',
                   r'$\mathbf{0.35\leq SLN \leq 0.65}$',
                   r'$\mathbf{SLN > 0.65}$']
@@ -224,7 +223,6 @@ if NEURON_DENSITIES_AVAILABLE:
             ax.set_ylabel('Target layer', size=10)
             ax.yaxis.set_label_coords(-0.15, 0.5)
 
-
     # Resulting patterns in the connectivity matrix
     M = MultiAreaModel({})
 
@@ -232,8 +230,8 @@ if NEURON_DENSITIES_AVAILABLE:
     FB_conns = []
     lateral_conns = []
 
-    for ii, target_area in enumerate(area_list):
-        for jj, source_area in enumerate(area_list):
+    for target_area in area_list:
+        for source_area in area_list:
             mask = create_mask(M.structure,
                                target_areas=[target_area],
                                source_areas=[source_area],
@@ -282,9 +280,9 @@ if NEURON_DENSITIES_AVAILABLE:
 
         matrix = np.mean(data, axis=0)
         ind = [0, 4, 6]
-        for ii in range(3):
-            ax.barh(np.arange(8), matrix[:, ind][:, ii][
-                    ::-1], left=ii * factor, color=myred, edgecolor='none')
+        for i in range(3):
+            ax.barh(np.arange(8), matrix[:, ind][:, i][
+                    ::-1], left=i * factor, color=myred, edgecolor='none')
 
         ax.text(0.1, 1.1, label, transform=ax.transAxes)
         ax.set_yticks(np.arange(8) + 0.3)

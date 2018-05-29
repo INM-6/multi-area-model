@@ -17,8 +17,8 @@ if NEURON_DENSITIES_AVAILABLE:
     architecture_completed = proc['architecture_completed']
 
     categories = {}
-    for ii in np.arange(0, 9, 1):
-        categories[ii] = []
+    for i in np.arange(0, 9, 1):
+        categories[i] = []
     for area in architecture_completed:
         categories[architecture_completed[area]].append(area)
 
@@ -171,12 +171,12 @@ if NEURON_DENSITIES_AVAILABLE:
     for l in layers[:]:
         bottom += rho[l]
 
-    for ii, l in enumerate(layers):
+    for i, l in enumerate(layers):
         print(l,  rho[l][4], bottom[4])
         bottom -= rho[l]
         print("LAYER", l, bottom)
         ax.bar(x - 0.4, rho[l], bottom=bottom,
-               color=colors[ii], label='L' + layer_labels[ii],
+               color=colors[i], label='L' + layer_labels[i],
                edgecolor='k')
 
     ax.set_xlabel('Architectural type', labelpad=0.3)
@@ -188,7 +188,7 @@ if NEURON_DENSITIES_AVAILABLE:
     ax.set_ylim((0., 200000.))
     ax.set_xlim((-0.5, 9))
     ax.set_xticks(np.arange(2, 9, 1) - 0.4)
-    ax.set_xticklabels([r'${}$'.format(ii) for ii in list(range(2, 9))])
+    ax.set_xticklabels([r'${}$'.format(i) for i in list(range(2, 9))])
 
     ax.legend(loc=(0.035, 0.45), edgecolor='k')
 

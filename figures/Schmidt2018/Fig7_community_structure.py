@@ -1,6 +1,6 @@
 import os
 import copy
-from helpers import area_list
+from helpers import area_list, infomap_path
 import numpy as np
 from config import base_path
 from graph_helpers import apply_map_equation, modularity
@@ -42,13 +42,13 @@ Construct matrix of relative and absolute outdegrees
 """
 conn_matrix = np.zeros((32, 32))
 conn_matrix_abs = np.zeros((32, 32))
-for ii, area1 in enumerate(area_list):
-    for jj, area2 in enumerate(area_list):
+for i, area1 in enumerate(area_list):
+    for j, area2 in enumerate(area_list):
         value = outa[area1][area2] / np.sum(list(outa[area1].values()))
         value_abs = outa[area1][area2]
         if area1 != area2:
-            conn_matrix[ii][jj] = value
-            conn_matrix_abs[ii][jj] = value_abs
+            conn_matrix[i][j] = value
+            conn_matrix_abs[i][j] = value_abs
 
 
 """
@@ -62,9 +62,6 @@ g_abs = create_graph(conn_matrix_abs, area_list)
 """
 Determine clusters using the map equation.
 """
-# This path determines the location of the infomap
-# installation and needs to be provided to execute the script
-infomap_path = None
 modules, modules_areas, index = apply_map_equation(
     conn_matrix, area_list, filename='Model', infomap_path=infomap_path)
 
@@ -83,8 +80,8 @@ while "*Links" not in line:
 
 # sort map_equation lists
 index = []
-for ii in range(32):
-    index.append(map_equation_areas.index(area_list[ii]))
+for i in range(32):
+    index.append(map_equation_areas.index(area_list[i]))
 
 map_equation = np.array(map_equation)
 
@@ -112,10 +109,10 @@ mod_list = []
 # For each column, we shuffle the rows and therefore conserve the
 # total outdegree of each area.
 
-for ii in range(1000):
-    for jj in range(32):
-        ind = np.extract(np.arange(32) != jj, np.arange(32))
-        null_model[:, jj][ind] = null_model[:, jj][ind][np.random.shuffle(ind)]
+for i in range(1000):
+    for j in range(32):
+        ind = np.extract(np.arange(32) != j, np.arange(32))
+        null_model[:, j][ind] = null_model[:, j][ind][np.random.shuffle(ind)]
     modules, modules_areas, index = apply_map_equation(null_model, area_list,
                                                        filename='null',
                                                        infomap_path=infomap_path)
