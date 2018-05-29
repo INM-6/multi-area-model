@@ -54,5 +54,5 @@ def test_nest_network_connectivity():
         K_ext = []
         for pop in M.structure[area.name]:
             K_ext.append(M.K[area.name][pop]['external']['external'])
-        target_rates = np.array(K_ext) * M.simulation.params['input_params']['rate_ext']
+        target_rates = np.array(K_ext) * M.params['input_params']['rate_ext']
         assert(np.allclose(poisson_rates, target_rates))

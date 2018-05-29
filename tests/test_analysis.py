@@ -20,7 +20,7 @@ def test_analysis():
                       'fullscale_rates': 'fullscale_rates.json'}
     sim_params = {'t_sim': 500.,
                   'areas_simulated': ['V1', 'V2']}
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params, analysis=True)
+    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()
     M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params, analysis=True)
 
