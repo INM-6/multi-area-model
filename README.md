@@ -69,8 +69,8 @@ later release of NEST, version 2.14.0 .
 
 This class can be initialized by `MultiAreaModel` or as standalone and
 takes simulation parameters as input. It provides two main features:
-- predict the stable fixed point of the system using mean-field theory
-- execute the stabilization method described in [2] on a network instance (will be provided soon)
+- predict the stable fixed point of the system using mean-field theory and characterize them (for instance by computing the gain matrix).
+- via the script `stabilize.py`, one can execute the stabilization method described in [2] on a network instance.
 
 `Analysis`
 
