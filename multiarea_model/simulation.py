@@ -25,7 +25,7 @@ import time
 
 from .analysis_helpers import _load_npy_to_dict, model_iter
 from config import base_path, data_path
-from copy import copy
+from copy import deepcopy
 from .default_params import nested_update, sim_params
 from .default_params import check_custom_params
 from dicthash import dicthash
@@ -54,7 +54,7 @@ class Simulation:
             custom simulation parameters that overwrite the
             default parameters defined in default_params.py
         """
-        self.params = copy(sim_params)
+        self.params = deepcopy(sim_params)
         if isinstance(sim_spec, dict):
             check_custom_params(sim_spec, self.params)
             self.custom_params = sim_spec
@@ -171,7 +171,7 @@ class Simulation:
         - voltmeter
         """
         self.spike_detector = nest.Create('spike_detector', 1)
-        status_dict = self.params['recording_dict']['spike_dict']
+        status_dict = deepcopy(self.params['recording_dict']['spike_dict'])
         label = '-'.join((self.label,
                           status_dict['label']))
         status_dict.update({'label': label})
