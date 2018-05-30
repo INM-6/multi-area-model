@@ -85,7 +85,7 @@ rule process_chu2014_data:
         os.path.join(chu2014_path, 'Analysis', 'rate_histogram_high.npy'),
         os.path.join(chu2014_path, 'Analysis', 'rate_histogram_full.npy')
     shell:
-        'python3 process_chu2014_data.py {} {}'.format(DATA_DIR, SIMULATIONS['Fig6'][-1])
+        'python3 process_chu2014_data.py {} {}'.format(DATA_DIR, SIM_LABELS['Fig6'][-1])
 
 rule cross_correlation:
     input:

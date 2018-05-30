@@ -85,7 +85,7 @@ Load data
 """
 Create MultiAreaModel instance to have access to data structures
 """
-conn_params = {'g': -16.,
+conn_params = {'g': -11.,
                'fac_nu_ext_TH': 1.2,
                'fac_nu_ext_5E': 1.125,
                'fac_nu_ext_6E': 1.41666667,
@@ -128,11 +128,9 @@ Simulation data
 """
 LOAD_ORIGINAL_DATA = True
 
-if LOAD_ORIGINAL_DATA:
-    tmin = 500.
-    tmax = 10000.
+cc_weights_factor = [1.0, 1.4, 1.5, 1.6, 1.7, 1.75, 1.8, 2., 2.1, 2.5, 1.9]
 
-    cc_weights_factor = [1.0, 1.4, 1.5, 1.6, 1.7, 1.75, 1.8, 1.9, 2., 2.1, 2.5]
+if LOAD_ORIGINAL_DATA:
     labels = ['33fb5955558ba8bb15a3fdce49dfd914682ef3ea',
               '783cedb0ff27240133e3daa63f5d0b8d3c2e6b79',
               '380856f3b32f49c124345c08f5991090860bf9a3',
@@ -140,42 +138,50 @@ if LOAD_ORIGINAL_DATA:
               'c1876856b1b2cf1346430cf14e8d6b0509914ca1',
               'a30f6fba65bad6d9062e8cc51f5483baf84a46b7',
               '1474e1884422b5b2096d3b7a20fd4bdf388af7e0',
-              '99c0024eacc275d13f719afd59357f7d12f02b77',
               'f18158895a5d682db5002489d12d27d7a974146f',
               '08a3a1a88c19193b0af9d9d8f7a52344d1b17498',
-              '5bdd72887b191ec22a5abcc04ca4a488ea216e32']
+              '5bdd72887b191ec22a5abcc04ca4a488ea216e32',
+              '99c0024eacc275d13f719afd59357f7d12f02b77']
+    data_path = original_data_path
+    label_plot = labels[-1]  # chi=1.9
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig8')
+    labels = [M.simulation.label for M in models]
 
-    sim_FC = {}
-    for label in labels:
-        fn = os.path.join(original_data_path,
-                          label,
-                          'Analysis',
-                          'functional_connectivity_synaptic_input.npy')
-        sim_FC[label] = np.load(fn)
 
-    sim_FC_bold = {}
-    for label in ['99c0024eacc275d13f719afd59357f7d12f02b77']:
-        fn = os.path.join(original_data_path,
-                          label,
-                          'Analysis',
-                          'functional_connectivity_bold_signal.npy')
-        sim_FC_bold[label] = np.load(fn)
-
-    label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-    fn = os.path.join(original_data_path,
+sim_FC = {}
+for label in labels:
+    fn = os.path.join(data_path,
                       label,
                       'Analysis',
-                      'FC_synaptic_input_communities.json')
-    with open(fn, 'r') as f:
-        part_sim = json.load(f)
-    part_sim_list = [part_sim[area] for area in M.area_list]
-    part_sim_index = np.argsort(part_sim_list, kind='mergesort')
-    # Manually position MDP in between the two clusters for visual purposes
-    ind_MDP = M.area_list.index('MDP')
-    ind_MDP_index = np.where(part_sim_index == ind_MDP)[0][0]
-    part_sim_index = np.append(part_sim_index[:ind_MDP_index], part_sim_index[ind_MDP_index+1:])
-    new_ind_MDP_index = np.where(np.array(part_sim_list)[part_sim_index] == 0.)[0][-1]
-    part_sim_index = np.insert(part_sim_index, new_ind_MDP_index, ind_MDP)
+                      'functional_connectivity_synaptic_input.npy')
+    sim_FC[label] = np.load(fn)
+
+sim_FC_bold = {}
+for label in [label_plot]:
+    fn = os.path.join(data_path,
+                      label,
+                      'Analysis',
+                      'functional_connectivity_bold_signal.npy')
+    sim_FC_bold[label] = np.load(fn)
+
+label = label_plot
+fn = os.path.join(data_path,
+                  label,
+                  'Analysis',
+                  'FC_synaptic_input_communities.json')
+with open(fn, 'r') as f:
+    part_sim = json.load(f)
+part_sim_list = [part_sim[area] for area in M.area_list]
+part_sim_index = np.argsort(part_sim_list, kind='mergesort')
+# Manually position MDP in between the two clusters for visual purposes
+ind_MDP = M.area_list.index('MDP')
+ind_MDP_index = np.where(part_sim_index == ind_MDP)[0][0]
+part_sim_index = np.append(part_sim_index[:ind_MDP_index], part_sim_index[ind_MDP_index+1:])
+new_ind_MDP_index = np.where(np.array(part_sim_list)[part_sim_index] == 0.)[0][-1]
+part_sim_index = np.insert(part_sim_index, new_ind_MDP_index, ind_MDP)
 
     
 def zero_diagonal(matrix):
@@ -231,14 +237,14 @@ def matrix_plot(ax, matrix, index, vlim, pos=None):
 Plotting
 """
 ax = axes['A']
-label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+label = label_plot
 
 
 matrix_plot(ax, zero_diagonal(sim_FC[label]),
             part_sim_index, 1., pos=(0, 0))
 
 ax = axes['B']
-label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+label = label_plot
 
 matrix_plot(ax, zero_diagonal(sim_FC_bold[label]),
             part_sim_index, 1., pos=(0, 0))
@@ -266,7 +272,7 @@ ax.plot(cc_weights_factor[1:], cc_list[1:], '.', ms=10,
 ax.plot(cc_weights_factor[0], cc_list[0], '^', ms=5,
         markeredgecolor='none', label='Sim. vs. Exp.', color='k')
 
-label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+label = label_plot
 cc_bold = np.corrcoef(zero_diagonal(sim_FC_bold[label]).flatten(),
                       zero_diagonal(exp_FC).flatten())[0][1]
 ax.plot([1.9], cc_bold, '.',

@@ -65,30 +65,36 @@ if LOAD_ORIGINAL_DATA:
               '5bdd72887b191ec22a5abcc04ca4a488ea216e32',
               '3afaec94d650c637ef8419611c3f80b3cb3ff539',
               '99c0024eacc275d13f719afd59357f7d12f02b77']
+    data_path = original_data_path
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig6')
+    labels = [M.simulation.label for M in models]
 
-    area = 'V1'
+area = 'V1'
 
-    power_spectra = {chi: {} for chi in chi_list}
-    for chi, label in zip(chi_list, labels):
-        fp = os.path.join(original_data_path,
-                          label,
-                          'Analysis',
-                          'power_spectrum_subsample')
-        power_spectra[chi] = {'f': np.load(os.path.join(fp,
-                                                        'power_spectrum_subsample_freq.npy')),
-                              'power': np.load(os.path.join(fp,
-                                                            'power_spectrum_subsample_V1.npy'))}
-    rate_histograms = {chi: {} for chi in chi_list}
-    for chi, label in zip(chi_list, labels):
-        fp = os.path.join(original_data_path,
-                          label,
-                          'Analysis',
-                          'rate_histogram')
+power_spectra = {chi: {} for chi in chi_list}
+for chi, label in zip(chi_list, labels):
+    fp = os.path.join(data_path,
+                      label,
+                      'Analysis',
+                      'power_spectrum_subsample')
+    power_spectra[chi] = {'f': np.load(os.path.join(fp,
+                                                    'power_spectrum_subsample_freq.npy')),
+                          'power': np.load(os.path.join(fp,
+                                                        'power_spectrum_subsample_V1.npy'))}
+rate_histograms = {chi: {} for chi in chi_list}
+for chi, label in zip(chi_list, labels):
+    fp = os.path.join(data_path,
+                      label,
+                      'Analysis',
+                      'rate_histogram')
 
-        rate_histograms[chi] = {'bins': np.load(os.path.join(fp,
-                                                             'rate_histogram_bins.npy')),
-                                'vals': np.load(os.path.join(fp,
-                                                             'rate_histogram_V1.npy'))}
+    rate_histograms[chi] = {'bins': np.load(os.path.join(fp,
+                                                         'rate_histogram_bins.npy')),
+                            'vals': np.load(os.path.join(fp,
+                                                         'rate_histogram_V1.npy'))}
 
 """
 Load experimental data

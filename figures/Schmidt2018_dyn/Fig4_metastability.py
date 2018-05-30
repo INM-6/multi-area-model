@@ -97,14 +97,14 @@ Load data
 """
 chi_list = [1.0, 1.8, 1.9, 2., 2.1, 2.5]
 
+"""
+Create MultiAreaModel instance to have access to data structures
+"""
+M = MultiAreaModel({})
+
 LOAD_ORIGINAL_DATA = True
 
 if LOAD_ORIGINAL_DATA:
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    M = MultiAreaModel({})
-
     labels = ['33fb5955558ba8bb15a3fdce49dfd914682ef3ea',
               '1474e1884422b5b2096d3b7a20fd4bdf388af7e0',
               '99c0024eacc275d13f719afd59357f7d12f02b77',
@@ -112,34 +112,42 @@ if LOAD_ORIGINAL_DATA:
               '08a3a1a88c19193b0af9d9d8f7a52344d1b17498',
               '5bdd72887b191ec22a5abcc04ca4a488ea216e32']
 
-    rate_time_series = {label: {} for label in labels}
-    rate_time_series_pops = {label: {} for label in labels}
-    for label in labels:
-        for area in M.area_list:
-            fn = os.path.join(original_data_path, label,
+    label_stat_rate = '99c0024eacc275d13f719afd59357f7d12f02b77'
+    data_path = original_data_path
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig4')
+    labels = [M.simulation.label for M in models]
+    label_stat_rate = labels[2]  # chi=1.9
+
+rate_time_series = {label: {} for label in labels}
+rate_time_series_pops = {label: {} for label in labels}
+for label in labels:
+    for area in M.area_list:
+        fn = os.path.join(data_path, label,
+                          'Analysis',
+                          'rate_time_series_full',
+                          'rate_time_series_full_{}.npy'.format(area))
+        rate_time_series[label][area] = np.load(fn)
+        rate_time_series_pops[label][area] = {}
+        for pop in M.structure[area]:
+            fn = os.path.join(data_path, label,
                               'Analysis',
                               'rate_time_series_full',
-                              'rate_time_series_full_{}.npy'.format(area))
-            rate_time_series[label][area] = np.load(fn)
-            rate_time_series_pops[label][area] = {}
-            for pop in M.structure[area]:
-                fn = os.path.join(original_data_path, label,
-                                  'Analysis',
-                                  'rate_time_series_full',
-                                  'rate_time_series_full_{}_{}.npy'.format(area, pop))
-                rate_time_series_pops[label][area][pop] = np.load(fn)
-        
-        with open(os.path.join(original_data_path, label,
-                               'Analysis',
-                               'rate_time_series_full',
-                               'rate_time_series_full_Parameters.json')) as f:
-            rate_time_series[label]['Parameters'] = json.load(f)
+                              'rate_time_series_full_{}_{}.npy'.format(area, pop))
+            rate_time_series_pops[label][area][pop] = np.load(fn)
 
-    # stationary firing rates
-    label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-    fn = os.path.join(original_data_path, label, 'Analysis', 'pop_rates.json')
-    with open(fn, 'r') as f:
-        pop_rates = {label: json.load(f)}
+    with open(os.path.join(data_path, label,
+                           'Analysis',
+                           'rate_time_series_full',
+                           'rate_time_series_full_Parameters.json')) as f:
+        rate_time_series[label]['Parameters'] = json.load(f)
+
+# stationary firing rates
+fn = os.path.join(data_path, label_stat_rate, 'Analysis', 'pop_rates.json')
+with open(fn, 'r') as f:
+    pop_rates = {label: json.load(f)}
 
 
 # Meanfield part: first initialize base class to compute initial rates

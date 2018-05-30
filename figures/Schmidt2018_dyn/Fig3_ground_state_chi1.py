@@ -89,53 +89,61 @@ LOAD_ORIGINAL_DATA = True
 
 if LOAD_ORIGINAL_DATA:
     label = '33fb5955558ba8bb15a3fdce49dfd914682ef3ea'
+    data_path = original_data_path
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig3')
+    label = models[0].simulation.label
 
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    M = MultiAreaModel({})
-
-    # spike data
-    spike_data = {}
-    for area in areas:
-        spike_data[area] = {}
-        for pop in M.structure[area]:
-            spike_data[area][pop] = np.load(os.path.join(original_data_path,
-                                                         label,
-                                                         'recordings',
-                                                         'spike_data_{}_{}.npy'.format(area, pop)))
-    # stationary firing rates
-    fn = os.path.join(original_data_path, label, 'Analysis', 'pop_rates.json')
-    with open(fn, 'r') as f:
-        pop_rates = json.load(f)
-
-    # time series of firing rates
-    rate_time_series = {}
-    for area in M.area_list:
-        fn = os.path.join(original_data_path, label,
-                          'Analysis',
-                          'rate_time_series',
-                          'rate_time_series_{}.npy'.format(area))
-        rate_time_series[area] = np.load(fn)
-
-    # time series of firing rates convolved with a kernel
-    rate_time_series_auto_kernel = {}
-    for area in M.area_list:
-        fn = os.path.join(original_data_path, label,
-                          'Analysis',
-                          'rate_time_series_auto_kernel',
-                          'rate_time_series_auto_kernel_{}.npy'.format(area))
-        rate_time_series_auto_kernel[area] = np.load(fn)
-
-    # local variance revised (LvR)
-    fn = os.path.join(original_data_path, label, 'Analysis', 'pop_LvR.json')
-    with open(fn, 'r') as f:
-        pop_LvR = json.load(f)
     
-    # correlation coefficients
-    fn = os.path.join(original_data_path, label, 'Analysis', 'corrcoeff.json')
-    with open(fn, 'r') as f:
-        corrcoeff = json.load(f)
+"""
+Create MultiAreaModel instance to have access to data structures
+"""
+M = MultiAreaModel({})
+
+# spike data
+spike_data = {}
+for area in areas:
+    spike_data[area] = {}
+    for pop in M.structure[area]:
+        spike_data[area][pop] = np.load(os.path.join(data_path,
+                                                     label,
+                                                     'recordings',
+                                                     '{}-spikes-{}-{}.npy'.format(label,
+                                                                                  area, pop)))
+# stationary firing rates
+fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
+with open(fn, 'r') as f:
+    pop_rates = json.load(f)
+
+# time series of firing rates
+rate_time_series = {}
+for area in M.area_list:
+    fn = os.path.join(data_path, label,
+                      'Analysis',
+                      'rate_time_series_full',
+                      'rate_time_series_full_{}.npy'.format(area))
+    rate_time_series[area] = np.load(fn)
+
+# time series of firing rates convolved with a kernel
+rate_time_series_auto_kernel = {}
+for area in M.area_list:
+    fn = os.path.join(data_path, label,
+                      'Analysis',
+                      'rate_time_series_auto_kernel',
+                      'rate_time_series_auto_kernel_{}.npy'.format(area))
+    rate_time_series_auto_kernel[area] = np.load(fn)
+
+# local variance revised (LvR)
+fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
+with open(fn, 'r') as f:
+    pop_LvR = json.load(f)
+
+# correlation coefficients
+fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+with open(fn, 'r') as f:
+    corrcoeff = json.load(f)
     
 """
 Plotting

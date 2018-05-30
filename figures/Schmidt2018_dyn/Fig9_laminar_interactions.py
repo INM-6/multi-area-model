@@ -39,39 +39,45 @@ with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
     proc = json.load(f)
 arch_types = proc['architecture_completed']
 
+conn_params = {'g': -16.,
+               'fac_nu_ext_TH': 1.2,
+               'fac_nu_ext_5E': 1.125,
+               'fac_nu_ext_6E': 1.41666667,
+               'av_indegree_V1': 3950.,
+               'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
+network_params = {'N_scaling': 1.,
+                  'K_scaling': 1.,
+                  'connection_params': conn_params}
+M = MultiAreaModel(network_params)
+
 
 LOAD_ORIGINAL_DATA = True
 
 if LOAD_ORIGINAL_DATA:
-    conn_params = {'g': -16.,
-                   'fac_nu_ext_TH': 1.2,
-                   'fac_nu_ext_5E': 1.125,
-                   'fac_nu_ext_6E': 1.41666667,
-                   'av_indegree_V1': 3950.,
-                   'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
-    network_params = {'N_scaling': 1.,
-                      'K_scaling': 1.,
-                      'connection_params': conn_params}
-    M = MultiAreaModel(network_params)
-
     label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+    data_path = original_data_path
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig7')
+    label = models[0].simulation.label
 
-    gc = {}
-    for area in M.area_list:
-        gc[area] = {}
-        for pop in M.structure[area]:
-            fn = os.path.join(original_data_path,
-                              label,
-                              'Analysis',
-                              'granger_causality',
-                              'granger_causality_{}_{}.json'.format(area, pop))
-            with open(fn, 'r') as f:
-                gc[area][pop] = json.load(f)
+gc = {}
+for area in M.area_list:
+    gc[area] = {}
+    for pop in M.structure[area]:
+        fn = os.path.join(data_path,
+                          label,
+                          'Analysis',
+                          'granger_causality',
+                          'granger_causality_{}_{}.json'.format(area, pop))
+        with open(fn, 'r') as f:
+            gc[area][pop] = json.load(f)
 
-    with open('Fig9_{}_significant_channels.json'.format(label), 'r') as f:
-        significant_channels = json.load(f)
-    for typ in significant_channels:
-        significant_channels[typ] = [tuple(pair) for pair in significant_channels[typ]]
+with open('Fig9_{}_significant_channels.json'.format(label), 'r') as f:
+    significant_channels = json.load(f)
+for typ in significant_channels:
+    significant_channels[typ] = [tuple(pair) for pair in significant_channels[typ]]
 
 """
 Bottom row

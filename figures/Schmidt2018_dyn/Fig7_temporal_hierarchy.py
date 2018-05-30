@@ -72,44 +72,53 @@ pl.text(-0.05, 1.0, r'\bfseries{}' + 'G',
 """
 Load data
 """
+
+"""
+Create MultiAreaModel instance to have access to data structures
+"""
+M = MultiAreaModel({})
+
 LOAD_ORIGINAL_DATA = True
-
 if LOAD_ORIGINAL_DATA:
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    M = MultiAreaModel({})
     label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-    rate_time_series = {}
-    for area in M.area_list:
-        fn = os.path.join(original_data_path, label,
-                          'Analysis',
-                          'rate_time_series_full',
-                          'rate_time_series_full_{}.npy'.format(area))
-        rate_time_series[area] = np.load(fn)
+    data_path = original_data_path
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig7')
+    label = models[0].simulation.label
 
-    fn = os.path.join(original_data_path, label,
+
+rate_time_series = {}
+for area in M.area_list:
+    fn = os.path.join(data_path, label,
                       'Analysis',
                       'rate_time_series_full',
-                      'rate_time_series_full_Parameters.json')
-    with open(fn, 'r') as f:
-        rate_time_series['Parameters'] = json.load(f)
+                      'rate_time_series_full_{}.npy'.format(area))
+    rate_time_series[area] = np.load(fn)
 
-    cross_correlation = {}
-    for area in M.area_list:
-        cross_correlation[area] = {}
-        for area2 in M.area_list:
-            fn = os.path.join(original_data_path, label,
-                              'Analysis',
-                              'cross_correlation',
-                              'cross_correlation_{}_{}.npy'.format(area, area2))
-            cross_correlation[area][area2] = np.load(fn)
+fn = os.path.join(data_path, label,
+                  'Analysis',
+                  'rate_time_series_full',
+                  'rate_time_series_full_Parameters.json')
+with open(fn, 'r') as f:
+    rate_time_series['Parameters'] = json.load(f)
 
-    fn = os.path.join(original_data_path, label,
-                      'Analysis',
-                      'cross_correlation',
-                      'cross_correlation_time.npy')
-    cross_correlation['time'] = np.load(fn)
+cross_correlation = {}
+for area in M.area_list:
+    cross_correlation[area] = {}
+    for area2 in M.area_list:
+        fn = os.path.join(data_path, label,
+                          'Analysis',
+                          'cross_correlation',
+                          'cross_correlation_{}_{}.npy'.format(area, area2))
+        cross_correlation[area][area2] = np.load(fn)
+
+fn = os.path.join(data_path, label,
+                  'Analysis',
+                  'cross_correlation',
+                  'cross_correlation_time.npy')
+cross_correlation['time'] = np.load(fn)
 
 
 # Correlation peak

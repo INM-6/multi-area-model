@@ -31,13 +31,21 @@ axes['C2'] = panel_factory.new_empty_panel(2, 2, r'', label_position=-0.25)
 # Simulation
 if LOAD_ORIGINAL_DATA:
     data = {}
-    data_labels = [('LA', '533d73357fbe99f6178029e6054b571b485f40f6'),
-                   ('HA', '0adda4a542c3d5d43aebf7c30d876b6c5fd1d63e'),
-                   ('LA_post', '33fb5955558ba8bb15a3fdce49dfd914682ef3ea')]
-    for key, label in data_labels:
-        fn = os.path.join(original_data_path, label, 'Analysis/pop_rates.json')
-        with open(fn, 'r') as f:
-            data[key] = json.load(f)
+    data_labels = [('533d73357fbe99f6178029e6054b571b485f40f6'),
+                   ('0adda4a542c3d5d43aebf7c30d876b6c5fd1d63e'),
+                   ('33fb5955558ba8bb15a3fdce49dfd914682ef3ea')]
+    data_path = original_data_path
+else:
+    from network_simulations import init_models
+    from config import data_path
+    models = init_models('Fig2')
+    data_labels = [M.simulation.label for M in models]
+
+keys = ['LA', 'HA', 'LA_post']
+for key, label in zip(keys, data_labels):
+    fn = os.path.join(data_path, label, 'Analysis/pop_rates.json')
+    with open(fn, 'r') as f:
+        data[key] = json.load(f)
 
     """
     Create MultiAreaModel instance to have access to data structures
