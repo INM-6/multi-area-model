@@ -198,7 +198,7 @@ class Theory:
                                                      self.network.structure)
         elif self.network.params['connection_params']['replace_cc'] == 'hom_poisson_stat':
             self.cc_input_rates = (np.ones(self.network.K_matrix.shape[0]) *
-                                   self.network.network.params['input_params']['rate_ext'])
+                                   self.network.params['input_params']['rate_ext'])
         for area in self.network.area_list:
             area_dim = len(self.network.structure[area])
             mask = create_mask(self.network.structure,
