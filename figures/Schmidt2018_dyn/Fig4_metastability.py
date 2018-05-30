@@ -65,7 +65,7 @@ ax_phasespace.append(pl.subplot(gs3[4:5, 0:1]))
 ax_phasespace.append(pl.subplot(gs3[5:6, 0:1]))
 
 gs4 = gridspec.GridSpec(2, 1)
-gs4.update(left=0.78, right=0.98, top=0.35,
+gs4.update(left=0.72, right=0.96, top=0.35,
            bottom=0.02, wspace=0., hspace=0.25)
 ax_matrix = pl.subplot(gs4[:1, :])
 ax_hist = pl.subplot(gs4[1:2, :])
@@ -301,6 +301,6 @@ c = pyx.canvas.canvas()
 c.insert(pyx.epsfile.epsfile(
     0.5, 0.5, "Fig4_metastability_mpl.eps", width=17.6))
 c.insert(pyx.epsfile.epsfile(
-    0.8, 1., "Fig4_metastability_phasespace_sketch.eps", width=12.6))
+    0.8, 1., "Fig4_metastability_phasespace_sketch.eps", width=12.2))
 
 c.writeEPSfile("Fig4_metastability.eps")
