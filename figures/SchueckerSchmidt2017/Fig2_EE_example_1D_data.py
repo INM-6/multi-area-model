@@ -26,7 +26,6 @@ class network:
         self.W_matrix = np.array([[params['W'], params['W']]])
         self.J_matrix = convert_syn_weight(self.W_matrix,
                                            self.params['neuron_params']['single_neuron_dict'])
-
         self.theory = Theory(self, theory_spec)
         
 
@@ -34,12 +33,13 @@ class network:
         mu, sigma = self.theory.mu_sigma(rate)
 #        print(mu, sigma)
         NP = self.params['neuron_params']['single_neuron_dict']
-        return nu0_fb(mu, sigma,
-                      1.e-3*NP['tau_m'],
-                      1.e-3*NP['tau_syn_ex'],
-                      1.e-3*NP['t_ref'],
-                      NP['V_th'] - NP['E_L'],
-                      NP['V_reset'] - NP['E_L'])
+        return list(map(lambda mu, sigma: nu0_fb(mu, sigma,
+                                                 1.e-3*NP['tau_m'],
+                                                 1.e-3*NP['tau_syn_ex'],
+                                                 1.e-3*NP['t_ref'],
+                                                 NP['V_th'] - NP['E_L'],
+                                                 NP['V_reset'] - NP['E_L']),
+                        mu, sigma))
         
 
 """
@@ -48,8 +48,8 @@ space showing bifurcation
 
 rate_exts_array = np.arange(150., 170.1, 1.)
 
-network_params = {'K': 105.,
-                  'W': 40.}
+network_params = {'K': 210.,
+                  'W': 10.}
 theory_params = {'T': 20.,
                  'dt': 0.01}
                   
@@ -73,21 +73,17 @@ theory_params = {'T': 20.,
 # pl.savefig('Fig2_EE_example_1D_data.eps')
     
 
-fig = pl.figure()    
-x = np.arange(0, 30., 0.02)
-# x = [30.]
-K = [26.25, 52.5, 105., 210., 420.]
-W = [160., 80., 40., 20., 10.]
-rate_ext = 150.
-for k, w in zip(K, W):
+fig = pl.figure()
+x = np.arange(0, 70., 1.)
+
+for rate_ext in [150., 160., 170.]:
     input_params = {'rate_ext': rate_ext}
-    network_params.update({'input_params': input_params,
-                           'K': k,
-                           'W': w})
+    network_params.update({'input_params': input_params})
     net = network(network_params, theory_params)
-    y = np.fromiter([net.Phi(xi) for xi in x], dtype=np.float)
+    y = np.fromiter([net.Phi(x[i])[0] for i in range(len(x))], dtype=np.float)
     pl.plot(x, y)
-    
+pl.plot(x, x, '--')
+pl.show()
 # for i, dic in enumerate(mfp.par_list(PS)):
 #     print(dic)
 #     para_dic, label = mfp.hashtag(dic)
