@@ -47,16 +47,14 @@ network_params = {'N_scaling': 1.,
                   'K_scaling': 1.,
                   'connection_params': conn_params,
                   'neuron_params': neuron_params}
-ana_spec = {'load_areas': []}
 M = MultiAreaModel(network_params,
                    analysis=True,
-                   ana_spec=ana_spec,
                    simulation=True,
                    sim_spec=sim_params,
                    theory=True,
                    theory_spec=theory_params)
 p, r_stab = M.theory.integrate_siegert()
-M.analysis.create_pop_rates(areas=M.area_list)
+M.analysis.create_pop_rates()
 
 
 """
