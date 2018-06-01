@@ -1,102 +1,386 @@
+import copy
+import numpy as np
 import pylab as pl
-from plotfuncs import *
+import pyx
+
+from matplotlib import gridspec
+from matplotlib.colors import ListedColormap
+from plotcolors import myred, myblue
 import pyx
 import os
+from Fig2_EE_network import network1D, network2D
 
 """
-Panel C/E/F
+Figure layout
 """
-# set up figure and axis
-mrk = 6.
-scale = 1.0
-width = 0.5 * 4.56  # inches fo JoN single column
-n_horz_panels = 1
-n_vert_panels = 4
-panel_factory = create_fig_JoN(
-    1, scale, width, n_horz_panels, n_vert_panels, hoffset=0.2, voffset=+0.28)
-axA = panel_factory.new_panel(
-    0, 1, '', label_position='leftleft', panel_height_factor=0.95)
-pl.locator_params(axis='y', nbins=4)
-axC = panel_factory.new_panel(
-    0, 2, 'E', label_position='leftleft', voffset=-0.0)
-pl.locator_params(axis='y', nbins=4)
-axA.spines['right'].set_color('none')
-axA.spines['top'].set_color('none')
-axA.yaxis.set_ticks_position("left")
-axA.xaxis.set_ticks_position("bottom")
+scale = 1.
 
-axA2 = panel_factory.new_panel(
-    0, 0, 'C', label_position='leftleft', voffset=-0.05, panel_height_factor=0.7)
-pl.locator_params(axis='y', nbins=4)
-axA2.spines['right'].set_color('none')
-axA2.spines['top'].set_color('none')
-axA2.spines['bottom'].set_color('none')
-axA2.yaxis.set_ticks_position("left")
-axA2.xaxis.set_ticks_position("none")
-axA2.set_xticks([])
+# resolution of figures in dpi
+# does not influence eps output
+pl.rcParams['figure.dpi'] = 300
 
-axC.spines['right'].set_color('none')
-axC.spines['top'].set_color('none')
-axC.yaxis.set_ticks_position("left")
-axC.xaxis.set_ticks_position("bottom")
-axB = panel_factory.new_panel(
-    0, 3, 'F', label_position='leftleft', voffset=-0.0)
-pl.locator_params(axis='y', nbins=4)
-axB.spines['right'].set_color('none')
-axB.spines['top'].set_color('none')
-axB.yaxis.set_ticks_position("left")
-axB.xaxis.set_ticks_position("bottom")
+# font
+pl.rcParams['font.size'] = scale * 8
+pl.rcParams['legend.fontsize'] = scale * 8
+pl.rcParams['font.family'] = "sans-serif"
 
-# execute plot script
-exec(compile(open('EE_example_CEF.py').read(), 'EE_example_CEF.py', 'exec'))
+pl.rcParams['lines.linewidth'] = scale * 1.0
 
-# save figure
-pl.savefig('EE_example_CEF.eps')
-pl.clf()
-pl.close()
+# size of markers (points in point plots)
+pl.rcParams['lines.markersize'] = scale * 3.0
+pl.rcParams['patch.linewidth'] = scale * 1.0
+pl.rcParams['axes.linewidth'] = scale * 1.0     # edge linewidth
+
+# ticks distances
+pl.rcParams['xtick.major.size'] = scale * 4      # major tick size in points
+pl.rcParams['xtick.minor.size'] = scale * 2      # minor tick size in points
+pl.rcParams['lines.markeredgewidth'] = scale * 0.5  # line width of ticks
+pl.rcParams['grid.linewidth'] = scale * 0.5
+# distance to major tick label in points
+pl.rcParams['xtick.major.pad'] = scale * 4
+# distance to the minor tick label in points
+pl.rcParams['xtick.minor.pad'] = scale * 4
+pl.rcParams['ytick.major.size'] = scale * 4      # major tick size in points
+pl.rcParams['ytick.minor.size'] = scale * 2      # minor tick size in points
+# distance to major tick label in points
+pl.rcParams['ytick.major.pad'] = scale * 4
+# distance to the minor tick label in points
+pl.rcParams['ytick.minor.pad'] = scale * 4
+
+# ticks textsize
+pl.rcParams['ytick.labelsize'] = scale * 8
+pl.rcParams['xtick.labelsize'] = scale * 8
+
+# use latex to generate the labels in plots
+# not needed anymore in newer versions
+# using this, font detection fails on adobe illustrator 2010-07-20
+pl.rcParams['text.usetex'] = True
+pl.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
+
+pl.rcParams['ps.useafm'] = False   # use of afm fonts, results in small files
+# Output Type 3 (Type3) or Type 42 (TrueType)
+pl.rcParams['ps.fonttype'] = 3
+
+
+nrows = 2.
+ncols = 2.
+width = 4.61  # inches for 1.5 JoN columns
+height = 5.67
+print(width, height)
+pl.rcParams['figure.figsize'] = (width, height)
+
+fig = pl.figure()
+
+axes = {}
+
+gs1 = gridspec.GridSpec(1, 1)
+gs1.update(left=0.1, right=0.5, top=0.95, bottom=0.9, hspace=0.6, wspace=0.4)
+axes['A'] = pl.subplot(gs1[0, :])
+
+gs1 = gridspec.GridSpec(1, 1)
+gs1.update(left=0.1, right=0.5, top=0.87, bottom=0.75, hspace=0.6, wspace=0.4)
+axes['C'] = pl.subplot(gs1[0, :])
+
+
+gs1 = gridspec.GridSpec(1, 1)
+gs1.update(left=0.1, right=0.5, top=0.7, bottom=0.53, hspace=0.6, wspace=0.4)
+axes['C2'] = pl.subplot(gs1[0, :])
+
+gs1 = gridspec.GridSpec(2, 1)
+gs1.update(left=0.1, right=0.5, top=0.45, bottom=0.075, hspace=0.4, wspace=0.4)
+axes['E'] = pl.subplot(gs1[0, :])
+axes['F'] = pl.subplot(gs1[1, :])
+
+
+gs1 = gridspec.GridSpec(1, 1)
+gs1.update(left=0.65, right=0.95, top=0.95, bottom=0.8, hspace=0.4, wspace=0.4)
+axes['B'] = pl.subplot(gs1[0, :])
+
+gs1 = gridspec.GridSpec(2, 1)
+gs1.update(left=0.65, right=0.95, top=0.7, bottom=0.075, hspace=0.4, wspace=0.4)
+axes['D'] = pl.subplot(gs1[0, :])
+axes['G'] = pl.subplot(gs1[1, :])
+
+for ax in axes.values():
+    ax.yaxis.set_ticks_position('left')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+
+rate_exts_array = np.arange(150., 170.1, 1.)
+
+network_params = {'K': 210.,
+                  'W': 19.6}
+
+for label in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
+    pl.text(-0.17, 1.05, r'\bfseries{}' + label,
+            fontdict={'fontsize': 10.,
+                      'weight': 'bold',
+                      'horizontalalignment': 'left',
+                      'verticalalignment': 'bottom'},
+            transform=axes[label].transAxes)
 
 """
-Panel D/G
+1D network
 """
-# set up figure and axis
-mrk = 6.
-scale = 1.0
-width = 0.5 * 4.56
-n_horz_panels = 1
-n_vert_panels = 2
-panel_factory = create_fig_JoN(
-    1, scale, width, n_horz_panels, n_vert_panels, aspect_ratio_1=True, hoffset=0.2)
-axD = panel_factory.new_panel(0, 0, 'D', label_position='leftleft')
-axD.spines['right'].set_color('none')
-axD.spines['top'].set_color('none')
-axD.yaxis.set_ticks_position("left")
-axD.xaxis.set_ticks_position("bottom")
-axG = panel_factory.new_panel(0, 1, 'G', label_position='leftleft')
-axG.spines['right'].set_color('none')
-axG.spines['top'].set_color('none')
-axG.yaxis.set_ticks_position("left")
-axG.xaxis.set_ticks_position("bottom")
-pl.locator_params(axis='y', nbins=4)
-pl.locator_params(axis='x', nbins=4)
+ax = axes['A']
+ax.yaxis.set_ticks_position('none')
+ax.xaxis.set_ticks_position('none')
+ax.spines['bottom'].set_color('none')
+ax.spines['left'].set_color('none')
+ax.set_xticks([])
+ax.set_yticks([])
 
-# execute plot script
-exec(compile(open('EE_example_DG.py').read(), 'EE_example_DG.py', 'exec'))
+ax_inset = pl.axes([0.39, .76, 0.1, .05])
+ax_inset.yaxis.set_ticks_position('none')
+ax_inset.xaxis.set_ticks_position('none')
+ax_inset.set_xticks([0, 10000])
+ax_inset.set_xticklabels([0, r'$10^5$'])
+ax_inset.set_xlim([0., 10000])
+ax_inset.set_yticks([0, 500])
+ax_inset.set_ylim([0, 500])
+ax_inset.tick_params(axis='x', labelsize=4, pad=1)
+ax_inset.tick_params(axis='y', labelsize=4, pad=1)
 
-# save figure
-pl.savefig('EE_example_DG.eps')
+
+x = np.arange(0, 70., 1.)
+
+ax = axes['C']
+ax.xaxis.set_ticks_position('none')
+ax.spines['bottom'].set_color('none')
+ax.set_yticks([0., 50.])
+
+# Normal network with rate_ext = 160.
+input_params = {'rate_ext': 160.}
+network_params.update({'input_params': input_params})
+net = network1D(network_params)
+y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
+ax.plot(x, y, '0.3')
+
+x_long = np.arange(0, 100000., 500.)
+y_long = np.fromiter([net.Phi(x_long[j])[0] for j in range(len(x_long))], dtype=np.float)
+ax_inset.plot(x_long, y_long, '0.3')
+
+# Normal network with rate_ext = 160. without refractory period
+input_params = {'rate_ext': 160.}
+network_params2 = copy.deepcopy(network_params)
+network_params2.update({'neuron_params': {'single_neuron_dict': {'t_ref': 0.}}})
+net = network1D(network_params2)
+y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
+ax.plot(x, y, color=myred)
+
+# Noisefree case
+input_params = {'rate_ext': 160.}
+network_params.update({'input_params': input_params})
+net = network1D(network_params)
+NP = net.params['neuron_params']['single_neuron_dict']
+y = []
+
+for j in range(len(x)):
+    mu, sigma = net.theory.mu_sigma(x[j])
+    if mu[0] > NP['V_th']:
+        T = NP['tau_m'] * np.log(mu[0]/(mu[0]-NP['V_th']))
+        y.append(1/T)
+    else:
+        y.append(0.)
+ax.plot(x, y, color=myblue)
+
+ax.plot(x, x, '--', color='k')
+
+ax.set_xticks([])
+ax.set_xlim([-3, 70])
+ax.set_ylim([-3, 70])
+
+
+ax = axes['C2']
+colors = ['k', '0.3', '0.7']
+markers = ['d', '+', '.']
+
+for i, rate_ext in enumerate([150., 160., 170.]):
+    input_params = {'rate_ext': rate_ext}
+    network_params.update({'input_params': input_params})
+    net = network1D(network_params)
+    y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
+    ax.plot(x, y, colors[i])
+    # Plot fixed points
+    ind = np.where(np.abs(y - x) < 0.2)
+    for j in ind[0]:
+        if x[j] < 3.:
+            ax.plot(x[j], y[j], 'd', ms=3, color='k')
+        elif x[j] > 3. and x[j] < 28.8:
+            ax.plot(x[j], y[j], '.', ms=7, color='k')
+        else:
+            ax.plot(x[j], y[j], '+', ms=5, color='k')
+
+ax.plot(x, x, '--', color='k')
+ax.set_xlabel(r'Rate $\nu\quad(1/\mathrm{s})$')
+ax.set_ylabel(r'Rate $\Phi(\nu)\quad(1/\mathrm{s})$')
+ax.set_xlim([-3, 70])
+ax.set_ylim([-3, 70])
+ax.set_yticks([0., 50.])
+acb = pl.axes([-0.1, .59, 0.55, 0.07])
+acb.axis('off')
+cmap = pl.get_cmap('Greys_r')
+line_colors = cmap(np.linspace(0, 1, 4)[:3])
+cmap2 = ListedColormap(line_colors)
+sm = pl.cm.ScalarMappable(
+    cmap=cmap2, norm=pl.Normalize(vmin=150., vmax=170.))
+sm.set_array([])
+cbticks = [170., 150.]
+cbar = pl.colorbar(sm, ax=acb, ticks=cbticks, shrink=0.5, aspect=10, pad=-0.15,
+                   anchor=(1., 0.5), orientation='horizontal')
+cbar.set_label(r'$\nu_{\mathrm{ext}}$', labelpad=-2)
+cbar.ax.invert_xaxis()
+cbar.solids.set_edgecolor('none')
+
+"""
+Panel E: Fixed points of 1D system
+"""
+rate_init = np.arange(0., 100., 10.)
+ax = axes['E']
+
+for rate_ext in np.arange(150., 170., 1.):
+    fp_list = []
+    input_params = {'rate_ext': rate_ext}
+    network_params.update({'input_params': input_params})
+    net = network1D(network_params)
+    for init in rate_init:
+        res = net.fsolve([init])
+        if res['eps'] == 'The solution converged.':
+            fp_list.append(res['rates'][0][0])
+    for fp in fp_list:
+        if fp < 3.:
+            ax.plot(rate_ext, fp, 'D', color='k', markersize=2)
+        elif fp > 3. and fp < 28.8:
+            ax.plot(rate_ext, fp, '.', color='k', markersize=3)
+        elif fp > 28.8:
+            ax.plot(rate_ext, fp, '+', color='k', markersize=3)
+ax.set_xlim((150., 170.))
+ax.set_yticks([0., 50.])
+ax.set_xlabel(r'$\nu_{\mathrm{ext}}\quad(1/\mathrm{s})$')
+ax.set_ylabel(r'Rate $\nu\quad(1/\mathrm{s})$')
+
+"""
+Panel F: Flux in the bistable case
+"""
+ax = axes['F']
+
+network_params_base = {'K': 210.,
+                       'W': 19.6,
+                       'input_params': {'rate_ext': 160.}}
+network_params_inc = {'K': 210.,
+                      'W': 19.6,
+                      'input_params': {'rate_ext': 161.}}
+network_params_stab = {'K': 210.,
+                       'W': 19.6,
+                       'input_params': {'rate_ext': 161.}}
+
+# Normal network with rate_ext = 160.
+net = network1D(network_params_base)
+y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
+ax.plot(y, y - x, color='k')
+
+ax.hlines(0., 0., 70., linestyles='dashed')
+
+
+# Normal network with rate_ext = 160.
+net = network1D(network_params_inc)
+y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
+ax.plot(y, y - x, color=myblue)
+
+fp = net.fsolve(([18.]))['rates'][0][0]
+
+# Normal network with rate_ext = 160.
+deltaK = -1. * network_params['K'] * (161. - 160.) / fp
+network_params_stab.update({'K': network_params['K'] + deltaK})
+net = network1D(network_params_stab)
+y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
+ax.plot(y, y - x, color=myred)
+
+ax.hlines(0., 0., 70., linestyles='dashed')
+
+
+ax.set_xlabel(r'Rate $\nu\quad(1/\mathrm{s})$')
+ax.set_ylabel(r'Flux $\dot\nu\quad(1/\mathrm{s})$', labelpad=0)
+
+"""
+2D network
+"""
+ax = axes['B']
+ax.yaxis.set_ticks_position('none')
+ax.xaxis.set_ticks_position('none')
+ax.spines['bottom'].set_color('none')
+ax.spines['left'].set_color('none')
+ax.set_xticks([])
+ax.set_yticks([])
+
+"""
+Panel D: Phase space
+"""
+ax = axes['D']
+
+rates_init = np.arange(0., 200., 10.)
+
+network_params_base = {'K': 210.,
+                       'W': 19.6,
+                       'input_params': {'rate_ext': 160.}}
+network_params_inc = {'K': 210.,
+                      'W': 19.6,
+                      'input_params': {'rate_ext': 161.}}
+network_params_stab = {'K': 210.,
+                       'W': 19.6,
+                       'input_params': {'rate_ext': 161.}}
+
+colors = ['k', myblue, myred]
+for i, netp in enumerate([network_params_base,
+                          network_params_inc,
+                          network_params_stab]):
+    # For the stabilized network, compute fixed point of network with
+    # increased ext. input and adapt indegree to stabilize the network
+    if i == 2:
+        fp = net.fsolve(([18., 18.]))['rates'][0][0]
+    deltaK = -1. * network_params['K'] * (161. - 160.) / fp
+    network_params_stab.update({'K': network_params['K'] + deltaK})
+    net = network2D(netp)
+
+    fp_list = []
+    for init in rate_init:
+        res = net.fsolve([init, init])
+        if res['eps'] == 'The solution converged.':
+            fp_list.append(res['rates'][0])
+    print(fp_list)
+    for fp in fp_list:
+        if fp[0] < 3.:
+            ax.plot(fp[0], fp[1], 'D', color=colors[i], markersize=2)
+        elif fp[0] > 3. and fp[0] < 28.8:
+            ax.plot(fp[0], fp[1], '.', color=colors[i], markersize=5)
+        elif fp[0] > 28.8:
+            ax.plot(fp[0], fp[1], '+', color=colors[i], markersize=3)
+
+
+ax.set_ylabel(r'Excitatory rate 1 $(1/\mathrm{s})$')
+ax.set_xlabel(r'Excitatory rate 2 $(1/\mathrm{s})$')
 
 
 """
-merge panels into one figure using pyx
+Panel G: Flux space
 """
+ax = axes['G']
+ax.set_ylabel(r'Excitatory rate 1 $(10^{-2}/\mathrm{s})$')
+ax.set_xlabel(r'Excitatory rate 2 $(10^{-2}/\mathrm{s})$')
 
-# pyx.text.set(mode='latex')
-# pyx.text.preamble(r"\usepackage{helvet}")
+
+"""
+Save and merge figure
+"""
+pl.savefig('Fig2_EE_example_mpl.eps')
+
+pyx.text.set(mode='latex')
+pyx.text.preamble(r"\usepackage{helvet}")
 c = pyx.canvas.canvas()
-#c.text(6.1, 13.7, r'\textbf{\textsf{B}}')
-c.insert(pyx.epsfile.epsfile(0, 0., "EE_example_CEF.eps"))
-c.insert(pyx.epsfile.epsfile(5.8, 0.05, "EE_example_DG.eps"))
-c.insert(pyx.epsfile.epsfile(0.3, 12.3, "EE_example_A.eps", width=4.))
-c.insert(pyx.epsfile.epsfile(6.1, 11.0, "EE_example_B.eps", width=5.))
-#c.text(0.3, 13.7, r'\textbf{\textsf{A}}')
-c.writeEPSfile("fig2.eps")
+
+c.insert(pyx.epsfile.epsfile(0, 0., "Fig2_EE_example_mpl.eps"))
+c.insert(pyx.epsfile.epsfile(2., 12.8, "Fig2_EE_example_A.eps", width=2.))
+c.insert(pyx.epsfile.epsfile(7.6, 11.0, "Fig2_EE_example_B.eps", width=3.))
+
+c.writeEPSfile("Fig2_EE_example.eps")
