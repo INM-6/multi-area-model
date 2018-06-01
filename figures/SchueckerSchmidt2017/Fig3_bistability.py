@@ -61,8 +61,8 @@ network_params = {'N_scaling': 1.,
                   'connection_params': conn_params,
                   'neuron_params': neuron_params,
                   'input_params': input_params}
-
-M_LA = MultiAreaModel(network_params, simulation=True,
+M_LA = MultiAreaModel(network_params,
+                      simulation=True,
                       sim_spec=sim_params,
                       analysis=True)
 M_LA.analysis.create_pop_rates()
