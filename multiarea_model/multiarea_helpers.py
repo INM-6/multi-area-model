@@ -529,9 +529,7 @@ def extract_area_dict(d, structure, target_area, source_area):
 
 def convert_syn_weight(W, neuron_params):
     """
-    # TODO: this documentation is wrong. this is not the integral.
-    Compute the integral of the PSP of exponential
-    post-synaptic currents evoked by a PSC with amplitude W.
+    Convert the amplitude of the PSC into mV.
 
     Parameters
     ----------
