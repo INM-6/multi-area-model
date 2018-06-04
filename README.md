@@ -191,7 +191,13 @@ In addition, reproducing the figures of [1] requires networkx, python-igraph, py
 
 In addition, Figure 7 of [1] requires installing the `infomap` package to perform the map equation clustering. See <http://www.mapequation.org/code.html> for all necessary information.
 
+Similarly, reproducing the figures of [3] requires statsmodels, networkx, pyx, python-louvain, which can be installed by executing:
+
+`pip install -r figures/Schmidt2018_dyn/additional_requirements.txt`
+
 The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
+
+The calculation of BOLD signals from the simulated firing rates for Fig. 8 of [3] requires an installation of R and the R library `neuRosim` (<https://cran.r-project.org/web/packages/neuRosim/index.html>).
 
 ## Contributors
 
