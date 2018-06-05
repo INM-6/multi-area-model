@@ -1,5 +1,5 @@
 statsmodels
-R
 networkx
 pyx
 python-louvain
+-e git+https://github.com/mschmidt87/correlation-toolbox.git@enh/add_setup_file#egg=correlation-toolbox

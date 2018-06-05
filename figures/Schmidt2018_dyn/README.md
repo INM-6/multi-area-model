@@ -28,6 +28,8 @@ Reproducing the figures requires some additional Python packages listed in `addi
 
 `pip install -r additional_requirements.txt`
 
+The calculation of BOLD signals from the simulated firing rates for Fig. 8 requires an installation of R and the R library `neuRosim` (<https://cran.r-project.org/web/packages/neuRosim/index.html>).
+
 ### Snakemake workflow
 
 The entire workflow from raw spike files till the final figures is defined in `Snakefile` and `Snakefile_preprocessing`. If snakemake is installed, the figures can be produced by executing `snakemake`.
