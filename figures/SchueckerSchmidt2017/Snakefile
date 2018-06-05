@@ -12,7 +12,7 @@ rule all:
         'Fig6_unstable_FP.eps',
         'Fig7_stabilization_analysis.eps',
         'Fig8_conn_analysis.eps'
-#        'Fig9_simulation.eps'
+        'Fig9_simulation.eps'
 
 rule Stabilization:
     output:
