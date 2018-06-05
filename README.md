@@ -179,9 +179,9 @@ pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, NEST 2.14.0
 
 Optional: seaborn, Sumatra
 
-To install the required packages in a conda environment, execute:
+To install the required packages with pip, execute:
 
-`conda env create -f environment.yaml`
+`pip install -r requirements.txt`
 
 Note that NEST needs to be installed separately, see <http://www.nest-simulator.org/installation/>.
 
