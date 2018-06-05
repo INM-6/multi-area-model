@@ -53,15 +53,12 @@ def velocity_peaks(time, result, threshold=0.05):
 
 
 def plot_iteration(results, theory_params, threshold=0.05, full=True):
-    import seaborn as sns
-
     traj = np.mean(results, axis=1)
     if full:
         ind = list(range(0, len(traj)))
     else:
         i = np.argmax(np.diff(traj[:, -1]))
         ind = [i, i+1]
-    cp = sns.color_palette(n_colors=len(ind))
 
     time = np.arange(0., theory_params['T'], theory_params['dt'])
     fig = pl.figure()
@@ -76,13 +73,13 @@ def plot_iteration(results, theory_params, threshold=0.05, full=True):
     ax = fig.add_subplot(122)
     for n, i in enumerate(ind):
         d_nu, minima = velocity_peaks(time, results[i], threshold=threshold)
-        ax.plot(time[:-1], d_nu, color=cp[n])
+        ax.plot(time[:-1], d_nu)
         if not full:
             ax.vlines(time[minima],
                       1e-6,
                       1e0,
                       linestyles='dashed',
-                      color=cp[n])
+                      color='k')
     ax.set_yscale('Log')
     pl.show()
 
