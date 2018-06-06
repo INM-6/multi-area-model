@@ -1,5 +1,4 @@
 import copy
-import data_wrapper.data_wrapper as dw
 import multiprocessing as mp
 import numpy as np
 import os
@@ -90,7 +89,8 @@ def save_iteration(step, data):
         os.mkdir(data_dir)
     except FileExistsError:
         pass
-    dw.save('iteration_{}'.format(step), data)
+    for key in ['parameters', 'K_prime', 'results']:
+        np.save('iteration_{}/{}.npy'.format(step, key), data[key])
 
 
 def load_iteration(step):
