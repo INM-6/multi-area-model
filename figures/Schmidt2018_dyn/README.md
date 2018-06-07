@@ -22,6 +22,14 @@ and responses to parametric stimuli in macaque V1, available in the crcns.org da
 
 Figure 8 requires the experimental fMRI data (described by Babapoor-Farrokhran et al. (2013), see Methods section of Schmidt et al. 2018 for more details) that are contained in this repository in `Fig8_exp_func_conn.csv`.
 
+### Requirements
+
+Reproducing the figures requires some additional Python packages listed in `additional_requirements.txt`. They can be installed using pip by executing:
+
+`pip install -r additional_requirements.txt`
+
+The calculation of BOLD signals from the simulated firing rates for Fig. 8 requires an installation of R and the R library `neuRosim` (<https://cran.r-project.org/web/packages/neuRosim/index.html>).
+
 ### Snakemake workflow
 
 The entire workflow from raw spike files till the final figures is defined in `Snakefile` and `Snakefile_preprocessing`. If snakemake is installed, the figures can be produced by executing `snakemake`.

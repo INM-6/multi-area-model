@@ -6,7 +6,7 @@ area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
              'STPa', '46', 'AITd', 'TH']
 population_list = ['23E', '23I', '4E',  '4I', '5E', '5I', '6E', '6I']
 
-LOAD_ORIGINAL_DATA = False
+LOAD_ORIGINAL_DATA = True
 
 ORIGINAL_SIM_LABELS = {'all': ['533d73357fbe99f6178029e6054b571b485f40f6',
                                '0adda4a542c3d5d43aebf7c30d876b6c5fd1d63e',
@@ -55,12 +55,16 @@ ORIGINAL_SIM_LABELS = {'all': ['533d73357fbe99f6178029e6054b571b485f40f6',
 
 if LOAD_ORIGINAL_DATA:
     DATA_DIR = original_data_path
-    SIM_LABELS = ORIGINAL_SIM_LABELS_LABELS
+    SIM_LABELS = ORIGINAL_SIM_LABELS
 else:
     from network_simulations import create_label_dict
     from config import data_path
     DATA_DIR = data_path
     SIM_LABELS = create_label_dict()
+
+if DATA_DIR is None:
+    raise TypeError("The path to the data files is None. "
+                    "Please define the data path.")
 
 rule all:
     input:

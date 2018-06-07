@@ -1,3 +1,4 @@
+import numpy as np
 import os
 
 from multiarea_model import MultiAreaModel
@@ -31,12 +32,12 @@ neuron_params = {'V0_mean': -150.,
 network_params = {'N_scaling': 1.,
                   'K_scaling': 1.,
                   'connection_params': conn_params,
+                  'input_params': input_params,
                   'neuron_params': neuron_params}
 
 sim_params = {'t_sim': 2000.,
               'num_processes': 720,
               'local_num_threads': 1,
-              'input_params': input_params,
               'recording_dict': {'record_vm': False}}
 
 theory_params = {'dt': 0.1}
@@ -46,6 +47,8 @@ M = MultiAreaModel(network_params, simulation=True,
                    theory=True,
                    theory_spec=theory_params)
 p, r = M.theory.integrate_siegert()
+print("Mean-field theory predicts an average "
+      "rate of {0:.3f} spikes/s across all populations.".format(np.mean(r[:, -1])))
 start_job(M.simulation.label, submit_cmd, jobscript_template)
 
 
@@ -71,13 +74,13 @@ neuron_params = {'V0_mean': -150.,
 network_params = {'N_scaling': 0.01,
                   'K_scaling': 0.01,
                   'fullscale_rates': os.path.join(base_path, 'tests/fullscale_rates.json'),
+                  'input_params': input_params,
                   'connection_params': conn_params,
                   'neuron_params': neuron_params}
 
 sim_params = {'t_sim': 2000.,
               'num_processes': 1,
               'local_num_threads': 1,
-              'input_params': input_params,
               'recording_dict': {'record_vm': False}}
 
 theory_params = {'dt': 0.1}
@@ -87,4 +90,6 @@ M = MultiAreaModel(network_params, simulation=True,
                    theory=True,
                    theory_spec=theory_params)
 p, r = M.theory.integrate_siegert()
+print("Mean-field theory predicts an average "
+      "rate of {0:.3f} spikes/s across all populations.".format(np.mean(r[:, -1])))
 M.simulation.simulate()

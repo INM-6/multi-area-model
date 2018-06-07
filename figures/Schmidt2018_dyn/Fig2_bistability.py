@@ -55,9 +55,9 @@ for key, label in zip(keys, data_labels):
 
 labels = ['A', 'B', 'C']
 
-for i, k in enumerate(['LA', 'HA', 'LA_post']):
-    ax = axes[labels[i]]
-    ax2 = axes[labels[i] + '2']
+for k, key in enumerate(['LA', 'HA', 'LA_post']):
+    ax = axes[labels[k]]
+    ax2 = axes[labels[k] + '2']
     print(k)
     matrix = np.zeros((len(M.area_list), 8))
 
@@ -66,7 +66,7 @@ for i, k in enumerate(['LA', 'HA', 'LA_post']):
             if pop not in M.structure[area]:
                 rate = np.nan
             else:
-                rate = data[k][area][pop][0]
+                rate = data[key][area][pop][0]
 
             if rate == 0.0:
                 rate = 1e-5
@@ -74,11 +74,11 @@ for i, k in enumerate(['LA', 'HA', 'LA_post']):
 
     matrix = np.transpose(matrix)
 
-    if i == 0:
+    if k == 0:
         matrix_plot(panel_factory.figure, ax, matrix, position='left')
         rate_histogram_plot(panel_factory.figure, ax2,
                             matrix, position='left')
-    elif i == 1:
+    elif k == 1:
         matrix_plot(panel_factory.figure, ax, matrix, position='center')
         rate_histogram_plot(panel_factory.figure, ax2,
                             matrix, position='center')
@@ -98,7 +98,7 @@ pyx.text.preamble(r"\usepackage{helvet}")
 c = pyx.canvas.canvas()
 c.insert(pyx.epsfile.epsfile(0.5, 0.5, "Fig2_bistability_mpl.eps", width=17.6))
 c.insert(pyx.epsfile.epsfile(
-    4., 8.5, "phasespace_sketch.eps", width=10.))
+    4., 8.5, "Fig2_bistability_phasespace_sketch.eps", width=10.))
 c.insert(pyx.epsfile.epsfile(1., 3.1, "Epop.eps", width=0.75))
 c.insert(pyx.epsfile.epsfile(1., 2., "Ipop.eps", width=0.75))
 

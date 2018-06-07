@@ -5,8 +5,6 @@ from multiarea_model import MultiAreaModel
 from multiarea_model.multiarea_helpers import create_vector_mask
 from multiarea_model.stabilize import stabilize
 import utils
-import seaborn as sns
-cp = sns.color_palette()
 
 """
 Initialization
@@ -34,12 +32,12 @@ M_target = MultiAreaModel(network_params_target, theory=True,
                           theory_spec=theory_params)
 
 THREADS = 4
-load_list = [1, 2, 3, 4]
+load_list = []
 
 # This list defines which of the detected minima of the velocity
 # vector is identified as the unstable fixed point. It has to be
 # created manually.
-ind_list = [1, 1, 0, 1]
+ind_list = []
 
 """
 Main loop
@@ -68,7 +66,8 @@ for iteration in [1, 2, 3, 4, 5]:
         # Scan parameter space to find a good approximation of the
         # critical parameter value where the model crosses the
         # separatrix for the initial condition of zero rates
-        if iteration < 5: # For iteration 5, we just analyze the behavior without performing the stabilization
+        if iteration < 5:
+            # For iteration 5, we just analyze the behavior without performing the stabilization
             data[iteration] = utils.compute_iteration(7, fac_nu_ext_5E_list,
                                                       theory_params, M_base, threads=THREADS)
         else:
