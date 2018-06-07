@@ -32,12 +32,12 @@ M_target = MultiAreaModel(network_params_target, theory=True,
                           theory_spec=theory_params)
 
 THREADS = 4
-load_list = [1, 2, 3, 4]
+load_list = []
 
 # This list defines which of the detected minima of the velocity
 # vector is identified as the unstable fixed point. It has to be
 # created manually.
-ind_list = [1, 1, 0, 1]
+ind_list = []
 
 """
 Main loop

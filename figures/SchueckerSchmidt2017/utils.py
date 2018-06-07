@@ -118,7 +118,7 @@ def compute_iteration(max_iter, fac_nu_ext_5E_list, theory_params, M_base, threa
         fac_nu_ext_5E_list = np.arange(fac_nu_ext_5E_list[i],
                                        # to ensure that the array includes the last value, we add a small epsilon
                                        fac_nu_ext_5E_list[i+1] + 1.e-10,
-                                       10**(-(i+2)))
+                                       10**(-(i+2.)))
 
     ind = np.argsort(par_list)
     par_list = par_list[ind]
