@@ -298,7 +298,6 @@ class Theory:
             'tau_m'] / C_m * self.network.add_DC_drive
         sigma2 = self.NP['tau_m'] * 1e-3 * np.dot(KJ2, rates) + sigma2_CC
         sigma = np.sqrt(sigma2)
-
         return mu, sigma
 
     def d_nu(self, mu, sigma):

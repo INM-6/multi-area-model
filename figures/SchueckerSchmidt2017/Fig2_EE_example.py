@@ -342,9 +342,12 @@ ax.set_xticks([])
 ax.set_yticks([])
 
 """
-Panel D: Phase space
+Panel D and G: Phase space with flux and nullclines
 """
 ax = axes['D']
+axG = axes['G']
+axG.set_ylabel(r'Excitatory rate 1 $(10^{-2}/\mathrm{s})$')
+axG.set_xlabel(r'Excitatory rate 2 $(10^{-2}/\mathrm{s})$')
 
 rates_init = np.arange(0., 200., 10.)
 
@@ -362,13 +365,14 @@ colors = ['k', myblue, myred]
 for i, netp in enumerate([network_params_base,
                           network_params_inc,
                           network_params_stab]):
-    # For the stabilized network, compute fixed point of network with
-    # increased ext. input and adapt indegree to stabilize the network
-    if i == 2:
-        fp = net.fsolve(([18., 18.]))['rates'][0][0]
-    deltaK = -1. * network_params['K'] * (161. - 160.) / fp
-    network_params_stab.update({'K': network_params['K'] + deltaK})
     net = network2D(netp)
+
+    # For the stabilized network, compute fixed point of base network
+    # and adapt indegree to stabilize the network
+    if i == 0:
+        fp = net.fsolve(([18., 18.]))['rates'][0][0]
+        deltaK = -1. * network_params['K'] * (161. - 160.) / fp
+        network_params_stab.update({'K_stable': network_params['K'] + deltaK})
 
     fp_list = []
     for init in rate_init:
@@ -378,23 +382,69 @@ for i, netp in enumerate([network_params_base,
     print(fp_list)
     for fp in fp_list:
         if fp[0] < 3.:
-            ax.plot(fp[0], fp[1], 'D', color=colors[i], markersize=2)
+            if i == 1:
+                ax.plot(fp[0], fp[1], 's', color=colors[i], markersize=2 + 3)
+                axG.plot(fp[0] * 1e2, fp[1] * 1e2, 's',
+                         color=colors[i], markersize=2 + 3)
+            else:
+                ax.plot(fp[0], fp[1], 'D', color=colors[i], markersize=2)
+                axG.plot(fp[0] * 1e2, fp[1] * 1e2, 'D',
+                         color=colors[i], markersize=2)
         elif fp[0] > 3. and fp[0] < 28.8:
             ax.plot(fp[0], fp[1], '.', color=colors[i], markersize=5)
+            axG.plot(fp[0] * 1e2, fp[1] * 1e2, '.',
+                     color=colors[i], markersize=5)
+            separatrix = ([0, 2 * fp[0]], [2 * fp[1], 0])
+            if i == 0:
+                ax.plot(separatrix[0], separatrix[1], lw=5, color=colors[i])
+            else:
+                ax.plot(separatrix[0], separatrix[1], color=colors[i])
+
         elif fp[0] > 28.8:
-            ax.plot(fp[0], fp[1], '+', color=colors[i], markersize=3)
+            if i == 0:
+                ax.plot(fp[0], fp[1], '+', color=colors[i], markersize=3)
+                axG.plot(fp[0] * 1e2, fp[1] * 1e2, '+',
+                         color=colors[i], markersize=3)
 
 
 ax.set_ylabel(r'Excitatory rate 1 $(1/\mathrm{s})$')
 ax.set_xlabel(r'Excitatory rate 2 $(1/\mathrm{s})$')
+y0 = 0.
+x1 = 0.015
+y1 = 0.015
 
+# vector fiels
+netp = network_params_base
+net = network2D(netp)
+range_vector = np.arange(0., 51., 10.)
+x, y, vx, vy = net.vector_field(range_vector, range_vector)
+ax.quiver(x, y, vx, vy, angles='xy', scale_units='xy', scale=8)
 
-"""
-Panel G: Flux space
-"""
-ax = axes['G']
-ax.set_ylabel(r'Excitatory rate 1 $(10^{-2}/\mathrm{s})$')
-ax.set_xlabel(r'Excitatory rate 2 $(10^{-2}/\mathrm{s})$')
+range_vector = np.linspace(0.001, 0.015, 4)
+x, y, vx, vy = net.vector_field(range_vector, range_vector)
+axG.quiver(x * 1e2, y * 1e2, vx * 1e2, vy * 1e2,
+           angles='xy', scale_units='xy', scale=10)
+
+netp = network_params_stab
+net = network2D(netp)
+range_vector = np.linspace(0.001, 0.015, 4)
+x, y, vx, vy = net.vector_field(range_vector, range_vector)
+axG.quiver(x * 1e2, y * 1e2, vx * 1e2, vy * 1e2,
+           angles='xy', scale_units='xy', scale=10, color=myred)
+
+# nullclines
+netp = network_params_base
+net = network2D(netp)
+x0_vec = np.arange(0, 50, 0.1)
+nullcline_x0 = net.nullclines_x0(x0_vec)
+ax.plot(nullcline_x0, x0_vec, '--', color='black', label='x0')
+ax.plot(x0_vec, nullcline_x0, '--', color='black', label='x0')
+
+# set limes
+axG.set_xlim((x0 * 1e2, x1 * 1e2))
+axG.set_ylim((y0 * 1e2, y1 * 1e2))
+ax.set_xlim([-5, 50])
+ax.set_ylim([-5, 50])
 
 
 """
