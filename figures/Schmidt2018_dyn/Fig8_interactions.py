@@ -365,9 +365,6 @@ f.close()
 """
 Merge with alluvial plot
 """
-pyx.text.set(cls=pyx.text.LatexRunner)
-pyx.text.preamble(r"\usepackage{helvet}")
-
 c = pyx.canvas.canvas()
 c.fill(pyx.path.rect(0, 0., 17.9, 17.), [pyx.color.rgb.white])
 

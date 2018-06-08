@@ -94,9 +94,6 @@ p.savefig('Fig3_construction_mpl.eps')
 """
 Merge with syntypes figure
 """
-pyx.text.set(cls=pyx.text.LatexRunner)
-pyx.text.preamble(r"\usepackage{helvet}")
-
 c = pyx.canvas.canvas()
 c.insert(pyx.epsfile.epsfile(
     0.4, 0., "Fig3_construction_mpl.eps", width=8.3))

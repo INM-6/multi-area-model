@@ -140,9 +140,6 @@ pl.savefig(os.path.join(base_dir,
 """
 Merge figures
 """
-pyx.text.set(mode='latex')
-pyx.text.preamble(r"\usepackage{helvet}")
-
 c = pyx.canvas.canvas()
 c.insert(pyx.epsfile.epsfile(0, 0, "Fig3_bistability_mpl.eps"))
 

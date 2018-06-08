@@ -177,9 +177,6 @@ pl.savefig('Fig4_meanfield_mam_mpl.eps')
 """
 Merge figures
 """
-pyx.text.set(mode='latex')
-pyx.text.preamble(r"\usepackage{helvet}")
-
 c = pyx.canvas.canvas()
 
 c.insert(pyx.epsfile.epsfile(0, 0, "Fig4_meanfield_mam_mpl.eps"))
