@@ -289,14 +289,14 @@ ax.hlines(0., 0., 70., linestyles='dashed')
 a.hlines(0., 0., 70., linestyles='dashed')
 fp_base = net.fsolve(([18.]))['rates'][0][0]
 
-# Normal network with rate_ext = 160.
+# Normal network with rate_ext = 161.
 net = network1D(network_params_inc)
 y = np.fromiter([net.Phi(x[j])[0] for j in range(len(x))], dtype=np.float)
 ax.plot(x, y - x, color=myblue)
 a.plot(x, y - x, color=myblue, lw=4.)
 fp_inc = net.fsolve(([18.]))['rates'][0][0]
 
-# Normal network with rate_ext = 160.
+# Stabilized network with rate_ext = 161.
 deltaK = -1. * network_params['K'] * (161. - 160.) / fp_base
 print(network_params['K'] + deltaK)
 network_params_stab.update({'K_stable': network_params['K'] + deltaK})
@@ -452,8 +452,6 @@ Save and merge figure
 """
 pl.savefig('Fig2_EE_example_mpl.eps')
 
-pyx.text.set(mode='latex')
-pyx.text.preamble(r"\usepackage{helvet}")
 c = pyx.canvas.canvas()
 
 c.insert(pyx.epsfile.epsfile(0, 0., "Fig2_EE_example_mpl.eps"))

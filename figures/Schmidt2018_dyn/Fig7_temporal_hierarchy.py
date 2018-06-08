@@ -632,9 +632,6 @@ pl.savefig('Fig7_temporal_hierarchy_mpl.eps')
 """
 Merge surface plots
 """
-pyx.text.set(cls=pyx.text.LatexRunner)
-pyx.text.preamble(r"\usepackage{helvet}")
-
 c = pyx.canvas.canvas()
 
 c.insert(pyx.epsfile.epsfile(

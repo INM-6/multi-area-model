@@ -300,9 +300,6 @@ if NEURON_DENSITIES_AVAILABLE:
     """
     Merge with syn_illustration figure
     """
-    pyx.text.set(cls=pyx.text.LatexRunner)
-    pyx.text.preamble(r"\usepackage{helvet}")
-
     c = pyx.canvas.canvas()
     c.insert(pyx.epsfile.epsfile(
         0., 0., "Fig5_cc_laminar_pattern_mpl.eps", width=17.3))
