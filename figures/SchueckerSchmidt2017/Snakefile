@@ -5,7 +5,7 @@ rule all:
         'iteration_3/K_prime.npy',
         'iteration_4/K_prime.npy',
         'Fig1_scheme.eps',
-#        'Fig2_EE_example.eps',
+        'Fig2_EE_example.eps',
         'Fig3_bistability.eps',
         'Fig4_meanfield_mam.eps',
         'Fig5_eigenspace.eps',
