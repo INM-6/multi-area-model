@@ -96,8 +96,8 @@ c = pyx.canvas.canvas()
 c.insert(pyx.epsfile.epsfile(0.5, 0.5, "Fig2_bistability_mpl.eps", width=17.6))
 c.insert(pyx.epsfile.epsfile(
     4., 8.5, "Fig2_bistability_phasespace_sketch.eps", width=10.))
-c.insert(pyx.epsfile.epsfile(1., 3.1, "Epop.eps", width=0.75))
-c.insert(pyx.epsfile.epsfile(1., 2., "Ipop.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(1., 3.1, "Fig2_Epop.eps", width=0.75))
+c.insert(pyx.epsfile.epsfile(1., 2., "Fig2_Ipop.eps", width=0.75))
 
 
 c.writeEPSfile("Fig2_bistability.eps")
