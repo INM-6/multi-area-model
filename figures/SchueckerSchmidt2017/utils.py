@@ -116,7 +116,9 @@ def compute_iteration(max_iter, fac_nu_ext_5E_list, theory_params, M_base, threa
         j = np.argmax(np.diff(np.mean(r, axis=1)[:, -1]))
         i += 1
         fac_nu_ext_5E_list = np.arange(fac_nu_ext_5E_list[j],
-                                       # to ensure that the array includes the last value, we add a small epsilon
+                                       # to ensure that the array
+                                       # includes the last value, we
+                                       # add a small epsilon
                                        fac_nu_ext_5E_list[j+1] + 1.e-10,
                                        10**(-(i+2.)))
 
