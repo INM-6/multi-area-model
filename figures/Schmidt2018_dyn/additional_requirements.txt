@@ -1,4 +1,5 @@
 statsmodels
+neo
 networkx
 pyx
 python-louvain
