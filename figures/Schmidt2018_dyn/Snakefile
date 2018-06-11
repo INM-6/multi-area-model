@@ -96,8 +96,8 @@ rule Fig3_ground_state_chi1:
         expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'recordings', '-'.join((SIM_LABELS['Fig3'], 'spikes-{area}-{pop}.npy'))),
                area=['V1', 'V2', 'FEF'], pop=population_list),
         expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis', 'rate_time_series_full', 'rate_time_series_full_{area}.npy'),
-               area=area_list),
-        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis', 'rate_time_series_auto_kernel', 'rate_time_series_auto_kernel_{area}.npy'), area=area_list),
+               area=['V1', 'V2', 'FEF']),
+        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis', 'rate_time_series_auto_kernel', 'rate_time_series_auto_kernel_{area}.npy'), area=['V1', 'V2', 'FEF']),
     output:
         'Fig3_ground_state_chi1.eps'
     shell:
@@ -128,8 +128,8 @@ rule Fig5_ground_state:
         expand(os.path.join(DATA_DIR, SIM_LABELS['Fig5'][0], 'recordings', '-'.join((SIM_LABELS['Fig5'][0], 'spikes-{area}-{pop}.npy'))),
                area=['V1', 'V2', 'FEF'], pop=population_list),
         expand(os.path.join(DATA_DIR, SIM_LABELS['Fig5'][1], 'Analysis', 'rate_time_series_full', 'rate_time_series_full_{area}.npy'),
-               area=area_list),
-        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig5'][1], 'Analysis', 'rate_time_series_auto_kernel', 'rate_time_series_auto_kernel_{area}.npy'), area=area_list),
+               area=['V1', 'V2', 'FEF']),
+        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig5'][1], 'Analysis', 'rate_time_series_auto_kernel', 'rate_time_series_auto_kernel_{area}.npy'), area=['V1', 'V2', 'FEF']),
     output:
         'Fig5_ground_state.eps'
     shell:

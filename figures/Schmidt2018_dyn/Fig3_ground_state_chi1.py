@@ -119,7 +119,7 @@ with open(fn, 'r') as f:
 
 # time series of firing rates
 rate_time_series = {}
-for area in M.area_list:
+for area in areas:
     fn = os.path.join(data_path, label,
                       'Analysis',
                       'rate_time_series_full',
@@ -128,7 +128,7 @@ for area in M.area_list:
 
 # time series of firing rates convolved with a kernel
 rate_time_series_auto_kernel = {}
-for area in M.area_list:
+for area in areas:
     fn = os.path.join(data_path, label,
                       'Analysis',
                       'rate_time_series_auto_kernel',
