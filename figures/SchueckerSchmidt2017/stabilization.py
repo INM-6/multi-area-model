@@ -37,7 +37,7 @@ load_list = []
 # This list defines which of the detected minima of the velocity
 # vector is identified as the unstable fixed point. It has to be
 # created manually.
-ind_list = []
+ind_list = [1, 1, 0, 1]
 
 """
 Main loop
