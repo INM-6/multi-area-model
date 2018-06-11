@@ -6,8 +6,6 @@ import pyx
 from matplotlib import gridspec
 from matplotlib.colors import ListedColormap
 from plotcolors import myred, myblue
-import pyx
-import os
 from Fig2_EE_network import network1D, network2D
 
 """
@@ -52,8 +50,6 @@ pl.rcParams['ytick.labelsize'] = scale * 8
 pl.rcParams['xtick.labelsize'] = scale * 8
 
 # use latex to generate the labels in plots
-# not needed anymore in newer versions
-# using this, font detection fails on adobe illustrator 2010-07-20
 pl.rcParams['text.usetex'] = True
 pl.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
 
@@ -66,7 +62,6 @@ nrows = 2.
 ncols = 2.
 width = 4.61  # inches for 1.5 JoN columns
 height = 5.67
-print(width, height)
 pl.rcParams['figure.figsize'] = (width, height)
 
 fig = pl.figure()
@@ -124,6 +119,8 @@ for label in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
 """
 1D network
 """
+
+
 ax = axes['A']
 ax.yaxis.set_ticks_position('none')
 ax.xaxis.set_ticks_position('none')
@@ -146,6 +143,14 @@ ax_inset.tick_params(axis='y', labelsize=4, pad=1)
 
 x = np.arange(0, 150., 1.)
 
+
+"""
+Panel C (top): Transfer function
+for three cases:
+- normal network
+- noiseless neurons
+- neurons without refractory period
+"""
 ax = axes['C']
 ax.xaxis.set_ticks_position('none')
 ax.spines['bottom'].set_color('none')
@@ -189,6 +194,10 @@ ax.set_xlim([-3, 70])
 ax.set_ylim([-3, 70])
 
 
+"""
+Panel C (bottom): Transfer function
+for three levels of external stimulation.
+"""
 ax = axes['C2']
 colors = ['k', '0.3', '0.7']
 markers = ['d', '+', '.']
@@ -413,7 +422,7 @@ y0 = 0.
 x1 = 0.015
 y1 = 0.015
 
-# vector fiels
+# vector fields
 netp = network_params_base
 net = network2D(netp)
 range_vector = np.arange(0., 51., 10.)
@@ -440,7 +449,7 @@ nullcline_x0 = net.nullclines_x0(x0_vec)
 ax.plot(nullcline_x0, x0_vec, '--', color='black', label='x0')
 ax.plot(x0_vec, nullcline_x0, '--', color='black', label='x0')
 
-# set limes
+# set plot limits
 axG.set_xlim((x0 * 1e2, x1 * 1e2))
 axG.set_ylim((y0 * 1e2, y1 * 1e2))
 ax.set_xlim([-5, 50])

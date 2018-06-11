@@ -1,14 +1,17 @@
-import os
-import pylab as pl
 import numpy as np
+
 from scipy import optimize
-from plotcolors import myred, myblue
-from matplotlib.colors import ListedColormap
 from multiarea_model.theory import Theory
 from multiarea_model.theory_helpers import nu0_fb
 from multiarea_model.default_params import single_neuron_dict, nested_update
 from multiarea_model.multiarea_helpers import convert_syn_weight
 from copy import copy
+
+"""
+Network class for the 1D case:
+1 excitatory population with recurrent connectivity and external
+stimulation.
+"""
 
 
 class network1D:
@@ -64,6 +67,13 @@ class network1D:
         result_dic = {'rates': np.array([result[0]]), 'mus': np.array(
             [mu]), 'sigmas': np.array([sigma]), 'eps': result[-1], 'time': np.array([0])}
         return result_dic
+
+
+"""
+Network class for the 2D case:
+2 excitatory populations with recurrent connectivity and external
+stimulation.
+"""
 
 
 class network2D:
