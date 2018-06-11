@@ -147,7 +147,7 @@ for label in labels:
 # stationary firing rates
 fn = os.path.join(data_path, label_stat_rate, 'Analysis', 'pop_rates.json')
 with open(fn, 'r') as f:
-    pop_rates = {label: json.load(f)}
+    pop_rates = {label_stat_rate: json.load(f)}
 
 
 # Meanfield part: first initialize base class to compute initial rates
