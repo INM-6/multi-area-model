@@ -26,13 +26,13 @@ network_params = {'connection_params': conn_params,
 initial_rates = np.zeros(254)
 theory_params = {'T': 30.,
                  'dt': 0.01,
+                 'rec_interval': 30.,
                  'initial_rates': 'random_uniform',
-                 'initial_rates_iter': 10}
+                 'initial_rates_iter': 1000}
 
 M = MultiAreaModel(network_params, theory=True,
                    theory_spec=theory_params)
 p, r_base = M.theory.integrate_siegert()
-
 np.save(os.path.join('Fig4_theory_data',
                      'results_{}.npy'.format(cc_weights_factor)),
         r_base)

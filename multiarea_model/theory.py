@@ -60,7 +60,7 @@ class Theory:
     def __hash__(self):
         return hash(self.label)
 
-    def integrate_siegert(self, full_output=True):
+    def integrate_siegert(self):
         """
         Integrate siegert formula to obtain stationary rates. See Eq. (3)
         and following in Schuecker, Schmidt et al. (2017).
@@ -128,6 +128,19 @@ class Theory:
                     'receptor_type': 0}
         nest.Connect(neurons, neurons, 'all_to_all', syn_dict)
 
+        # create recording device
+        interval = self.params['rec_interval']
+        if interval is None:
+            interval = dt
+            
+        multimeter = nest.Create('multimeter', params={'record_from': ['rate'],
+                                                       'interval': interval,
+                                                       'to_screen': False,
+                                                       'to_file': False,
+                                                       'to_memory': True})
+        # multimeter
+        nest.Connect(multimeter, neurons)
+
         # Set initial rates of neurons:
         if self.params['initial_rates'] is not None:
             # iterate over different initial conditions drawn from a random distribution
@@ -148,35 +161,26 @@ class Theory:
         rates = []
 
         # Loop over all iterations of different initial conditions
+        iteration = 0
+        total_time = 0.
         for nsim in range(num_iter):
             initial_rates = next(gen)
+            print("Iteration: {}".format(iteration))
             for i in range(dim):
                 nest.SetStatus([neurons[i]], {'rate': initial_rates[i]})
-
-            # create recording device
-            multimeter = nest.Create('multimeter', params={'record_from':
-                                                           ['rate'], 'interval': dt,
-                                                           'to_screen': False,
-                                                           'to_file': False,
-                                                           'to_memory': True})
-            # multimeter
-            nest.Connect(multimeter, neurons)
-            nest.Connect(multimeter, drive)
-
             # simulate
-            nest.Simulate(T)
-
+            nest.Simulate(T + dt)
             data = nest.GetStatus(multimeter)[0]['events']
-            res = np.array([np.insert(data['rate'][np.where(data['senders'] == n)],
+            # Extract the data of this iteration
+            ind = np.where(np.logical_and(data['times'] > total_time,
+                                          data['times'] <= total_time + T))
+            res = np.array([np.insert(data['rate'][ind][np.where(data['senders'][ind] == n)],
                                       0,
                                       initial_rates[i])
                             for i, n in enumerate(neurons)])
-
-            if full_output:
-                rates.append(res)
-            else:
-                # Keep only initial and final rates
-                rates.append(res[:, [0, -1]])
+            rates.append(res)
+            iteration += 1
+            total_time += T
 
         if num_iter == 1:
             return self.network.structure_vec, rates[0]
