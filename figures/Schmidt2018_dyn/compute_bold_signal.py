@@ -33,6 +33,7 @@ fn = os.path.join(load_path,
                   'synaptic_input_{}.npy'.format(area))
 synaptic_input = np.load(fn)
 
+
 def bold_R_parser(fn):
     f = open(fn, 'r')
     # skip first line
@@ -52,7 +53,7 @@ out_fn = os.path.join(save_path,
 
 np.savetxt(fn, synaptic_input / np.max(synaptic_input))
 try:
-    subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R {} {}'.format(fn, out_fn)])
+    subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R', fn, out_fn])
 except FileNotFoundError:
     raise FileNotFoundError("Executing R failed. Did you install R?")
 
