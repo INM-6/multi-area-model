@@ -12,6 +12,8 @@ Reproducing the figures requires some additional Python packages listed in `addi
 
 `pip install -r additional_requirements.txt`
 
+To produce Figure 7, an installation of the `infomap` package is required. Please follow the instructions on the website http://www.mapequation.org/code.html.
+
 If snakemake is installed, the figures can be produced by executing
 
 `snakemake`
