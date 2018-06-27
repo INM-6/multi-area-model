@@ -90,6 +90,8 @@ for pop in M.structure[area]:
                                            resolution=1.)
 
     if method == 'auto_kernel':
+        # To reduce the computational load, the time series is only computed until 10500. ms
+        T = 10500.
         N = M.N[area][pop]  # Assumes that all neurons were recorded
         st = neo.SpikeTrain(spike_data[:, 1] * pq.ms, t_stop=T*pq.ms)
         time_series = instantaneous_rate(st, 1.*pq.ms, t_start=500.*pq.ms, t_stop=T*pq.ms)

@@ -347,7 +347,7 @@ ax.append(pl.axes([pos.x0, pos.y0 + 0.67 * h, w, 0.28 * h]))
 colors = ['0.5', '0.3', '0.0']
 
 t_min = 500.
-t_max = 10000.
+t_max = 10500.
 time = np.arange(500., t_max)
 for i, area in enumerate(areas[::-1]):
     ax[i].spines['right'].set_color('none')
