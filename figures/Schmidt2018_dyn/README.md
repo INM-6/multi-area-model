@@ -30,7 +30,7 @@ Reproducing the figures requires some additional Python packages listed in `addi
 
 The calculation of BOLD signals from the simulated firing rates for Fig. 8 requires an installation of R and the R library `neuRosim` (<https://cran.r-project.org/web/packages/neuRosim/index.html>).
 
-To produce Figure 8, an installation of the `infomap` package is required. Please follow the instructions on the website http://www.mapequation.org/code.html.
+To produce Figure 8, an installation of the `infomap` package is required. Please follow the instructions on the website http://www.mapequation.org/code.html . After installing `infomap`, please specify the path to the executable in `helpers.py`.
 
 ### Snakemake workflow
 
