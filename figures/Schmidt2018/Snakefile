@@ -1,0 +1,63 @@
+from helpers import datapath
+
+rule all:
+    input:
+        'Fig1_model_overview.eps',
+        'Fig2_anatomy.eps',
+        'Fig3_construction.eps',
+        'Fig4_connectivity.eps',
+        'Fig5_cc_laminar_pattern.eps',
+        'Fig6_connectivity_measures.eps',
+        'Fig7_community_structure.eps',
+        'Fig8_laminar_paths.eps'
+
+rule VisualCortexData:
+    output:
+        os.path.join(datapath, 'viscortex_processed_data.json')
+    shell:
+        'python ../../multiarea_model/data_multiarea/VisualCortex_Data.py'
+
+rule Fig2_anatomy:
+    output:
+        'Fig2_anatomy.eps'
+    input:
+        os.path.join(datapath, 'viscortex_processed_data.json'),
+        os.path.join(datapath, 'viscortex_raw_data.json')
+    shell:
+        'python3 Fig2_anatomy.py'
+
+rule Fig3_construction:
+    output:
+        'Fig3_construction.eps'
+    shell:
+        'python3 Fig3_construction.py'
+
+rule Fig4_connectivity:
+    output:
+        'Fig4_connectivity.eps'
+    shell:
+        'python3 Fig4_connectivity.py'
+
+rule Fig5_cc_laminar_pattern:
+    output:
+        'Fig5_cc_laminar_pattern.eps'
+    shell:
+        'python3 Fig5_cc_laminar_pattern.py'
+
+rule Fig6_connectivity_measures:
+    output:
+        'Fig6_connectivity_measures.eps'
+    shell:
+        'python3 Fig6_connectivity_measures.py'
+
+rule Fig7_community_structure:
+    output:
+        'Fig7_community_structure.eps'
+    shell:
+        'python3 Fig7_community_structure.py'
+
+rule Fig8_laminar_paths:
+    output:
+        'Fig8_laminar_paths.eps'
+    shell:
+        'python3 Fig8_laminar_paths.py'

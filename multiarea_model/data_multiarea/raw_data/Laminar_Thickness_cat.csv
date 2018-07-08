@@ -1,0 +1,12 @@
+# Thickness of laminae and errors taken from Table 1 of Beaulieu, C., & Colonnier, M. (1983). The number of neurons in the different laminae of the binocular and monocular regions of area 17 in the cat. Journal of Comparative Neurology, 344. Retrieved from http://onlinelibrary.wiley.com/doi/10.1002/cne.902170308/abstract for cat area 17, layer names are taken from the table		
+
+1	0.166	0.010              		
+2	0.128	0.026
+3a	0.163	0.014
+3b	0.174	0.014
+4a	0.265	0.072
+4b	0.245	0.045
+5	0.137	0.02
+6a	0.246	0.026
+6b	0.098	0.023
+total	1.621	0.134	

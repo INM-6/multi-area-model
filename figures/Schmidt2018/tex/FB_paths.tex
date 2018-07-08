@@ -1,0 +1,40 @@
+\documentclass[pstricks=true, preview]{standalone}
+%\documentclass{article}
+
+%%\usepackage{pstricks}
+\usepackage{pst-all}
+\usepackage{graphicx}
+%\usepackage[helvet]{sfmath}
+\renewcommand*{\familydefault}{\sfdefault}
+
+\input{defs.tex}
+\input{define_bools.tex}
+
+\begin{document}
+\begin{figure}
+\begin{pspicture}(6.5,5.)
+
+\rput[Rt](3.,4.9){\textbf{Feedback}}
+\rput[Rt](3.,4.5){\footnotesize$SLN < 0.35$}
+
+\psframe[linestyle=none, 
+         fillcolor=mygray, 
+         fillstyle=solid](2.3,0.7)(4.,4.2)
+
+
+\input{define_pops.tex}
+\input{lw_FB_paths_SLN.tex}
+\input{draw_paths.tex}
+\input{draw_pops.tex}
+%\nccurve[angleA=0, angleB=180, linewidth=\23E4E, linecolor=mygray2]{->}{s23E}{4E}
+
+
+
+\end{pspicture}
+\end{figure}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

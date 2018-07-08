@@ -1,0 +1,75 @@
+rule all:
+    input:
+        'iteration_1/K_prime.npy',
+        'iteration_2/K_prime.npy',
+        'iteration_3/K_prime.npy',
+        'iteration_4/K_prime.npy',
+        'Fig1_scheme.eps',
+        'Fig2_EE_example.eps',
+        'Fig3_bistability.eps',
+        'Fig4_meanfield_mam.eps',
+        'Fig5_eigenspace.eps',
+        'Fig6_unstable_FP.eps',
+        'Fig7_stabilization_analysis.eps',
+        'Fig8_conn_analysis.eps',
+        'Fig9_simulation.eps'
+
+rule Stabilization:
+    output:
+        'iteration_1/K_prime.npy',
+        'iteration_2/K_prime.npy',
+        'iteration_3/K_prime.npy',
+        'iteration_4/K_prime.npy'
+    shell:
+        'python3 stabilization.py'
+
+rule Fig2_EE_example:
+    output:
+        'Fig2_EE_example.eps'
+    shell:
+        'python3 Fig2_EE_example.py'
+
+rule Fig3_bistability:
+    output:
+        'Fig3_bistability.eps'
+    shell:
+        'python3 Fig3_bistability.py'
+
+rule Fig4_meanfield_mam:
+    output:
+        'Fig4_meanfield_mam.eps'
+    shell:
+        'python3 Fig4_meanfield_mam.py'
+
+rule Fig5_eigenspace:
+    output:
+        'Fig5_eigenspace.eps'
+    shell:
+        'python3 Fig5_eigenspace.py'
+
+rule Fig6_unstable_FP:
+    output:
+        'Fig6_unstable_FP.eps'
+    shell:
+        'python3 Fig6_unstable_FP.py'
+
+rule Fig7_stabilization_analysis:
+    output:
+        'Fig7_stabilization_analysis.eps'
+    shell:
+        'python3 Fig7_stabilization_analysis.py'
+
+rule Fig8_conn_analysis:
+    output:
+        'Fig8_conn_analysis.eps'
+    shell:
+        'python3 Fig8_conn_analysis.py'
+
+        
+rule Fig9_simulation:
+    output:
+        'Fig9_simulation.eps'
+    shell:
+        'python3 Fig9_simulation.py'
+
+        

@@ -1,0 +1,11 @@
+# Data from Potjans, T. C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit: Relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785–806. https://doi.org/10.1093/cercor/bhs358
+
+	23E	23I	4E	4I	5E	5I	6E	6I	Th
+23E	0.101	0.169	0.044	0.082	0.032	0	0.008	0	0
+23I	0.135	0.137	0.032	0.052	0.075	0	0.004	0	0
+4E	0.008	0.006	0.05	0.135	0.007	0.0003	0.045	0	0.0983
+4I	0.069	0.003	0.079	0.16	0.003	0	0.106	0	0.0619
+5E	0.1	0.062	0.051	0.006	0.083	0.373	0.02	0	0
+5I	0.055	0.027	0.026	0.002	0.06	0.316	0.009	0	0
+6E	0.016	0.007	0.021	0.017	0.057	0.02	0.04	0.225	0.0512
+6I	0.036	0.001	0.003	0.001	0.028	0.008	0.066	0.144	0.0196

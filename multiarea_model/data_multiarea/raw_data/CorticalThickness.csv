@@ -1,0 +1,33 @@
+# Data from  Table 4 of Hilgetag, C. C., Medalla, M., Beul, S. F., & Barbas, H. (2015). The primate connectome in context: Principles of connections of the cortical visual system. NeuroImage, 134, 685–702. https://doi.org/10.1016/j.neuroimage.2016.04.017
+
+AREA	comments	TYPE	DENSITY [neurons/mm3]	THICKNESS [mm]
+V1		8	1.61E+05	1.24
+V2		7	9.76E+04	1.46
+VP		7		
+V3		7		
+PIP		5		
+V3A		6	6.14E+04	1.66
+V4		6	7.12E+04	1.89
+P0		5		
+MT		6	6.60E+04	1.96
+V4t		6		
+DP		5	4.80E+04	2.06
+VOT	TEO	6	6.33E+04	
+LIP		5	5.21E+04	2.30
+VIP		5		
+MSTd		5		
+MSTI		5		
+PITd		5		
+PITv		5		
+7a	PG	4	3.62E+04	2.68
+STPp		4		
+CITd		5		
+CITv		5		
+STPa		4		
+AITv		4	3.88E+04	2.63
+FEF		5	4.50E+04	2.21
+TF		5	4.61E+04	1.62
+46		4	3.80E+04	1.86
+FST		4		
+TH		2	3.32E+04	1.87
+AITd		4	3.88E+04	2.63

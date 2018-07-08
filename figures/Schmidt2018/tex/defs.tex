@@ -1,0 +1,31 @@
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+\input{texcolors.tex}
+
+\newcommand{\Epop}[2]{\pstriangle[linecolor=myblue,
+            linewidth=0.01,
+            fillstyle=gradient,
+            gradbegin=white,
+            gradend = myblue,            
+            fillcolor=myblue,
+            gradmidpoint=1.,
+            gradangle=-90](#1, #2)(0.5,0.5)}
+
+\newcommand{\Ipop}[2]{
+\pscircle[linecolor=myred,
+            linewidth=0.01,
+            fillstyle=gradient,
+            gradbegin=white,
+            gradend = myred,            
+            fillcolor=myred,
+            gradmidpoint=1.,
+            gradangle=-90](#1, #2){0.25}}
+
+\newcommand{\grayarrow}[4]{
+  \psline[linewidth=0.15, linecolor=mygray2, linestyle=solid]{->}(#1, #2)(#3, #4)
+}
+
+\def\arrowsize{0.35}

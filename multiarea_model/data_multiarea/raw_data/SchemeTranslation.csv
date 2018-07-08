@@ -1,0 +1,19 @@
+# This translation is compiled by collecting information from Markov et al. (2011), Hilgetag et al. (2015), and David Van Essen (2002) "Organization of Visual Areas in Macaque and Human Cerebral Cortex"
+	
+Area Barbas	Area Fellemann/Van Essen
+TEO	PITd
+TEO	PITv
+TEO	VOT
+46	46
+Opt/DP	DP
+Te1	AITd
+Te1	AITv
+Te1	CITd
+Te1	CITv
+area 46v	46
+TE	AITd
+TE	AITv
+TE	CITd
+TE	CITv
+TH-TF	TH
+TH-TF	TF
