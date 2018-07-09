@@ -216,7 +216,9 @@ If you have questions regarding the code or scientific content, please create an
 
 <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="200"/>
 
-![HBP logo](https://raw.githubusercontent.com/INM-6/multi-area-model/master/HBP_logo.jpg)
+![HBP logo](https://raw.githubusercontent.com/INM-6/multi-area-model/master/HBP_logo.png)
+
+![FZJ logo](https://raw.githubusercontent.com/INM-6/multi-area-model/master/FZJ_logo.png)
 
 ## Acknowledgements
 
