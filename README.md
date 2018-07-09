@@ -163,9 +163,9 @@ The multi-area model can be run in different modes.
    combining this mode with the previous mode 'Subset of the
    network').
 
-## Testsuite
+## Test suite
 
-The `tests/` folder holds a testsuite that tests different aspects of
+The `tests/` folder holds a test suite that tests different aspects of
 network model initalization and mean-field calculations. It can be
 conveniently run by executing `pytest` in the `tests/` folder:
 
