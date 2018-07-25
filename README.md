@@ -17,7 +17,7 @@ The model has been documented in the following publications:
 
 3. Schmidt M, Bakker R, Shen K, Bezgin B, Diesmann M & van Albada SJ (2018) 
    A multi-scale layer-resolved spiking network model of
-   resting-state dynamics in macaque cortex. (under review)
+   resting-state dynamics in macaque cortex. PLOS Computational Biology (accepted)
 
 The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
