@@ -231,4 +231,6 @@ investigator group VH-NG-1028,and the German Research Council (DFG
 Grants SFB936/A1,Z1 and TRR169/A2) and computing time granted by the
 JARA-HPC Ver- gabegremium and provided on the JARA-HPC Partition part
 of the supercomputer JUQUEEN (Jülich Supercomputing Centre 2015) at
-Forschungszentrum Jülich (VSR Computation Time Grant JINB33).
+Forschungszentrum Jülich (VSR Computation Time Grant JINB33), and Priority
+Program 2041 (SPP 2041) "Computational Connectomics" of the German Research 
+Foundation (DFG).
