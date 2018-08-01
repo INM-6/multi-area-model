@@ -8,7 +8,7 @@ The figure scripts are named according to their ordering in the paper. To execut
 
 ### Original simulation data
 
-You can retrieve the original data from the Dryad Digital Repository database (TODO: Upload data and insert link). By default, all plot scripts are configured to use the old data (`LOAD_ORIGINAL_DATA = True` in all scripts). You have to download the data and then define the variable `original_data_path` in `config.py`. 
+You can retrieve the original data from our data repository: [https://web.gin.g-node.org/maximilian.schmidt/multi-area-model-data](https://web.gin.g-node.org/maximilian.schmidt/multi-area-model-data). By default, all plot scripts are configured to use the old data (`LOAD_ORIGINAL_DATA = True` in all scripts). You have to download the data and then define the variable `original_data_path` in `config.py`. 
 
 ### Creating new simulation data
 
