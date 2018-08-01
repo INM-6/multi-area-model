@@ -55,7 +55,7 @@ class panel_factory():
                 # position of panel label (relative to each subpanel)
                 label_pos = [label_position, y]
 
-            label_fs = self.scale * 10           # fontsize of panel label
+            label_fs = self.scale * 10        # fontsize of panel label
 
             pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
                     fontdict={'fontsize': label_fs,
@@ -129,8 +129,8 @@ def create_fig(fig, scale, width, n_horz_panels, n_vert_panels,
     pl.rcParams['figure.dpi'] = 300
 
     # font
-    pl.rcParams['font.size'] = scale * 8
-    pl.rcParams['legend.fontsize'] = scale * 8
+    pl.rcParams['font.size'] = scale * 10
+    pl.rcParams['legend.fontsize'] = scale * 10
     pl.rcParams['font.family'] = "sans-serif"
 
     pl.rcParams['lines.linewidth'] = scale * 1.0
@@ -157,8 +157,8 @@ def create_fig(fig, scale, width, n_horz_panels, n_vert_panels,
     pl.rcParams['ytick.minor.pad'] = scale * 4
 
     # ticks textsize
-    pl.rcParams['ytick.labelsize'] = scale * 8
-    pl.rcParams['xtick.labelsize'] = scale * 8
+    pl.rcParams['ytick.labelsize'] = scale * 10
+    pl.rcParams['xtick.labelsize'] = scale * 10
 
     # use latex to generate the labels in plots
     # not needed anymore in newer versions

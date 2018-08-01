@@ -3,6 +3,8 @@ import numpy as np
 from plotcolors import myblue, myblue2, myred, myred2
 from matplotlib.colors import LogNorm
 from helpers import population_labels
+from matplotlib import rc_file
+rc_file('plotstyle.rc')
 
 
 def matrix_plot(fig, ax, matrix, position='right'):
@@ -24,8 +26,9 @@ def matrix_plot(fig, ax, matrix, position='right'):
     ax.xaxis.set_major_formatter(plt.NullFormatter())
     ax.xaxis.set_minor_locator(plt.FixedLocator([0.5, 2.5, 6.5, 16.5,
                                                  27.5, 31.5]))
-    ax.set_xticklabels([8, 7, 6, 5, 4, 2], minor=True, size=6.5)
+    ax.set_xticklabels([8, 7, 6, 5, 4, 2], minor=True, size=8)
     ax.tick_params(axis='x', which='minor', length=0.)
+
     ax.set_xlabel('Architectural type', labelpad=-0.2)
 
     y_index = list(range(8))
@@ -34,7 +37,7 @@ def matrix_plot(fig, ax, matrix, position='right'):
     cb = plt.colorbar(im, ticks=t, ax=ax)
 
     if position == 'left':
-        ax.set_yticklabels(population_labels, size=6.5)
+        ax.set_yticklabels(population_labels, size=8)
         ax.set_yticks(y_index[::-1])
         ax.set_ylabel('Population', labelpad=-0.1)
         cb.remove()
@@ -45,7 +48,7 @@ def matrix_plot(fig, ax, matrix, position='right'):
         ax.set_yticks([])
         ax.text(45., 6, r'$\nu (\mathrm{spikes/s})$', rotation=90)
     if position == 'single':
-        ax.set_yticklabels(population_labels, size=6.5)
+        ax.set_yticklabels(population_labels)
         ax.set_yticks(y_index[::-1])
         ax.set_ylabel('Population', labelpad=-0.1)
         ax.text(45., 6, r'$\nu (\mathrm{spikes/s})$', rotation=90)
@@ -81,7 +84,7 @@ def rate_histogram_plot(fig, ax_pos, matrix, position):
     ax.xaxis.set_label_coords(0.5, -0.8)
     ax.set_xticks(10.**(np.array([-3, -1, 1])))
     ax.set_xticklabels([r'$10^{-3}$', r'$10^{-1}$',
-                        r'$10^{1}$'], size=6.5, rotation=20)
+                        r'$10^{1}$'], rotation=20, size=8)
     ax.set_yticks([])
     ax.set_xlim(10**-4, 10**3)
     d = 0.02
@@ -96,7 +99,7 @@ def rate_histogram_plot(fig, ax_pos, matrix, position):
     ax_2.spines['top'].set_color('none')
     ax_2.set_xscale('Log')
     ax_2.set_xticks(10.**(np.array([-5])))
-    ax_2.set_xticklabels([r'$0.0$'], size=6.5, rotation=20)
+    ax_2.set_xticklabels([r'$0.0$'], rotation=20, size=8)
     ax_2.tick_params(axis='x', which='major', pad=4)
     ax_2.set_xlim(10**-6, 10**-4)
     ax_2.set_yticks([])

@@ -8,7 +8,6 @@ from helpers import original_data_path
 from plotfuncs import create_fig
 from matrix_plot import matrix_plot, rate_histogram_plot
 from multiarea_model import MultiAreaModel
-
 LOAD_ORIGINAL_DATA = True
 
 scale = 1.

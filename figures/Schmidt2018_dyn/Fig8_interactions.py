@@ -30,6 +30,7 @@ width = 7.0866
 n_horz_panels = 2.
 n_vert_panels = 3.
 
+fig = pl.figure()
 axes = {}
 gs1 = gridspec.GridSpec(1, 3)
 gs1.update(left=0.05, right=0.95, top=0.95,
@@ -39,18 +40,18 @@ axes['B'] = pl.subplot(gs1[:, 1])
 axes['C'] = pl.subplot(gs1[:, 2])
 
 gs1 = gridspec.GridSpec(1, 1)
-gs1.update(left=0.18, right=0.8, top=0.44,
-           wspace=0., bottom=0.27, hspace=0.2)
+gs1.update(left=0.18, right=0.8, top=0.35,
+           wspace=0., bottom=0.13, hspace=0.2)
 axes['D'] = pl.subplot(gs1[:, :])
 
 gs1 = gridspec.GridSpec(1, 1)
-gs1.update(left=0.165, right=0.6, top=0.15,
-           wspace=0., bottom=0.075, hspace=0.2)
+gs1.update(left=0.165, right=0.6, top=0.04,
+           wspace=0., bottom=0.0, hspace=0.2)
 axes['E'] = pl.subplot(gs1[:, :])
 
 gs1 = gridspec.GridSpec(1, 1)
-gs1.update(left=0.688, right=0.95, top=0.15,
-           wspace=0., bottom=0.075, hspace=0.2)
+gs1.update(left=0.688, right=0.95, top=0.04,
+           wspace=0., bottom=0.0, hspace=0.2)
 axes['F'] = pl.subplot(gs1[:, :])
 
 for label in ['A', 'B', 'C', 'D', 'E', 'F']:
@@ -181,7 +182,7 @@ ind_MDP = M.area_list.index('MDP')
 ind_MDP_index = np.where(part_sim_index == ind_MDP)[0][0]
 part_sim_index = np.append(part_sim_index[:ind_MDP_index], part_sim_index[ind_MDP_index+1:])
 new_ind_MDP_index = np.where(np.array(part_sim_list)[part_sim_index] == 0.)[0][-1]
-part_sim_index = np.insert(part_sim_index, new_ind_MDP_index, ind_MDP)
+part_sim_index = np.insert(part_sim_index, new_ind_MDP_index+1, ind_MDP)
 
     
 def zero_diagonal(matrix):
@@ -219,20 +220,20 @@ def matrix_plot(ax, matrix, index, vlim, pos=None):
 
     cbticks = [-1., -0.5, 0., 0.5, 1.0]
     cb = pl.colorbar(im, ax=ax, ticks=cbticks, fraction=0.046)
-    cb.ax.tick_params(labelsize=12)
-    ax.set_yticks([i + 0.5 for i in np.arange(0, len(M.area_list) + 1)])
-    ax.set_yticklabels(np.array(M.area_list)[index][::-1], size=8.)
+    cb.ax.tick_params(labelsize=14)
+    ax.set_yticks([])
 
     if pos != (0, 2):
         cb.remove()
     else:
         ax.text(1.25, 0.52, r'FC', rotation=90,
-                transform=ax.transAxes, size=12)
-    ax.set_xticks([i + 0.5 for i in np.arange(0, len(M.area_list) + 1)])
-    ax.set_xticklabels(np.array(M.area_list)[index], rotation=90, size=8.)
-    ax.tick_params(pad=1.5)
+                transform=ax.transAxes, size=14)
+    ax.set_xticks([])
 
+    ax.set_xlabel('Cortical area', size=14)
+    ax.set_ylabel('Cortical area', size=14)
 
+    
 """
 Plotting
 """
@@ -252,6 +253,16 @@ matrix_plot(ax, zero_diagonal(sim_FC_bold[label]),
 ax = axes['C']
 matrix_plot(ax, zero_diagonal(exp_FC),
             part_sim_index, 1., pos=(0, 2))
+
+areas = np.array(M.area_list)[part_sim_index]
+area_string = areas[0]
+for area in areas[1:]:
+    area_string += ' '
+    area_string += area
+
+pl.text(0.02, 0.45, r'\bfseries{}Order of cortical areas', transform=fig.transFigure, fontsize=13)
+pl.text(0.02, 0.42, area_string,
+        transform=fig.transFigure, fontsize=13)
 
 
 ax = axes['D']
@@ -295,7 +306,7 @@ cc = np.corrcoef(zero_diagonal(conn_matrix).flatten(),
 ax.hlines(cc, -0.1, 2.5, linestyle='dashed', color='k')
 ax.set_xlabel(r'Cortico-cortical weight factor $\chi$',
               labelpad=-0.1, size=16)
-ax.set_ylabel(r'$r_{\mathrm{Pearson}}$', size=16)
+ax.set_ylabel(r'$r_{\mathrm{Pearson}}$', size=20)
 ax.set_xlim((0.9, 2.7))
 ax.set_ylim((-0.1, 0.6))
 ax.set_yticks([0., 0.2, 0.4])
@@ -370,8 +381,8 @@ c.fill(pyx.path.rect(0, 0., 17.9, 17.), [pyx.color.rgb.white])
 
 c.insert(pyx.epsfile.epsfile(0., 6., "Fig8_interactions_mpl.eps", width=17.9))
 c.insert(pyx.epsfile.epsfile(
-    1.7, 1., "Fig8_alluvial_struct_sim.eps", width=8.8))
+    0.1, -1., "Fig8_alluvial_struct_sim.eps", width=11.))
 c.insert(pyx.epsfile.epsfile(
-    11.5, 1.3, "Fig8_alluvial_sim_exp.eps", width=5.4))
+    11.2, -0.6, "Fig8_alluvial_sim_exp.eps", width=6.5))
 
 c.writeEPSfile("Fig8_interactions.eps")

@@ -10,8 +10,8 @@ savefig.dpi : 300
 figure.figsize : 12.0, 7.42
 
 # font
-font.size : 8
-legend.fontsize : 8
+font.size : 10
+legend.fontsize : 10
 font.family : sans-serif
 
 # size of lines
@@ -35,11 +35,11 @@ ytick.major.pad : 4 # distance to major tick label in points
 ytick.minor.pad : 4 # distance to the minor tick label in points
 
 # ticks textsize
-ytick.labelsize : 8
-xtick.labelsize : 8
+ytick.labelsize : 10
+xtick.labelsize : 10
 
 # axes labelsize
-axes.labelsize : 8
+axes.labelsize : 10
 
 # use latex to generate the labels in plots
 # not needed anymore in newer versions

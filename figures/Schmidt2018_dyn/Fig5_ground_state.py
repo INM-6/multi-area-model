@@ -28,7 +28,7 @@ fig = pl.figure()
 axes = {}
 
 gs1 = gridspec.GridSpec(1, 3)
-gs1.update(left=0.05, right=0.72, top=0.95, wspace=0.4, bottom=0.35)
+gs1.update(left=0.06, right=0.72, top=0.95, wspace=0.4, bottom=0.35)
 axes['A'] = pl.subplot(gs1[:-1, :1])
 axes['B'] = pl.subplot(gs1[:-1, 1:2])
 axes['C'] = pl.subplot(gs1[:-1, 2:])
@@ -41,7 +41,7 @@ axes['F'] = pl.subplot(gs2[2:3, :1])
 
 
 gs3 = gridspec.GridSpec(1, 1)
-gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.05)
+gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
 axes['G'] = pl.subplot(gs3[:1, :1])
 
 areas = ['V1', 'V2', 'FEF']
@@ -251,7 +251,7 @@ set_boxplot_props(d)
 
 ax.plot(np.mean(rates, axis=1), np.arange(
     1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
-ax.set_yticklabels(population_labels[::-1])
+ax.set_yticklabels(population_labels[::-1], size=8)
 ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
 ax.set_ylim((0., len(M.structure['V1']) + .5))
 
@@ -285,7 +285,7 @@ set_boxplot_props(d)
 ax.plot(np.mean(syn, axis=1), np.arange(
     1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
 
-ax.set_yticklabels(population_labels[::-1])
+ax.set_yticklabels(population_labels[::-1], size=8)
 ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
 ax.set_ylim((0., len(M.structure['V1']) + .5))
 ax.set_xticks(np.arange(0.0, 0.601, 0.2))
@@ -315,7 +315,7 @@ set_boxplot_props(d)
 
 ax.plot(np.mean(LvR, axis=1), np.arange(
     1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
-ax.set_yticklabels(population_labels[::-1])
+ax.set_yticklabels(population_labels[::-1], size=8)
 ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
 ax.set_ylim((0., len(M.structure['V1']) + .5))
 

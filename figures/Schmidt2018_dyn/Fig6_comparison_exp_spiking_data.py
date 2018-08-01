@@ -284,7 +284,7 @@ for i, chi in enumerate(['1.', '1.9_long', '2.5']):
     ax.plot(bins, vals / np.sum(vals),
             color=sim_colors[i], label=chi_labels[chi])
 
-ax.legend(loc=(0.35, 0.4), fontsize=6.)
+ax.legend(loc=(0.35, 0.4), fontsize=8.)
 
 ax.set_xlabel('Rate (spikes/s)')
 ax.set_ylabel(r'$\mathcal{P} (\text{Rate})$')

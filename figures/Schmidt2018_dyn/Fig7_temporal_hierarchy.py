@@ -33,12 +33,12 @@ height = width / panel_wh_ratio * float(nrows) / ncols
 height = 6.375
 pl.rcParams['figure.figsize'] = (width, height)
 
-
+fig = pl.figure()
 axes = {}
 
 
 gs1 = gridspec.GridSpec(3, 3)
-gs1.update(left=0.055, right=0.9425, top=0.95,
+gs1.update(left=0.055, right=0.9225, top=0.95,
            bottom=0.07, wspace=0.4, hspace=0.4)
 
 axes['A'] = pl.subplot(gs1[0, 0])
@@ -50,9 +50,10 @@ axes['F'] = pl.subplot(gs1[1, 2])
 
 axes['G'] = pl.subplot(gs1[2, 0])
 pos = axes['G'].get_position()
-axes['G2'] = pl.axes([pos.x1 - 0.08 + 0.5, pos.y0,
+axes['G2'] = pl.axes([pos.x1 - 0.08 + 0.5, pos.y0+0.05,
                       0.1,
                       pos.y1 - pos.y0])
+
 
 fd = {'fontsize': 10, 'weight': 'bold', 'horizontalalignment':
       'left', 'verticalalignment': 'bottom'}
@@ -206,6 +207,11 @@ for area in M.area_list:
     areas.append(area)
 areas = np.array(areas)
 areas = areas[np.argsort(transitions)]
+area_string_A = areas[0]
+for area in areas[1:]:
+    area_string_A += ' '
+    area_string_A += area
+
 transitions = np.sort(transitions)
 
 
@@ -235,12 +241,13 @@ ax1.set_xticklabels(x_ticks)
 ax1.set_ylabel('Area')
 ax1.yaxis.set_label_coords(-0.18, 0.5)
 ax1.set_yticks(np.arange(32.) + 0.5)
-ax1.set_yticklabels(areas, size=4.3)
+# ax1.set_yticklabels(areas, size=8)
+ax1.set_yticks([])
 ax1.set_xlabel('Time (ms)', labelpad=-0.05)
 im = ax1.pcolormesh(matrix, cmap=pl.get_cmap('inferno'), vmin=0., vmax=12.)
 pl.colorbar(im, ax=ax1, ticks=[0., 10., 20.])
 ax1.set_ylim((0., 32.))
-ax1.text(1.32, 0.65, r'$\nu (\mathrm{spikes/s})$',
+ax1.text(1.3, 0.65, r'$\nu (\mathrm{spikes/s})$',
          rotation=90, transform=ax1.transAxes)
 
 
@@ -311,7 +318,7 @@ ax.yaxis.set_ticks_position("none")
 ax.xaxis.set_ticks_position("none")
 
 ax.set_xlabel('Area B')
-ax.xaxis.set_label_coords(0.5, -0.2)
+# ax.xaxis.set_label_coords(0.5, -0.2)
 
 ax.set_ylabel('Area A')
 ax.set_xlim((0, 32))
@@ -322,14 +329,16 @@ vlim = np.max(np.abs(cc_matrix_masked))
 cmap.set_bad('0.5')
 im = ax.pcolormesh(cc_matrix_masked[::-1], cmap=cmap, vmin=-vlim, vmax=vlim)
 
-ax.set_xticklabels(M.area_list, rotation=90, size=4.2)
-ax.set_xticks(np.arange(32) + 0.5)
+area_string_C = M.area_list[0]
+for area in M.area_list[1:]:
+    area_string_C += ' '
+    area_string_C += area
 
-ax.set_yticklabels(M.area_list[::-1], size=4.2)
-ax.set_yticks(np.arange(32) + 0.5)
+ax.set_xticks([])
+ax.set_yticks([])
 
 pl.colorbar(im, ax=ax, fraction=0.044, ticks=[-80, -40, 0, 40, 80])
-ax.text(42.8, 27., r'Extremum time ($\mathrm{ms}$)', rotation=90)
+ax.text(44.8, 27., r'Extremum time ($\mathrm{ms}$)', rotation=90)
 
 
 def dev(i, j, hierarchy, cc_matrix):
@@ -423,9 +432,9 @@ cc_matrix_hier_masked = np.ma.masked_where(
 ax.yaxis.set_ticks_position("none")
 ax.xaxis.set_ticks_position("none")
 ax.set_xlabel('Area B')
-ax.xaxis.set_label_coords(0.5, -0.2)
+# ax.xaxis.set_label_coords(0.5, -0.2)
 ax.set_ylabel('Area A')
-ax.yaxis.set_label_coords(-0.17, 0.5)
+# ax.yaxis.set_label_coords(-0.17, 0.5)
 
 
 ax.set_xlim((0, 32))
@@ -435,15 +444,16 @@ ax.set_aspect(1. / ax.get_data_ratio())
 im = ax.pcolormesh(
     cc_matrix_hier_masked[:, ::-1], cmap=cmap, vmin=-vlim, vmax=vlim)
 
-ax.set_xticklabels(
-    list(hierarchical_areas[::-1]) + ['MDP'], rotation=90, size=4.2)
-ax.set_xticks(np.arange(32) + 0.5)
+area_string_D = hierarchical_areas[0]
+for area in hierarchical_areas[1:]:
+    area_string_D += ' '
+    area_string_D += area
 
-ax.set_yticklabels(['MDP'] + list(hierarchical_areas), size=4.2)
-ax.set_yticks(np.arange(32) + 0.3)
+ax.set_xticks([])
+ax.set_yticks([])
 
 pl.colorbar(im, ax=ax, fraction=0.044, ticks=[-80, -40, 0, 40, 80])
-ax.text(42.8, 27., r'Extremum time ($\mathrm{ms}$)', rotation=90)
+ax.text(43.3, 27., r'Extremum time ($\mathrm{ms}$)', rotation=90)
 
 """
 Eigenvalue spectrum and eigenvector projection
@@ -556,15 +566,20 @@ ind = [list(area_list).index(area) for area in hierarchical_areas[::-1]]
 
 im = ax.pcolormesh(np.abs(ev_matrix[::-1][:, ind]), cmap=pl.get_cmap('inferno'),
                    norm=LogNorm(vmin=1e-3, vmax=1e0))
-ax.set_xticklabels(area_list[ind], rotation=90, size=4.3)
-ax.tick_params(axis='x', length=0.)
-ax.set_xticks(np.arange(32.) + 0.5)
+
+area_string_F = area_list[ind][0]
+for area in area_list[ind][1:]:
+    area_string_F += ' '
+    area_string_F += area
+
+ax.set_xlabel('Area')
+ax.set_xticks([])
 ax.set_yticklabels(population_labels[::-1])
 ax.set_yticks(np.arange(8.) + 0.5)
 cb = pl.colorbar(im, ax=ax_cb, fraction=1.)
-cb.set_ticks([0.001, 0.01, 0.1, 1.])
-cb.set_ticklabels([r'$0.001$', r'$0.01$', r'$0.1$', r'$1$'])
-cb.ax.tick_params(labelsize=5, length=0, rotation=0)
+cb.set_ticks([0.001, 1.])
+cb.set_ticklabels([r'$0.001$', r'$1$'])
+cb.ax.tick_params(labelsize=8, length=0, rotation=0)
 ax_cb.text(1.2, 0.8, 'critical eigenvector',
            rotation=90, transform=ax.transAxes)
 
@@ -578,7 +593,7 @@ print("Surrogate matrices")
 surrogate_matrix = copy.deepcopy(cc_matrix_without_MDP)
 violation_list = []
 np.random.seed(123)
-for i in range(100):
+for i in range(1):
     for j in range(len(area_list_without_MDP)):
         ind = np.extract(np.arange(len(area_list_without_MDP)) != i,
                          np.arange(len(area_list_without_MDP)))
@@ -618,9 +633,19 @@ sm = pl.cm.ScalarMappable(cmap=pl.get_cmap('inferno_r'), norm=pl.Normalize(
 sm.set_array([])
 cbticks = []
 cbar = pl.colorbar(sm, ax=ax, ticks=cbticks, shrink=0.9)
-ax.annotate('', xy=(1.3, .8), xycoords='axes fraction',
-            xytext=(1.3, .1), arrowprops=dict(arrowstyle="->", color='k'))
+ax.annotate('', xy=(1.3, 0.9), xycoords='axes fraction',
+            xytext=(1.3, 0.1), arrowprops=dict(arrowstyle="->", color='k'))
 ax.text(1.45, 23., 'Temporal hierarchy', rotation=90)
+
+pl.text(0.02, 0.1, r'\bfseries{}Order of cortical areas', transform=fig.transFigure)
+pl.text(0.02, 0.08, ' '.join((r'\textbf{A}:', area_string_A)),
+        transform=fig.transFigure, fontsize=7)
+pl.text(0.02, 0.06, ' '.join((r'\textbf{C}:', area_string_C)),
+        transform=fig.transFigure, fontsize=7)
+pl.text(0.02, 0.04, ' '.join((r'\textbf{D}:', area_string_D)),
+        transform=fig.transFigure, fontsize=7)
+pl.text(0.02, 0.02, ' '.join((r'\textbf{F}:', area_string_F)),
+        transform=fig.transFigure, fontsize=7)
 
 
 """
@@ -637,8 +662,8 @@ c = pyx.canvas.canvas()
 c.insert(pyx.epsfile.epsfile(
     0., 0., "Fig7_temporal_hierarchy_mpl.eps", width=18.))
 c.insert(pyx.epsfile.epsfile(
-    2., 1.5, "Fig7_surface_plot_lateral.eps", width=5.5))
+    2., 2.2, "Fig7_surface_plot_lateral.eps", width=5.5))
 c.insert(pyx.epsfile.epsfile(
-    8., 1.5, "Fig7_surface_plot_medial.eps", width=5.5))
+    8., 2.2, "Fig7_surface_plot_medial.eps", width=5.5))
 
 c.writeEPSfile("Fig7_temporal_hierarchy.eps")

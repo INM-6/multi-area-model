@@ -19,14 +19,14 @@ nrows = 2
 ncols = 4
 width = 7.0866
 panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
-height = 5.5
+height = 6.
 pl.rcParams['figure.figsize'] = (width, height)
 
 
 fig = pl.figure()
 gs1 = gridspec.GridSpec(6, 1)
-gs1.update(left=0.06, right=0.55, top=0.95,
-           bottom=0.45, wspace=0., hspace=0.2)
+gs1.update(left=0.08, right=0.55, top=0.95,
+           bottom=0.5, wspace=0., hspace=0.2)
 ax_rates = []
 ax_rates.append(pl.subplot(gs1[:1, 0:1]))
 ax_rates.append(pl.subplot(gs1[1:2, 0:1]))
@@ -36,13 +36,13 @@ ax_rates.append(pl.subplot(gs1[4:5, 0:1]))
 ax_rates.append(pl.subplot(gs1[5:6, 0:1]))
 
 gs2 = gridspec.GridSpec(1, 1)
-gs2.update(left=0.8, right=0.95, top=0.95,
-           bottom=0.45, wspace=0., hspace=0.2)
+gs2.update(left=0.83, right=0.95, top=0.95,
+           bottom=0.5, wspace=0., hspace=0.2)
 ax_EV = pl.subplot(gs2[:, :])
 
 gs4 = gridspec.GridSpec(1, 1)
-gs4.update(left=0.08, right=0.7, top=0.35,
-           bottom=0.02, wspace=0., hspace=0.2)
+gs4.update(left=0.08, right=0.7, top=0.4,
+           bottom=0.04, wspace=0., hspace=0.2)
 ax_sketch = pl.subplot(gs4[:, :])
 ax_sketch.spines['right'].set_color('none')
 ax_sketch.spines['top'].set_color('none')
@@ -55,7 +55,7 @@ ax_sketch.set_yticks([])
 
 gs3 = gridspec.GridSpec(6, 1)
 gs3.update(left=0.62, right=0.75, top=0.95,
-           bottom=0.45, wspace=0., hspace=0.2)
+           bottom=0.5, wspace=0., hspace=0.2)
 ax_phasespace = []
 ax_phasespace.append(pl.subplot(gs3[:1, 0:1]))
 ax_phasespace.append(pl.subplot(gs3[1:2, 0:1]))
@@ -65,8 +65,8 @@ ax_phasespace.append(pl.subplot(gs3[4:5, 0:1]))
 ax_phasespace.append(pl.subplot(gs3[5:6, 0:1]))
 
 gs4 = gridspec.GridSpec(2, 1)
-gs4.update(left=0.72, right=0.96, top=0.35,
-           bottom=0.02, wspace=0., hspace=0.25)
+gs4.update(left=0.72, right=0.96, top=0.4,
+           bottom=0.04, wspace=0., hspace=0.25)
 ax_matrix = pl.subplot(gs4[:1, :])
 ax_hist = pl.subplot(gs4[1:2, :])
 ax_hist.spines['right'].set_color('none')
@@ -249,8 +249,8 @@ ax.invert_yaxis()
 ax.set_xlabel(r'$\mathrm{max}\{\mathrm{Re}\left(\lambda_i\right)\}$')
 ax.set_ylabel(r'$\chi$')
 ax.set_xticks([0.5, 1.])
-ax.set_yticks(np.arange(0., 4.))
-ax.set_yticklabels(chi_list[:-1])
+ax.set_yticks(np.arange(0., 5.))
+ax.set_yticklabels(chi_list)
 
         
 load_path = 'Fig4_theory_data'

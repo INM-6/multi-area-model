@@ -98,7 +98,7 @@ for i, ax_label in enumerate(['A', 'B']):
     ax.text(0., 1.1, r'\bfseries{}' + ax_label, transform=ax.transAxes)
 
 gs1 = gridspec.GridSpec(1, 3)
-gs1.update(left=0.1, right=0.95, top=0.255, wspace=0.4, bottom=0.08)
+gs1.update(left=0.1, right=0.95, top=0.255, wspace=0.4, bottom=0.1)
 
 """
 Panel C: Percentage of significant connections for each type of connection
@@ -142,11 +142,11 @@ for typ in ['HL', 'LH', 'HZ', 'same-area']:
 ax.bar([0.], [s_sign_overall / s_total_overall],
        width=0.2,
        color='k')
-ax.set_xticks([0.1, 0.3, 0.5, 0.7, 0.9])
 ax.set_yticks([0., 0.1, 0.2, 0.3])
 ax.set_yticklabels([0, 10, 20, 30])
 ax.set_ylabel('\% significant \n connections')
 
+ax.set_xticks([0., 0.2, 0.4, 0.6, 0.8])
 ax.set_xticklabels([r'$\Sigma$', 'HL', 'HZ', 'LH', 'local'],
                    rotation=0)
 
@@ -186,7 +186,7 @@ ax.bar(np.array([0, 1]), [float(NE_overall) / (NE_overall + NI_overall),
                           float(NI_overall) / (NE_overall + NI_overall)],
        width=0.2,
        color=[myblue, myred])
-ax.set_xticks([0.1, 0.3, 0.5, 0.7, 1.1, 1.3, 1.5, 1.7])
+ax.set_xticks([-0.05, 0.18, 0.41, 0.65, 0.95, 1.18, 1.41, 1.65])
 ax.set_xticklabels([r'$\Sigma$', 'HL', 'HZ', 'LH',
                     r'$\Sigma$', 'HL', 'HZ', 'LH'],
                    rotation=0)
