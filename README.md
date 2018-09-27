@@ -4,7 +4,7 @@
 ![Model overview](model_construction.png)
 
 This code implements the spiking network model of macaque visual cortex developed
-at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich. 
+at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich.
 The model has been documented in the following publications:
 
 1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ
@@ -15,7 +15,7 @@ The model has been documented in the following publications:
    Fundamental Activity Constraints Lead to Specific Interpretations of the Connectome.
    PLOS Computational Biology, 13(2). [https://doi.org/10.1371/journal.pcbi.1005179](https://doi.org/10.1371/journal.pcbi.1005179)
 
-3. Schmidt M, Bakker R, Shen K, Bezgin B, Diesmann M & van Albada SJ (2018) 
+3. Schmidt M, Bakker R, Shen K, Bezgin B, Diesmann M & van Albada SJ (2018)
    A multi-scale layer-resolved spiking network model of
    resting-state dynamics in macaque cortex. PLOS Computational Biology (accepted)
 
@@ -49,7 +49,7 @@ Furthermore, please add the path to the repository to your PYTHONPATH:
 `MultiAreaModel`
 
 The central class that initializes the network and contains all
-information about population sizes and network connectivity. This 
+information about population sizes and network connectivity. This
 enables reproducing all figures in [1]. Network parameters only
 refer to the structure of the network and ignore any information on
 its dynamical simulation or description via analytical theory.
@@ -84,7 +84,7 @@ The `figures` folder contains a subfolder with all scripts necessary to produce
 the figures from [1]. The scripts for [2] and [3] will follow soon.
 If snakemake is installed, the figures can be produced by executing
 `snakemake` in the respective folder, e.g.:
-	
+
 	cd figures/Schmidt2018/
 	snakemake
 
@@ -97,9 +97,9 @@ A simple simulation can be run in the following way:
        custom_params = ...
        custom_simulation_params = ...
 2. Instantiate the model class together with a simulation class instance.
-   
+
        M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
-	   
+
 3. Start the simulation.
 
        M.simulation.simulate()
@@ -113,13 +113,13 @@ The procedure is similar to a simple simulation:
        custom_params = ...
        custom_simulation_params = ...
 2. Instantiate the model class together with a simulation class instance.
-   
+
        M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
 3. Start the simulation.
    Call `start_job` to create a job file using the `jobscript_template` from the configuration file
    and submit it to the queue with the user-defined `submit_cmd`.
-   
-The file `run_example.py` provides an example.
+
+The file `run_example_fullscale.py` provides an example.
 
 Be aware that, depending on the chosen parameters and initial conditions, the network can enter a high-activity state, which slows down the simulation drastically and can cost a significant amount of computing resources.
 
@@ -150,7 +150,7 @@ The multi-area model can be run in different modes.
    - `hom_poisson_stat`: all non-simulated areas are replaced by Poissonian spike trains with the
      same rate as the stationary background input (`rate_ext` in `input_params`).
    - `het_poisson_stat`: all non-simulated areas are replaced by Poissonian spike trains with
-      population-specific stationary rate stored in an external file. 
+      population-specific stationary rate stored in an external file.
    - `current_nonstat`: all non-simulated areas are replaced by stepwise constant currents with
      population-specific, time-varying time series defined in an external file.
 
