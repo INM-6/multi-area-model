@@ -82,7 +82,7 @@ basic analysis and plotting.
 
 The `figures` folder contains a subfolder with all scripts necessary to produce
 the figures from [1]. The scripts for [2] and [3] will follow soon.
-If snakemake is installed, the figures can be produced by executing
+If Snakemake (Köster J & Rahmann S, Bioinformatics (2012) 28(19): 2520-2522) is installed, the figures can be produced by executing
 `snakemake` in the respective folder, e.g.:
 
 	cd figures/Schmidt2018/
