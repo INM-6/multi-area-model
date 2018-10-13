@@ -210,7 +210,7 @@ Meegen.
 
 ## Citation
 
-If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
+If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in the file called `CITATION`.
 
 If you have questions regarding the code or scientific content, please create an issue on github.
 
