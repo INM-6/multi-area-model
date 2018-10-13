@@ -225,7 +225,7 @@ This work was supported by the Helmholtz Portfolio Supercomputing and
 Modeling for the Human Brain (SMHB), the European Union 7th Framework
 Program (Grant 269921, BrainScaleS and 604102, Human Brain Project,
 Ramp up phase) and European Unions Horizon 2020 research and
-innovation program (Grant 720270, Human Brain Project, SGA1), the
+innovation program (Grants 720270 and 737691, Human Brain Project, SGA1 and SGA2), the
 Jülich Aachen Research Alliance (JARA), the Helmholtz young
 investigator group VH-NG-1028,and the German Research Council (DFG
 Grants SFB936/A1,Z1 and TRR169/A2) and computing time granted by the
