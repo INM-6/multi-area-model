@@ -206,7 +206,7 @@ for i, area in enumerate(areas):
         ax.set_ylim([y_min, y_max])
         ax.set_yticklabels(yticks)
         ax.set_yticks(yticklocs)
-        ax.set_xlabel('Time (ms)', labelpad=-0.1)
+        ax.set_xlabel('Time (s)', labelpad=-0.1)
         ax.set_xticks([t_min, t_min + 250., t_max])
         ax.set_xticklabels([r'$3.$', r'$3.25$', r'$3.5$'])
 
