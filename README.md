@@ -4,20 +4,20 @@
 ![Model overview](model_construction.png)
 
 This code implements the spiking network model of macaque visual cortex developed
-at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich. 
+at the Institute of Neuroscience and Medicine (INM-6), Research Center Jülich.
 The model has been documented in the following publications:
 
 1. Schmidt M, Bakker R, Hilgetag CC, Diesmann M & van Albada SJ
    Multi-scale account of the network structure of macaque visual cortex
-   Brain Structure and Function (2018), 223:1409 [https://doi.org/10.1007/s00429-017-1554-4](https://doi.org/10.1007/s00429-017-1554-4)
+   Brain Structure and Function (2018), 223: 1409 [https://doi.org/10.1007/s00429-017-1554-4](https://doi.org/10.1007/s00429-017-1554-4)
 
 2. Schuecker J, Schmidt M, van Albada SJ, Diesmann M & Helias M (2017)
    Fundamental Activity Constraints Lead to Specific Interpretations of the Connectome.
-   PLOS Computational Biology, 13(2). [https://doi.org/10.1371/journal.pcbi.1005179](https://doi.org/10.1371/journal.pcbi.1005179)
+   PLOS Computational Biology, 13(2): e1005179. [https://doi.org/10.1371/journal.pcbi.1005179](https://doi.org/10.1371/journal.pcbi.1005179)
 
-3. Schmidt M, Bakker R, Shen K, Bezgin B, Diesmann M & van Albada SJ (2018) 
+3. Schmidt M, Bakker R, Shen K, Bezgin B, Diesmann M & van Albada SJ (accepted)
    A multi-scale layer-resolved spiking network model of
-   resting-state dynamics in macaque cortex. PLOS Computational Biology (accepted)
+   resting-state dynamics in macaque cortex. PLOS Computational Biology, 14(9): e1006359.
 
 The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
@@ -49,7 +49,7 @@ Furthermore, please add the path to the repository to your PYTHONPATH:
 `MultiAreaModel`
 
 The central class that initializes the network and contains all
-information about population sizes and network connectivity. This 
+information about population sizes and network connectivity. This
 enables reproducing all figures in [1]. Network parameters only
 refer to the structure of the network and ignore any information on
 its dynamical simulation or description via analytical theory.
@@ -82,9 +82,9 @@ basic analysis and plotting.
 
 The `figures` folder contains a subfolder with all scripts necessary to produce
 the figures from [1]. The scripts for [2] and [3] will follow soon.
-If snakemake is installed, the figures can be produced by executing
+If Snakemake (Köster J & Rahmann S, Bioinformatics (2012) 28(19): 2520-2522) is installed, the figures can be produced by executing
 `snakemake` in the respective folder, e.g.:
-	
+
 	cd figures/Schmidt2018/
 	snakemake
 
@@ -97,9 +97,9 @@ A simple simulation can be run in the following way:
        custom_params = ...
        custom_simulation_params = ...
 2. Instantiate the model class together with a simulation class instance.
-   
+
        M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
-	   
+
 3. Start the simulation.
 
        M.simulation.simulate()
@@ -113,13 +113,13 @@ The procedure is similar to a simple simulation:
        custom_params = ...
        custom_simulation_params = ...
 2. Instantiate the model class together with a simulation class instance.
-   
+
        M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
 3. Start the simulation.
    Call `start_job` to create a job file using the `jobscript_template` from the configuration file
    and submit it to the queue with the user-defined `submit_cmd`.
-   
-The file `run_example.py` provides an example.
+
+The file `run_example_fullscale.py` provides an example.
 
 Be aware that, depending on the chosen parameters and initial conditions, the network can enter a high-activity state, which slows down the simulation drastically and can cost a significant amount of computing resources.
 
@@ -150,7 +150,7 @@ The multi-area model can be run in different modes.
    - `hom_poisson_stat`: all non-simulated areas are replaced by Poissonian spike trains with the
      same rate as the stationary background input (`rate_ext` in `input_params`).
    - `het_poisson_stat`: all non-simulated areas are replaced by Poissonian spike trains with
-      population-specific stationary rate stored in an external file. 
+      population-specific stationary rate stored in an external file.
    - `current_nonstat`: all non-simulated areas are replaced by stepwise constant currents with
      population-specific, time-varying time series defined in an external file.
 
@@ -210,7 +210,7 @@ Meegen.
 
 ## Citation
 
-If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in `CITATION`.
+If you use this code, we ask you to cite the appropriate papers in your publication. For the multi-area model itself, please cite [1] and [3]. If you use the mean-field theory or the stabilization method, please cite [2] in addition. We provide bibtex entries in the file called `CITATION`.
 
 If you have questions regarding the code or scientific content, please create an issue on github.
 
@@ -225,7 +225,7 @@ This work was supported by the Helmholtz Portfolio Supercomputing and
 Modeling for the Human Brain (SMHB), the European Union 7th Framework
 Program (Grant 269921, BrainScaleS and 604102, Human Brain Project,
 Ramp up phase) and European Unions Horizon 2020 research and
-innovation program (Grant 720270, Human Brain Project, SGA1), the
+innovation program (Grants 720270 and 737691, Human Brain Project, SGA1 and SGA2), the
 Jülich Aachen Research Alliance (JARA), the Helmholtz young
 investigator group VH-NG-1028,and the German Research Council (DFG
 Grants SFB936/A1,Z1 and TRR169/A2) and computing time granted by the
