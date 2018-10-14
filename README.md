@@ -31,9 +31,13 @@ We separate the structure of the network (defined by population sizes,
 synapse numbers/indegrees etc.) from its dynamics (neuron model,
 neuron parameters, strength of external input, etc.). The complete set
 of default parameters for all components of the framework is defined
-in `default_params.py`.
+in `multiarea_model/default_params.py`.
+
+A description of the requirements for the code can be found at the end of this README.
 
 --------------------------------------------------------------------------------
+
+### Preparations 
 
 To start using the framework, the user has to define a few environment variables
 in a new file called `config.py`. The file `config_template.py` lists the required
@@ -92,10 +96,11 @@ Note that it can sometimes be necessary to execute `snakemake --touch` to avoid 
 
 ## Running a simulation
 
-A simple simulation can be run in the following way:
-1. Define custom parameters
-       custom_params = ...
-       custom_simulation_params = ...
+The files `run_example_downscaled.py` and `run_example_fullscale.py` provide examples. A simple simulation can be run in the following way:
+
+1. Define custom parameters. 
+   See `multi_area_model/default_params.py` for a full list of parameters. All parameters can be customized.
+
 2. Instantiate the model class together with a simulation class instance.
 
        M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
@@ -110,16 +115,13 @@ The files `start_jobs.py` and `run_simulation.py` provide the necessary framewor
 for doing this in an automated fashion.
 The procedure is similar to a simple simulation:
 1. Define custom parameters
-       custom_params = ...
-       custom_simulation_params = ...
+
 2. Instantiate the model class together with a simulation class instance.
 
        M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
 3. Start the simulation.
    Call `start_job` to create a job file using the `jobscript_template` from the configuration file
    and submit it to the queue with the user-defined `submit_cmd`.
-
-The file `run_example_fullscale.py` provides an example.
 
 Be aware that, depending on the chosen parameters and initial conditions, the network can enter a high-activity state, which slows down the simulation drastically and can cost a significant amount of computing resources.
 
