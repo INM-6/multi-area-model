@@ -1,7 +1,5 @@
-import matplotlib as mp
 import matplotlib.pylab as pl
 import numpy as np
-mp.use('GTKAgg')
 
 
 class panel_factory():
