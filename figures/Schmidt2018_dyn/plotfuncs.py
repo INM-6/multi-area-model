@@ -1,6 +1,4 @@
-import matplotlib as mp
 import numpy as np
-mp.use('GTKAgg')
 import pylab as pl
 
 
