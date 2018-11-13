@@ -22,6 +22,8 @@ The model has been documented in the following publications:
 The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
 
+A video providing a brief introduction of the model and the code in this repository can be found [here](https://www.youtube.com/watch?v=NGAqe78vmHY&t=22s).
+
 ## Python framework for the multi-area model
 
 The entire framework is summarized in the figure below:
