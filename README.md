@@ -178,7 +178,7 @@ conveniently run by executing `pytest` in the `tests/` folder:
 
 
 ## Requirements
-python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
+Python 3, python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
 correlation\_toolbox ([https://github.com/INM-6/correlation-toolbox](https://github.com/INM-6/correlation-toolbox)),
 pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, NEST 2.14.0
 
