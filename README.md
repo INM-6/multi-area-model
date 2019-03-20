@@ -39,7 +39,7 @@ A description of the requirements for the code can be found at the end of this R
 
 --------------------------------------------------------------------------------
 
-### Preparations 
+### Preparations
 
 To start using the framework, the user has to define a few environment variables
 in a new file called `config.py`. The file `config_template.py` lists the required
@@ -100,7 +100,7 @@ Note that it can sometimes be necessary to execute `snakemake --touch` to avoid 
 
 The files `run_example_downscaled.py` and `run_example_fullscale.py` provide examples. A simple simulation can be run in the following way:
 
-1. Define custom parameters. 
+1. Define custom parameters.
    See `multi_area_model/default_params.py` for a full list of parameters. All parameters can be customized.
 
 2. Instantiate the model class together with a simulation class instance.
@@ -126,6 +126,29 @@ The procedure is similar to a simple simulation:
    and submit it to the queue with the user-defined `submit_cmd`.
 
 Be aware that, depending on the chosen parameters and initial conditions, the network can enter a high-activity state, which slows down the simulation drastically and can cost a significant amount of computing resources.
+
+## Extracting connectivity & neuron numbers
+
+First, the model class has to be instantiated:
+
+1. Define custom parameters.
+   See `multi_area_model/default_params.py` for a full list of parameters. All parameters can be customized.
+
+2. Instantiate the model class.
+
+       from multiarea_model import MultiAreaModel
+       M = MultiAreaModel(custom_params)
+
+The connectivity and neuron numbers are stored in the attributes of the model class.
+Neuron numbers are stored in `M.N` as a dictionary (or in `M.N_vec` as an array),
+indegrees in `M.K` as a dictionary (or in `M.K_matrix` as an array). To extract e.g.
+the neuron numbers into a yaml file execute
+
+       import yaml
+       with open('neuron_numbers.yaml', 'w') as f:
+           yaml.dump(M.N, f, default_flow_style=False)
+
+Alternatively, you can have a look at the data with `print(M.N)`.
 
 ## Simulation modes
 
@@ -236,5 +259,5 @@ Grants SFB936/A1,Z1 and TRR169/A2) and computing time granted by the
 JARA-HPC Ver- gabegremium and provided on the JARA-HPC Partition part
 of the supercomputer JUQUEEN (Jülich Supercomputing Centre 2015) at
 Forschungszentrum Jülich (VSR Computation Time Grant JINB33), and Priority
-Program 2041 (SPP 2041) "Computational Connectomics" of the German Research 
+Program 2041 (SPP 2041) "Computational Connectomics" of the German Research
 Foundation (DFG).
