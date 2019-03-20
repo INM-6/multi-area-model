@@ -140,8 +140,8 @@ First, the model class has to be instantiated:
        M = MultiAreaModel(custom_params)
 
 The connectivity and neuron numbers are stored in the attributes of the model class.
-Neuron numbers are stored in `M.N` as a dictionary (or in `M.N_vec` as an array),
-indegrees in `M.K` as a dictionary (or in `M.K_matrix` as an array). To extract e.g.
+Neuron numbers are stored in `M.N` as a dictionary (and in `M.N_vec` as an array),
+indegrees in `M.K` as a dictionary (and in `M.K_matrix` as an array). To extract e.g.
 the neuron numbers into a yaml file execute
 
        import yaml
