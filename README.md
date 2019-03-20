@@ -22,6 +22,8 @@ The model has been documented in the following publications:
 The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
 
+A video providing a brief introduction of the model and the code in this repository can be found [here](https://www.youtube.com/watch?v=NGAqe78vmHY&t=22s).
+
 ## Python framework for the multi-area model
 
 The entire framework is summarized in the figure below:
@@ -176,7 +178,7 @@ conveniently run by executing `pytest` in the `tests/` folder:
 
 
 ## Requirements
-python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
+Python 3, python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
 correlation\_toolbox ([https://github.com/INM-6/correlation-toolbox](https://github.com/INM-6/correlation-toolbox)),
 pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, NEST 2.14.0
 
