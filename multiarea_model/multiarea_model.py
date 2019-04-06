@@ -132,18 +132,15 @@ class MultiAreaModel:
         ind, inda, out, outa = load_degree_data(tmp_data_fn)
         # If K_stable is specified in the params, load the stabilized matrix
         # TODO: Extend this by calling the stabilization method
-        if not self.params['connection_params']['K_stable']:
+        if self.params['connection_params']['K_stable'] is None:
             self.K = ind
         else:
-            if self.params['connection_params']['K_stable'] is True:
-                raise NotImplementedError('Stabilization procedure has '
-                                          'to be integrated.')
-            elif isinstance(self.params['connection_params']['K_stable'], np.ndarray):
-                raise NotImplementedError("Not supported. Please store the "
-                                          "matrix in a file and define the path to the file as "
-                                          "the parameter value.")
-            else:  # Assume that the parameter defines a filename containing the matrix
-                K_stable = np.load(self.params['connection_params']['K_stable'])
+            if not isinstance(self.params['connection_params']['K_stable'], str):
+                raise TypeError("Not supported. Please store the "
+                                "matrix in a binary numpy file and define "
+                                "the path to the file as the parameter value.")
+            # Assume that the parameter defines a filename containing the matrix
+            K_stable = np.load(self.params['connection_params']['K_stable'])
             ext = {area: {pop: ind[area][pop]['external'] for pop in
                           self.structure['V1']} for area in self.area_list}
             self.K = matrix_to_dict(
