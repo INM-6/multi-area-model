@@ -69,13 +69,13 @@ technical parameters such as the number of parallel MPI processes and
 threads. The simulation uses the network simulator NEST
 (https://www.nest-simulator.org). For the simulations in [2, 3], we
 used NEST version 2.8.0. The code in this repository runs with a
-later release of NEST, version 2.14.0 .
+later release of NEST, version 2.14.0.
 
 `Theory`
 
 This class can be initialized by `MultiAreaModel` or as standalone and
 takes simulation parameters as input. It provides two main features:
-- predict the stable fixed point of the system using mean-field theory and characterize them (for instance by computing the gain matrix).
+- predict the stable fixed points of the system using mean-field theory and characterize them (for instance by computing the gain matrix).
 - via the script `stabilize.py`, one can execute the stabilization method described in [2] on a network instance. Please see `figures/SchueckerSchmidt2017/stabilization.py` for an example of running the stabilization.
 
 `Analysis`
@@ -168,7 +168,7 @@ The multi-area model can be run in different modes.
    This can be achieved by setting the parameters `N_scaling` and `K_scaling` in `network_params`
    to values smaller than 1. In general, this will affect the dynamics of the network.
    To approximately preserve the population-averaged spike rates, one can specify a set of target rates
-   that is used to scale synaptic weights and apply an additional external DC current.
+   that is used to scale synaptic weights and apply an additional external DC input.
 
 3. Subset of the network
 
