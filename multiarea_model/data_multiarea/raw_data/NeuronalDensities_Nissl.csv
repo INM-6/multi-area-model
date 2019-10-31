@@ -1,0 +1,43 @@
+# Overall neuron densities (neurons per cubic mm) of macaque cortical areas obtained with Nissl staining, providing an update with respect to the NeuN-based densities in Table 4 of Hilgetag, C. C., Medalla, M., Beul, S. F., & Barbas, H. (2016). The primate connectome in context: Principles of connections of the cortical visual system. NeuroImage, 134, 685-702. Columns: area name, architectural type, neuron density, cortical thickness (in mm)
+
+V1,8,173360,1.24
+V2,7,111730,1.46
+V3,7,—,—
+VP,7,—,—
+TEO,6,78523,2.13
+V3A,6,76696,1.66
+V4,6,86223,1.89
+V4t,6,—,—
+V5/MT,6,81153,1.96
+VOT,6,—,—
+A8,5,60837,2.21
+CIT,5,—,—
+DP,5,—,—
+FEF,5,—,—
+LIPd,5,61087,2.3
+LIPv,5,69275,2.3
+MST,5,—,—
+PIP,5,—,—
+PIT,5,—,—
+PO,5,—,—
+TEc,5,—,—
+TF,5,61906,1.62
+VIP,5,—,—
+A36,4,50074,2.93
+A46v,4,52720,1.86
+A7a,4,52379,2.68
+AIT,4,—,—
+FST,4,—,—
+STP,4,—,—
+TEr,4,54902,2.63
+A11 rostral,3,53874,1.62
+A12 lateral,3,—,—
+A12 rostral,3,50570,2.25
+MVisPro,2,—,—
+OPro,2,40136,2.5
+TH,2,49446,1.87
+VPolePro,2,—,—
+OPAll/OPro,1.5,39607,—
+A28,1,40825,2.05
+A35,1,40313,1.6
+ER,1,—,—
