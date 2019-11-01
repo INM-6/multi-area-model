@@ -1,0 +1,4 @@
+*.pyc
+.cache/*
+tests/.cache/*
+tests/.pytest_cache/*
