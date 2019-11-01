@@ -717,7 +717,7 @@ def process_raw_data():
         else:
             neuronal_density_data_FV91_4layers[i]['overall'] = neuronal_density_data_FV91[
                 i]['overall']['value'] * gradient + intercept
-     """
+    """
     We build a dictionary containing neuron densities
     (overall and layer-specific) for each area. If there
     is no data available for an area, we compute the
