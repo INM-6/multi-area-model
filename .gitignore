@@ -1,0 +1,8 @@
+*.pyc
+
+.cache/*
+tests/.cache/*
+tests/.pytest_cache/*
+
+figures/*/.snakemake/*
+figures/*/tex/*
