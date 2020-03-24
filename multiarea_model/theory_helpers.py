@@ -86,7 +86,6 @@ def nu_0(tau_m, tau_r, V_th, V_r, mu, sigma):
         Variance of the input current to the neurons in mV
     """
     if mu <= V_th + (0.95 * abs(V_th) - abs(V_th)):
-        # if  mu <= 0.95*V_th:
         return siegert1(tau_m, tau_r, V_th, V_r, mu, sigma)
     else:
         return siegert2(tau_m, tau_r, V_th, V_r, mu, sigma)

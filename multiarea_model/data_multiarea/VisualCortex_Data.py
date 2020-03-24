@@ -38,8 +38,6 @@ will be stored in the corresponding dictionaries:
 6. CoCoMac data about the existence and patterns of connections
    between areas
    ----> cocomac
-6. CoCoMac data about the existence of connections between
-   areas and their laminar patterns
 7. FLN data about extrinsic connections to three areas (V1,V2,V4)
    from Markov et al. (2011)
    ---> FLN_Data
@@ -310,7 +308,6 @@ def process_raw_data():
 
     for source in dat:
         for target in dat[source]:
-            # import pdb
             source_pattern = dat[source][target][0]
             target_pattern = dat[source][target][1]
 
@@ -1054,7 +1051,6 @@ def process_raw_data():
                 FV91_source = re.sub(
                     "FVE.", "", re.sub("FVE_all.", "", FV91_key))
                 if FV91_source in area_list:
-                    # if norm > 0.0 and FV91_source in area_list :
                     if FV91_source in FLN_Data_FV91_mapped[target]:
                         FLN_Data_FV91_mapped[target][FV91_source] += overlap['all'][
                             source_key][FV91_key] / 100. * FLN_Data_FV91[target][source]
@@ -1138,7 +1134,7 @@ def process_raw_data():
                     distances_FV91 = np.append(distances_FV91, median_distance_data[
                                                target_area][source_area])
 
-    # Linear Fit to log values"
+    # Linear Fit to log values
     gradient, intercept, r_value, p_value, std_err = stats.linregress(
         distances_FV91, np.log(FLN_values_FV91))
     EDR_params = [intercept, gradient]
@@ -1282,7 +1278,6 @@ def process_raw_data():
                 FV91_source = re.sub(
                     "FVE.", "", re.sub("FVE_all.", "", FV91_key))
                 if FV91_source in area_list:
-                    # if norm > 0.0 and FV91_source in area_list :
                     if FV91_source in SLN_Data_FV91_mapped[target]:
                         SLN_Data_FV91_mapped[target][FV91_source]['S'] += (overlap['all'][
                             source_key][FV91_key] / 100. * SLN_Data_FV91[
