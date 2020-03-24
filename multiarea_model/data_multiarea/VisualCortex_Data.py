@@ -5,7 +5,7 @@ VisualCortexData
 This script provides the function process_raw_data which fulfills two
 tasks:
 1) Load the experimental data from the raw data files stored in
-   raw_data/ and stores it to viscorted_raw_data.json.
+   raw_data/ and stores it to viscortex_raw_data.json.
 2) Process the data to derive complete sets of FLN, SLN, neuronal
    densities and laminar thicknesses and store these values to
    viscortex_processed_data.json.
