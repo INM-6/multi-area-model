@@ -70,9 +70,8 @@ def stabilize(theo, theo_prime, fixed_point, a='fac_nu_ext_5E_6E', b='indegree')
     Only take the most critical eigendirection into account.
     """
     eigen_proj = np.outer(u[:, 0], v[0])
-    fac = 1.
     denom = (S * theo.network.J_matrix[:, :-1] +
-             T * theo.network.J_matrix[:, :-1]**2) * fac * theo.NP['tau_m'] * 1.e-3
+             T * theo.network.J_matrix[:, :-1]**2) * theo.NP['tau_m'] * 1.e-3
     delta_K = epsilon[0] * eigen_proj / denom
 
     """
@@ -104,11 +103,10 @@ def S_T(theo, fixed_point):
                   for i in range(theo.network.K_matrix.shape[0])])
     T = np.array([T_vector[i] * np.ones(theo.network.K_matrix.shape[0])
                   for i in range(theo.network.K_matrix.shape[0])])
-    fac = 1.
     W = theo.network.K_matrix[:, :-1] * theo.network.J_matrix[:, :-1]
     W2 = theo.network.K_matrix[:, :-1] * theo.network.J_matrix[:, :-1]**2
-    M = (S * W * fac * theo.NP['tau_m'] * 1.e-3 +
-         T * W2 * fac ** 2 * theo.NP['tau_m'] * 1.e-3)
+    M = (S * W * theo.NP['tau_m'] * 1.e-3 +
+         T * W2 * theo.NP['tau_m'] * 1.e-3)
     return S_vector, S, T_vector, T, M
 
 
@@ -121,10 +119,9 @@ def fixed_point_shift(a, theo, theo_prime, fixed_point):
         K_ext_prime = theo_prime.network.K_matrix[:, -1]
         delta_Kext = K_ext_prime - K_ext
 
-        fac = 1.
         rate_ext = theo.network.params['input_params']['rate_ext']
-        v_mu = fac * theo.NP['tau_m'] * 1.e-3 * S_vector * delta_Kext * W_ext * rate_ext
-        v_sigma = fac ** 2 * theo.NP['tau_m'] * 1.e-3 * T_vector * delta_Kext * W_ext**2 * rate_ext
+        v_mu = theo.NP['tau_m'] * 1.e-3 * S_vector * delta_Kext * W_ext * rate_ext
+        v_sigma = theo.NP['tau_m'] * 1.e-3 * T_vector * delta_Kext * W_ext**2 * rate_ext
         v = v_mu + v_sigma
     else:
         raise NotImplementedError('a = {} not implemented.'.format(a))
