@@ -54,7 +54,7 @@ def stabilize(theo, theo_prime, fixed_point, a='fac_nu_ext_5E_6E', b='indegree')
     matrix M
     """
     lambda_ev, u, v = eigen_decomp_M(M)
-    
+
     a_hat = np.dot(v, delta_bar_nu_star)
     v_hat = np.dot(v, fixed_point)
     epsilon = - 1. * a_hat / v_hat
@@ -70,11 +70,8 @@ def stabilize(theo, theo_prime, fixed_point, a='fac_nu_ext_5E_6E', b='indegree')
     Only take the most critical eigendirection into account.
     """
     eigen_proj = np.outer(u[:, 0], v[0])
-    # fac = (theo.NP['tau_syn'] /
-    #        theo.network.params['neuron_params']['single_neuron_dict']['C_m'])
-    fac = 1.
     denom = (S * theo.network.J_matrix[:, :-1] +
-             T * theo.network.J_matrix[:, :-1]**2) * fac * theo.NP['tau_m'] * 1.e-3
+             T * theo.network.J_matrix[:, :-1]**2) * theo.NP['tau_m'] * 1.e-3
     delta_K = epsilon[0] * eigen_proj / denom
 
     """
@@ -106,14 +103,10 @@ def S_T(theo, fixed_point):
                   for i in range(theo.network.K_matrix.shape[0])])
     T = np.array([T_vector[i] * np.ones(theo.network.K_matrix.shape[0])
                   for i in range(theo.network.K_matrix.shape[0])])
-    # fac = (theo.NP['tau_syn'] /
-    #        theo.network.params['neuron_params']['single_neuron_dict']['C_m']) * 1.e3
-    # import pdb; pdb.set_trace()
-    fac = 1.
     W = theo.network.K_matrix[:, :-1] * theo.network.J_matrix[:, :-1]
     W2 = theo.network.K_matrix[:, :-1] * theo.network.J_matrix[:, :-1]**2
-    M = (S * W * fac * theo.NP['tau_m'] * 1.e-3 +
-         T * W2 * fac ** 2 * theo.NP['tau_m'] * 1.e-3)
+    M = (S * W * theo.NP['tau_m'] * 1.e-3 +
+         T * W2 * theo.NP['tau_m'] * 1.e-3)
     return S_vector, S, T_vector, T, M
 
 
@@ -126,31 +119,9 @@ def fixed_point_shift(a, theo, theo_prime, fixed_point):
         K_ext_prime = theo_prime.network.K_matrix[:, -1]
         delta_Kext = K_ext_prime - K_ext
 
-        # if a == 'fac_nu_ext_5E_6E':
-        #     mask = create_vector_mask(theo.network.structure, pops=['5E'])
-        #     K_ext[mask] /= theo.network.params['connection_params']['fac_nu_ext_5E']
-        #     delta_param = np.zeros_like(K_ext)
-        #     delta_a = (np.array(theo_prime.network.params['connection_params'][
-        #         'fac_nu_ext_5E']) -
-        #                    np.array(theo.network.params['connection_params']['fac_nu_ext_5E']))
-        #     delta_param[mask] = delta_a * theo.network.params['input_params']['rate_ext']
-            
-        #     mask = create_vector_mask(theo.network.structure, pops=['6E'])
-        #     # in fact we realize a change in nu_ext via a change in K_ext. Here
-        #     # we again shift this change to a change in the external rate.
-        #     # Therefore we need to divide the indegree by the factor here.
-        #     delta_a = (np.array(theo_prime.network.params['connection_params'][
-        #         'fac_nu_ext_6E']) -
-        #                    np.array(theo.network.params['connection_params']['fac_nu_ext_6E']))
-        #     K_ext[mask] /= theo.network.params['connection_params']['fac_nu_ext_6E']
-        #     delta_param[mask] = delta_a * theo.network.params['input_params']['rate_ext']
-
-        # fac = (theo.NP['tau_syn'] /
-        #        theo.network.params['neuron_params']['single_neuron_dict']['C_m']) * 1.e3
-        fac = 1.
         rate_ext = theo.network.params['input_params']['rate_ext']
-        v_mu = fac * theo.NP['tau_m'] * 1.e-3 * S_vector * delta_Kext * W_ext * rate_ext
-        v_sigma = fac ** 2 * theo.NP['tau_m'] * 1.e-3 * T_vector * delta_Kext * W_ext**2 * rate_ext
+        v_mu = theo.NP['tau_m'] * 1.e-3 * S_vector * delta_Kext * W_ext * rate_ext
+        v_sigma = theo.NP['tau_m'] * 1.e-3 * T_vector * delta_Kext * W_ext**2 * rate_ext
         v = v_mu + v_sigma
     else:
         raise NotImplementedError('a = {} not implemented.'.format(a))
