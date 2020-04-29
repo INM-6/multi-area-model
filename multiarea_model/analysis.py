@@ -125,7 +125,7 @@ class Analysis:
                     fn = os.path.join(rec_dir,
                                       '.'.join((fp, 'npy')))
                     try:
-                        data[area][pop] = np.load(fn)
+                        data[area][pop] = np.load(fn, allow_pickle=True)
                     except FileNotFoundError:
                         if not hasattr(self, 'all_spikes'):
                             fp = '.'.join(('-'.join((self.simulation.label,
