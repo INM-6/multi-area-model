@@ -281,7 +281,7 @@ theory_params = {'neuron_params': neuron_params,
                  # The simulation time of the mean-field theory integration
                  'T': 50.,
                  # The time step of the mean-field theory integration
-                 'dt': 0.1,
+                 'dt': 0.01,
                  # Time interval for recording the trajectory of the mean-field calcuation
                  # If None, then the interval is set to dt
                  'rec_interval': None}
