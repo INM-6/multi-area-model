@@ -14,6 +14,7 @@ Maximilian Schmidt
 from config import base_path
 import json
 import os
+import nest
 
 import numpy as np
 
@@ -62,7 +63,11 @@ network_params = {
     'K_scaling': 1.,
     # Absolute path to the file holding full-scale rates for scaling
     # synaptic weights
-    'fullscale_rates': None
+    'fullscale_rates': None,
+    # Check whether NEST 2 or 3 is used. No straight way of checking this is
+    # available. But PrintNetwork was removed in NEST 3, so checking for its
+    # existence should suffice.
+    'USING_NEST_3': 'PrintNetwork' not in dir(nest)
 }
 
 
@@ -246,18 +251,22 @@ recording_dict = {
     # Parameters for the spike detectors
     'spike_dict': {
         'label': 'spikes',
-        'withtime': True,
-        'record_to': ['file'],
         'start': 0.},
     # Parameters for the voltmeters
     'vm_dict': {
         'label': 'vm',
         'start': 0.,
         'stop': 1000.,
-        'interval': 0.1,
-        'withtime': True,
-        'record_to': ['file']}
+        'interval': 0.1}
     }
+if network_params['USING_NEST_3']:
+    recording_dict['spike_dict'].update({'record_to': 'ascii'})
+    recording_dict['vm_dict'].update({'record_to': 'ascii'})
+else:
+    recording_dict['spike_dict'].update({'withtime': True,
+                                         'record_to': ['file']})
+    recording_dict['vm_dict'].update({'withtime': True,
+                                      'record_to': ['file']})
 sim_params.update({'recording_dict': recording_dict})
 
 """
