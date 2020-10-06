@@ -229,7 +229,7 @@ def matrix_to_dict(m, area_list, structure, external=None):
             x = x.reshape((8, 8))
         for i, pop in enumerate(population_list):
             for j, pop2 in enumerate(population_list):
-                if x[i][j] < 1e-20:
+                if np.isclose(0., x[i][j]):
                     x[i][j] = 0.
                 dic[area][pop][area2][pop2] = x[i][j]
     if external is not None:
