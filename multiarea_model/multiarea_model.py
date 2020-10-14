@@ -206,6 +206,15 @@ class Model:
                 ana_spec = keywords['ana_spec']
             self.init_analysis(ana_spec)
 
+    def create(self):
+        self.simulation.create()
+
+    def connect(self):
+        self.simulation.connect()
+
+    def simulate(self):
+        self.simulation.simulate()
+
     def __str__(self):
         s = "Multi-area network {} with custom parameters: \n".format(self.label)
         s += pprint.pformat(self.params, width=1)

@@ -93,6 +93,8 @@ class Simulation:
         self.areas_recorded = self.params['recording_dict']['areas_recorded']
         self.T = self.params['t_sim']
 
+        self.prepare()
+
     def __eq__(self, other):
         # Two simulations are equal if the simulation parameters and
         # the simulated networks are equal.
@@ -185,6 +187,13 @@ class Simulation:
             status_dict.update({'label': label})
             nest.SetStatus(self.voltmeter, status_dict)
 
+    def connect_areas(self):
+        """
+        Create all areas with their populations and internal connections.
+        """
+        for area in self.areas:
+            area.connect_area()
+
     def create_areas(self):
         """
         Create all areas with their populations and internal connections.
@@ -272,40 +281,26 @@ class Simulation:
                                                             source_area.name,
                                                             cc_input[source_area.name])
 
-    def simulate(self):
+    def create(self):
         """
-        Create the network and execute simulation.
-        Record used memory and wallclock time.
+        Create the network.
         """
-        t0 = time.time()
-        self.base_memory = self.memory()
-        self.prepare()
-        t1 = time.time()
-        self.time_prepare = t1 - t0
-        print("Prepared simulation in {0:.2f} seconds.".format(self.time_prepare))
-
         self.create_recording_devices()
         self.create_areas()
-        t2 = time.time()
-        self.time_network_local = t2 - t1
-        print("Created areas and internal connections in {0:.2f} seconds.".format(
-            self.time_network_local))
 
+    def connect(self):
+        """
+        Connect the network.
+        """
+        self.connect_areas()
         self.cortico_cortical_input()
-        t3 = time.time()
-        self.network_memory = self.memory()
-        self.time_network_global = t3 - t2
-        print("Created cortico-cortical connections in {0:.2f} seconds.".format(
-            self.time_network_global))
-
         self.save_network_gids()
 
+    def simulate(self):
+        """
+        Simulate the network.
+        """
         nest.Simulate(self.T)
-        t4 = time.time()
-        self.time_simulate = t4 - t3
-        self.total_memory = self.memory()
-        print("Simulated network in {0:.2f} seconds.".format(self.time_simulate))
-        self.logging()
 
     def memory(self):
         """
@@ -403,8 +398,6 @@ class Area:
             self.external_synapses[pop] = self.network.K[self.name][pop]['external']['external']
 
         self.create_populations()
-        self.connect_devices()
-        self.connect_populations()
         print("Rank {}: created area {} with {} local nodes".format(nest.Rank(),
                                                                     self.name,
                                                                     self.num_local_nodes))
@@ -468,6 +461,13 @@ class Area:
                             len(local_nodes_pop))
                             )
                     self.num_local_nodes += len(local_nodes_pop)
+
+    def connect_area(self):
+        """
+        Create connections from devices and between populations.
+        """
+        self.connect_devices()
+        self.connect_populations()
 
     def connect_populations(self):
         """
