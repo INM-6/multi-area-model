@@ -5,7 +5,7 @@ from plotfuncs import create_fig
 from rate_matrix_plot import rate_matrix_plot, rate_histogram_plot
 from area_list import area_list
 from multiarea_model.multiarea_helpers import create_vector_mask
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from plotcolors import myblue, myblue2, myred2, myred
 base_dir = os.getcwd()
 
@@ -47,7 +47,7 @@ network_params = {'N_scaling': 1.,
                   'K_scaling': 1.,
                   'connection_params': conn_params,
                   'neuron_params': neuron_params}
-M = MultiAreaModel(network_params,
+M = Model(network_params,
                    analysis=True,
                    simulation=True,
                    sim_spec=sim_params,

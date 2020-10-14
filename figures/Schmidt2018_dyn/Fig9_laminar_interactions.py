@@ -7,7 +7,7 @@ import pyx
 from collections import Counter
 from helpers import original_data_path
 from helpers import structural_gradient
-from multiarea_model.multiarea_model import MultiAreaModel
+from multiarea_model.multiarea_model import Model
 from plotcolors import myblue, myred, mypurple, myred2
 
 from matplotlib import gridspec
@@ -48,7 +48,7 @@ conn_params = {'g': -16.,
 network_params = {'N_scaling': 1.,
                   'K_scaling': 1.,
                   'connection_params': conn_params}
-M = MultiAreaModel(network_params)
+M = Model(network_params)
 
 
 LOAD_ORIGINAL_DATA = True

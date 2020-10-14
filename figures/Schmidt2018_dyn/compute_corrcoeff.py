@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 import correlation_toolbox.helper as ch
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 import sys
 
 """
@@ -30,9 +30,9 @@ subsample = 2000
 resolution = 1.
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 spike_data = {}
 cc_dict = {}

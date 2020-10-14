@@ -3,7 +3,7 @@ import numpy as np
 import os
 import sys
 
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.analysis_helpers import pop_rate_distribution
 
 
@@ -30,9 +30,9 @@ with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r')
 T = par['T']
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 
 # spike data

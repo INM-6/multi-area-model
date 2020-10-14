@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.default_params import complete_area_list, population_list
 from multiarea_model.analysis_helpers import _save_dict_to_npy
 
@@ -19,7 +19,7 @@ def test_het_poisson_stat_sim():
                       'fullscale_rates': 'fullscale_rates.json'}
     sim_params = {'t_sim': 0.1,
                   'areas_simulated': ['V1']}
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()
 
 
@@ -31,7 +31,7 @@ def test_hom_poisson_stat_sim():
     sim_params = {'t_sim': 0.1,
                   'areas_simulated': ['V1']}
 
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()
 
 
@@ -50,5 +50,5 @@ def test_het_current_non_stat_sim():
     sim_params = {'t_sim': 10.,
                   'areas_simulated': ['V1']}
 
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()

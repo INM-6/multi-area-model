@@ -6,7 +6,7 @@ import os
 import pyx
 
 from helpers import original_data_path, infomap_path
-from multiarea_model.multiarea_model import MultiAreaModel
+from multiarea_model.multiarea_model import Model
 from plotcolors import myred, myblue
 
 import matplotlib.pyplot as pl
@@ -84,7 +84,7 @@ Load data
 """
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
 conn_params = {'g': -11.,
                'fac_nu_ext_TH': 1.2,
@@ -95,7 +95,7 @@ conn_params = {'g': -11.,
 network_params = {'N_scaling': 1.,
                   'K_scaling': 1.,
                   'connection_params': conn_params}
-M = MultiAreaModel(network_params)
+M = Model(network_params)
 
 # Load experimental functional connectivity
 func_conn_data = {}

@@ -5,7 +5,7 @@ import sys
 
 from collections import Counter
 from helpers import structural_gradient, write_out_lw
-from multiarea_model.multiarea_model import MultiAreaModel
+from multiarea_model.multiarea_model import Model
 
 data_path = sys.argv[1]
 label = sys.argv[2]
@@ -24,7 +24,7 @@ conn_params = {'g': -16.,
 network_params = {'N_scaling': 1.,
                   'K_scaling': 1.,
                   'connection_params': conn_params}
-M = MultiAreaModel(network_params)
+M = Model(network_params)
 
 gc = {}
 for area in M.area_list:

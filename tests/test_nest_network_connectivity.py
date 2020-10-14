@@ -1,4 +1,4 @@
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 import nest
 import numpy as np
 
@@ -12,7 +12,7 @@ def test_nest_network_connectivity():
     network_params = {'N_scaling': 0.001,
                       'K_scaling': 0.001,
                       'fullscale_rates': 'fullscale_rates.json'}
-    M = MultiAreaModel(network_params, simulation=True)
+    M = Model(network_params, simulation=True)
     M.simulation.simulate()
 
     """

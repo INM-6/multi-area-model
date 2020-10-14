@@ -9,7 +9,7 @@ import sys
 from plotfuncs import create_fig
 from rate_matrix_plot import rate_matrix_plot, rate_histogram_plot
 from area_list import area_list
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 
 base_dir = os.getcwd()
 
@@ -61,7 +61,7 @@ network_params = {'N_scaling': 1.,
                   'connection_params': conn_params,
                   'neuron_params': neuron_params,
                   'input_params': input_params}
-M_LA = MultiAreaModel(network_params,
+M_LA = Model(network_params,
                       simulation=True,
                       sim_spec=sim_params,
                       analysis=True)
@@ -81,7 +81,7 @@ network_params = {'N_scaling': 1.,
                   'connection_params': conn_params,
                   'neuron_params': neuron_params}
 
-M_HA = MultiAreaModel(network_params, simulation=True,
+M_HA = Model(network_params, simulation=True,
                       sim_spec=sim_params,
                       analysis=True)
 M_HA.analysis.create_pop_rates()

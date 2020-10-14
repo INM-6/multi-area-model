@@ -4,7 +4,7 @@ import numpy as np
 import pylab as pl
 import utils
 
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_vector_mask
 from plotfuncs import create_fig
 from plotcolors import myblue, myblue2, myred2, myred
@@ -28,7 +28,7 @@ panel_factory = create_fig(
     1, scale, width, n_horz_panels, n_vert_panels, voffset=0.19, hoffset=0.096, squeeze=0.23)
 
 """
-Create instance of MultiAreaModel
+Create instance of Model
 """
 conn_params = {'g': -16.,
                'av_indegree_V1': 3950.,
@@ -41,7 +41,7 @@ theory_params = {'dt': 0.01,
                  'T': 30.}
 time = np.arange(0., theory_params['T'], theory_params['dt'])
 
-M_base = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+M_base = Model(network_params, theory=True, theory_spec=theory_params)
 
 """
 Plot data

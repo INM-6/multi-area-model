@@ -1,4 +1,4 @@
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import vector_to_dict
 import numpy as np
 import json
@@ -14,7 +14,7 @@ def test_network_scaling():
     """
 
     network_params = {}
-    M0 = MultiAreaModel(network_params, theory=True)
+    M0 = Model(network_params, theory=True)
     K0 = M0.K_matrix
     W0 = M0.W_matrix
     N0 = M0.N_vec
@@ -33,7 +33,7 @@ def test_network_scaling():
                       'fullscale_rates': 'mf_rates.json'}
     theory_params = {'initial_rates': r0[:, -1],
                      'T': 50.}
-    M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+    M = Model(network_params, theory=True, theory_spec=theory_params)
 
     K = M.K_matrix
     W = M.W_matrix

@@ -12,7 +12,7 @@ from helpers import datapath
 from itertools import product
 from helpers import structural_gradient, hierarchical_relation, write_out_lw
 from matplotlib import rc_file
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask
 from plotcolors import myblue
 
@@ -20,7 +20,7 @@ rc_file('plotstyle.rc')
 
 
 """
-Load data and create MultiAreaModel instance
+Load data and create Model instance
 """
 with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
     proc = json.load(f)
@@ -29,7 +29,7 @@ SLN_Data_FV91 = proc['SLN_Data_FV91']
 arch_types = proc['architecture_completed']
 
 par = {'connection_params': {'g': -4.}}
-M = MultiAreaModel(par, theory=True, simulation=False)
+M = Model(par, theory=True, simulation=False)
 
 gain_matrix = M.K_matrix[:, :-1] * np.absolute(M.J_matrix[:, :-1])
 eig = np.linalg.eig(gain_matrix)

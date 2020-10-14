@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 from multiarea_model.analysis_helpers import pop_LvR
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 import sys
 
 """
@@ -26,9 +26,9 @@ with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r')
 T = sim_params['T']
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 spike_data = {}
 pop_LvR_dict = {}

@@ -1,4 +1,4 @@
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model import stabilize
 from multiarea_model.multiarea_helpers import create_vector_mask
 import os
@@ -27,7 +27,7 @@ panel_factory = create_fig(
 
 
 """
-Create instance of MultiAreaModel
+Create instance of Model
 """
 conn_params = {'g': -16.,
                'av_indegree_V1': 3950.,
@@ -40,14 +40,14 @@ theory_params = {'dt': 0.01,
                  'T': 30.}
 time = np.arange(0., theory_params['T'], theory_params['dt'])
 
-M_base = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+M_base = Model(network_params, theory=True, theory_spec=theory_params)
 
 c_target = copy.deepcopy(conn_params)
 c_target.update({'fac_nu_ext_5E': 1.2,
                 'fac_nu_ext_6E': 10/3.*1.2-7/3.})
 network_params_target = {'connection_params': c_target,
                          'input_params': input_params}
-M_target = MultiAreaModel(network_params_target, theory=True,
+M_target = Model(network_params_target, theory=True,
                           theory_spec=theory_params)
 
 """
@@ -70,7 +70,7 @@ c.update({'fac_nu_ext_5E': par_transition,
           'fac_nu_ext_6E': 10/3.*par_transition-7/3.})
 network_params = {'connection_params': c,
                   'input_params': input_params}
-MAM = MultiAreaModel(network_params, theory=True,
+MAM = Model(network_params, theory=True,
                      theory_spec=theory_params)
 
 S_vector, S, T_vector, T, M = stabilize.S_T(MAM.theory, unstable_low1)
@@ -91,7 +91,7 @@ c.update({'fac_nu_ext_5E': par_transition,
           'K_stable': 'iteration_1/K_prime.npy'})
 network_params = {'connection_params': c,
                   'input_params': input_params}
-MAM = MultiAreaModel(network_params, theory=True,
+MAM = Model(network_params, theory=True,
                      theory_spec=theory_params)
 
 S_vector, S, T_vector, T, M = stabilize.S_T(MAM.theory, unstable_low2)
@@ -123,7 +123,7 @@ c.update({'fac_nu_ext_5E': par_transition,
           'fac_nu_ext_6E': 10/3.*par_transition-7/3.})
 network_params = {'connection_params': c,
                   'input_params': input_params}
-MAM = MultiAreaModel(network_params, theory=True,
+MAM = Model(network_params, theory=True,
                      theory_spec=theory_params)
 
 # Individual shifts of first iteration

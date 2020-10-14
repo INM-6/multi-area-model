@@ -6,7 +6,7 @@ import numpy as np
 import os
 import sys
 
-from multiarea_model.multiarea_model import MultiAreaModel
+from multiarea_model.multiarea_model import Model
 
 """
 Determines communities in the functional connectivity of either the
@@ -20,9 +20,9 @@ label = sys.argv[2]
 method = sys.argv[3]
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 if label == 'exp':
     load_path = ''

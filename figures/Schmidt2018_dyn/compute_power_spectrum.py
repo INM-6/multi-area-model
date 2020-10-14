@@ -2,7 +2,7 @@ import numpy as np
 import os
 import sys
 
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.analysis_helpers import centralize
 from scipy.signal import welch
 
@@ -47,9 +47,9 @@ assert(method in ['subsample', 'full', 'auto_kernel'])
 #               (see Method parts of the paper)
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 fn = os.path.join(load_dir,
                   'rate_time_series_{}'.format(method),

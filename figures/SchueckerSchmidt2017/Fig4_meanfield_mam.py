@@ -10,7 +10,7 @@ from plotcolors import myblue, myblue2, myred2, myred
 from plotfuncs import create_fig
 from area_list import area_list
 from rate_matrix_plot import rate_matrix_plot
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_vector_mask
 base_dir = os.getcwd()
 
@@ -25,7 +25,7 @@ theory_params = {'dt': 0.01,
                  'T': 30.}
 time = np.arange(0., theory_params['T'], theory_params['dt'])
 
-M_base = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+M_base = Model(network_params, theory=True, theory_spec=theory_params)
 
 """
 Figure layout

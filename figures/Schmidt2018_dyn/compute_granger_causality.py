@@ -4,7 +4,7 @@ import numpy as np
 import os
 import sys
 
-from multiarea_model.multiarea_model import MultiAreaModel
+from multiarea_model.multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask
 from scipy.stats import levene
 from statsmodels.tsa.vector_ar.var_model import VAR
@@ -40,14 +40,14 @@ with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r')
 T = sim_params['T']
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
 connection_params = {'g': -11.,
                      'cc_weights_factor': sim_params['cc_weights_factor'],
                      'cc_weights_I_factor': sim_params['cc_weights_I_factor'],
                      'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
 network_params = {'connection_params': connection_params}
-M = MultiAreaModel(network_params)
+M = Model(network_params)
 # We exclude external input from the analysis
 K = M.K_matrix[:, :-1]
 

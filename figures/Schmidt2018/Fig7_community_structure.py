@@ -5,7 +5,7 @@ import numpy as np
 from config import base_path
 from graph_helpers import apply_map_equation, modularity
 from graph_helpers import create_graph, plot_clustered_graph
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import load_degree_data
 from plotcolors import myred_hex, myblue_hex, myred2_hex
 from plotcolors import myblue2_hex, mypurple_hex, myyellow_hex, mygreen_hex
@@ -31,7 +31,7 @@ center_of_masses = [[2., 1.],
 """
 Initialize model instance and load connectivity data
 """
-M = MultiAreaModel({})
+M = Model({})
 fn = os.path.join(base_path,
                   'config_files',
                   'custom_Data_Model_{}.json'.format(M.label))

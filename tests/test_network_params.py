@@ -1,4 +1,4 @@
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask
 import numpy as np
 from multiarea_model.default_params import av_indegree_Cragg, av_indegree_OKusky
@@ -9,7 +9,7 @@ def create_default_network():
     Return an instance of the default network.
     """
     network_params = {}
-    M0 = MultiAreaModel(network_params)
+    M0 = Model(network_params)
     return M0
 
 
@@ -22,7 +22,7 @@ def test_average_indegree():
                         av_indegree_OKusky]:
         conn_params = {'av_indegree_V1': av_indegree}
         network_params = {'connection_params': conn_params}
-        M = MultiAreaModel(network_params)
+        M = Model(network_params)
 
         area = 'V1'
         mask = create_mask(M.structure, target_areas=[area])
@@ -41,7 +41,7 @@ def test_external_indegrees():
     conn_params = {'fac_nu_ext_5E': 2.,
                    'fac_nu_ext_6E': 2.}
     network_params = {'connection_params': conn_params}
-    M = MultiAreaModel(network_params)
+    M = Model(network_params)
 
     mask = create_mask(M.structure, target_pops=['5E'], source_pops=[])
     assert(np.allclose(M.K_matrix[mask], conn_params['fac_nu_ext_5E'] * K0[mask]))
@@ -50,7 +50,7 @@ def test_external_indegrees():
 
     conn_params = {'fac_nu_ext_TH': 2.}
     network_params.update({'connection_params': conn_params})
-    M = MultiAreaModel(network_params)
+    M = Model(network_params)
 
     mask = create_mask(M.structure,
                        target_areas=['TH'],
@@ -70,7 +70,7 @@ def test_syn_weights():
     conn_params = {'PSP_e': 0.3,
                    'PSP_e_23_4': 0.6}
     network_params = {'connection_params': conn_params}
-    M = MultiAreaModel(network_params)
+    M = Model(network_params)
     mask = create_mask(M.structure,
                        source_pops=['23E', '4E', '5E', '6E'],
                        external=False)
@@ -79,7 +79,7 @@ def test_syn_weights():
     conn_params = {'cc_weights_factor': 2.,
                    'cc_weights_I_factor': 2.}
     network_params.update({'connection_params': conn_params})
-    M = MultiAreaModel(network_params)
+    M = Model(network_params)
     mask = create_mask(M.structure,
                        source_pops=['23E', '5E', '6E'],
                        target_pops=['23E', '4E', '5E', '6E'],

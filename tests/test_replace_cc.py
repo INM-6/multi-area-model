@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import os
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import vector_to_dict
 from multiarea_model.multiarea_helpers import create_mask
 from multiarea_model.default_params import complete_area_list, population_list
@@ -15,7 +15,7 @@ Test replacing cortico-cortical connections.
 def test_het_poisson_stat_mf():
     network_params = {}
     theory_params = {}
-    M0 = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+    M0 = Model(network_params, theory=True, theory_spec=theory_params)
     p, r0 = M0.theory.integrate_siegert()
 
     rates = vector_to_dict(r0[:, -1], M0.area_list, M0.structure)
@@ -25,7 +25,7 @@ def test_het_poisson_stat_mf():
     network_params = {'connection_params': {'replace_cc': 'het_poisson_stat',
                                             'replace_cc_input_source': 'mf_rates.json'}}
     theory_params = {}
-    M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+    M = Model(network_params, theory=True, theory_spec=theory_params)
     p, r = M.theory.integrate_siegert()
 
     assert(np.allclose(r0[:, -1], r[:, -1]))
@@ -34,7 +34,7 @@ def test_het_poisson_stat_mf():
 def test_hom_poisson_stat_mf():
     network_params = {'connection_params': {'replace_cc': 'hom_poisson_stat'}}
     theory_params = {}
-    M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+    M = Model(network_params, theory=True, theory_spec=theory_params)
     p, r = M.theory.integrate_siegert()
 
     mu, sigma = M.theory.replace_cc_input()
@@ -58,7 +58,7 @@ def test_het_poisson_stat_sim():
                       'K_scaling': 0.0001,
                       'fullscale_rates': 'fullscale_rates.json'}
     sim_params = {'t_sim': 0.1}
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()
 
 
@@ -68,7 +68,7 @@ def test_hom_poisson_stat_sim():
                       'K_scaling': 0.0001,
                       'fullscale_rates': 'fullscale_rates.json'}
     sim_params = {'t_sim': 0.1}
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()
 
 
@@ -85,5 +85,5 @@ def test_het_current_non_stat_sim():
                       'K_scaling': 0.0001,
                       'fullscale_rates': 'fullscale_rates.json'}
     sim_params = {'t_sim': 10.}
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()

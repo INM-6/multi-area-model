@@ -52,7 +52,7 @@ Furthermore, please add the path to the repository to your PYTHONPATH:
 
 --------------------------------------------------------------------------------
 
-`MultiAreaModel`
+`Model`
 
 The central class that initializes the network and contains all
 information about population sizes and network connectivity. This
@@ -62,7 +62,7 @@ its dynamical simulation or description via analytical theory.
 
 `Simulation`
 
-This class can be initialized by `MultiAreaModel` or as standalone and
+This class can be initialized by `Model` or as standalone and
 takes simulation parameters as input. These parameters include, e.g.,
 neuron and synapses parameters, the simulated biological time and also
 technical parameters such as the number of parallel MPI processes and
@@ -73,7 +73,7 @@ later release of NEST, version 2.14.0.
 
 `Theory`
 
-This class can be initialized by `MultiAreaModel` or as standalone and
+This class can be initialized by `Model` or as standalone and
 takes simulation parameters as input. It provides two main features:
 - predict the stable fixed points of the system using mean-field theory and characterize them (for instance by computing the gain matrix).
 - via the script `stabilize.py`, one can execute the stabilization method described in [2] on a network instance. Please see `figures/SchueckerSchmidt2017/stabilization.py` for an example of running the stabilization.
@@ -105,7 +105,7 @@ The files `run_example_downscaled.py` and `run_example_fullscale.py` provide exa
 
 2. Instantiate the model class together with a simulation class instance.
 
-       M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
+       M = Model(custom_params, simulation=True, sim_spec=custom_simulation_params)
 
 3. Start the simulation.
 
@@ -120,7 +120,7 @@ The procedure is similar to a simple simulation:
 
 2. Instantiate the model class together with a simulation class instance.
 
-       M = MultiAreaModel(custom_params, simulation=True, sim_spec=custom_simulation_params)
+       M = Model(custom_params, simulation=True, sim_spec=custom_simulation_params)
 3. Start the simulation.
    Call `start_job` to create a job file using the `jobscript_template` from the configuration file
    and submit it to the queue with the user-defined `submit_cmd`.
@@ -136,8 +136,8 @@ First, the model class has to be instantiated:
 
 2. Instantiate the model class.
 
-       from multiarea_model import MultiAreaModel
-       M = MultiAreaModel(custom_params)
+       from multiarea_model import Model
+       M = Model(custom_params)
 
 The connectivity and neuron numbers are stored in the attributes of the model class.
 Neuron numbers are stored in `M.N` as a dictionary (and in `M.N_vec` as an array),

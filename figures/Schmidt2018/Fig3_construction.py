@@ -6,13 +6,13 @@ import pyx
 
 from collections import OrderedDict
 from helpers import area_list, datapath, population_list
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from plotfuncs import create_fig
 
 """
 Loading and processing of data
 """
-M = MultiAreaModel({})
+M = Model({})
 with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
     proc = json.load(f)
 density = proc['neuronal_densities']

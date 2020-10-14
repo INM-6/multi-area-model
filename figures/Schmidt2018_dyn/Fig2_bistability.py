@@ -7,7 +7,7 @@ import pyx
 from helpers import original_data_path
 from plotfuncs import create_fig
 from matrix_plot import matrix_plot, rate_histogram_plot
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 LOAD_ORIGINAL_DATA = True
 
 scale = 1.
@@ -47,9 +47,9 @@ for key, label in zip(keys, data_labels):
         data[key] = json.load(f)
 
     """
-    Create MultiAreaModel instance to have access to data structures
+    Create Model instance to have access to data structures
     """
-    M = MultiAreaModel({})
+    M = Model({})
 
 
 labels = ['A', 'B', 'C']

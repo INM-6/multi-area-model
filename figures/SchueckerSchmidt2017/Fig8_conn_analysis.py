@@ -8,7 +8,7 @@ from matplotlib.patches import Rectangle
 from matplotlib import gridspec
 from plotcolors import myblue, myblue2, myred2, myred
 from area_list import area_list, population_labels
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask
 from multiarea_model.multiarea_helpers import matrix_to_dict, area_level_dict
 
@@ -118,7 +118,7 @@ theory_params = {'dt': 0.01,
                  'T': 30.}
 time = np.arange(0., theory_params['T'], theory_params['dt'])
 
-M_base = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+M_base = Model(network_params, theory=True, theory_spec=theory_params)
 
 K_default = M_base.K_matrix[:, :-1]
 K_prime4 = np.load('iteration_4/K_prime.npy')

@@ -1,6 +1,6 @@
 import copy
 
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from start_jobs import start_job
 from config import submit_cmd, jobscript_template
 
@@ -166,7 +166,7 @@ Collect all labels in one dictionary
 
 
 def init_model(par):
-    return MultiAreaModel(par[0],
+    return Model(par[0],
                           simulation=True,
                           sim_spec=par[1])
 

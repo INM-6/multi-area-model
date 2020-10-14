@@ -5,7 +5,7 @@ import pyx
 import os
 
 from helpers import original_data_path, population_labels
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import vector_to_dict, create_vector_mask
 from plotcolors import myblue, myred
 from scipy.signal import find_peaks_cwt
@@ -75,9 +75,9 @@ Load data
 """
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 LOAD_ORIGINAL_DATA = True
 if LOAD_ORIGINAL_DATA:
@@ -478,7 +478,7 @@ theory_params = {'T': 50.,
                  'initial_rates': 'random_uniform',
                  'initial_rates_iter': 15}
 
-M = MultiAreaModel(network_params, theory=True, simulation=False,
+M = Model(network_params, theory=True, simulation=False,
                    theory_spec=theory_params)
 pops, rates_full = M.theory.integrate_siegert()
 # Here, pick a calculation that converges to the LA state

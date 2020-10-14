@@ -1,6 +1,6 @@
 import os
 import sys
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from io import StringIO
 
 """
@@ -20,9 +20,9 @@ def test_analysis():
                       'fullscale_rates': 'fullscale_rates.json'}
     sim_params = {'t_sim': 500.,
                   'areas_simulated': ['V1', 'V2']}
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params)
+    M = Model(network_params, simulation=True, sim_spec=sim_params)
     M.simulation.simulate()
-    M = MultiAreaModel(network_params, simulation=True, sim_spec=sim_params, analysis=True)
+    M = Model(network_params, simulation=True, sim_spec=sim_params, analysis=True)
 
     M.analysis.create_pop_rates(t_min=100.)
     M.analysis.create_pop_rate_dists(t_min=100.)

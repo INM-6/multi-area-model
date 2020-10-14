@@ -6,7 +6,7 @@ import os
 from collections import Counter
 from itertools import product
 from helpers import original_data_path
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask, dict_to_vector
 
 from helpers import structural_gradient, write_out_lw
@@ -21,7 +21,7 @@ data_path = sys.argv[1]
 label = sys.argv[2]
 
 """
-Load data and create MultiAreaModel instance
+Load data and create Model instance
 """
 datapath = '../../multiarea_model/data_multiarea'
 with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
@@ -41,7 +41,7 @@ theory_params = {'T': 50.,
                  'dt': 0.1,
                  'initial_rates': initial_rates}
 
-M = MultiAreaModel(par, theory=True, simulation=False, theory_spec=theory_params)
+M = Model(par, theory=True, simulation=False, theory_spec=theory_params)
 # pops, rates_full = M.theory.integrate_siegert()
 
 # stationary firing rates: We use stationary rates computed during a

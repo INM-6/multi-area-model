@@ -51,7 +51,7 @@ class Analysis:
 
         Parameters
         ----------
-        network : MultiAreaModel
+        network : Model
             An instance of the multiarea_model class that specifies
             the network to be analyzed.
         simulation : Simulation

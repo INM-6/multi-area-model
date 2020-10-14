@@ -1,7 +1,7 @@
 import os
 import sys
 import numpy as np
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 
 K_stable_path = '../SchueckerSchmidt2017/K_prime_original.npy'
 
@@ -30,7 +30,7 @@ theory_params = {'T': 30.,
                  'initial_rates': 'random_uniform',
                  'initial_rates_iter': 1000}
 
-M = MultiAreaModel(network_params, theory=True,
+M = Model(network_params, theory=True,
                    theory_spec=theory_params)
 p, r_base = M.theory.integrate_siegert()
 np.save(os.path.join('Fig4_theory_data',

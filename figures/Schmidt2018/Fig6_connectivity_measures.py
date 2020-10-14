@@ -6,7 +6,7 @@ import sys
 from helpers import area_list, population_labels
 from matplotlib import gridspec
 from matplotlib.colors import LogNorm
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask, create_vector_mask
 from plotcolors import myred
 import pyx
@@ -22,7 +22,7 @@ cmap = pl.cm.coolwarm
 cmap2 = cmap.from_list('mycmap', ['white', myred], N=256)
 cmap2 = pl.get_cmap('inferno')
 
-M = MultiAreaModel({})
+M = Model({})
 
 """
 Layout

@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from start_jobs import start_job
 from config import submit_cmd, jobscript_template
 from config import base_path
@@ -42,7 +42,7 @@ sim_params = {'t_sim': 2000.,
 
 theory_params = {'dt': 0.1}
 
-M = MultiAreaModel(network_params, simulation=True,
+M = Model(network_params, simulation=True,
                    sim_spec=sim_params,
                    theory=True,
                    theory_spec=theory_params)

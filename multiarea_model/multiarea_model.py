@@ -7,7 +7,7 @@ multi-area model of macaque visual cortex by Schmidt et al. (2018).
 
 Classes
 -------
-MultiAreaModel : Loads a parameter file that specifies custom parameters for a
+Model : Loads a parameter file that specifies custom parameters for a
 particular instance of the model. An instance of the model has a unique hash
 label. As members, it may contain three classes:
 
@@ -60,7 +60,7 @@ dicthash.FLOAT_FACTOR = 1e4
 dicthash.FLOOR_SMALL_FLOATS = True
 
 
-class MultiAreaModel:
+class Model:
     def __init__(self, network_spec, theory=False, simulation=False,
                  analysis=False, *args, **keywords):
         """

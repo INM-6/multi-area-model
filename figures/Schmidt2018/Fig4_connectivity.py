@@ -8,7 +8,7 @@ from matplotlib import gridspec
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import FixedLocator
 from matplotlib import rc_file
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from plotcolors import myblue
 from scipy import stats
 
@@ -56,7 +56,7 @@ for label in labels:
 """
 Load data
 """
-M = MultiAreaModel({})
+M = Model({})
 
 with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
     proc = json.load(f)

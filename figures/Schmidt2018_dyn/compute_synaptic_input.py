@@ -5,7 +5,7 @@ import numpy as np
 import os
 import sys
 
-from multiarea_model.multiarea_model import MultiAreaModel
+from multiarea_model.multiarea_model import Model
 
 data_path = sys.argv[1]
 label = sys.argv[2]
@@ -27,14 +27,14 @@ T = sim_params['T']
 
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
 connection_params = {'g': -11.,
                      'cc_weights_factor': sim_params['cc_weights_factor'],
                      'cc_weights_I_factor': sim_params['cc_weights_I_factor'],
                      'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
 network_params = {'connection_params': connection_params}
-M = MultiAreaModel(network_params)
+M = Model(network_params)
 
 
 """

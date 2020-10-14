@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 from helpers import original_data_path, population_labels
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from plotcolors import myred, myblue
 
 import matplotlib.pyplot as pl
@@ -98,9 +98,9 @@ else:
 
     
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 # spike data
 spike_data = {}

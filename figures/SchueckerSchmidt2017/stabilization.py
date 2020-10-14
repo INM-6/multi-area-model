@@ -1,7 +1,7 @@
 import copy
 import pylab as pl
 import numpy as np
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_vector_mask
 from multiarea_model.stabilize import stabilize
 import utils
@@ -20,7 +20,7 @@ theory_params = {'dt': 0.01,
                  'T': 30.}
 time = np.arange(0., theory_params['T'], theory_params['dt'])
 
-M_base = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+M_base = Model(network_params, theory=True, theory_spec=theory_params)
 
 
 c_target = copy.deepcopy(conn_params)
@@ -28,7 +28,7 @@ c_target.update({'fac_nu_ext_5E': 1.2,
                 'fac_nu_ext_6E': 10/3.*1.2-7/3.})
 network_params_target = {'connection_params': c_target,
                          'input_params': input_params}
-M_target = MultiAreaModel(network_params_target, theory=True,
+M_target = Model(network_params_target, theory=True,
                           theory_spec=theory_params)
 
 THREADS = 4
@@ -62,7 +62,7 @@ for iteration in [1, 2, 3, 4, 5]:
         fac_nu_ext_5E_list = np.append(np.arange(1., 1.2, 0.01), np.array([1.125]))
         
         # Prepare base instance of the network
-        M_base = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+        M_base = Model(network_params, theory=True, theory_spec=theory_params)
         # Scan parameter space to find a good approximation of the
         # critical parameter value where the model crosses the
         # separatrix for the initial condition of zero rates
@@ -91,7 +91,7 @@ for iteration in [1, 2, 3, 4, 5]:
                   'fac_nu_ext_6E': 10/3.*par_transition-7/3.})
         network_params = {'connection_params': c,
                           'input_params': input_params}
-        M = MultiAreaModel(network_params, theory=True,
+        M = Model(network_params, theory=True,
                            theory_spec=theory_params)
 
         K_prime = stabilize(M.theory,

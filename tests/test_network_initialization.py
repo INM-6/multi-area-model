@@ -1,4 +1,4 @@
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 
 
 def test_network_initialization():
@@ -20,6 +20,6 @@ def test_network_initialization():
                       'K_scaling': 1.,
                       'connection_params': conn_params}
 
-    M = MultiAreaModel(network_params)
-    M2 = MultiAreaModel(M.label)
+    M = Model(network_params)
+    M2 = Model(M.label)
     assert(M == M2)

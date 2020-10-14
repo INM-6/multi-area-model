@@ -11,7 +11,7 @@ from helpers import datapath, raw_datapath
 from scipy import integrate
 from matplotlib import rc_file, gridspec
 from plotcolors import myred, myblue
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from multiarea_model.multiarea_helpers import create_mask
 
 NEURON_DENSITIES_AVAILABLE = False
@@ -224,7 +224,7 @@ if NEURON_DENSITIES_AVAILABLE:
             ax.yaxis.set_label_coords(-0.15, 0.5)
 
     # Resulting patterns in the connectivity matrix
-    M = MultiAreaModel({})
+    M = Model({})
 
     FF_conns = []
     FB_conns = []

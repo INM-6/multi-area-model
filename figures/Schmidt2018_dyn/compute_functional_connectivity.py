@@ -3,7 +3,7 @@ import numpy as np
 import os
 import sys
 
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from scipy.spatial.distance import pdist
 from scipy.spatial.distance import squareform
 
@@ -26,9 +26,9 @@ save_path = os.path.join(data_path,
                          'Analysis')
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 time_series = []
 for area in M.area_list:

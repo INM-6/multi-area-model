@@ -4,7 +4,7 @@ import os
 import pyx
 
 from helpers import original_data_path
-from multiarea_model import MultiAreaModel
+from multiarea_model import Model
 from matrix_plot import matrix_plot, rate_histogram_plot
 
 import pylab as pl
@@ -98,9 +98,9 @@ Load data
 chi_list = [1.0, 1.8, 1.9, 2., 2.1, 2.5]
 
 """
-Create MultiAreaModel instance to have access to data structures
+Create Model instance to have access to data structures
 """
-M = MultiAreaModel({})
+M = Model({})
 
 LOAD_ORIGINAL_DATA = True
 
@@ -170,7 +170,7 @@ theory_params = {'T': 30.,
                  'dt': 0.01,
                  'initial_rates': initial_rates}
 
-M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+M = Model(network_params, theory=True, theory_spec=theory_params)
 p, r_base = M.theory.integrate_siegert()
 
 """
@@ -227,7 +227,7 @@ for chi, label in zip(chi_list[:-1], labels[:-1]):
                      'dt': 0.01,
                      'initial_rates': initial_rates}
 
-    M = MultiAreaModel(network_params, theory=True, theory_spec=theory_params)
+    M = Model(network_params, theory=True, theory_spec=theory_params)
 
     pops, rates_full = M.theory.integrate_siegert()
     analytical_rates[chi] = rates_full[:, -1]
