@@ -310,3 +310,10 @@ def check_custom_params(d, def_d):
                 def_val = def_d[key]
             except KeyError:
                 raise KeyError('Unused key in custom parameter dictionary: {}'.format(key))
+
+def get_default_parameters():
+    parameters = {
+            'sim_dict': sim_params,
+            'network_dict': network_params
+            }
+    return parameters

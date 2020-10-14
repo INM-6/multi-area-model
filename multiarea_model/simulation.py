@@ -82,7 +82,7 @@ class Simulation:
         self.copy_files()
         print("Copied files.")
         d = {'sim_params': self.custom_params,
-             'network_params': self.network.custom_params,
+             'network_params': self.network.params,
              'network_label': self.network.label}
         with open(os.path.join(self.data_dir,
                                '_'.join(('custom_params', self.label))), 'w') as f:
@@ -91,7 +91,6 @@ class Simulation:
 
         self.areas_simulated = self.params['areas_simulated']
         self.areas_recorded = self.params['recording_dict']['areas_recorded']
-        self.T = self.params['t_sim']
 
         self.prepare()
 
@@ -124,8 +123,6 @@ class Simulation:
                               'simulation.py'),
                  os.path.join('multiarea_model',
                               'default_params.py'),
-                 os.path.join('config_files',
-                              ''.join(('custom_Data_Model_', self.network.label, '.json'))),
                  os.path.join('config_files',
                               '_'.join((self.network.label, 'config')))]
         if self.network.params['connection_params']['replace_cc_input_source'] is not None:
@@ -296,11 +293,11 @@ class Simulation:
         self.cortico_cortical_input()
         self.save_network_gids()
 
-    def simulate(self):
+    def simulate(self, t_sim):
         """
         Simulate the network.
         """
-        nest.Simulate(self.T)
+        nest.Simulate(t_sim)
 
     def memory(self):
         """

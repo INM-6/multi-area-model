@@ -30,10 +30,8 @@ import numpy as np
 import os
 import pprint
 import shutil
-from .default_params import complete_area_list, nested_update, network_params
-from .default_params import check_custom_params
+from .default_params import complete_area_list
 from collections import OrderedDict
-from copy import deepcopy
 from .data_multiarea.Model import compute_Model_params
 from .analysis import Analysis
 from config import base_path
@@ -61,7 +59,7 @@ dicthash.FLOOR_SMALL_FLOATS = True
 
 
 class Model:
-    def __init__(self, network_spec, theory=False, simulation=False,
+    def __init__(self, network_spec, theory=False, simulation=True,
                  analysis=False, *args, **keywords):
         """
         Multiarea model class.
@@ -83,27 +81,20 @@ class Model:
             whether to create an instance of the analysis class as member.
 
         """
-        self.params = deepcopy(network_params)
+        self.params = network_spec['network_dict']
+        self.sim_spec = network_spec['sim_dict']
         if isinstance(network_spec, dict):
-            print("Initializing network from dictionary.")
-            check_custom_params(network_spec, self.params)
-            self.custom_params = network_spec
             p_ = 'multiarea_model/data_multiarea/custom_data_files'
             # Draw random integer label for data script to avoid clashes with
             # parallelly created class instances
             rand_data_label = np.random.randint(10000)
             print("RAND_DATA_LABEL", rand_data_label)
-            tmp_parameter_fn = os.path.join(base_path,
-                                            p_,
-                                            'custom_{}_parameter_dict.json'.format(rand_data_label))
             tmp_data_fn = os.path.join(base_path,
                                        p_,
                                        'custom_Data_Model_{}.json'.format(rand_data_label))
 
-            with open(tmp_parameter_fn, 'w') as f:
-                json.dump(self.custom_params, f)
             # Execute Data script
-            compute_Model_params(out_label=str(rand_data_label),
+            compute_Model_params(self.params, out_label=str(rand_data_label),
                                  mode='custom')
         else:
             print("Initializing network from label.")
@@ -115,7 +106,6 @@ class Model:
                                        'custom_Data_Model_{}.json'.format(network_spec))
             with open(parameter_fn, 'r') as f:
                 self.custom_params = json.load(f)
-        nested_update(self.params, self.custom_params)
         with open(tmp_data_fn, 'r') as f:
             dat = json.load(f)
 
@@ -175,8 +165,6 @@ class Model:
                                    'config_files',
                                    'custom_Data_Model_{}.json'.format(self.label))
 
-            shutil.move(tmp_parameter_fn,
-                        parameter_fn)
             shutil.move(tmp_data_fn,
                         data_fn)
 
@@ -191,12 +179,7 @@ class Model:
                 theory_spec = keywords['theory_spec']
             self.init_theory(theory_spec)
 
-        if simulation:
-            if 'sim_spec' not in keywords:
-                sim_spec = {}
-            else:
-                sim_spec = keywords['sim_spec']
-            self.init_simulation(sim_spec)
+        self.init_simulation()
 
         if analysis:
             assert(getattr(self, 'simulation'))
@@ -212,8 +195,8 @@ class Model:
     def connect(self):
         self.simulation.connect()
 
-    def simulate(self):
-        self.simulation.simulate()
+    def simulate(self, t_sim):
+        self.simulation.simulate(t_sim)
 
     def __str__(self):
         s = "Multi-area network {} with custom parameters: \n".format(self.label)
@@ -229,8 +212,8 @@ class Model:
     def init_theory(self, theory_spec):
         self.theory = Theory(self, theory_spec)
 
-    def init_simulation(self, sim_spec):
-        self.simulation = Simulation(self, sim_spec)
+    def init_simulation(self):
+        self.simulation = Simulation(self, self.sim_spec)
 
     def init_analysis(self, ana_spec):
         assert(hasattr(self, 'simulation'))

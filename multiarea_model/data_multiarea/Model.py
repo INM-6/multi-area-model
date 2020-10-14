@@ -20,19 +20,16 @@ Sacha van Albada
 import numpy as np
 import json
 import re
-import sys
 import os
 import scipy
 import scipy.integrate
-import pprint
 from copy import deepcopy
 from nested_dict import nested_dict
 from itertools import product
-from multiarea_model.default_params import network_params, nested_update
 from multiarea_model.data_multiarea.VisualCortex_Data import process_raw_data
 
 
-def compute_Model_params(out_label='', mode='default'):
+def compute_Model_params(net_params, out_label='', mode='default'):
     """
     Compute the parameters of the network, in particular the size
     of populations, external inputs to them, and number of synapses
@@ -119,24 +116,10 @@ def compute_Model_params(out_label='', mode='default'):
     overwrite default by custom values for parameters specified
     in the parameter file.
     """
-    net_params = deepcopy(network_params)
     if mode == 'default':
         prefix = 'default'
     elif mode == 'custom':
         prefix = 'custom_data_files/custom'
-        with open(os.path.join(basepath, '.'.join(('_'.join((prefix,
-                                                             out_label,
-                                                             'parameter_dict')),
-                                                   'json'))), 'r') as f:
-            custom_params = json.load(f)
-        nested_update(net_params, custom_params)
-        # print information on overwritten parameters
-        print("\n")
-        print("========================================")
-        print("Customized parameters")
-        print("--------------------")
-        pprint.pprint(custom_params)
-        print("========================================")
 
     """
     Define parameter values
