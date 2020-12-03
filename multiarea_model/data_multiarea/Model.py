@@ -20,7 +20,6 @@ Sacha van Albada
 import numpy as np
 import json
 import re
-import sys
 import os
 import scipy
 import scipy.integrate
@@ -262,8 +261,8 @@ def compute_Model_params(out_label='', mode='default'):
     """
     def integrand(r, R, sig):
         gauss = np.exp(-r ** 2 / (2 * sig ** 2))
-        x1 = scipy.arctan(np.sqrt((2 * R - r) / (2 * R + r)))
-        x2 = scipy.sin(4 * scipy.arctan(np.sqrt((2 * R - r) / (2 * R + r))))
+        x1 = np.arctan(np.sqrt((2 * R - r) / (2 * R + r)))
+        x2 = np.sin(4 * np.arctan(np.sqrt((2 * R - r) / (2 * R + r))))
         factor = 4 * x1 - x2
         return r * gauss * factor
 
@@ -876,7 +875,7 @@ def compute_Model_params(out_label='', mode='default'):
         ext_syn = External_synapses[area]
         vector[-1] = ext_syn
         solution, residues, rank, s = np.linalg.lstsq(
-            nonvisual_fraction_matrix, vector)
+            nonvisual_fraction_matrix, vector, rcond=-1)
         for i, pop in enumerate(structure[area]):
             synapse_numbers[area][pop]['external'] = {
                 'external': solution[i] * neuronal_numbers[area][pop]}
