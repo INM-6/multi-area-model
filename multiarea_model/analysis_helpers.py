@@ -87,7 +87,7 @@ def model_iter(mode='single',
         Cartesian product of 2 ('single' mode) or 4 ('double' mode) lists
     """
     if mode == 'single':
-        assert((areas2 is None) and (pops2 is 'complete'))
+        assert((areas2 is None) and (pops2 == 'complete'))
     if pops is None or pops2 is None:
         assert((pops is None) and (pops2 is None) or mode == 'single')
     if pops == 'complete':
