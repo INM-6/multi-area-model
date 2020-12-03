@@ -117,11 +117,11 @@ General connection parameters
 """
 connection_params = {
     # Whether to apply the stabilization method of
-    # Schuecker, Schmidt et al. (2017). Default is False.
+    # Schuecker, Schmidt et al. (2017). Default is None.
     # Options are True to perform the stabilization or
     # a string that specifies the name of a binary
     # numpy file containing the connectivity matrix
-    'K_stable': False,
+    'K_stable': None,
 
     # Whether to replace all cortico-cortical connections by stationary
     # Poisson input with population-specific rates (het_poisson_stat)
