@@ -669,9 +669,9 @@ def synchrony(data_array, num_neur, t_min, t_max, resolution=1.0):
         data_array, num_neur, t_min, t_max, resolution=resolution)
     mean = np.mean(spike_count_histogramm)
     std_dev = np.std(spike_count_histogramm)
-    if std_dev + mean != std_dev:  # check for vanishing mean
+    try:
         synchrony = std_dev / mean
-    else:
+    except ZeroDivisionError:
         synchrony = np.inf
     return synchrony
 
