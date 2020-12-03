@@ -26,7 +26,7 @@ ORIGINAL_SIM_LABELS = {'all': ['533d73357fbe99f6178029e6054b571b485f40f6',
                        'Fig2': ['533d73357fbe99f6178029e6054b571b485f40f6',
                                 '0adda4a542c3d5d43aebf7c30d876b6c5fd1d63e',
                                 '33fb5955558ba8bb15a3fdce49dfd914682ef3ea'],
-                       'Fig3': '33fb5955558ba8bb15a3fdce49dfd914682ef3ea',
+                       'Fig3': ['33fb5955558ba8bb15a3fdce49dfd914682ef3ea'],
                        'Fig4': ['33fb5955558ba8bb15a3fdce49dfd914682ef3ea',
                                 '1474e1884422b5b2096d3b7a20fd4bdf388af7e0',
                                 '99c0024eacc275d13f719afd59357f7d12f02b77',
@@ -88,17 +88,17 @@ rule Fig2_bistability:
         'Fig2_bistability.eps'
     shell:
         'python3 Fig2_bistability.py'
-    
+
 rule Fig3_ground_state_chi1:
     input:
-        os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis/pop_rates.json'),
-        os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis/pop_LvR.json'),
-        os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis/corrcoeff.json'),
-        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'recordings', '-'.join((SIM_LABELS['Fig3'], 'spikes-{area}-{pop}.npy'))),
+        os.path.join(DATA_DIR, SIM_LABELS['Fig3'][0], 'Analysis/pop_rates.json'),
+        os.path.join(DATA_DIR, SIM_LABELS['Fig3'][0], 'Analysis/pop_LvR.json'),
+        os.path.join(DATA_DIR, SIM_LABELS['Fig3'][0], 'Analysis/corrcoeff.json'),
+        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'][0], 'recordings', '-'.join((SIM_LABELS['Fig3'][0], 'spikes-{area}-{pop}.npy'))),
                area=['V1', 'V2', 'FEF'], pop=population_list),
-        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis', 'rate_time_series_full', 'rate_time_series_full_{area}.npy'),
+        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'][0], 'Analysis', 'rate_time_series_full', 'rate_time_series_full_{area}.npy'),
                area=['V1', 'V2', 'FEF']),
-        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'], 'Analysis', 'rate_time_series_auto_kernel', 'rate_time_series_auto_kernel_{area}.npy'), area=['V1', 'V2', 'FEF']),
+        expand(os.path.join(DATA_DIR, SIM_LABELS['Fig3'][0], 'Analysis', 'rate_time_series_auto_kernel', 'rate_time_series_auto_kernel_{area}.npy'), area=['V1', 'V2', 'FEF']),
     output:
         'Fig3_ground_state_chi1.eps'
     shell:
@@ -108,7 +108,7 @@ rule Fig4_theory_calculations:
     output:
         'Fig4_theory_data/results_{cc_weights_factor}.npy'
     shell:
-        'python3 Fig4_theory.py {wildcards.cc_weights_factor}'        
+        'python3 Fig4_theory.py {wildcards.cc_weights_factor}'
 
 rule Fig4_metastability:
     input:
@@ -120,7 +120,7 @@ rule Fig4_metastability:
         'Fig4_metastability.eps'
     shell:
         'python3 Fig4_metastability.py'
-    
+
 rule Fig5_ground_state:
     input:
         os.path.join(DATA_DIR, SIM_LABELS['Fig5'][1], 'Analysis', 'pop_rates.json'),
@@ -189,7 +189,7 @@ rule Fig8_interactions:
         'Fig8_interactions.eps'
     shell:
         'python3 Fig8_interactions.py'
-        
+
 rule Fig9_laminar_interactions:
     input:
         expand(os.path.join(DATA_DIR, '{simulation}', 'Analysis', 'granger_causality', 'granger_causality_{area}_{pop}.json'),
@@ -242,7 +242,7 @@ rule Fig9_path_analysis:
         'Fig9_tex_files/{simulation}_lw_HZ_paths.tex'
     shell:
         'python3 Fig9_path_analysis.py {} {{wildcards.simulation}}'.format(DATA_DIR)
-    
+
 rule Fig9_paths:
     input:
         'Fig9_tex_files/{simulation}_lw_{type}_paths.tex'
