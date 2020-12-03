@@ -538,7 +538,7 @@ def pop_cv_isi(data_array, t_min, t_max):
         for i in np.unique(data_array[:, 0]):
             intervals = np.diff(data_array[indices][
                                 np.where(data_array[indices, 0] == i), 1])
-            if (len(intervals) > 0):
+            if intervals.size > 0:
                 cv_isi.append(np.std(intervals) / np.mean(intervals))
         if len(cv_isi) > 0:
             return np.mean(cv_isi)
@@ -668,8 +668,11 @@ def synchrony(data_array, num_neur, t_min, t_max, resolution=1.0):
     spike_count_histogramm = pop_rate_time_series(
         data_array, num_neur, t_min, t_max, resolution=resolution)
     mean = np.mean(spike_count_histogramm)
-    variance = np.var(spike_count_histogramm)
-    synchrony = variance / mean
+    std_dev = np.std(spike_count_histogramm)
+    if std_dev + mean != std_dev:  # check for vanishing mean
+        synchrony = std_dev / mean
+    else:
+        synchrony = np.inf
     return synchrony
 
 
