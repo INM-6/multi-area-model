@@ -170,7 +170,10 @@ class Simulation:
         - spike detector
         - voltmeter
         """
-        self.spike_detector = nest.Create('spike_detector')
+        try:
+            self.spike_detector = nest.Create('spike_recorder')
+        except:
+            self.spike_detector = nest.Create('spike_detector')
         status_dict = deepcopy(self.params['recording_dict']['spike_dict'])
         label = '-'.join((self.label,
                           status_dict['label']))
