@@ -145,7 +145,7 @@ class Simulation:
         Prepare NEST Kernel.
         """
         nest.ResetKernel()
-        master_seed = self.params['master_seed']
+        rng_seed = self.params['rng_seed']
         num_processes = self.params['num_processes']
         local_num_threads = self.params['local_num_threads']
         vp = num_processes * local_num_threads
@@ -153,15 +153,18 @@ class Simulation:
                               'total_num_virtual_procs': vp,
                               'overwrite_files': True,
                               'data_path': os.path.join(self.data_dir, 'recordings'),
-                              'print_time': False,
-                              'grng_seed': master_seed,
-                              'rng_seeds': list(range(master_seed + 1,
-                                                      master_seed + vp + 1))})
-
+                              'print_time': False})
+        if self.network.params['USING_NEST_3']:
+            nest.SetKernelStatus({'rng_seed': rng_seed})
+        else:
+            nest.SetKernelStatus({'grng_seed': rng_seed,
+                                  'rng_seeds': list(range(rng_seed + 1,
+                                                          rng_seed + vp + 1))})
+            self.pyrngs = [np.random.RandomState(s) for s in list(range(
+                rng_seed + vp + 1, rng_seed + 2 * (vp + 1)))]
         nest.SetDefaults(self.network.params['neuron_params']['neuron_model'],
                          self.network.params['neuron_params']['single_neuron_dict'])
-        self.pyrngs = [np.random.RandomState(s) for s in list(range(
-            master_seed + vp + 1, master_seed + 2 * (vp + 1)))]
+
 
     def create_recording_devices(self):
         """
