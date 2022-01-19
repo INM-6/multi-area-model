@@ -49,7 +49,7 @@ connection_params = {'g': -11.,
 network_params = {'connection_params': connection_params}
 M = MultiAreaModel(network_params)
 # We exclude external input from the analysis
-K = M.K_matrix[:, :-1]
+K = M.K[:, :-1]
 
 
 def indices_to_population(structure, indices):
@@ -150,7 +150,7 @@ else:
             test = (np.nan, np.nan)
             res_red = np.nan
 
-            gc[source_area][source_pop] = (cause, test[1])
+        gc[source_area][source_pop] = (cause, test[1])
 
 fn = os.path.join(save_path,
                   'granger_causality_{}_{}.json'.format(area, pop))

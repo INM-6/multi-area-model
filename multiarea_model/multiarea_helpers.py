@@ -32,7 +32,10 @@ import json
 import numpy as np
 import os
 from itertools import product
-import collections
+try:
+    from collections.abc import Iterable
+except ImportError:
+    from collections import Iterable
 
 from config import base_path
 from .default_params import complete_area_list, population_list
@@ -229,7 +232,7 @@ def matrix_to_dict(m, area_list, structure, external=None):
             x = x.reshape((8, 8))
         for i, pop in enumerate(population_list):
             for j, pop2 in enumerate(population_list):
-                if x[i][j] < 1e-20:
+                if np.isclose(0., x[i][j]):
                     x[i][j] = 0.
                 dic[area][pop][area2][pop2] = x[i][j]
     if external is not None:
@@ -306,7 +309,7 @@ def dict_to_vector(d, area_list, structure):
     for target_area in area_list:
         if target_area in structure:
             for target_pop in structure[target_area]:
-                if isinstance(d[target_area][target_pop], collections.Iterable):
+                if isinstance(d[target_area][target_pop], Iterable):
                     V[i] = d[target_area][target_pop][0]
                 else:
                     V[i] = d[target_area][target_pop]

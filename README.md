@@ -87,7 +87,7 @@ basic analysis and plotting.
 ## Analysis and figure scripts for [1-3]
 
 The `figures` folder contains subfolders with all scripts necessary to produce
-the figures from [1-3]. If Snakemake (Köster J & Rahmann S, Bioinformatics (2012) 28(19): 2520-2522) 
+the figures from [1-3]. If Snakemake (Köster J & Rahmann S, Bioinformatics (2012) 28(19): 2520-2522)
 is installed, the figures can be produced by executing
 `snakemake` in the respective folder, e.g.:
 
@@ -203,7 +203,7 @@ conveniently run by executing `pytest` in the `tests/` folder:
 ## Requirements
 Python 3, python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
 correlation\_toolbox ([https://github.com/INM-6/correlation-toolbox](https://github.com/INM-6/correlation-toolbox)),
-pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, NEST 2.14.0
+pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, pytest, NEST 2.14.0
 
 Optional: seaborn, Sumatra
 
