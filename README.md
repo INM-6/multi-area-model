@@ -69,7 +69,7 @@ technical parameters such as the number of parallel MPI processes and
 threads. The simulation uses the network simulator NEST
 (https://www.nest-simulator.org). For the simulations in [2, 3], we
 used NEST version 2.8.0. The code in this repository runs with a
-later release of NEST, version 2.14.0.
+later release of NEST, version 2.14.0, as well as NEST 3.0.
 
 `Theory`
 
@@ -203,7 +203,7 @@ conveniently run by executing `pytest` in the `tests/` folder:
 ## Requirements
 Python 3, python\_dicthash ([https://github.com/INM-6/python-dicthash](https://github.com/INM-6/python-dicthash)),
 correlation\_toolbox ([https://github.com/INM-6/correlation-toolbox](https://github.com/INM-6/correlation-toolbox)),
-pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, pytest, NEST 2.14.0
+pandas, numpy, nested_dict, matplotlib (2.1.2), scipy, pytest, NEST 2.14.0 or NEST 3.0
 
 Optional: seaborn, Sumatra
 
