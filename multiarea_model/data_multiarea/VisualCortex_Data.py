@@ -1325,8 +1325,8 @@ def process_raw_data():
         out = proc.communicate()[0].decode('utf-8')
         R_fit = [float(out.split('\n')[1].split(' ')[1]),
                      float(out.split('\n')[1].split(' ')[3])]
-    except OSError:
-        print("No R installation, taking hard-coded SLN fit parameters.")
+    except (OSError, IndexError):
+        print("No R installation or IndexError, taking hard-coded SLN fit parameters.")
         R_fit = [-0.1516142, -1.5343200]
 
     """
