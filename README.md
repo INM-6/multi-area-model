@@ -227,6 +227,17 @@ The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figure
 
 The calculation of BOLD signals from the simulated firing rates for Fig. 8 of [3] requires an installation of R and the R library `neuRosim` (<https://cran.r-project.org/web/packages/neuRosim/index.html>).
 
+## Testing on EBRAINS
+
+The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflow with a down-scaled version of the multi-area model. This notebook can be explored and executed online in the Jupyter Lab provided by EBRAINS without the need to install any software yourself.
+
+1. Create a fork of this repository. Copy the address of your fork by clicking on `Code`, `HTTPS`, and then the copy icon.
+2. Go to https://lab.de.ebrains.eu, log in, and select a computing center from the given list.
+3. In the Jupyter Lab, click on the `Git Clone` icon and paste the address of your fork.
+4. Enter the folder `multi-area-model` with the cloned repository and open the notebook `multi-area-model.ipynb`. Make sure that the kernel (top right) is set to `EBRAINS_experimental_release`.
+5. Run the notebook!
+6. You can also modify the code, do git commits, and push your changes to your own fork.
+
 ## Contributors
 
 All authors of the publications [1-3] made contributions to the
