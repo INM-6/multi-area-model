@@ -26,8 +26,23 @@ A video providing a brief introduction of the model and the code in this reposit
 
 ## Try it on EBRAINS
 
-Want to try using or simply running the model? Click the button below. Check our **User instructions** if you need step-by-step instructions.<br>
+Want to try using or simply running the model? Click the button below. Check and follow **User instructions** below if you need step-by-step instructions.<br>
 <a href="https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master"> <img src="https://nest-simulator.org/TryItOnEBRAINS.png" alt="Try it on EBRAINS" width="260"/></a>
+
+--------------------------------------------------------------------------------
+
+### User instructions
+The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflow with a down-scaled version of the multi-area model. This notebook can be explored and executed online in the Jupyter Lab provided by EBRAINS without the need to install any software yourself.
+1. Prerequisites to use **Try it on EBRAINS**: an [**EBRAINS**](https://www.ebrains.eu/) account. If don’t have it yet, register at [**register page**](https://iam.ebrains.eu/auth/realms/hbp/protocol/openid-connect/registrations?response_type=code&client_id=xwiki&redirect_uri=https://wiki.ebrains.eu). Please note: registering an [**EBRAINS**](https://www.ebrains.eu/) account requires an institutional email.
+2. Click the button **Try it on EBRAINS**. If any error happens during the following process, please close the browser tab and restart the user instruction process again.
+3. Select **Lab Execution Site**: choose **Fenix DE - Jülich Supercomputing Center (JSC)**.
+4. If you’re using **EBRAINS** for the first time, click **Sign in with GenericOAuth2** to sign in to **EBRAINS**. To do this, you need an EBRAINS account.
+5. Once signed in, choose **Server Options**, please choose **Official EBRAINS Docker image 23.06 for Collaboratory.Lab (recommended)**, and click **start**.
+6. Once succeeded, you’re now at a notebook named **multi-area-model.ipynb**.
+7. Click the field that displays **Python 3 (ipykernel)** in the upper right corner right next to a small spider icon to switch the **kernel** that has dependencies to run our model. Choose EBRAINS-23.02.
+8. Congratulations! Now you can adjust the parameters and run the model. Enjoy! To run the model, click the **Run** on the title bar and choose **Run all cells**. It takes several minutes until you get all results. 
+9. While you adjust the parameter and run the model, you might get interesting results and want to save the model for checking later. Then click the **save** on the toolbar or press Control+S to save it in the folder of your own account on the server. By next time you want to access the repository, go to [**Ebrains Lab**](https://lab.de.ebrains.eu), log in and you will find your repository in the path **/drive/My Libraries/multi-area-model/**
+10. If you would like to contribute to our model or bring your ideas to us, you’re most welcome to contact us. It’s currently not possible to directly make changes to the original repository, since it is connected to our publications.
 
 ## Python framework for the multi-area model
 
@@ -231,17 +246,6 @@ Similarly, reproducing the figures of [3] requires statsmodels, networkx, pyx, p
 The SLN fit in `multiarea_model/data_multiarea/VisualCortex_Data.py` and `figures/Schmidt2018/Fig5_cc_laminar_pattern.py` requires an installation of R and the R library `aod` (<http://cran.r-project.org/package=aod>). Without R installation, both scripts will directly use the resulting values of the fit (see Fig. 5 of [1]).
 
 The calculation of BOLD signals from the simulated firing rates for Fig. 8 of [3] requires an installation of R and the R library `neuRosim` (<https://cran.r-project.org/web/packages/neuRosim/index.html>).
-
-## Testing on EBRAINS
-
-The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflow with a down-scaled version of the multi-area model. This notebook can be explored and executed online in the Jupyter Lab provided by EBRAINS without the need to install any software yourself.
-
-1. Create a fork of this repository. Copy the address of your fork by clicking on `Code`, `HTTPS`, and then the copy icon.
-2. Go to https://lab.de.ebrains.eu, log in, and select a computing center from the given list.
-3. In the Jupyter Lab, click on the `Git Clone` icon and paste the address of your fork.
-4. Enter the folder `multi-area-model` with the cloned repository and open the notebook `multi-area-model.ipynb`. Make sure that the kernel (top right) is set to `EBRAINS_experimental_release`.
-5. Run the notebook!
-6. You can also modify the code, do git commits, and push your changes to your own fork.
 
 ## Contributors
 
