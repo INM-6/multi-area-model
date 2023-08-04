@@ -38,7 +38,7 @@ The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflo
 3. Select 'Lab Execution Site': choose 'Fenix DE - Jülich Supercomputing Center (JSC)'.
 4. If you’re using EBRAINS for the first time, click `Sign in with GenericOAuth2` to sign in to EBRAINS. To do this, you need an EBRAINS account.
 5. Once signed in, choose `Server Options`, please choose `Official EBRAINS Docker image 23.06 for Collaboratory.Lab (recommended)`, and click `start`.
-6. Once you succeeded, you’re now at a notebook named `multi-area-model.ipynb`.
+6. Once you succeeded, you’re now at a Jupyter Notebook named `multi-area-model.ipynb`.
 7. Click the field that displays `Python 3 (ipykernel)` in the upper right corner right next to a small spider icon to switch the `kernel` that has dependencies to run our model. Choose `EBRAINS-23.02`.
 8. Congratulations! Now you can adjust the parameters and run the model. Enjoy!<br> To run the model, click the `Run` on the title bar and choose `Run All Cells`. It takes several minutes until you get all results. 
 9. While you adjust the parameter and run the model, you might get interesting results and want to save the model for checking later. Then click the `save` button on the toolbar or press Control+S to save it under your own account on the server. By next time you want to access the repository, go to [Ebrains Lab](https://lab.de.ebrains.eu), log in and you will find your repository in the path `/drive/My Libraries/multi-area-model/`.
