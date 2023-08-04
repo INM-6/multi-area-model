@@ -1,5 +1,5 @@
 # Multi-scale spiking network model of macaque visual cortex
-[![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a> [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![www.python.org](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org) <a href="http://www.nest-simulator.org"> <img src="https://github.com/nest/nest-simulator/blob/master/doc/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a> [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ![Model overview](model_construction.png)
 
@@ -23,6 +23,11 @@ The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
 
 A video providing a brief introduction of the model and the code in this repository can be found [here](https://www.youtube.com/watch?v=NGAqe78vmHY&t=22s).
+
+## Try it on EBRAINS
+
+Want to try using or simply running the model? Click the button below. Check our **User instructions** if you need step-by-step instructions.
+<a href="https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master"> <img src="https://nest-simulator.org/TryItOnEBRAINS.png" alt="Try it on EBRAINS" width="260"/></a>
 
 ## Python framework for the multi-area model
 
