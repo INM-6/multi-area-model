@@ -26,7 +26,7 @@ A video providing a brief introduction of the model and the code in this reposit
 
 ## Try it on EBRAINS
 
-Want to try using or simply running the model? Click the button below. Check our **User instructions** if you need step-by-step instructions.
+Want to try using or simply running the model? Click the button below. Check our **User instructions** if you need step-by-step instructions.<br>
 <a href="https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master"> <img src="https://nest-simulator.org/TryItOnEBRAINS.png" alt="Try it on EBRAINS" width="260"/></a>
 
 ## Python framework for the multi-area model
