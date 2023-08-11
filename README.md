@@ -273,7 +273,7 @@ If you use this code, we ask you to cite the appropriate papers in your publicat
 
 If you have questions regarding the code or scientific content, please create an issue on github.
 
-<img src="https://raw.githubusercontent.com/nest/nest-simulator/master/extras/logos/nest-simulated.png" alt="NEST simulated" width="200"/>&nbsp; &nbsp; &nbsp; &nbsp; <img src="https://raw.githubusercontent.com/INM-6/multi-area-model/master/HBP_logo.png" alt="HBP logo" width="200"/>&nbsp; &nbsp; &nbsp; &nbsp; <img src="https://raw.githubusercontent.com/INM-6/multi-area-model/master/FZJ_logo.png" alt="FZJ logo" width="200"/>
+<img src="https://github.com/nest/nest-simulator/blob/master/doc/logos/nest-simulated.png" alt="NEST simulated" width="200"/>&nbsp; &nbsp; &nbsp; &nbsp; <img src="https://raw.githubusercontent.com/INM-6/multi-area-model/master/HBP_logo.png" alt="HBP logo" width="200"/>&nbsp; &nbsp; &nbsp; &nbsp; <img src="https://raw.githubusercontent.com/INM-6/multi-area-model/master/FZJ_logo.png" alt="FZJ logo" width="200"/>
 
 ## Acknowledgements
 
