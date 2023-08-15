@@ -27,7 +27,7 @@ A video providing a brief introduction of the model and the code in this reposit
 ## Try it on EBRAINS
 
 Want to start using or simply run the model? Click the button below.<br>
-**Please note**: make sure you check and follow our [User instructions](https://github.com/didi-hou/multi-area-model/tree/didihou#user-instructions), especially if you plan to make and save the changes, or if you simply need step-by-step instructions.<br>
+**Please note**: make sure you check and follow our [User instructions](#user-instructions), especially if you plan to make and save the changes, or if you simply need step-by-step instructions.<br>
 <a href="https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master"> <img src="https://nest-simulator.org/TryItOnEBRAINS.png" alt="Try it on EBRAINS" width="260"/></a>
 
 --------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ Want to start using or simply run the model? Click the button below.<br>
 ### User instructions
 The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflow with a down-scaled version of the multi-area model. This notebook can be explored and executed online in the Jupyter Lab provided by EBRAINS without the need to install any software yourself.<br>
 * Prerequisites: an [EBRAINS](https://www.ebrains.eu/) account. If you don’t have it yet, register at [register page](https://iam.ebrains.eu/auth/realms/hbp/protocol/openid-connect/registrations?response_type=code&client_id=xwiki&redirect_uri=https://wiki.ebrains.eu). Please note: registering an EBRAINS account requires an institutional email.<br>
-* If you plan to only run the model, instead of making and saving changes you made, go to [Try it on EBRAINS](https://github.com/didi-hou/MAM2EBRAINS#try-it-on-ebrains-1); Shold you want to adjust the parameters, thereafter save the changes you made, go to [Fork the repository and save your changes](https://github.com/didi-hou/MAM2EBRAINS#fork-the-repository-and-save-your-changes).
+* If you plan to only run the model, instead of making and saving changes you made, go to [Try it on EBRAINS](#try-it-on-ebrains-1); Shold you want to adjust the parameters, thereafter save the changes you made, go to [Fork the repository and save your changes](#fork-the-repository-and-save-your-changes).
    
 #### Try it on EBRAINS
 1. Click [Try it on EBRAINS](https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master). If any error happens during the following process, please close the browser tab and restart the [User instruction](https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master) process again.
@@ -44,7 +44,7 @@ The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflo
 4. Once signed in, on the `Server Options` page, choose `Official EBRAINS Docker image 23.06 for Collaboratory.Lab (recommended)`, and click `start`.
 5. Once succeeded, you’re now at a Jupyter Notebook named `multi-area-model.ipynb`. Click the field that displays `Python 3 (ipykernel)` in the upper right corner and switch the `kernel` to `EBRAINS-23.02`.
 6. Congratulations! Now you can run the model. Enjoy!<br> To run the model, click the `Run` on the title bar and choose `Run All Cells`. It takes several minutes until you get all results.<br>
-**Please note**: every time you click the `Try it on EBRAINS` button, the repository is loaded into your home directory on EBRAINS Lab and it overrides your old repository with the same name. Therefore, make sure you follow the [Fork the repository and save your changes](https://github.com/didi-hou/MAM2EBRAINS#fork-the-repository-and-save-your-changes) if you make changes and want to save them.
+**Please note**: every time you click the `Try it on EBRAINS` button, the repository is loaded into your home directory on EBRAINS Lab and it overrides your old repository with the same name. Therefore, make sure you follow the [Fork the repository and save your changes](#fork-the-repository-and-save-your-changes) if you make changes and want to save them.
  
 #### Fork the repository and save your changes
 With limited resources, EBRAINS Lab regularly deletes and cleans data loaded on the server. This means the repository on the EBRAINS Lab will be deleted automatically after a period of time. To save changes you made, make sure you fork the repository to your own GitHub, then clone it to the EBRAINS Lab, and do git commits and push changes.
