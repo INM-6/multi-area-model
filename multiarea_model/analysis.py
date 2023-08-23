@@ -898,7 +898,7 @@ class Analysis:
 
         for i, area in enumerate(area_list):
             print(i, area)
-            for j, pop in enumerate(self.network.structure_reversed['V1']):
+            for j, pop in enumerate(self.network.structure['V1']):
                 if pop in self.network.structure[area]:
                     rate = self.pop_rates[area][pop][0]
                     if rate == 0.0:
@@ -931,7 +931,6 @@ class Analysis:
         ax.set_xticks(x_index)
         ax.set_xticklabels(x_ticks)
         ax.set_yticks(y_index)
-        ax.set_yticklabels(self.network.structure_reversed['V1'])
         ax.set_ylabel('Population', size=18)
         ax.set_xlabel('Area index', size=18)
         t = FixedLocator([0.01, 0.1, 1., 10., 100.])
