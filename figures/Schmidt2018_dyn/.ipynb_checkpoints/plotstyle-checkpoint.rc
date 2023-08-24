@@ -1,0 +1,53 @@
+# set default backend
+backend : GTK3Agg
+
+# resolution of figures in dpi
+# does not influence eps output
+figure.dpi : 150
+savefig.dpi : 300
+
+# set default figuresize
+figure.figsize : 12.0, 7.42
+
+# font
+font.size : 10
+legend.fontsize : 10
+font.family : sans-serif
+
+# size of lines
+lines.linewidth : 1.5
+lines.antialiased : True
+
+# size of markers (points in point plots)
+lines.markersize : 3.0
+patch.linewidth : 1.0
+axes.linewidth : 1.0 # edge linewidth
+
+# ticks distances
+xtick.major.size : 4 # major tick size in points
+xtick.minor.size : 2 # minor tick size in points
+lines.markeredgewidth : 0.5 # line width of ticks
+xtick.major.pad : 4 # distance to major tick label in points
+xtick.minor.pad : 4 # distance to the minor tick label in points
+ytick.major.size : 4  # major tick size in points
+ytick.minor.size : 2 # minor tick size in points
+ytick.major.pad : 4 # distance to major tick label in points
+ytick.minor.pad : 4 # distance to the minor tick label in points
+
+# ticks textsize
+ytick.labelsize : 10
+xtick.labelsize : 10
+
+# axes labelsize
+axes.labelsize : 10
+
+# use latex to generate the labels in plots
+# not needed anymore in newer versions
+# using this, font detection fails on adobe illustrator 2010-07-20
+text.usetex : True
+text.latex.preamble : \usepackage{amsmath}
+ps.useafm : False # use of afm fonts, results in small files
+ps.fonttype : 3 # Output Type 3 (Type3) or Type 42 (TrueType)
+
+# set different default color cycle
+axes.color_cycle : 4c72b0, 55a868, c44e52, 8172b2, ccb974, 64b5cd
