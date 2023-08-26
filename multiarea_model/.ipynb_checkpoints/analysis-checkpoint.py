@@ -443,7 +443,7 @@ class Analysis:
                                                           params['resolution'],
                                                           kernel=params['kernel'])
                 else:
-                    time_series = np.nan*np.ones(params['t_max'] - params['t_min'])
+                    time_series = np.nan*np.ones(len(params['t_max'] - params['t_min']))
                 d_pops[area][pop] = time_series
 
                 total_spikes = ah.area_spike_train(self.spike_data[area])
