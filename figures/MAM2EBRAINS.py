@@ -85,9 +85,9 @@ def plot_resting_state(A):
 
     gs1 = gridspec.GridSpec(1, 3)
     gs1.update(left=0.06, right=0.72, top=0.95, wspace=0.4, bottom=0.35)
-    axes['A'] = pl.subplot(gs1[:-1, :1])
-    axes['B'] = pl.subplot(gs1[:-1, 1:2])
-    axes['C'] = pl.subplot(gs1[:-1, 2:])
+    axes['A'] = pl.subplot(gs1[:1, :1])
+    axes['B'] = pl.subplot(gs1[:1, 1:2])
+    axes['C'] = pl.subplot(gs1[:1, 2:])
 
     gs2 = gridspec.GridSpec(3, 1)
     gs2.update(left=0.78, right=0.95, top=0.95, bottom=0.35)
