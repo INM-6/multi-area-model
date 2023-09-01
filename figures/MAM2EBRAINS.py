@@ -11,7 +11,7 @@ from plotcolors import myred, myblue
 import matplotlib.pyplot as pl
 from matplotlib import gridspec
 from matplotlib import rc_file
-rc_file('./Schmidt2018_dyn/plotstyle.rc')
+rc_file('./figures/Schmidt2018_dyn/plotstyle.rc')
 
 icolor = myred
 ecolor = myblue
