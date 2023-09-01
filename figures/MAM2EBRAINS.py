@@ -2,7 +2,8 @@ import json
 import numpy as np
 import os
 
-from Schmidt2018_dyn import helpers
+import sys
+sys.path.append('./figures/Schmidt2018_dyn')
 from helpers import original_data_path, population_labels
 from multiarea_model import MultiAreaModel
 from plotcolors import myred, myblue
