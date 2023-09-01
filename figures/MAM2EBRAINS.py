@@ -11,10 +11,13 @@ from matplotlib import gridspec
 from matplotlib import rc_file
 rc_file('plotstyle.rc')
 
+icolor = myred
+ecolor = myblue
+
 # Instantaneous and mean firing rate across all populations
 
-def plot_instan_mean_firing _rate(tsteps, rate):
-    fig, ax = plt.subplots()
+def plot_instan_mean_firing_rate(tsteps, rate, sim_params):
+    fig, ax = pl.subplots()
     ax.plot(tsteps, rate)
     ax.plot(tsteps, np.average(rate)*np.ones(len(tsteps)), label='mean')
     ax.set_title('Instantaneous and mean firing rate across all populations')
