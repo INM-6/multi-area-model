@@ -17,7 +17,6 @@ icolor = myred
 ecolor = myblue
 
 # Instantaneous and mean firing rate across all populations
-
 def plot_instan_mean_firing_rate(tsteps, rate, sim_params):
     fig, ax = pl.subplots()
     ax.plot(tsteps, rate)
