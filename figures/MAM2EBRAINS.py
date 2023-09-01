@@ -18,7 +18,7 @@ ecolor = myblue
 
 # Instantaneous and mean firing rate across all populations
 def plot_instan_mean_firing_rate(tsteps, rate, sim_params):
-    fig, ax = pl.subplots()
+    ax = pl.subplots()
     ax.plot(tsteps, rate)
     ax.plot(tsteps, np.average(rate)*np.ones(len(tsteps)), label='mean')
     ax.set_title('Instantaneous and mean firing rate across all populations')
@@ -67,7 +67,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state():   
+def plot_resting_state(A):   
     """
     Figure layout
     """
