@@ -141,7 +141,7 @@ def plot_resting_state(A, label_spikes, label):
     """
     Load data
     """
-    LOAD_ORIGINAL_DATA = FALSE
+    LOAD_ORIGINAL_DATA = False
 
 
     if LOAD_ORIGINAL_DATA:
