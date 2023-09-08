@@ -93,7 +93,7 @@ def plot_resting_state(A, label_spikes):
         #         fontdict={'fontsize': 10, 'weight': 'bold',
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
-        plt.text(label_pos[0], label_pos[1], label + ': ' + area,
+        pl.text(label_pos[0], label_pos[1], label + ': ' + area,
                  fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
                            'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
 
@@ -103,7 +103,7 @@ def plot_resting_state(A, label_spikes):
     #         fontdict={'fontsize': 10, 'weight': 'bold',
     #                   'horizontalalignment': 'left', 'verticalalignment':
     #                   'bottom'}, transform=axes[label].transAxes)
-    plt.text(label_pos[0], label_pos[1], label,
+    pl.text(label_pos[0], label_pos[1], label,
              fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
                        'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
 
@@ -114,7 +114,7 @@ def plot_resting_state(A, label_spikes):
         #         fontdict={'fontsize': 10, 'weight': 'bold',
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
-        plt.text(label_pos[0], label_pos[1], label,
+        pl.text(label_pos[0], label_pos[1], label,
              fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
                        'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
         
