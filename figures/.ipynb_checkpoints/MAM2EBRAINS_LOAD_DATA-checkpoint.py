@@ -1,4 +1,5 @@
 import numpy as np
+from multiarea_model import Analysis
 
 def load_data(M):
     # load spike data and calculate instantaneous and mean firing rates
