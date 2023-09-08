@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 import sys
-sys.path.append('/figures/Schmidt2018_dyn')
+sys.path.append('./figures/Schmidt2018_dyn')
 
 from helpers import original_data_path, population_labels
 from multiarea_model import MultiAreaModel
@@ -17,6 +17,7 @@ from matplotlib import gridspec
 icolor = myred
 ecolor = myblue
 
+
 # Instantaneous and mean firing rate across all populations
 def plot_instan_mean_firing_rate(tsteps, rate, sim_params):
     ax = pl.subplot()
@@ -28,30 +29,6 @@ def plot_instan_mean_firing_rate(tsteps, rate, sim_params):
     ax.set_xlim(0, sim_params['t_sim'])
     ax.set_ylim(0, 50)
     ax.legend()
-    
-def plot_raster_plot(A):
-    """
-    Create raster display of a single area with populations stacked onto each other. Excitatory neurons in blue, inhibitory neurons in red.
-
-    Parameters
-    ----------
-    area : string {area}
-        Area to be plotted.
-    frac_neurons : float, [0,1]
-        Fraction of cells to be considered.
-    t_min : float, optional
-        Minimal time in ms of spikes to be shown. Defaults to 0 ms.
-    t_max : float, optional
-        Minimal time in ms of spikes to be shown. Defaults to simulation time.
-    output : {'pdf', 'png', 'eps'}, optional
-        If given, the function stores the plot to a file of the given format.
-    """
-    t_min = 0.
-    t_max = 500.
-    areas = ['V1', 'V2', 'FEF']
-    frac_neurons = 1.
-    for area in areas:
-        A.single_dot_display(area,  frac_neurons, t_min, t_max)
 
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
@@ -68,14 +45,15 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(A, label_spikes, label):        
+def plot_resting_state(A, label_spikes):        
     """
     Figure layout
     """
 
     nrows = 4
     ncols = 4
-    width = 7.0866
+    # width = 7.0866
+    width = 10
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
@@ -87,9 +65,12 @@ def plot_resting_state(A, label_spikes, label):
 
     gs1 = gridspec.GridSpec(1, 3)
     gs1.update(left=0.06, right=0.72, top=0.95, wspace=0.4, bottom=0.35)
-    axes['A'] = pl.subplot(gs1[:-1, :1])
-    axes['B'] = pl.subplot(gs1[:-1, 1:2])
-    axes['C'] = pl.subplot(gs1[:-1, 2:])
+    # axes['A'] = pl.subplot(gs1[:-1, :1])
+    # axes['B'] = pl.subplot(gs1[:-1, 1:2])
+    # axes['C'] = pl.subplot(gs1[:-1, 2:])
+    axes['A'] = pl.subplot(gs1[:1, :1])
+    axes['B'] = pl.subplot(gs1[:1, 1:2])
+    axes['C'] = pl.subplot(gs1[:1, 2:])
 
     gs2 = gridspec.GridSpec(3, 1)
     gs2.update(left=0.78, right=0.95, top=0.95, bottom=0.35)
@@ -100,6 +81,7 @@ def plot_resting_state(A, label_spikes, label):
 
     gs3 = gridspec.GridSpec(1, 1)
     gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
+    # gs3.update(left=0.1, right=0.95, top=0.25, bottom=0.075)
     axes['G'] = pl.subplot(gs3[:1, :1])
 
     areas = ['V1', 'V2', 'FEF']
@@ -107,26 +89,35 @@ def plot_resting_state(A, label_spikes, label):
     labels = ['A', 'B', 'C']
     for area, label in zip(areas, labels):
         label_pos = [-0.2, 1.01]
-        pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label + ': ' + area,
-                fontdict={'fontsize': 10, 'weight': 'bold',
-                          'horizontalalignment': 'left', 'verticalalignment':
-                          'bottom'}, transform=axes[label].transAxes)
+        # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label + ': ' + area,
+        #         fontdict={'fontsize': 10, 'weight': 'bold',
+        #                   'horizontalalignment': 'left', 'verticalalignment':
+        #                   'bottom'}, transform=axes[label].transAxes)
+        plt.text(label_pos[0], label_pos[1], label + ': ' + area,
+                 fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
+                           'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
 
     label = 'G'
     label_pos = [-0.1, 0.92]
-    pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
-            fontdict={'fontsize': 10, 'weight': 'bold',
-                      'horizontalalignment': 'left', 'verticalalignment':
-                      'bottom'}, transform=axes[label].transAxes)
-
+    # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
+    #         fontdict={'fontsize': 10, 'weight': 'bold',
+    #                   'horizontalalignment': 'left', 'verticalalignment':
+    #                   'bottom'}, transform=axes[label].transAxes)
+    plt.text(label_pos[0], label_pos[1], label,
+             fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
+                       'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
 
     labels = ['E', 'D', 'F']
     for label in labels:
         label_pos = [-0.2, 1.05]
-        pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
-                fontdict={'fontsize': 10, 'weight': 'bold',
-                          'horizontalalignment': 'left', 'verticalalignment':
-                          'bottom'}, transform=axes[label].transAxes)
+        # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
+        #         fontdict={'fontsize': 10, 'weight': 'bold',
+        #                   'horizontalalignment': 'left', 'verticalalignment':
+        #                   'bottom'}, transform=axes[label].transAxes)
+        plt.text(label_pos[0], label_pos[1], label,
+             fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
+                       'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
+        
 
     labels = ['A', 'B', 'C', 'D', 'E', 'F']
 
@@ -143,21 +134,25 @@ def plot_resting_state(A, label_spikes, label):
     """
     Load data
     """
-    LOAD_ORIGINAL_DATA = True
+#     LOAD_ORIGINAL_DATA = True
 
 
-    if LOAD_ORIGINAL_DATA:
-        # use T=10500 simulation for spike raster plots
-        label_spikes = '3afaec94d650c637ef8419611c3f80b3cb3ff539'
-        # and T=100500 simulation for all other panels
-        label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-        data_path = original_data_path
-    else:
-        from network_simulations import init_models
-        from config import data_path
-        models = init_models('Fig5')
-        label_spikes = models[0].simulation.label
-        label = models[1].simulation.label
+#     if LOAD_ORIGINAL_DATA:
+#         # use T=10500 simulation for spike raster plots
+#         label_spikes = '3afaec94d650c637ef8419611c3f80b3cb3ff539'
+#         # and T=100500 simulation for all other panels
+#         label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+#         data_path = original_data_path
+#     else:
+#         from network_simulations import init_models
+#         from config import data_path
+#         models = init_models('Fig5')
+#         label_spikes = models[0].simulation.label
+#         label = models[1].simulation.label
+        
+    # model = M
+    label_spikes = label_spikes
+    label = label_spikes
 
     """
     Create MultiAreaModel instance to have access to data structures
@@ -165,15 +160,17 @@ def plot_resting_state(A, label_spikes, label):
     M = MultiAreaModel({})
 
     # spike data
-    spike_data = {}
-    for area in areas:
-        spike_data[area] = {}
-        for pop in M.structure[area]:
-            spike_data[area][pop] = np.load(os.path.join(data_path,
-                                                         label_spikes,
-                                                         'recordings',
-                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
-                                                                                      area, pop)))
+    # spike_data = {}
+    # for area in areas:
+    #     spike_data[area] = {}
+    #     for pop in M.structure[area]:
+    #         spike_data[area][pop] = np.load(os.path.join(data_path,
+    #                                                      label_spikes,
+    #                                                      'recordings',
+    #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
+    #                                                                                   area, pop)))
+    spike_data = A.spike_data
+    
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
@@ -182,20 +179,23 @@ def plot_resting_state(A, label_spikes, label):
     # time series of firing rates
     rate_time_series = {}
     for area in areas:
+        # fn = os.path.join(data_path, label,
+        #                   'Analysis',
+        #                   'rate_time_series_full',
+        #                   'rate_time_series_full_{}.npy'.format(area))
         fn = os.path.join(data_path, label,
                           'Analysis',
-                          'rate_time_series_full',
-                          'rate_time_series_full_{}.npy'.format(area))
+                          'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
     # time series of firing rates convolved with a kernel
-    rate_time_series_auto_kernel = {}
-    for area in areas:
-        fn = os.path.join(data_path, label,
-                          'Analysis',
-                          'rate_time_series_auto_kernel',
-                          'rate_time_series_auto_kernel_{}.npy'.format(area))
-        rate_time_series_auto_kernel[area] = np.load(fn)
+    # rate_time_series_auto_kernel = {}
+    # for area in areas:
+    #     fn = os.path.join(data_path, label,
+    #                       'Analysis',
+    #                       'rate_time_series_auto_kernel',
+    #                       'rate_time_series_auto_kernel_{}.npy'.format(area))
+    #     rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
     fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
@@ -203,21 +203,25 @@ def plot_resting_state(A, label_spikes, label):
         pop_LvR = json.load(f)
 
     # correlation coefficients
-    fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    # fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
     """
     Plotting
     """
-    print("Raster plots")
+    # print("Raster plots")
 
-    t_min = 3000.
-    t_max = 3500.
+    # t_min = 3000.
+    # t_max = 3500.
+    t_min = 500.
+    t_max = 1000.
 
     icolor = myred
     ecolor = myblue
 
+    # frac_neurons = 0.03
     frac_neurons = 0.03
 
     for i, area in enumerate(areas):
@@ -266,9 +270,10 @@ def plot_resting_state(A, label_spikes, label):
             ax.set_yticks(yticklocs)
             ax.set_xlabel('Time (s)', labelpad=-0.1)
             ax.set_xticks([t_min, t_min + 250., t_max])
-            ax.set_xticklabels([r'$3.$', r'$3.25$', r'$3.5$'])
+            # ax.set_xticklabels([r'$3.$', r'$3.25$', r'$3.5$'])
+            ax.set_xticklabels([r'$0.5$', r'$0.75$', r'$1.0$'])
 
-    print("plotting Population rates")
+    # print("plotting Population rates")
 
     rates = np.zeros((len(M.area_list), 8))
     for i, area in enumerate(M.area_list):
@@ -301,7 +306,7 @@ def plot_resting_state(A, label_spikes, label):
     ax.set_xlabel(r'Rate (spikes/s)', labelpad=-0.1)
     ax.set_xticks([0., 50., 100.])
 
-    print("plotting Synchrony")
+    # print("plotting Synchrony")
 
     syn = np.zeros((len(M.area_list), 8))
     for i, area in enumerate(M.area_list):
@@ -329,11 +334,12 @@ def plot_resting_state(A, label_spikes, label):
     ax.set_yticklabels(population_labels[::-1], size=8)
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
-    ax.set_xticks(np.arange(0.0, 0.601, 0.2))
+    # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
+    ax.set_xticks(np.arange(0.0, 10.0, 2.0))
     ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
 
 
-    print("plotting Irregularity")
+    # print("plotting Irregularity")
 
     LvR = np.zeros((len(M.area_list), 8))
     for i, area in enumerate(M.area_list):
@@ -376,7 +382,7 @@ def plot_resting_state(A, label_spikes, label):
     axes['G'].set_yticks([])
 
 
-    print("Plotting rate time series")
+    # print("Plotting rate time series")
     pos = axes['G'].get_position()
     ax = []
     h = pos.y1 - pos.y0
@@ -387,9 +393,12 @@ def plot_resting_state(A, label_spikes, label):
 
     colors = ['0.5', '0.3', '0.0']
 
-    t_min = 500.
-    t_max = 10500.
-    time = np.arange(500., t_max)
+    # t_min = 500.
+    # t_max = 10500.
+    t_min = 50.
+    t_max = 1550.
+    # time = np.arange(500., t_max)
+    time = np.arange(50., t_max)
     for i, area in enumerate(areas[::-1]):
         ax[i].spines['right'].set_color('none')
         ax[i].spines['top'].set_color('none')
@@ -399,9 +408,11 @@ def plot_resting_state(A, label_spikes, label):
         binned_spikes = rate_time_series[area][np.where(
             np.logical_and(time >= t_min, time < t_max))]
         ax[i].plot(time, binned_spikes, color=colors[0], label=area)
-        rate = rate_time_series_auto_kernel[area]
+        # rate = rate_time_series_auto_kernel[area]
+        rate = rate_time_series[area]
         ax[i].plot(time, rate, color=colors[2], label=area)
-        ax[i].set_xlim((500., t_max))
+        # ax[i].set_xlim((500., t_max))
+        ax[i].set_xlim((50., t_max))
 
         ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
 
@@ -410,8 +421,10 @@ def plot_resting_state(A, label_spikes, label):
             ax[i].set_xticks([])
             ax[i].set_yticks([0., 30.])
         else:
-            ax[i].set_xticks([1000., 5000., 10000.])
-            ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
+            # ax[i].set_xticks([1000., 5000., 10000.])
+            ax[i].set_xticks([50., 750., 1500.])
+            # ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
+            ax[i].set_xticklabels([r'$0.05$', r'$0.75$', r'$1.5$'])
             ax[i].set_yticks([0., 5.])
         if i == 1:
             ax[i].set_ylabel(r'Rate (spikes/s)')
