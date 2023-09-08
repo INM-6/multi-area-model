@@ -1,3 +1,5 @@
+import numpy as np
+
 def load_data(M):
     # load spike data and calculate instantaneous and mean firing rates
     data = np.loadtxt(M.simulation.data_dir + '/recordings/' + M.simulation.label + "-spikes-1-0.dat", skiprows=3)
