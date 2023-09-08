@@ -2,8 +2,9 @@ import json
 import numpy as np
 import os
 
-import sys
-sys.path.append('./figures/Schmidt2018_dyn')
+# import sys
+# sys.path.append('./figures/Schmidt2018_dyn')
+
 from helpers import original_data_path, population_labels
 from multiarea_model import MultiAreaModel
 from plotcolors import myred, myblue
@@ -11,7 +12,7 @@ from plotcolors import myred, myblue
 import matplotlib.pyplot as pl
 from matplotlib import gridspec
 # from matplotlib import rc_file
-# rc_file('./figures/Schmidt2018_dyn/plotstyle.rc')
+# rc_file('plotstyle.rc')
 
 icolor = myred
 ecolor = myblue
@@ -67,10 +68,11 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(A, label_spikes, label):   
+def plot_resting_state(A, label_spikes, label):        
     """
     Figure layout
     """
+
     nrows = 4
     ncols = 4
     width = 7.0866
@@ -85,9 +87,9 @@ def plot_resting_state(A, label_spikes, label):
 
     gs1 = gridspec.GridSpec(1, 3)
     gs1.update(left=0.06, right=0.72, top=0.95, wspace=0.4, bottom=0.35)
-    axes['A'] = pl.subplot(gs1[:1, :1])
-    axes['B'] = pl.subplot(gs1[:1, 1:2])
-    axes['C'] = pl.subplot(gs1[:1, 2:])
+    axes['A'] = pl.subplot(gs1[:-1, :1])
+    axes['B'] = pl.subplot(gs1[:-1, 1:2])
+    axes['C'] = pl.subplot(gs1[:-1, 2:])
 
     gs2 = gridspec.GridSpec(3, 1)
     gs2.update(left=0.78, right=0.95, top=0.95, bottom=0.35)
@@ -107,15 +109,15 @@ def plot_resting_state(A, label_spikes, label):
         label_pos = [-0.2, 1.01]
         pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label + ': ' + area,
                 fontdict={'fontsize': 10, 'weight': 'bold',
-                        'horizontalalignment': 'left', 'verticalalignment':
-                        'bottom'}, transform=axes[label].transAxes)
+                          'horizontalalignment': 'left', 'verticalalignment':
+                          'bottom'}, transform=axes[label].transAxes)
 
     label = 'G'
     label_pos = [-0.1, 0.92]
     pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
             fontdict={'fontsize': 10, 'weight': 'bold',
-                    'horizontalalignment': 'left', 'verticalalignment':
-                    'bottom'}, transform=axes[label].transAxes)
+                      'horizontalalignment': 'left', 'verticalalignment':
+                      'bottom'}, transform=axes[label].transAxes)
 
 
     labels = ['E', 'D', 'F']
@@ -123,8 +125,8 @@ def plot_resting_state(A, label_spikes, label):
         label_pos = [-0.2, 1.05]
         pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
                 fontdict={'fontsize': 10, 'weight': 'bold',
-                        'horizontalalignment': 'left', 'verticalalignment':
-                        'bottom'}, transform=axes[label].transAxes)
+                          'horizontalalignment': 'left', 'verticalalignment':
+                          'bottom'}, transform=axes[label].transAxes)
 
     labels = ['A', 'B', 'C', 'D', 'E', 'F']
 
@@ -141,7 +143,7 @@ def plot_resting_state(A, label_spikes, label):
     """
     Load data
     """
-    LOAD_ORIGINAL_DATA = False
+    LOAD_ORIGINAL_DATA = True
 
 
     if LOAD_ORIGINAL_DATA:
@@ -154,30 +156,24 @@ def plot_resting_state(A, label_spikes, label):
         from network_simulations import init_models
         from config import data_path
         models = init_models('Fig5')
-        # label_spikes = models[0].simulation.label
-        label_spikes = label_spikes
-        # label = models[1].simulation.label
-        label = label
+        label_spikes = models[0].simulation.label
+        label = models[1].simulation.label
 
     """
     Create MultiAreaModel instance to have access to data structures
     """
     M = MultiAreaModel({})
 
-    # # spike data
-    # spike_data = {}
-    # for area in areas:
-    #     spike_data[area] = {}
-    #     for pop in M.structure[area]:
-    #         spike_data[area][pop] = np.load(os.path.join(data_path,
-    #                                                     label_spikes,
-    #                                                     'recordings',
-    #                                                     '{}-spikes-{}-{}.npy'.format(label_spikes,
-                                                                                     # area, pop)))
-
-    # load spike data
-    spike_data = A.spike_data
-
+    # spike data
+    spike_data = {}
+    for area in areas:
+        spike_data[area] = {}
+        for pop in M.structure[area]:
+            spike_data[area][pop] = np.load(os.path.join(data_path,
+                                                         label_spikes,
+                                                         'recordings',
+                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
+                                                                                      area, pop)))
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
@@ -187,18 +183,18 @@ def plot_resting_state(A, label_spikes, label):
     rate_time_series = {}
     for area in areas:
         fn = os.path.join(data_path, label,
-                        'Analysis',
-                        'rate_time_series_full',
-                        'rate_time_series_full_{}.npy'.format(area))
+                          'Analysis',
+                          'rate_time_series_full',
+                          'rate_time_series_full_{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
     # time series of firing rates convolved with a kernel
     rate_time_series_auto_kernel = {}
     for area in areas:
         fn = os.path.join(data_path, label,
-                        'Analysis',
-                        'rate_time_series_auto_kernel',
-                        'rate_time_series_auto_kernel_{}.npy'.format(area))
+                          'Analysis',
+                          'rate_time_series_auto_kernel',
+                          'rate_time_series_auto_kernel_{}.npy'.format(area))
         rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
@@ -210,7 +206,7 @@ def plot_resting_state(A, label_spikes, label):
     fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
-    
+
     """
     Plotting
     """
@@ -272,7 +268,6 @@ def plot_resting_state(A, label_spikes, label):
             ax.set_xticks([t_min, t_min + 250., t_max])
             ax.set_xticklabels([r'$3.$', r'$3.25$', r'$3.5$'])
 
-    
     print("plotting Population rates")
 
     rates = np.zeros((len(M.area_list), 8))
@@ -292,7 +287,7 @@ def plot_resting_state(A, label_spikes, label):
 
     ax = axes['D']
     d = ax.boxplot(np.transpose(rates), vert=False,
-                patch_artist=True, whis=1.5, showmeans=True)
+                   patch_artist=True, whis=1.5, showmeans=True)
     set_boxplot_props(d)
 
     ax.plot(np.mean(rates, axis=1), np.arange(
@@ -325,7 +320,7 @@ def plot_resting_state(A, label_spikes, label):
 
     ax = axes['E']
     d = ax.boxplot(np.transpose(syn), vert=False,
-                patch_artist=True, whis=1.5, showmeans=True)
+                   patch_artist=True, whis=1.5, showmeans=True)
     set_boxplot_props(d)
 
     ax.plot(np.mean(syn, axis=1), np.arange(
@@ -356,7 +351,7 @@ def plot_resting_state(A, label_spikes, label):
 
     ax = axes['F']
     d = ax.boxplot(np.transpose(LvR), vert=False,
-                patch_artist=True, whis=1.5, showmeans=True)
+                   patch_artist=True, whis=1.5, showmeans=True)
     set_boxplot_props(d)
 
     ax.plot(np.mean(LvR, axis=1), np.arange(
