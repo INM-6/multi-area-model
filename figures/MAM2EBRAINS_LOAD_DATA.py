@@ -151,4 +151,4 @@ def load_data(M, A):
 
     A.save()
     
-    return tsteps, firing_rate
+    return A, tsteps, firing_rate
