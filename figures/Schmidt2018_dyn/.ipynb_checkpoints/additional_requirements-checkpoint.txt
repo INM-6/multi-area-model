@@ -1,0 +1,7 @@
+elephant
+neo
+networkx
+pyx
+python-louvain
+statsmodels
+-e git+https://github.com/INM-6/correlation-toolbox.git#egg=correlation-toolbox
