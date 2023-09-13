@@ -17,9 +17,6 @@ from matplotlib import gridspec
 icolor = myred
 ecolor = myblue
 
-# label_spikes = M.simulation.label
-label = M.simulation.label
-
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
         if i % 2 == 0:
@@ -35,7 +32,9 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, A, label_spikes, data_path):
+def plot_resting_state(M, A, data_path):
+    # label_spikes = M.simulation.label
+    label = M.simulation.label
     t_sim = M.simulation.params["t_sim"]
     
     """
