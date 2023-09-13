@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as pl
 
 def plot_instan_mean_firing_rate(M):
     # load spike data and calculate instantaneous and mean firing rates
