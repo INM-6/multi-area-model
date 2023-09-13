@@ -152,7 +152,53 @@ def load_data(M):
     """
     A.create_rate_time_series()
     print("Computing rate time series done")
+    
+    
+    """
+    Calculate synaptic input of populations and areas using the spike data.
+    Uses function ah.pop_synaptic_input.
+    If the synaptic inputs have previously been stored with the
+    same parameters, they are loaded from file.
 
+    Parameters
+    ----------
+    t_min : float, optional
+        Minimal time in ms of the simulation to take into account
+        for the calculation. Defaults to 500 ms.
+    t_max : float, optional
+        Maximal time in ms of the simulation to take into account
+        for the calculation. Defaults to the simulation time.
+    areas : list, optional
+        Which areas to include in the calculcation.
+        Defaults to all loaded areas.
+    pops : list or {'complete'}, optional
+        Which populations to include in the calculation.
+        If set to 'complete', all populations the respective areas
+        are included. Defaults to 'complete'.
+    kernel : {'gauss_time_window', 'alpha_time_window', 'rect_time_window'}, optional
+        Convolution kernel for the calculation of the underlying firing rates.
+        Defaults to 'binned' which corresponds to a simple histogram.
+    resolution: float, optional
+        Width of the convolution kernel. Specifically it correponds to:
+        - 'binned' : bin width of the histogram
+        - 'gauss_time_window' : sigma
+        - 'alpha_time_window' : time constant of the alpha function
+        - 'rect_time_window' : width of the moving rectangular function
+    """
+    A.create_synaptic_input(self, **keywords)
+    print("Computing synaptic input done")
+    
     A.save()
+    
+    """
+    Compute BOLD signal for a given area from the time series of
+    population-averaged spike rates of a given simulation using the
+    neuRosim package of R (see Schmidt et al. 2018 for more details).
+    """
+    try:
+        subprocess.run(['python3', './../Schmidt2018_dyn/compute_bold_signal.py'])
+        # subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R', fn, out_fn])
+    except FileNotFoundError:
+        raise FileNotFoundError("Executing R failed. Did you install R?")
     
     return A, tsteps, firing_rate

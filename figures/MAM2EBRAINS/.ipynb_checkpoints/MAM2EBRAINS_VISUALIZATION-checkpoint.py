@@ -340,7 +340,7 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
     # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
-    ax.set_xticks(np.arange(0.0, 1.0, 0.2))
+    ax.set_xticks(np.arange(0.0, 10.0, 2))
     ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
 
 
@@ -400,10 +400,10 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
 
     # t_min = 500.
     # t_max = 10500.
-    t_min = 0.
+    t_min = 500.
     t_max = t_sim
     # time = np.arange(500., t_max)
-    time = np.arange(t_min, t_max)
+    time = np.arange(500, t_max)
     for i, area in enumerate(areas[::-1]):
         ax[i].spines['right'].set_color('none')
         ax[i].spines['top'].set_color('none')
@@ -416,8 +416,7 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
         # rate = rate_time_series_auto_kernel[area]
         rate = rate_time_series[area]
         ax[i].plot(time, rate, color=colors[2], label=area)
-        # ax[i].set_xlim((500., t_max))
-        ax[i].set_xlim((50., t_max))
+        ax[i].set_xlim((t_min, t_max))
 
         ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
 
@@ -428,7 +427,7 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
         else:
             # ax[i].set_xticks([1000., 5000., 10000.])
             ax[i].set_xticks([t_min, (t_min+t_max)/2, t_max])
-            l = 0.05
+            l = t_min/1000
             m = (t_min + t_max)/2000
             r = t_max/1000
             # ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
