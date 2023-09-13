@@ -1,4 +1,5 @@
 import numpy as np
+import subprocess
 import matplotlib.pyplot as plt
 from multiarea_model import Analysis
 
