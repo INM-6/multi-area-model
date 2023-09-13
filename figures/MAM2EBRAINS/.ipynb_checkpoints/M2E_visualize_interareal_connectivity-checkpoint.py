@@ -100,7 +100,7 @@ def visualize_interareal_connectivity(M):
     pos2 = axes['D'].get_position()
     # axes['C'] = pl.axes([pos.x0 + 0.01, pos2.y0, pos.x1 - pos.x0 - 0.025, 0.23])
 
-    print(pos.x1 - pos.x0 - 0.025)
+    # print(pos.x1 - pos.x0 - 0.025)
 
     # labels = ['A', 'B', 'C', 'D']
     labels = ['B', 'D']
