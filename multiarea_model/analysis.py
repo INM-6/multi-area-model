@@ -951,6 +951,7 @@ class Analysis:
         Saves all post-processed data to files.
         """
         members = inspect.getmembers(self)
+        print(members)
         save_list_json = ['structure', 'pop_rates', 'synchrony',
                           'pop_cv_isi', 'pop_LvR',
                           'indegree_data', 'indegree_areas_data',
