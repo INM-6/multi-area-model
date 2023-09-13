@@ -46,7 +46,8 @@ def set_boxplot_props(d):
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
 def plot_resting_state(A, label_spikes, data_path, sim_params):
-    t_sim = sim_params[]
+    t_sim = sim_params["t_sim"]
+    
     """
     Figure layout
     """
