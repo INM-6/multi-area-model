@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as pl
 import os
 
+import sys
+sys.path.append('./figures/Schmidt2018')
+
 from helpers import area_list, datapath
 from matplotlib import gridspec
 from matplotlib.colors import LogNorm
