@@ -5,7 +5,7 @@ def plot_instan_mean_firing_rate(M):
     # load spike data and calculate instantaneous and mean firing rates
     data = np.loadtxt(M.simulation.data_dir + '/recordings/' + M.simulation.label + "-spikes-1-0.dat", skiprows=3)
     tsteps, spikecount = np.unique(data[:,1], return_counts=True)
-    firing_rate = spikecount / M.simulation.params['dt'] * 1e3 / np.sum(M.N_vec)
+    rate = spikecount / M.simulation.params['dt'] * 1e3 / np.sum(M.N_vec)
     
     # visualize calculate instantaneous and mean firing rates
     ax = pl.subplot()
