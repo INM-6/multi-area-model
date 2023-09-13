@@ -45,7 +45,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(A, label_spikes, data_path, sim_params):
+def plot_resting_state(M, A, label_spikes, data_path, sim_params):
     t_sim = sim_params["t_sim"]
     
     """
@@ -156,10 +156,10 @@ def plot_resting_state(A, label_spikes, data_path, sim_params):
     label_spikes = label_spikes
     label = label_spikes
 
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    M = MultiAreaModel({})
+    # """
+    # Create MultiAreaModel instance to have access to data structures
+    # """
+    # M = MultiAreaModel({})
 
     # spike data
     # spike_data = {}
@@ -224,7 +224,7 @@ def plot_resting_state(A, label_spikes, data_path, sim_params):
     ecolor = myblue
 
     # frac_neurons = 0.03
-    frac_neurons = 0.03
+    frac_neurons = 0.3
 
     for i, area in enumerate(areas):
         ax = axes[labels[i]]
@@ -276,7 +276,7 @@ def plot_resting_state(A, label_spikes, data_path, sim_params):
             l = t_min/1000
             m = (t_min + t_max)/2000
             r = t_max/1000
-            ax.set_xticklabels([f'{l:.1f}', f'{m:.1f}', f'{r:.1f}'])
+            ax.set_xticklabels([f'{l:.2f}', f'{m:.2f}', f'{r:.2f}'])
 
     # print("plotting Population rates")
 
