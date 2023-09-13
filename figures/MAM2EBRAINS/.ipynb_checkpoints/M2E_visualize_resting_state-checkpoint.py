@@ -17,6 +17,8 @@ from matplotlib import gridspec
 icolor = myred
 ecolor = myblue
 
+from M2E_LOAD_DATA import load_and_create_data
+
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
         if i % 2 == 0:
@@ -32,8 +34,11 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, A, data_path):
-    # label_spikes = M.simulation.label
+def plot_resting_state(M, data_path):
+    # load data
+    # A = load_and_create_data(M)
+    
+    label_spikes = M.simulation.label
     label = M.simulation.label
     t_sim = M.simulation.params["t_sim"]
     
@@ -148,17 +153,17 @@ def plot_resting_state(M, A, data_path):
     # """
     # M = MultiAreaModel({})
 
-    # spike data
-    # spike_data = {}
-    # for area in areas:
-    #     spike_data[area] = {}
-    #     for pop in M.structure[area]:
-    #         spike_data[area][pop] = np.load(os.path.join(data_path,
-    #                                                      label_spikes,
-    #                                                      'recordings',
-    #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
-    #                                                                                   area, pop)))
-    spike_data = A.spike_data
+    spike data
+    spike_data = {}
+    for area in areas:
+        spike_data[area] = {}
+        for pop in M.structure[area]:
+            spike_data[area][pop] = np.load(os.path.join(data_path,
+                                                         label_spikes,
+                                                         'recordings',
+                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
+                                                                                      area, pop)))
+    # spike_data = A.spike_data
     
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
