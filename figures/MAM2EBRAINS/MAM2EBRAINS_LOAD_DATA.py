@@ -185,7 +185,7 @@ def load_data(M):
         - 'alpha_time_window' : time constant of the alpha function
         - 'rect_time_window' : width of the moving rectangular function
     """
-    A.create_synaptic_input(self, **keywords)
+    A.create_synaptic_input()
     print("Computing synaptic input done")
     
     A.save()
