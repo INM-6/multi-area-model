@@ -224,7 +224,7 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
     ecolor = myblue
 
     # frac_neurons = 0.03
-    frac_neurons = 0.3
+    frac_neurons = 1
 
     for i, area in enumerate(areas):
         ax = axes[labels[i]]
