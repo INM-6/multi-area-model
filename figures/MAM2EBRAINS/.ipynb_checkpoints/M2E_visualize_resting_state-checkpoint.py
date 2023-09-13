@@ -17,19 +17,6 @@ from matplotlib import gridspec
 icolor = myred
 ecolor = myblue
 
-
-# Instantaneous and mean firing rate across all populations
-def plot_instan_mean_firing_rate(tsteps, rate, sim_params):
-    ax = pl.subplot()
-    ax.plot(tsteps, rate)
-    ax.plot(tsteps, np.average(rate)*np.ones(len(tsteps)), label='mean')
-    ax.set_title('Instantaneous and mean firing rate across all populations')
-    ax.set_xlabel('time (ms)')
-    ax.set_ylabel('firing rate (spikes / s)')
-    ax.set_xlim(0, sim_params['t_sim'])
-    ax.set_ylim(0, 50)
-    ax.legend()
-
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
         if i % 2 == 0:
@@ -83,7 +70,6 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
 
     gs3 = gridspec.GridSpec(1, 1)
     gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
-    # gs3.update(left=0.1, right=0.95, top=0.25, bottom=0.075)
     axes['G'] = pl.subplot(gs3[:1, :1])
 
     areas = ['V1', 'V2', 'FEF']
@@ -96,8 +82,9 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
         pl.text(label_pos[0], label_pos[1], label + ': ' + area,
-                 fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
-                           'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
+                 fontdict={'fontsize': 10, 'weight': 'bold', 
+                           'horizontalalignment': 'left', 'verticalalignment': 
+                           'bottom'}, transform=axes[label].transAxes)
 
     label = 'G'
     label_pos = [-0.1, 0.92]
@@ -106,8 +93,9 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
     #                   'horizontalalignment': 'left', 'verticalalignment':
     #                   'bottom'}, transform=axes[label].transAxes)
     pl.text(label_pos[0], label_pos[1], label,
-             fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
-                       'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
+             fontdict={'fontsize': 10, 'weight': 'bold', 
+                       'horizontalalignment': 'left', 'verticalalignment': 
+                       'bottom'}, transform=axes[label].transAxes)
 
     labels = ['E', 'D', 'F']
     for label in labels:
@@ -117,8 +105,9 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
         pl.text(label_pos[0], label_pos[1], label,
-             fontdict={'fontsize': 10, 'weight': 'bold', 'horizontalalignment': 'left', 
-                       'verticalalignment': 'bottom'}, transform=axes[label].transAxes)
+             fontdict={'fontsize': 10, 'weight': 'bold', 
+                       'horizontalalignment': 'left', 'verticalalignment': 
+                       'bottom'}, transform=axes[label].transAxes)
         
 
     labels = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -151,10 +140,6 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
 #         models = init_models('Fig5')
 #         label_spikes = models[0].simulation.label
 #         label = models[1].simulation.label
-        
-    # model = M
-    label_spikes = label_spikes
-    label = label_spikes
 
     # """
     # Create MultiAreaModel instance to have access to data structures

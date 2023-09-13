@@ -1,15 +1,10 @@
 import numpy as np
 import subprocess
 import matplotlib.pyplot as plt
+
 from multiarea_model import Analysis
 
-def load_data(M):
-    # load spike data and calculate instantaneous and mean firing rates
-    data = np.loadtxt(M.simulation.data_dir + '/recordings/' + M.simulation.label + "-spikes-1-0.dat", skiprows=3)
-    tsteps, spikecount = np.unique(data[:,1], return_counts=True)
-    firing_rate = spikecount / M.simulation.params['dt'] * 1e3 / np.sum(M.N_vec)
-
-    
+def load_and_create_data(M):
     """
     Analysis class.
     An instance of the analysis class for the given network and simulation.
@@ -191,15 +186,15 @@ def load_data(M):
     
     A.save()
     
-    """
-    Compute BOLD signal for a given area from the time series of
-    population-averaged spike rates of a given simulation using the
-    neuRosim package of R (see Schmidt et al. 2018 for more details).
-    """
-    try:
-        subprocess.run(['python3', './../Schmidt2018_dyn/compute_bold_signal.py'])
-        # subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R', fn, out_fn])
-    except FileNotFoundError:
-        raise FileNotFoundError("Executing R failed. Did you install R?")
+    # """
+    # Compute BOLD signal for a given area from the time series of
+    # population-averaged spike rates of a given simulation using the
+    # neuRosim package of R (see Schmidt et al. 2018 for more details).
+    # """
+    # try:
+    #     subprocess.run(['python3', './../Schmidt2018_dyn/compute_bold_signal.py'])
+    #     # subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R', fn, out_fn])
+    # except FileNotFoundError:
+    #     raise FileNotFoundError("Executing R failed. Did you install R?")
     
-    return A, tsteps, firing_rate
+    return A
