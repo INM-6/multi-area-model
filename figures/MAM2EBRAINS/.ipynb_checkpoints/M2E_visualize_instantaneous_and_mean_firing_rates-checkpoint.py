@@ -14,6 +14,6 @@ def plot_instan_mean_firing_rate(M):
     ax.set_title('Instantaneous and mean firing rate across all populations')
     ax.set_xlabel('time (ms)')
     ax.set_ylabel('firing rate (spikes / s)')
-    ax.set_xlim(0, M.simulation['t_sim'])
+    ax.set_xlim(0, M.simulation.params['t_sim'])
     ax.set_ylim(0, 50)
     ax.legend()
