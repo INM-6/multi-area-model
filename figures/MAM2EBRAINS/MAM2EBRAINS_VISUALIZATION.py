@@ -400,10 +400,10 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
 
     # t_min = 500.
     # t_max = 10500.
-    t_min = 50.
-    t_max = 1550.
+    t_min = 0.
+    t_max = t_sim
     # time = np.arange(500., t_max)
-    time = np.arange(50., t_max)
+    time = np.arange(500., t_max)
     for i, area in enumerate(areas[::-1]):
         ax[i].spines['right'].set_color('none')
         ax[i].spines['top'].set_color('none')
@@ -427,9 +427,12 @@ def plot_resting_state(M, A, label_spikes, data_path, sim_params):
             ax[i].set_yticks([0., 30.])
         else:
             # ax[i].set_xticks([1000., 5000., 10000.])
-            ax[i].set_xticks([50., 750., 1500.])
+            ax[i].set_xticks([t_min, (t_min+t_max)/2, t_max])
+            l = 0.05
+            m = (t_min + t_max)/2000
+            r = t_max/1000
             # ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
-            ax[i].set_xticklabels([r'$0.05$', r'$0.75$', r'$1.5$'])
+            ax.set_xticklabels([f'{l:.2f}', f'{m:.2f}', f'{r:.2f}'])
             ax[i].set_yticks([0., 5.])
         if i == 1:
             ax[i].set_ylabel(r'Rate (spikes/s)')
