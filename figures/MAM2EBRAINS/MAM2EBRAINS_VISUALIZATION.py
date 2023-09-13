@@ -54,8 +54,8 @@ def plot_resting_state(A, label_spikes, data_path, sim_params):
 
     nrows = 4
     ncols = 4
-    width = 7.0866
-    # width = 10
+    # width = 7.0866
+    width = 10
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
@@ -276,7 +276,7 @@ def plot_resting_state(A, label_spikes, data_path, sim_params):
             l = t_min/1000
             m = (t_min + t_max)/2000
             r = t_max/1000
-            ax.set_xticklabels([r'$l$', r'$m$', r'$r$'])
+            ax.set_xticklabels([f'{l:.1f}', f'{m:.1f}', f'{r:.1f}'])
 
     # print("plotting Population rates")
 
