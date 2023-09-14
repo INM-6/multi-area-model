@@ -19,7 +19,7 @@ from scipy import stats
 
 def visualize_interareal_connectivity(M):
     # full-scale model
-    M_full_scale = MultiAreaModel()
+    M_full_scale = MultiAreaModel({})
     
     """
     Figure layout
