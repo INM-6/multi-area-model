@@ -204,7 +204,7 @@ def plot_resting_state(M, data_path):
         #                   'Analysis',
         #                   'rate_time_series_full',
         #                   'rate_time_series_full_{}.npy'.format(area))
-        fn = os.path.join(data_path, label,
+        fn = os.path.join(data_path, str(label),
                           'Analysis',
                           'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
@@ -219,13 +219,13 @@ def plot_resting_state(M, data_path):
     #     rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
-    fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
+    fn = os.path.join(data_path, str(label), 'Analysis', 'pop_LvR.json')
     with open(fn, 'r') as f:
         pop_LvR = json.load(f)
 
     # correlation coefficients
     # fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
-    fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
+    fn = os.path.join(data_path, str(label), 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
