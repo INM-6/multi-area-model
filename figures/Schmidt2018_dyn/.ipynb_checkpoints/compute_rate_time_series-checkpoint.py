@@ -51,7 +51,8 @@ except FileExistsError:
 
 with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
     sim_params = json.load(f)
-T = sim_params['T']
+# T = sim_params['T']
+T = sim_params['t_sim']
 
 """
 Create MultiAreaModel instance to have access to data structures
