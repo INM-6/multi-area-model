@@ -79,7 +79,8 @@ def visualize_interareal_connectivity(M):
     """
     # M = MultiAreaModel({})
     M_full_scale = MultiAreaModel({})
-
+    
+    datapath = './multiarea_model/data_multiarea/'
     with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
         proc = json.load(f)
     with open(os.path.join(datapath, 'viscortex_raw_data.json'), 'r') as f:
