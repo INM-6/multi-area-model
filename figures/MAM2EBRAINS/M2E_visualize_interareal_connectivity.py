@@ -233,7 +233,7 @@ def visualize_interareal_connectivity(M):
     X, Y = np.meshgrid(x, y)
 
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    ax.set_xticklabels(area_list, rotation=90, size=6.)
+    # ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticklabels(area_list[::-1], size=6.)
@@ -358,7 +358,7 @@ def visualize_interareal_connectivity(M):
     X, Y = np.meshgrid(x, y)
 
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    ax.set_xticklabels(area_list, rotation=90, size=6.)
+    # ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticklabels(area_list[::-1], size=6.)
