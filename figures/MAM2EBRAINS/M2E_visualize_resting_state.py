@@ -235,8 +235,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         pop_LvR = json.load(f)
 
     # correlation coefficients
-    fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
-    # fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
+    # fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
