@@ -8,6 +8,7 @@ sys.path.append('./figures/Schmidt2018_dyn')
 # from helpers import original_data_path, population_labels
 from helpers import population_labels
 from multiarea_model import MultiAreaModel
+from multiarea_model import Analysis
 from plotcolors import myred, myblue
 
 import matplotlib.pyplot as pl
