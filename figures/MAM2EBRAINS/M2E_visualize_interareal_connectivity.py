@@ -219,7 +219,7 @@ def visualize_interareal_connectivity(M):
             conn_matrix_full_scale[i][j] = M.K_areas[area1][
                 area2] / np.sum(list(M.K_areas[area1].values()))
 
-    ax = axes['D']
+    ax = axes['B']
     ax.yaxis.set_ticks_position("none")
     ax.xaxis.set_ticks_position("none")
 
