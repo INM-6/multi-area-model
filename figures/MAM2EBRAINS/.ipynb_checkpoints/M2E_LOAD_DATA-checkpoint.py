@@ -101,7 +101,7 @@ def load_and_create_data(M, A):
     
 
     # Define your arguments
-    data_path = data_path
+    # data_path = data_path
     label = M.simulation.label
 
     # Run the script with arguments
