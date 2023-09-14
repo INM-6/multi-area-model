@@ -153,7 +153,7 @@ def plot_resting_state(M, data_path):
     # """
     # M = MultiAreaModel({})
 
-    spike data
+    # spike data
     spike_data = {}
     for area in areas:
         spike_data[area] = {}
