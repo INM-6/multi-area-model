@@ -77,8 +77,8 @@ def plot_time_averaged_population_rates(M, area_list=None, **keywords):
     ax.set_yticks(y_index)
     # ax.set_yticklabels(A.network.structure_reversed['V1'])
     ax.set_yticklabels(A.network.structure['V1'][::-1])
-    ax.set_ylabel('Population', size=15)
-    ax.set_xlabel('Area index', size=15)
+    ax.set_ylabel('Population', size=13)
+    ax.set_xlabel('Area index', size=13)
     t = FixedLocator([0.01, 0.1, 1., 10., 100.])
 
     plt.colorbar(im, ticks=t)

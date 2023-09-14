@@ -207,8 +207,10 @@ def visualize_interareal_connectivity(M):
     # ax.set_yticklabels(area_list[::-1], size=6.)
     ax.set_yticklabels(area_list[::-1], size=10.)
 
-    ax.set_ylabel('Target area')
-    ax.set_xlabel('Source area')
+    # ax.set_ylabel('Target area')
+    # ax.set_xlabel('Source area')
+    ax.set_ylabel('Target area', fontsize=15)
+    ax.set_xlabel('Source area', fontsize=15)
     im = ax.pcolormesh(masked_matrix_full_scale, cmap=cmap,
                        edgecolors='None', norm=LogNorm(vmin=1e-6, vmax=1.))
 
@@ -336,8 +338,8 @@ def visualize_interareal_connectivity(M):
     # ax.set_yticklabels(area_list[::-1], size=6.)
     ax.set_yticklabels(area_list[::-1], size=10.)
 
-    ax.set_ylabel('Target area')
-    ax.set_xlabel('Source area')
+    ax.set_ylabel('Target area', fontsize=15)
+    ax.set_xlabel('Source area', fontsize=15)
     im = ax.pcolormesh(masked_matrix_down_scale, cmap=cmap,
                        edgecolors='None', norm=LogNorm(vmin=1e-6, vmax=1.))
 
