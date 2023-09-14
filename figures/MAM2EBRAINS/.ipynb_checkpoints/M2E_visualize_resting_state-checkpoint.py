@@ -193,7 +193,7 @@ def plot_resting_state(M, data_path):
     spike_data = A.spike_data
     
     # stationary firing rates
-    fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
+    fn = os.path.join(data_path, str(label), 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
         pop_rates = json.load(f)
 
