@@ -64,7 +64,7 @@ def plot_time_averaged_population_rates(M):
     # print(M.network.structure['V1'])
     ax.set_xticks(x_index)
     # ax.set_xticklabels(x_ticks)
-    ax.set_xticklabels(x_ticks) = area_list
+    ax.set_xticklabels(area_list)
     ax.set_yticks(y_index)
     # ax.set_yticklabels(M.network.structure_reversed['V1'])
     ax.set_yticklabels(M.network.structure['V1'])
