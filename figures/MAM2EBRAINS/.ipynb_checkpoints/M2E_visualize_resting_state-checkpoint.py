@@ -75,7 +75,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     nrows = 4
     ncols = 4
     # width = 7.0866
-    width = 10
+    width = 12
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
