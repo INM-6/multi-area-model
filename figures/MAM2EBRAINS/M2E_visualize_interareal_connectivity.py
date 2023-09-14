@@ -75,7 +75,8 @@ def visualize_interareal_connectivity(M):
     """
     Figure layout
     """
-    nrows = 2
+    # nrows = 2
+    nrows = 1
     ncols = 2
     width = 6.8556
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
