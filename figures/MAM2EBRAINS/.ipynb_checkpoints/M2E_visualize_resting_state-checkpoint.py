@@ -65,8 +65,6 @@ def plot_resting_state(M, data_path):
     # load data
     load_and_create_data(M, A)
     
-    label_spikes = M.simulation.label
-    label = M.simulation.label
     t_sim = M.simulation.params["t_sim"]
     
     """
@@ -156,25 +154,24 @@ def plot_resting_state(M, data_path):
         axes[label].yaxis.set_ticks_position('none')
 
 
-    """
-    Load data
-    """
-    # LOAD_ORIGINAL_DATA = True
-    LOAD_ORIGINAL_DATA = False
+#     """
+#     Load data
+#     """
+#     LOAD_ORIGINAL_DATA = True
 
 
-    if LOAD_ORIGINAL_DATA:
-        # use T=10500 simulation for spike raster plots
-        label_spikes = '3afaec94d650c637ef8419611c3f80b3cb3ff539'
-        # and T=100500 simulation for all other panels
-        label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-        data_path = original_data_path
-    else:
-        from network_simulations import init_models
-        from config import data_path
-        models = init_models('Fig5')
-        label_spikes = models[0].simulation.label
-        label = models[1].simulation.label
+#     if LOAD_ORIGINAL_DATA:
+#         # use T=10500 simulation for spike raster plots
+#         label_spikes = '3afaec94d650c637ef8419611c3f80b3cb3ff539'
+#         # and T=100500 simulation for all other panels
+#         label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+#         data_path = original_data_path
+#     else:
+#         from network_simulations import init_models
+#         from config import data_path
+#         models = init_models('Fig5')
+#         label_spikes = models[0].simulation.label
+#         label = models[1].simulation.label
 
     # """
     # Create MultiAreaModel instance to have access to data structures
@@ -192,6 +189,8 @@ def plot_resting_state(M, data_path):
     #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
     #                                                                                   area, pop)))
     spike_data = A.spike_data
+    label_spikes = M.simulation.label
+    label = M.simulation.label
     
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
