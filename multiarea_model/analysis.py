@@ -898,7 +898,7 @@ class Analysis:
         ax = fig.add_subplot(111)
 
         for i, area in enumerate(area_list):
-            print(i, area)
+            # print(i, area)
             # for j, pop in enumerate(self.network.structure_reversed['V1']):
             for j, pop in enumerate(self.network.structure['V1']):
                 if pop in self.network.structure[area]:
