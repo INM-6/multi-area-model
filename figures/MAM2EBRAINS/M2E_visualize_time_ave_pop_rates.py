@@ -1,3 +1,4 @@
+import numpy as np
 # Time-averaged population rates
 # An overview over time-averaged population rates encoded in colors with areas along x-axis and populations along y-axis.
 
