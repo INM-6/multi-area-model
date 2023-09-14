@@ -444,8 +444,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         binned_spikes = rate_time_series[area][np.where(
             np.logical_and(time >= t_min, time < t_max))]
         ax[i].plot(time, binned_spikes, color=colors[0], label=area)
-        # rate = rate_time_series_auto_kernel[area]
-        rate = rate_time_series[area]
+        rate = rate_time_series_auto_kernel[area]
+        # rate = rate_time_series[area]
         ax[i].plot(time, rate, color=colors[2], label=area)
         ax[i].set_xlim((t_min, t_max))
 
