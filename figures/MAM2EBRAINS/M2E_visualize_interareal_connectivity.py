@@ -36,7 +36,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=16, y=1.02)
+    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=16, y=1.1)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
@@ -72,7 +72,7 @@ def visualize_interareal_connectivity(M):
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
         pl.text(label_pos[0], label_pos[1], label_display,
-                 fontdict={'fontsize': 15, 'weight': 'bold', 
+                 fontdict={'fontsize': 12, 'weight': 'bold', 
                            'horizontalalignment': 'left', 'verticalalignment': 
                            'bottom'}, transform=axes[label].transAxes)
 

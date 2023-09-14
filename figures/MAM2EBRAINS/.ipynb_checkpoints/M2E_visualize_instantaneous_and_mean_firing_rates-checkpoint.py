@@ -8,7 +8,7 @@ def plot_instan_mean_firing_rate(M):
     rate = spikecount / M.simulation.params['dt'] * 1e3 / np.sum(M.N_vec)
     
     # visualize calculate instantaneous and mean firing rates
-    ax = pl.subplot()
+    fig, ax = pl.subplots()
     ax.plot(tsteps, rate)
     ax.plot(tsteps, np.average(rate)*np.ones(len(tsteps)), label='mean')
     ax.set_title('Instantaneous and mean firing rate across all populations')
