@@ -78,11 +78,12 @@ def visualize_interareal_connectivity(M):
     # nrows = 2
     nrows = 1
     ncols = 2
-    width = 6.8556
+    # width = 6.8556
+    width = 15
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
-    print(width, height)
+    # print(width, height)
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
@@ -90,8 +91,9 @@ def visualize_interareal_connectivity(M):
 
     # gs1 = gridspec.GridSpec(2, 2)
     gs1 = gridspec.GridSpec(1, 2)
-    gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
-
+    # gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
+    gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.3, hspace=0.3)
+    
     # axes['A'] = pl.subplot(gs1[:1, :1])
     # axes['B'] = pl.subplot(gs1[:1, 1:2])
     axes['B'] = pl.subplot(gs1[:1, :1])
@@ -104,7 +106,7 @@ def visualize_interareal_connectivity(M):
     # print(pos.x1 - pos.x0 - 0.025)
 
     # labels = ['A', 'B', 'C', 'D']
-    labels = ['B', 'D']
+    labels = ['Full-scale model', 'Down scale model']
     for label in labels:
         if label in ['C']:
             label_pos = [-0.045, 1.18]
