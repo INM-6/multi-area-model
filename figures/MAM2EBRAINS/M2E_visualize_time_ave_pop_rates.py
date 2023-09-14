@@ -17,6 +17,7 @@ def plot_time_averaged_population_rates(M):
     output : {'pdf', 'png', 'eps'}, optional
         If given, the function stores the plot to a file of the given format.
     """
+    area_list = None
     if area_list is None:
         area_list = ['V1', 'V2', 'VP', 'V3', 'PIP', 'V3A', 'MT', 'V4t', 'V4',
                      'PO', 'VOT', 'DP', 'MIP', 'MDP', 'MSTd', 'VIP', 'LIP',

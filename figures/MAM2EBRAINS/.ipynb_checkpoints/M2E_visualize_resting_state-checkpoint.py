@@ -35,7 +35,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, A, data_path, raster_areas=['V1', 'V2', 'FEF']):
+def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     """
     Analysis class.
     An instance of the analysis class for the given network and simulation.
@@ -56,6 +56,11 @@ def plot_resting_state(M, A, data_path, raster_areas=['V1', 'V2', 'FEF']):
         Default value is None and leads to loading of data for all
         simulated areas.
     """
+    # Instantiate an analysis class and load spike data
+    A = Analysis(network=M, 
+                 simulation=M.simulation, 
+                 data_list=['spikes'],
+                 load_areas=None)
     
     # load data
     load_and_create_data(M, A)
@@ -69,7 +74,7 @@ def plot_resting_state(M, A, data_path, raster_areas=['V1', 'V2', 'FEF']):
     nrows = 4
     ncols = 4
     # width = 7.0866
-    width = 15
+    width = 10
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
