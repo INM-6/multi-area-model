@@ -35,7 +35,7 @@ def plot_time_averaged_population_rates(M, area_list=None, **keywords):
     matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
 
     fig = plt.figure(figsize=(12, 4))
-    fig.suptitle('Time-averaged population rates encoded in colors', fontsize=15, x=0.4)
+    fig.suptitle('Time-averaged population rates encoded in colors', fontsize=15, x=0.45)
     ax = fig.add_subplot(111)
 
     for i, area in enumerate(area_list):
