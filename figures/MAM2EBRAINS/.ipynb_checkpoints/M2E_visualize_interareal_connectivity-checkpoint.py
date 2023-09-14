@@ -36,7 +36,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=14, y=1.1)
+    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=16, y=1.02)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
@@ -72,7 +72,7 @@ def visualize_interareal_connectivity(M):
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
         pl.text(label_pos[0], label_pos[1], label_display,
-                 fontdict={'fontsize': 10, 'weight': 'bold', 
+                 fontdict={'fontsize': 15, 'weight': 'bold', 
                            'horizontalalignment': 'left', 'verticalalignment': 
                            'bottom'}, transform=axes[label].transAxes)
 
@@ -200,12 +200,12 @@ def visualize_interareal_connectivity(M):
     # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
-    ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=10.)
 
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
-    ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=10.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
@@ -329,12 +329,12 @@ def visualize_interareal_connectivity(M):
     # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
-    ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=10.)
 
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
-    ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=10.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
