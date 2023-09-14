@@ -18,59 +18,59 @@ from scipy import stats
 # rc_file('plotstyle.rc')
 
 def visualize_interareal_connectivity(M):
-#     scale_down_to = 1
-#     cc_weights_factor = 1.0
-#     areas_simulated = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd', 
-#                        'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd', 
-#                        'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp', 
-#                        'STPa', '46', 'AITd', 'TH']
-#     replace_non_simulated_areas = 'het_poisson_stat'
+    scale_down_to = 1
+    cc_weights_factor = 1.0
+    areas_simulated = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd', 
+                       'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd', 
+                       'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp', 
+                       'STPa', '46', 'AITd', 'TH']
+    replace_non_simulated_areas = 'het_poisson_stat'
     
-#     conn_params = {
-#         'replace_non_simulated_areas': 'het_poisson_stat',
-#         'g': -11.,
-#         'K_stable': 'K_stable.npy',
-#         'fac_nu_ext_TH': 1.2,
-#         'fac_nu_ext_5E': 1.125,
-#         'fac_nu_ext_6E': 1.41666667,
-#         'av_indegree_V1': 3950.
-#     }
+    conn_params = {
+        'replace_non_simulated_areas': 'het_poisson_stat',
+        'g': -11.,
+        'K_stable': 'K_stable.npy',
+        'fac_nu_ext_TH': 1.2,
+        'fac_nu_ext_5E': 1.125,
+        'fac_nu_ext_6E': 1.41666667,
+        'av_indegree_V1': 3950.
+    }
 
-#     input_params = {
-#         'rate_ext': 10.
-#     } 
+    input_params = {
+        'rate_ext': 10.
+    } 
 
-#     neuron_params = {
-#         'V0_mean': -150.,
-#         'V0_sd': 50.}
+    neuron_params = {
+        'V0_mean': -150.,
+        'V0_sd': 50.}
 
-#     network_params = {
-#         'N_scaling': scale_down_to, # Scaling of population sizes, by default: 1.
-#         'K_scaling': scale_down_to, # Scaling of indegrees, by default: 1.
-#         'fullscale_rates': 'tests/fullscale_rates.json',
-#         'input_params': input_params, # Input parameters
-#         'connection_params': conn_params, # Connection parameters
-#         'neuron_params': neuron_params # Neuron parameters
-#     } 
+    network_params = {
+        'N_scaling': scale_down_to, # Scaling of population sizes, by default: 1.
+        'K_scaling': scale_down_to, # Scaling of indegrees, by default: 1.
+        'fullscale_rates': 'tests/fullscale_rates.json',
+        'input_params': input_params, # Input parameters
+        'connection_params': conn_params, # Connection parameters
+        'neuron_params': neuron_params # Neuron parameters
+    } 
 
-#     sim_params = {
-#         'areas_simulated': areas_simulated,
-#         't_sim': 2000., # Simulated time (in ms), by default: 10.0
-#         'num_processes': 1, # The number of MPI processes, by default: 1
-#         'local_num_threads': 1, # The number of threads per MPI process, by default: 1
-#         'recording_dict': {'record_vm': False},
-#         'rng_seed': 1  # global random seed
-#     }
+    sim_params = {
+        'areas_simulated': areas_simulated,
+        't_sim': 2000., # Simulated time (in ms), by default: 10.0
+        'num_processes': 1, # The number of MPI processes, by default: 1
+        'local_num_threads': 1, # The number of threads per MPI process, by default: 1
+        'recording_dict': {'record_vm': False},
+        'rng_seed': 1  # global random seed
+    }
 
-#     theory_params = {
-#         'dt': 0.1 # The time step of the mean-field theory integration, by default: 0.01
-#     } 
+    theory_params = {
+        'dt': 0.1 # The time step of the mean-field theory integration, by default: 0.01
+    } 
 
-#     M_full_scale = MultiAreaModel(network_params, 
-#                                   simulation=True,
-#                                   sim_spec=sim_params,
-#                                   theory=True,
-#                                   theory_spec=theory_params)
+    M_full_scale = MultiAreaModel(network_params, 
+                                  simulation=True,
+                                  sim_spec=sim_params,
+                                  theory=True,
+                                  theory_spec=theory_params)
     
     """
     Figure layout
@@ -87,7 +87,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=12, y=1.05)
+    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=15, y=1.05)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
@@ -223,8 +223,8 @@ def visualize_interareal_connectivity(M):
     conn_matrix_full_scale = np.zeros((32, 32))
     for i, area1 in enumerate(area_list[::-1]):
         for j, area2 in enumerate(area_list):
-            conn_matrix_full_scale[i][j] = M.K_areas[area1][
-                area2] / np.sum(list(M.K_areas[area1].values()))
+            conn_matrix_full_scale[i][j] = M_full_scale.K_areas[area1][
+                area2] / np.sum(list(M_full_scale.K_areas[area1].values()))
 
     ax = axes['B']
     ax.yaxis.set_ticks_position("none")
@@ -241,10 +241,10 @@ def visualize_interareal_connectivity(M):
     X, Y = np.meshgrid(x, y)
 
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    # ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    # ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
@@ -366,10 +366,10 @@ def visualize_interareal_connectivity(M):
     X, Y = np.meshgrid(x, y)
 
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    # ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    # ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
