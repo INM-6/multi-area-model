@@ -8,9 +8,11 @@ def plot_instan_mean_firing_rate(M):
     rate = spikecount / M.simulation.params['dt'] * 1e3 / np.sum(M.N_vec)
     
     # visualize calculate instantaneous and mean firing rates
+    nrows = 1
+    ncols = 1
     width = 10
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
-
+    
     height = width / panel_wh_ratio * float(nrows) / ncols
     pl.rcParams['figure.figsize'] = (width, height)
 
