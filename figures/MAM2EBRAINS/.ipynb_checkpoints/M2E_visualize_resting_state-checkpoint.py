@@ -370,7 +370,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
     # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
-    ax.set_xticks(np.arange(0.0, 2.0, 10.0))
+    ax.set_xticks(np.arange(0.0, 10., 2.0))
     # ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
     ax.set_xlabel('Synchrony', labelpad=-0.1)
 
