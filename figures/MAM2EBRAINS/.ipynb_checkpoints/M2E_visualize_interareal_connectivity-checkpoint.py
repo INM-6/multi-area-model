@@ -72,51 +72,51 @@ def visualize_interareal_connectivity(M):
 #                                   theory=True,
 #                                   theory_spec=theory_params)
     
-#     """
-#     Figure layout
-#     """
-#     nrows = 2
-#     ncols = 2
-#     width = 6.8556
-#     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
+    """
+    Figure layout
+    """
+    nrows = 2
+    ncols = 2
+    width = 6.8556
+    panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
-#     height = width / panel_wh_ratio * float(nrows) / ncols
-#     print(width, height)
-#     pl.rcParams['figure.figsize'] = (width, height)
+    height = width / panel_wh_ratio * float(nrows) / ncols
+    print(width, height)
+    pl.rcParams['figure.figsize'] = (width, height)
 
-#     fig = pl.figure()
-#     axes = {}
+    fig = pl.figure()
+    axes = {}
 
-#     # gs1 = gridspec.GridSpec(2, 2)
-#     gs1 = gridspec.GridSpec(1, 2)
-#     gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
+    # gs1 = gridspec.GridSpec(2, 2)
+    gs1 = gridspec.GridSpec(1, 2)
+    gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
 
-#     # axes['A'] = pl.subplot(gs1[:1, :1])
-#     # axes['B'] = pl.subplot(gs1[:1, 1:2])
-#     axes['B'] = pl.subplot(gs1[:1, :1])
-#     axes['D'] = pl.subplot(gs1[:1, 1:2])
+    # axes['A'] = pl.subplot(gs1[:1, :1])
+    # axes['B'] = pl.subplot(gs1[:1, 1:2])
+    axes['B'] = pl.subplot(gs1[:1, :1])
+    axes['D'] = pl.subplot(gs1[:1, 1:2])
 
-#     # pos = axes['A'].get_position()
-#     pos2 = axes['D'].get_position()
-#     # axes['C'] = pl.axes([pos.x0 + 0.01, pos2.y0, pos.x1 - pos.x0 - 0.025, 0.23])
+    # pos = axes['A'].get_position()
+    pos2 = axes['D'].get_position()
+    # axes['C'] = pl.axes([pos.x0 + 0.01, pos2.y0, pos.x1 - pos.x0 - 0.025, 0.23])
 
-#     # print(pos.x1 - pos.x0 - 0.025)
+    # print(pos.x1 - pos.x0 - 0.025)
 
-#     # labels = ['A', 'B', 'C', 'D']
-#     labels = ['B', 'D']
-#     for label in labels:
-#         if label in ['C']:
-#             label_pos = [-0.045, 1.18]
-#         else:
-#             label_pos = [-0.2, 1.04]
-#         # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
-#         #         fontdict={'fontsize': 10, 'weight': 'bold',
-#         #                   'horizontalalignment': 'left', 'verticalalignment':
-#         #                   'bottom'}, transform=axes[label].transAxes)
-#         pl.text(label_pos[0], label_pos[1], label,
-#                  fontdict={'fontsize': 10, 'weight': 'bold', 
-#                            'horizontalalignment': 'left', 'verticalalignment': 
-#                            'bottom'}, transform=axes[label].transAxes)
+    # labels = ['A', 'B', 'C', 'D']
+    labels = ['B', 'D']
+    for label in labels:
+        if label in ['C']:
+            label_pos = [-0.045, 1.18]
+        else:
+            label_pos = [-0.2, 1.04]
+        # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
+        #         fontdict={'fontsize': 10, 'weight': 'bold',
+        #                   'horizontalalignment': 'left', 'verticalalignment':
+        #                   'bottom'}, transform=axes[label].transAxes)
+        pl.text(label_pos[0], label_pos[1], label,
+                 fontdict={'fontsize': 10, 'weight': 'bold', 
+                           'horizontalalignment': 'left', 'verticalalignment': 
+                           'bottom'}, transform=axes[label].transAxes)
 
     # """
     # Load data
