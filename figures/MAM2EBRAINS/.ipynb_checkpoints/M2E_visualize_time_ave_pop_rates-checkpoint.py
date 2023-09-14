@@ -1,5 +1,5 @@
-### 3.3 Time-averaged population rates <a class="anchor" id="section_4_3"></a>
-An overview over time-averaged population rates encoded in colors with areas along x-axis and populations along y-axis.
+# Time-averaged population rates
+# An overview over time-averaged population rates encoded in colors with areas along x-axis and populations along y-axis.
 
 # def plot_time_averaged_population_rates(M, A):
 #     A.show_rates()
