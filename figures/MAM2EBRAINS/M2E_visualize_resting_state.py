@@ -7,7 +7,6 @@ sys.path.append('./figures/Schmidt2018_dyn')
 
 from helpers import original_data_path, population_labels
 from multiarea_model import MultiAreaModel
-from multiarea_model import Analysis
 from plotcolors import myred, myblue
 
 import matplotlib.pyplot as pl
@@ -35,7 +34,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, data_path):
+def plot_resting_state(M, A, data_path):
     """
     Analysis class.
     An instance of the analysis class for the given network and simulation.
@@ -56,11 +55,6 @@ def plot_resting_state(M, data_path):
         Default value is None and leads to loading of data for all
         simulated areas.
     """
-    # Instantiate an analysis class and load spike data
-    A = Analysis(network=M, 
-                 simulation=M.simulation, 
-                 data_list=['spikes'],
-                 load_areas=None)
     
     # load data
     load_and_create_data(M, A)
