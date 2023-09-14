@@ -35,7 +35,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, A, data_path):
+def plot_resting_state(M, A, data_path, raster_areas):
     """
     Analysis class.
     An instance of the analysis class for the given network and simulation.
@@ -99,7 +99,17 @@ def plot_resting_state(M, A, data_path):
     gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
     axes['G'] = pl.subplot(gs3[:1, :1])
 
-    areas = ['V1', 'V2', 'FEF']
+    # areas = ['V1', 'V2', 'FEF']
+    area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
+                 'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
+                 'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
+                 'STPa', '46', 'AITd', 'TH']
+    if len(raster_areas) !=3:
+        raise Exception("Error! Please give 3 areas to display as raster plots.)
+    for area in raster_areas:
+        if area not in area_list:
+            raise Exception("Error! Given raster areas are either not from complete_area_list, please input correct areas to diaply the raster plots.)
+    areas = raster_areas
 
     labels = ['A', 'B', 'C']
     for area, label in zip(areas, labels):
