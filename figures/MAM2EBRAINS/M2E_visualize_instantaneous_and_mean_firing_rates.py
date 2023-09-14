@@ -17,5 +17,5 @@ def plot_instan_mean_firing_rate(M):
     ax.set_ylabel('Firing rate (spikes / s)', fontsize=13)
     ax.set_xlim(0, M.simulation.params['t_sim'])
     ax.set_ylim(0, 50)
-    ax.legend();
-    pl.show();
+    ax.legend()
+    pl.show()
