@@ -229,7 +229,7 @@ def visualize_interareal_connectivity(M):
     cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
-    # y = np.arange(0, len(area_list[::-1]) + 1)
+    y = np.arange(0, len(area_list[::-1]) + 1)
     X, Y = np.meshgrid(x, y)
 
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
