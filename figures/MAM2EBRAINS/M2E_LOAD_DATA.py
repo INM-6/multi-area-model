@@ -33,7 +33,7 @@ def load_and_create_data(M, A):
     A.create_pop_rates()
     # subprocess.run(['python3', './figures/Schmidt2018_dyn/compute_pop_rates.py'])
     # subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R', fn, out_fn])
-    print("Computing population rates done")
+    # print("Computing population rates done")
 
     
     """
@@ -57,7 +57,7 @@ def load_and_create_data(M, A):
         are included. Defaults to 'complete'.
     """
     A.create_pop_LvR()
-    print("Computing population LvR done")
+    # print("Computing population LvR done")
     
     
     """
@@ -92,7 +92,7 @@ def load_and_create_data(M, A):
         - 'alpha_time_window' : time constant of the alpha function
         - 'rect_time_window' : width of the moving rectangular function
     """
-    A.create_rate_time_series()
+    # A.create_rate_time_series()
     print("Computing rate time series done")
     
     A.create_synchrony()
@@ -129,7 +129,7 @@ def load_and_create_data(M, A):
         - 'alpha_time_window' : time constant of the alpha function
         - 'rect_time_window' : width of the moving rectangular function
     """
-    # A.create_synaptic_input()
+    A.create_synaptic_input()
     # print("Computing synaptic input done")
     
     A.save()
