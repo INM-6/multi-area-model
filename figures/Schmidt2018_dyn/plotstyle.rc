@@ -50,5 +50,4 @@ ps.useafm : False # use of afm fonts, results in small files
 ps.fonttype : 3 # Output Type 3 (Type3) or Type 42 (TrueType)
 
 # set different default color cycle
-# axes.color_cycle : 4c72b0, 55a868, c44e52, 8172b2, ccb974, 64b5cd
-axes.prop_cycle: cycler('color', ['4c72b0', '55a868', 'c44e52', '8172b2', 'ccb974', '64b5cd'])
+axes.color_cycle : 4c72b0, 55a868, c44e52, 8172b2, ccb974, 64b5cd

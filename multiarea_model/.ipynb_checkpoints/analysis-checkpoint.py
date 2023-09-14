@@ -443,7 +443,8 @@ class Analysis:
                                                           params['resolution'],
                                                           kernel=params['kernel'])
                 else:
-                    time_series = np.nan*np.ones(int(params['t_max'] - params['t_min']))
+                    time_series = np.nan*np.ones(params['t_max'] - params['t_min'])
+                    # time_series = np.nan*np.ones(int(params['t_max'] - params['t_min']))
                 d_pops[area][pop] = time_series
 
                 total_spikes = ah.area_spike_train(self.spike_data[area])
@@ -898,7 +899,8 @@ class Analysis:
 
         for i, area in enumerate(area_list):
             print(i, area)
-            for j, pop in enumerate(self.network.structure['V1']):
+            for j, pop in enumerate(self.network.structure_reversed['V1']):
+            # for j, pop in enumerate(self.network.structure['V1']):
                 if pop in self.network.structure[area]:
                     rate = self.pop_rates[area][pop][0]
                     if rate == 0.0:
@@ -931,6 +933,7 @@ class Analysis:
         ax.set_xticks(x_index)
         ax.set_xticklabels(x_ticks)
         ax.set_yticks(y_index)
+        ax.set_yticklabels(self.network.structure_reversed['V1'])
         ax.set_ylabel('Population', size=18)
         ax.set_xlabel('Area index', size=18)
         t = FixedLocator([0.01, 0.1, 1., 10., 100.])
@@ -951,7 +954,6 @@ class Analysis:
         Saves all post-processed data to files.
         """
         members = inspect.getmembers(self)
-        print(members)
         save_list_json = ['structure', 'pop_rates', 'synchrony',
                           'pop_cv_isi', 'pop_LvR',
                           'indegree_data', 'indegree_areas_data',
