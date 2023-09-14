@@ -18,105 +18,105 @@ from scipy import stats
 # rc_file('plotstyle.rc')
 
 def visualize_interareal_connectivity(M):
-    scale_down_to = 1
-    cc_weights_factor = 1.0
-    areas_simulated = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd', 
-                       'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd', 
-                       'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp', 
-                       'STPa', '46', 'AITd', 'TH']
-    replace_non_simulated_areas = 'het_poisson_stat'
+#     scale_down_to = 1
+#     cc_weights_factor = 1.0
+#     areas_simulated = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd', 
+#                        'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd', 
+#                        'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp', 
+#                        'STPa', '46', 'AITd', 'TH']
+#     replace_non_simulated_areas = 'het_poisson_stat'
     
-    conn_params = {
-        'replace_non_simulated_areas': 'het_poisson_stat',
-        'g': -11.,
-        'K_stable': 'K_stable.npy',
-        'fac_nu_ext_TH': 1.2,
-        'fac_nu_ext_5E': 1.125,
-        'fac_nu_ext_6E': 1.41666667,
-        'av_indegree_V1': 3950.
-    }
+#     conn_params = {
+#         'replace_non_simulated_areas': 'het_poisson_stat',
+#         'g': -11.,
+#         'K_stable': 'K_stable.npy',
+#         'fac_nu_ext_TH': 1.2,
+#         'fac_nu_ext_5E': 1.125,
+#         'fac_nu_ext_6E': 1.41666667,
+#         'av_indegree_V1': 3950.
+#     }
 
-    input_params = {
-        'rate_ext': 10.
-    } 
+#     input_params = {
+#         'rate_ext': 10.
+#     } 
 
-    neuron_params = {
-        'V0_mean': -150.,
-        'V0_sd': 50.}
+#     neuron_params = {
+#         'V0_mean': -150.,
+#         'V0_sd': 50.}
 
-    network_params = {
-        'N_scaling': scale_down_to, # Scaling of population sizes, by default: 1.
-        'K_scaling': scale_down_to, # Scaling of indegrees, by default: 1.
-        'fullscale_rates': 'tests/fullscale_rates.json',
-        'input_params': input_params, # Input parameters
-        'connection_params': conn_params, # Connection parameters
-        'neuron_params': neuron_params # Neuron parameters
-    } 
+#     network_params = {
+#         'N_scaling': scale_down_to, # Scaling of population sizes, by default: 1.
+#         'K_scaling': scale_down_to, # Scaling of indegrees, by default: 1.
+#         'fullscale_rates': 'tests/fullscale_rates.json',
+#         'input_params': input_params, # Input parameters
+#         'connection_params': conn_params, # Connection parameters
+#         'neuron_params': neuron_params # Neuron parameters
+#     } 
 
-    sim_params = {
-        'areas_simulated': areas_simulated,
-        't_sim': 2000., # Simulated time (in ms), by default: 10.0
-        'num_processes': 1, # The number of MPI processes, by default: 1
-        'local_num_threads': 1, # The number of threads per MPI process, by default: 1
-        'recording_dict': {'record_vm': False},
-        'rng_seed': 1  # global random seed
-    }
+#     sim_params = {
+#         'areas_simulated': areas_simulated,
+#         't_sim': 2000., # Simulated time (in ms), by default: 10.0
+#         'num_processes': 1, # The number of MPI processes, by default: 1
+#         'local_num_threads': 1, # The number of threads per MPI process, by default: 1
+#         'recording_dict': {'record_vm': False},
+#         'rng_seed': 1  # global random seed
+#     }
 
-    theory_params = {
-        'dt': 0.1 # The time step of the mean-field theory integration, by default: 0.01
-    } 
+#     theory_params = {
+#         'dt': 0.1 # The time step of the mean-field theory integration, by default: 0.01
+#     } 
 
-    M_full_scale = MultiAreaModel(network_params, 
-                                  simulation=True,
-                                  sim_spec=sim_params,
-                                  theory=True,
-                                  theory_spec=theory_params)
+#     M_full_scale = MultiAreaModel(network_params, 
+#                                   simulation=True,
+#                                   sim_spec=sim_params,
+#                                   theory=True,
+#                                   theory_spec=theory_params)
     
-    """
-    Figure layout
-    """
-    nrows = 2
-    ncols = 2
-    width = 6.8556
-    panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
+#     """
+#     Figure layout
+#     """
+#     nrows = 2
+#     ncols = 2
+#     width = 6.8556
+#     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
-    height = width / panel_wh_ratio * float(nrows) / ncols
-    print(width, height)
-    pl.rcParams['figure.figsize'] = (width, height)
+#     height = width / panel_wh_ratio * float(nrows) / ncols
+#     print(width, height)
+#     pl.rcParams['figure.figsize'] = (width, height)
 
-    fig = pl.figure()
-    axes = {}
+#     fig = pl.figure()
+#     axes = {}
 
-    # gs1 = gridspec.GridSpec(2, 2)
-    gs1 = gridspec.GridSpec(1, 2)
-    gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
+#     # gs1 = gridspec.GridSpec(2, 2)
+#     gs1 = gridspec.GridSpec(1, 2)
+#     gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
 
-    # axes['A'] = pl.subplot(gs1[:1, :1])
-    # axes['B'] = pl.subplot(gs1[:1, 1:2])
-    axes['B'] = pl.subplot(gs1[:1, :1])
-    axes['D'] = pl.subplot(gs1[:1, 1:2])
+#     # axes['A'] = pl.subplot(gs1[:1, :1])
+#     # axes['B'] = pl.subplot(gs1[:1, 1:2])
+#     axes['B'] = pl.subplot(gs1[:1, :1])
+#     axes['D'] = pl.subplot(gs1[:1, 1:2])
 
-    # pos = axes['A'].get_position()
-    pos2 = axes['D'].get_position()
-    # axes['C'] = pl.axes([pos.x0 + 0.01, pos2.y0, pos.x1 - pos.x0 - 0.025, 0.23])
+#     # pos = axes['A'].get_position()
+#     pos2 = axes['D'].get_position()
+#     # axes['C'] = pl.axes([pos.x0 + 0.01, pos2.y0, pos.x1 - pos.x0 - 0.025, 0.23])
 
-    # print(pos.x1 - pos.x0 - 0.025)
+#     # print(pos.x1 - pos.x0 - 0.025)
 
-    # labels = ['A', 'B', 'C', 'D']
-    labels = ['B', 'D']
-    for label in labels:
-        if label in ['C']:
-            label_pos = [-0.045, 1.18]
-        else:
-            label_pos = [-0.2, 1.04]
-        # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
-        #         fontdict={'fontsize': 10, 'weight': 'bold',
-        #                   'horizontalalignment': 'left', 'verticalalignment':
-        #                   'bottom'}, transform=axes[label].transAxes)
-        pl.text(label_pos[0], label_pos[1], label,
-                 fontdict={'fontsize': 10, 'weight': 'bold', 
-                           'horizontalalignment': 'left', 'verticalalignment': 
-                           'bottom'}, transform=axes[label].transAxes)
+#     # labels = ['A', 'B', 'C', 'D']
+#     labels = ['B', 'D']
+#     for label in labels:
+#         if label in ['C']:
+#             label_pos = [-0.045, 1.18]
+#         else:
+#             label_pos = [-0.2, 1.04]
+#         # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
+#         #         fontdict={'fontsize': 10, 'weight': 'bold',
+#         #                   'horizontalalignment': 'left', 'verticalalignment':
+#         #                   'bottom'}, transform=axes[label].transAxes)
+#         pl.text(label_pos[0], label_pos[1], label,
+#                  fontdict={'fontsize': 10, 'weight': 'bold', 
+#                            'horizontalalignment': 'left', 'verticalalignment': 
+#                            'bottom'}, transform=axes[label].transAxes)
 
     # """
     # Load data
@@ -215,8 +215,8 @@ def visualize_interareal_connectivity(M):
     conn_matrix_full_scale = np.zeros((32, 32))
     for i, area1 in enumerate(area_list[::-1]):
         for j, area2 in enumerate(area_list):
-            conn_matrix_full_scale[i][j] = M_full_scale.K_areas[area1][
-                area2] / np.sum(list(M_full_scale.K_areas[area1].values()))
+            conn_matrix_full_scale[i][j] = M.K_areas[area1][
+                area2] / np.sum(list(M.K_areas[area1].values()))
 
     ax = axes['D']
     ax.yaxis.set_ticks_position("none")
