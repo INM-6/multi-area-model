@@ -1,3 +1,5 @@
+import numpy as np
+
 from multiarea_model import Analysis
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
