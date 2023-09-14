@@ -129,7 +129,7 @@ def load_and_create_data(M, A):
         - 'alpha_time_window' : time constant of the alpha function
         - 'rect_time_window' : width of the moving rectangular function
     """
-    A.create_synaptic_input()
+    # A.create_synaptic_input()
     # print("Computing synaptic input done")
     
     A.save()
@@ -144,5 +144,3 @@ def load_and_create_data(M, A):
     #     # subprocess.run(['Rscript', '--vanilla', 'compute_bold_signal.R', fn, out_fn])
     # except FileNotFoundError:
     #     raise FileNotFoundError("Executing R failed. Did you install R?")
-    
-    return A
