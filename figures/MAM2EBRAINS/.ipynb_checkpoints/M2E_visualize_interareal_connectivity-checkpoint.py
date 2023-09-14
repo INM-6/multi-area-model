@@ -26,7 +26,7 @@ def visualize_interareal_connectivity(M):
     """
     # nrows = 2
     nrows = 1
-    ncols = 2
+    ncols = 3
     # width = 6.8556
     width = 15
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
@@ -36,18 +36,17 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=15, y=1.05)
+    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=14, y=1.05)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
-    gs1 = gridspec.GridSpec(1, 2)
+    gs1 = gridspec.GridSpec(1, 3)
     # gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
     gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.3, hspace=0.3)
     
-    # axes['A'] = pl.subplot(gs1[:1, :1])
-    # axes['B'] = pl.subplot(gs1[:1, 1:2])
-    axes['B'] = pl.subplot(gs1[:1, :1])
-    axes['D'] = pl.subplot(gs1[:1, 1:2])
+    axes['A'] = pl.subplot(gs1[:1, :1])
+    axes['B'] = pl.subplot(gs1[:1, 1:2])
+    axes['D'] = pl.subplot(gs1[:1, 2:])
 
     # pos = axes['A'].get_position()
     pos2 = axes['D'].get_position()
@@ -56,8 +55,8 @@ def visualize_interareal_connectivity(M):
     # print(pos.x1 - pos.x0 - 0.025)
 
     # labels = ['A', 'B', 'C', 'D']
-    labels = ['B', 'D']
-    labels_display = ['Full-scale model', 'Down-scale model']
+    labels = ['A','B', 'D']
+    labels_display = ['Binary connectivity from CoCoMac', 'Full-scale model', 'Down-scale model']
     # for label in labels:
     for i in range(len(labels)):
         label = labels[i]
@@ -75,96 +74,102 @@ def visualize_interareal_connectivity(M):
                            'horizontalalignment': 'left', 'verticalalignment': 
                            'bottom'}, transform=axes[label].transAxes)
 
-    # """
-    # Load data
-    # """
+    """
+    Load data
+    """
     # M = MultiAreaModel({})
+    M_full_scale = MultiAreaModel({})
 
-    # with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
-    #     proc = json.load(f)
-    # with open(os.path.join(datapath, 'viscortex_raw_data.json'), 'r') as f:
-    #     raw = json.load(f)
+    with open(os.path.join(datapath, 'viscortex_processed_data.json'), 'r') as f:
+        proc = json.load(f)
+    with open(os.path.join(datapath, 'viscortex_raw_data.json'), 'r') as f:
+        raw = json.load(f)
 
-    # FLN_Data_FV91 = proc['FLN_Data_FV91']
+    FLN_Data_FV91 = proc['FLN_Data_FV91']
 
-    # cocomac_data = raw['cocomac_data']
-    # median_distance_data = raw['median_distance_data']
+    cocomac_data = raw['cocomac_data']
+    median_distance_data = raw['median_distance_data']
 
-    # cocomac = np.zeros((32, 32))
-    # conn_matrix = np.zeros((32, 32))
-    # for i, area1 in enumerate(area_list[::-1]):
-    #     for j, area2 in enumerate(area_list):
-    #         if M.K_areas[area1][area2] > 0. and area2 in cocomac_data[area1]:
-    #             cocomac[i][j] = 1.
-    #         if area2 in FLN_Data_FV91[area1]:
-    #             conn_matrix[i][j] = FLN_Data_FV91[area1][area2]
+    cocomac = np.zeros((32, 32))
+    conn_matrix = np.zeros((32, 32))
+    for i, area1 in enumerate(area_list[::-1]):
+        for j, area2 in enumerate(area_list):
+            # if M.K_areas[area1][area2] > 0. and area2 in cocomac_data[area1]:
+            if M_full_scale.K_areas[area1][area2] > 0. and area2 in cocomac_data[area1]:
+                cocomac[i][j] = 1.
+            if area2 in FLN_Data_FV91[area1]:
+                conn_matrix[i][j] = FLN_Data_FV91[area1][area2]
 
-    # """
-    # Panel A: CoCoMac Data
-    # """
-    # ax = axes['A']
-    # ax.yaxis.set_ticks_position("left")
-    # ax.xaxis.set_ticks_position("bottom")
+    """
+    Panel A: CoCoMac Data
+    """
+    ax = axes['A']
+    ax.yaxis.set_ticks_position("left")
+    ax.xaxis.set_ticks_position("bottom")
 
-    # ax.set_aspect(1. / ax.get_data_ratio())
-    # ax.yaxis.set_ticks_position("none")
-    # ax.xaxis.set_ticks_position("none")
+    ax.set_aspect(1. / ax.get_data_ratio())
+    ax.yaxis.set_ticks_position("none")
+    ax.xaxis.set_ticks_position("none")
 
-    # masked_matrix = np.ma.masked_values(cocomac, 0.0)
-    # cmap = pl.cm.binary
-    # cmap.set_bad('w', 1.0)
+    masked_matrix = np.ma.masked_values(cocomac, 0.0)
+    cmap = pl.cm.binary
+    cmap.set_bad('w', 1.0)
 
-    # x = np.arange(0, len(area_list) + 1)
-    # y = np.arange(0, len(area_list[::-1]) + 1)
-    # X, Y = np.meshgrid(x, y)
+    x = np.arange(0, len(area_list) + 1)
+    y = np.arange(0, len(area_list[::-1]) + 1)
+    X, Y = np.meshgrid(x, y)
 
-    # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=12.)
 
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=12.)
 
-    # ax.set_ylabel('Target area')
-    # ax.set_xlabel('Source area')
+    ax.set_ylabel('Target area')
+    ax.set_xlabel('Source area')
 
-    # im = ax.pcolormesh(masked_matrix, cmap=cmap,
-    #                    edgecolors='None', vmin=0., vmax=1.)
+    im = ax.pcolormesh(masked_matrix, cmap=cmap,
+                       edgecolors='None', vmin=0., vmax=1.)
 
-    # t = FixedLocator([])
-    # cbar = pl.colorbar(im, ticks=t, fraction=0.046, ax=ax)
-    # cbar.set_alpha(0.)
-    # cbar.remove()
+    t = FixedLocator([])
+    cbar = pl.colorbar(im, ticks=t, fraction=0.046, ax=ax)
+    cbar.set_alpha(0.)
+    cbar.remove()
 
-    # """
-    # Panel B: Data from Markov et al. (2014) "A weighted and directed
-    # interareal connectivity matrix for macaque cerebral cortex."
-    # Cerebral Cortex, 24(1), 17–36.
-    # """
-    # ax = axes['B']
-    # ax.set_aspect(1. / ax.get_data_ratio())
-    # ax.yaxis.set_ticks_position("none")
-    # ax.xaxis.set_ticks_position("none")
+#     """
+#     Panel B: Data from Markov et al. (2014) "A weighted and directed
+#     interareal connectivity matrix for macaque cerebral cortex."
+#     Cerebral Cortex, 24(1), 17–36.
+#     """
+#     ax = axes['B']
+#     ax.set_aspect(1. / ax.get_data_ratio())
+#     ax.yaxis.set_ticks_position("none")
+#     ax.xaxis.set_ticks_position("none")
 
-    # masked_matrix = np.ma.masked_values(conn_matrix, 0.0)
-    # cmap = pl.get_cmap('inferno')
-    # cmap.set_bad('w', 1.0)
+#     masked_matrix = np.ma.masked_values(conn_matrix, 0.0)
+#     cmap = pl.get_cmap('inferno')
+#     cmap.set_bad('w', 1.0)
 
-    # x = np.arange(0, len(area_list) + 1)
-    # y = np.arange(0, len(area_list[::-1]) + 1)
-    # X, Y = np.meshgrid(x, y)
+#     x = np.arange(0, len(area_list) + 1)
+#     y = np.arange(0, len(area_list[::-1]) + 1)
+#     X, Y = np.meshgrid(x, y)
 
-    # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    # ax.set_xticklabels(area_list, rotation=90, size=6.)
+#     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+#     ax.set_xticklabels(area_list, rotation=90, size=6.)
 
-    # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    # ax.set_yticklabels(area_list[::-1], size=6.)
+#     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+#     ax.set_yticklabels(area_list[::-1], size=6.)
 
-    # im = ax.pcolormesh(masked_matrix, cmap=cmap,
-    #                    edgecolors='None', norm=LogNorm(vmin=1e-6, vmax=1.))
+#     im = ax.pcolormesh(masked_matrix, cmap=cmap,
+#                        edgecolors='None', norm=LogNorm(vmin=1e-6, vmax=1.))
 
-    # t = FixedLocator([1e-6, 1e-4, 1e-2, 1])
-    # cbar = pl.colorbar(im, ticks=t, fraction=0.046, ax=ax)
-    # cbar.set_alpha(0.)
+#     t = FixedLocator([1e-6, 1e-4, 1e-2, 1])
+#     cbar = pl.colorbar(im, ticks=t, fraction=0.046, ax=ax)
+#     cbar.set_alpha(0.)
 
     """
     Panel B: Interareal connectivity of full-scaling multi-area model
@@ -191,11 +196,13 @@ def visualize_interareal_connectivity(M):
 
     # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
-    ax.set_xticklabels(area_list, rotation=90, size=6.)
+    # ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=12.)
 
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
-    ax.set_yticklabels(area_list[::-1], size=6.)
+    # ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=12.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
@@ -316,11 +323,15 @@ def visualize_interareal_connectivity(M):
     y = np.arange(0, len(area_list[::-1]) + 1)
     X, Y = np.meshgrid(x, y)
 
-    ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
+    ax.set_xticklabels(area_list, rotation=90, size=12.)
 
-    ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
+    ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
+    ax.set_yticklabels(area_list[::-1], size=12.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
