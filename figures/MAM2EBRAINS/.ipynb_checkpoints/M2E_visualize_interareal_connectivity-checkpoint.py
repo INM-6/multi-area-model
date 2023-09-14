@@ -48,7 +48,7 @@ def visualize_interareal_connectivity(M):
     axes['B'] = pl.subplot(gs1[:1, 1:2])
     axes['D'] = pl.subplot(gs1[:1, 2:])
 
-    # pos = axes['A'].get_position()
+    pos = axes['A'].get_position()
     pos2 = axes['D'].get_position()
     # axes['C'] = pl.axes([pos.x0 + 0.01, pos2.y0, pos.x1 - pos.x0 - 0.025, 0.23])
 
@@ -105,8 +105,8 @@ def visualize_interareal_connectivity(M):
     Panel A: CoCoMac Data
     """
     ax = axes['A']
-    ax.yaxis.set_ticks_position("left")
-    ax.xaxis.set_ticks_position("bottom")
+    # ax.yaxis.set_ticks_position("left")
+    # ax.xaxis.set_ticks_position("bottom")
 
     ax.set_aspect(1. / ax.get_data_ratio())
     ax.yaxis.set_ticks_position("none")
@@ -128,7 +128,7 @@ def visualize_interareal_connectivity(M):
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
-    ax.set_yticklabels(area_list[::-1], size=8.)
+    ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
@@ -139,7 +139,7 @@ def visualize_interareal_connectivity(M):
     t = FixedLocator([])
     cbar = pl.colorbar(im, ticks=t, fraction=0.046, ax=ax)
     cbar.set_alpha(0.)
-    cbar.remove()
+    # cbar.remove()
 
 #     """
 #     Panel B: Data from Markov et al. (2014) "A weighted and directed
@@ -198,12 +198,12 @@ def visualize_interareal_connectivity(M):
     # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
-    ax.set_xticklabels(area_list, rotation=90, size=8.)
+    ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
-    ax.set_yticklabels(area_list[::-1], size=8.)
+    ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
@@ -327,12 +327,12 @@ def visualize_interareal_connectivity(M):
     # ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
-    ax.set_xticklabels(area_list, rotation=90, size=8.)
+    ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     # ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_yticklabels(area_list[::-1], size=6.)
-    ax.set_yticklabels(area_list[::-1], size=8.)
+    ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
