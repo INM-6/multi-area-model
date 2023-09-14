@@ -36,7 +36,7 @@ def set_boxplot_props(d):
 
 def plot_resting_state(M, data_path):
     # load data
-    # A = load_and_create_data(M)
+    A = load_and_create_data(M)
     
     label_spikes = M.simulation.label
     label = M.simulation.label
