@@ -229,14 +229,14 @@ def visualize_interareal_connectivity(M):
     cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
-    y = np.arange(0, len(area_list[::-1]) + 1)
+    # y = np.arange(0, len(area_list[::-1]) + 1)
     X, Y = np.meshgrid(x, y)
 
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    ax.set_yticklabels(area_list[::-1], size=6.)
+    # ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
@@ -361,7 +361,7 @@ def visualize_interareal_connectivity(M):
     # ax.set_xticklabels(area_list, rotation=90, size=6.)
 
     ax.set_yticks([i + 0.5 for i in np.arange(0, len(area_list) + 1, 1)])
-    ax.set_yticklabels(area_list[::-1], size=6.)
+    # ax.set_yticklabels(area_list[::-1], size=6.)
 
     ax.set_ylabel('Target area')
     ax.set_xlabel('Source area')
