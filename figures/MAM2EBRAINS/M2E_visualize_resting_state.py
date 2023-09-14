@@ -35,7 +35,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, A, data_path, raster_areas):
+def plot_resting_state(M, A, data_path, raster_areas=['V1', 'V2', 'FEF']):
     """
     Analysis class.
     An instance of the analysis class for the given network and simulation.
