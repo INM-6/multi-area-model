@@ -100,12 +100,12 @@ def load_and_create_data(M, A):
     print("Computing synchrony done")
     
 
-#     # Define your arguments
-#     data_path = data_path
-#     label = M.simulation.label
+    # Define your arguments
+    data_path = data_path
+    label = M.simulation.label
 
-#     # Run the script with arguments
-#     subprocess.run(['python', 'script_to_run.py', data_path, label])
+    # Run the script with arguments
+    subprocess.run(['python', './figures/Schmidt2018_dyn/compute_corrcoeff.py', data_path, label])
     
     
     """
