@@ -3,6 +3,7 @@ import subprocess
 import matplotlib.pyplot as plt
 
 from multiarea_model import Analysis
+from config import data_path
 
 def load_and_create_data(M, A):
     """
@@ -92,11 +93,20 @@ def load_and_create_data(M, A):
         - 'alpha_time_window' : time constant of the alpha function
         - 'rect_time_window' : width of the moving rectangular function
     """
-    # A.create_rate_time_series()
+    A.create_rate_time_series()
     print("Computing rate time series done")
     
     A.create_synchrony()
     print("Computing synchrony done")
+    
+
+#     # Define your arguments
+#     data_path = data_path
+#     label = M.simulation.label
+
+#     # Run the script with arguments
+#     subprocess.run(['python', 'script_to_run.py', data_path, label])
+    
     
     """
     Calculate synaptic input of populations and areas using the spike data.

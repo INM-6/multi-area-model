@@ -12,7 +12,7 @@ def plot_instan_mean_firing_rate(M):
     fig, ax = pl.subplots()
     ax.plot(tsteps, rate)
     ax.plot(tsteps, np.average(rate)*np.ones(len(tsteps)), label='mean')
-    ax.set_title('Instantaneous and mean firing rate across all populations', fontsize=15, y=1.05)
+    ax.set_title('Instantaneous and mean firing rate across all populations', fontsize=15)
     ax.set_xlabel('Time (ms)', fontsize=13)
     ax.set_ylabel('Firing rate (spikes / s)', fontsize=13)
     ax.set_xlim(0, M.simulation.params['t_sim'])

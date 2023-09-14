@@ -235,8 +235,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         pop_LvR = json.load(f)
 
     # correlation coefficients
-    # fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
-    fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    # fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
@@ -342,7 +342,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_xticks([0., 50., 100.])
 
     # print("plotting Synchrony")
-
+    
     syn = np.zeros((len(M.area_list), 8))
     for i, area in enumerate(M.area_list):
         for j, pop in enumerate(M.structure[area][::-1]):
@@ -369,8 +369,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_yticklabels(population_labels[::-1], size=8)
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
-    # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
-    ax.set_xticks(np.arange(0.0, 10.0, 2))
+    ax.set_xticks(np.arange(0.0, 0.601, 0.2))
     ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
 
 
