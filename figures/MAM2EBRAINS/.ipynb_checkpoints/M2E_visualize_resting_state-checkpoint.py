@@ -159,21 +159,22 @@ def plot_resting_state(M, data_path):
     """
     Load data
     """
-#     LOAD_ORIGINAL_DATA = True
+    # LOAD_ORIGINAL_DATA = True
+    LOAD_ORIGINAL_DATA = False
 
 
-#     if LOAD_ORIGINAL_DATA:
-#         # use T=10500 simulation for spike raster plots
-#         label_spikes = '3afaec94d650c637ef8419611c3f80b3cb3ff539'
-#         # and T=100500 simulation for all other panels
-#         label = '99c0024eacc275d13f719afd59357f7d12f02b77'
-#         data_path = original_data_path
-#     else:
-#         from network_simulations import init_models
-#         from config import data_path
-#         models = init_models('Fig5')
-#         label_spikes = models[0].simulation.label
-#         label = models[1].simulation.label
+    if LOAD_ORIGINAL_DATA:
+        # use T=10500 simulation for spike raster plots
+        label_spikes = '3afaec94d650c637ef8419611c3f80b3cb3ff539'
+        # and T=100500 simulation for all other panels
+        label = '99c0024eacc275d13f719afd59357f7d12f02b77'
+        data_path = original_data_path
+    else:
+        from network_simulations import init_models
+        from config import data_path
+        models = init_models('Fig5')
+        label_spikes = models[0].simulation.label
+        label = models[1].simulation.label
 
     # """
     # Create MultiAreaModel instance to have access to data structures
@@ -193,7 +194,7 @@ def plot_resting_state(M, data_path):
     spike_data = A.spike_data
     
     # stationary firing rates
-    fn = os.path.join(data_path, str(label), 'Analysis', 'pop_rates.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
         pop_rates = json.load(f)
 
@@ -204,7 +205,7 @@ def plot_resting_state(M, data_path):
         #                   'Analysis',
         #                   'rate_time_series_full',
         #                   'rate_time_series_full_{}.npy'.format(area))
-        fn = os.path.join(data_path, str(label),
+        fn = os.path.join(data_path, label,
                           'Analysis',
                           'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
@@ -219,13 +220,13 @@ def plot_resting_state(M, data_path):
     #     rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
-    fn = os.path.join(data_path, str(label), 'Analysis', 'pop_LvR.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
     with open(fn, 'r') as f:
         pop_LvR = json.load(f)
 
     # correlation coefficients
     # fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
-    fn = os.path.join(data_path, str(label), 'Analysis', 'synchrony.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
