@@ -105,10 +105,10 @@ def plot_resting_state(M, A, data_path, raster_areas):
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
     if len(raster_areas) !=3:
-        raise Exception("Error! Please give 3 areas to display as raster plots.)
+        raise Exception("Error! Please give 3 areas to display as raster plots.")
     for area in raster_areas:
         if area not in area_list:
-            raise Exception("Error! Given raster areas are either not from complete_area_list, please input correct areas to diaply the raster plots.)
+            raise Exception("Error! Given raster areas are either not from complete_area_list, please input correct areas to diaply the raster plots.")
     areas = raster_areas
 
     labels = ['A', 'B', 'C']
