@@ -9,7 +9,7 @@ def plot_instan_mean_firing_rate(M):
     
     # visualize calculate instantaneous and mean firing rates
     fig = pl.figure(figsize=(12, 6))
-    ax = fig.add_subplot
+    ax = fig.add_subplot()
     ax.plot(tsteps, rate)
     ax.plot(tsteps, np.average(rate)*np.ones(len(tsteps)), label='mean')
     ax.set_title('Instantaneous and mean firing rate across all populations', fontsize=15)
