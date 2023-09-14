@@ -87,6 +87,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
+    fig.suptitle('Your Title Here', fontsize=16)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
@@ -106,8 +107,12 @@ def visualize_interareal_connectivity(M):
     # print(pos.x1 - pos.x0 - 0.025)
 
     # labels = ['A', 'B', 'C', 'D']
-    labels = ['Full-scale model', 'Down scale model']
-    for label in labels:
+    labels = ['B', 'D']
+    labels_display = ['Full-scale model', 'Down-scale model']
+    # for label in labels:
+    for i in range(labels):
+        label = labels[i]
+        label_display = labels_display[i]
         if label in ['C']:
             label_pos = [-0.045, 1.18]
         else:
@@ -116,7 +121,7 @@ def visualize_interareal_connectivity(M):
         #         fontdict={'fontsize': 10, 'weight': 'bold',
         #                   'horizontalalignment': 'left', 'verticalalignment':
         #                   'bottom'}, transform=axes[label].transAxes)
-        pl.text(label_pos[0], label_pos[1], label,
+        pl.text(label_pos[0], label_pos[1], label_display,
                  fontdict={'fontsize': 10, 'weight': 'bold', 
                            'horizontalalignment': 'left', 'verticalalignment': 
                            'bottom'}, transform=axes[label].transAxes)
