@@ -35,8 +35,34 @@ def set_boxplot_props(d):
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
 def plot_resting_state(M, data_path):
+    """
+    Analysis class.
+    An instance of the analysis class for the given network and simulation.
+    Can be created as a member class of a multiarea_model instance or standalone.
+
+    Parameters
+    ----------
+    network : MultiAreaModel
+        An instance of the multiarea_model class that specifies
+        the network to be analyzed.
+    simulation : Simulation
+        An instance of the simulation class that specifies
+        the simulation to be analyzed.
+    data_list : list of strings {'spikes', vm'}, optional
+        Specifies which type of data is to load. Defaults to ['spikes'].
+    load_areas : list of strings with area names, optional
+        Specifies the areas for which data is to be loaded.
+        Default value is None and leads to loading of data for all
+        simulated areas.
+    """
+    # Instantiate an analysis class and load spike data
+    A = Analysis(network=M, 
+                 simulation=M.simulation, 
+                 data_list=['spikes'],
+                 load_areas=None)
+    
     # load data
-    A = load_and_create_data(M)
+    load_and_create_data(M, A)
     
     label_spikes = M.simulation.label
     label = M.simulation.label
@@ -154,16 +180,16 @@ def plot_resting_state(M, data_path):
     # M = MultiAreaModel({})
 
     # spike data
-    spike_data = {}
-    for area in areas:
-        spike_data[area] = {}
-        for pop in M.structure[area]:
-            spike_data[area][pop] = np.load(os.path.join(data_path,
-                                                         label_spikes,
-                                                         'recordings',
-                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
-                                                                                      area, pop)))
-    # spike_data = A.spike_data
+    # spike_data = {}
+    # for area in areas:
+    #     spike_data[area] = {}
+    #     for pop in M.structure[area]:
+    #         spike_data[area][pop] = np.load(os.path.join(data_path,
+    #                                                      label_spikes,
+    #                                                      'recordings',
+    #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
+    #                                                                                   area, pop)))
+    spike_data = A.spike_data
     
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
