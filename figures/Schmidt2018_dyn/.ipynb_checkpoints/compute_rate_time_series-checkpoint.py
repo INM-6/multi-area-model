@@ -4,13 +4,10 @@ import numpy as np
 import os
 import quantities as pq
 
-import sys
-sys.path.append('.')
-
 from multiarea_model.analysis_helpers import pop_rate_time_series
 from elephant.statistics import instantaneous_rate
 from multiarea_model import MultiAreaModel
-# import sys
+import sys
 
 """
 Compute time series of population-averaged spike rates for a given
@@ -51,8 +48,7 @@ except FileExistsError:
 
 with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
     sim_params = json.load(f)
-# T = sim_params['T']
-T = sim_params['t_sim']
+T = sim_params['T']
 
 """
 Create MultiAreaModel instance to have access to data structures
