@@ -902,7 +902,7 @@ class Analysis:
             # print(i, area)
             # self.network has no attribute structure_reversed
             # for j, pop in enumerate(self.network.structure_reversed['V1']):
-            for j, pop in enumerate(list(reversed(self.network.structure['V1'])):
+            for j, pop in enumerate(list(reversed(self.network.structure['V1']))):
             # for j, pop in enumerate(self.network.structure['V1']):
                 if pop in self.network.structure[area]:
                     rate = self.pop_rates[area][pop][0]
