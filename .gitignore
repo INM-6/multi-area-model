@@ -6,3 +6,5 @@ tests/.pytest_cache/*
 
 figures/*/.snakemake/*
 figures/*/tex/*
+
+.ipynb_checkpoints/*
