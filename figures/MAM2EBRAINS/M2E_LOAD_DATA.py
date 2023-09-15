@@ -94,7 +94,7 @@ def load_and_create_data(M, A, raster_areas):
         - 'rect_time_window' : width of the moving rectangular function
     """
     A.create_rate_time_series()
-    print("Computing rate time series done")
+    # print("Computing rate time series done")
     
     
     # # Compute time series of firing rates convolved with a kernel
@@ -175,8 +175,8 @@ def load_and_create_data(M, A, raster_areas):
 #         - 'alpha_time_window' : time constant of the alpha function
 #         - 'rect_time_window' : width of the moving rectangular function
 #     """
-#     A.create_synaptic_input()
-#     print("Computing synaptic input done")
+    # A.create_synaptic_input()
+    # # print("Computing synaptic input done")
     
     A.save()
     

@@ -938,6 +938,7 @@ class Analysis:
         ax.set_yticks(y_index)
         # self.network has no attribute structure_reversed
         # ax.set_yticklabels(self.network.structure_reversed['V1'])
+        print(list(reversed(self.network.structure['V1'])))
         ax.set_yticklabels(list(reversed(self.network.structure['V1'])))
         # ax.set_yticklabels(self.network.structure['V1'])
         ax.set_ylabel('Population', size=18)
@@ -970,7 +971,7 @@ class Analysis:
         for i in range(0, len(members)):
             if members[i][0] in save_list_json:
                 f = open(self.output_dir + members[i][0] + '.json', 'w')
-                print(members[i][0])
+                # print(members[i][0])
                 json.dump(members[i][1], f)
                 f.close()
             if members[i][0] in save_list_npy:
