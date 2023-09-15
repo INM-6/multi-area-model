@@ -133,7 +133,7 @@ def load_and_create_data(M, A, raster_areas):
         Resolution of the population rate. Defaults to 1 ms.
     """
     A.create_synchrony()
-    print("Computing synchrony done")
+    # print("Computing synchrony done")
     
     
 #     # Create corrrelation coefficient
