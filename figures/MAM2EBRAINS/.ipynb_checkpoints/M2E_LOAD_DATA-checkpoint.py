@@ -97,14 +97,14 @@ def load_and_create_data(M, A, raster_areas):
     print("Computing rate time series done")
     
     
-    # Compute time series of firing rates convolved with a kernel
-    # data_path = sys.argv[1]
-    print(data_path)
-    label = M.simulation.label
-    method = 'auto_kernel'
-    for area in raster_areas: 
-        subprocess.run(['python3', './figures/Schmidt2018_dyn/compute_rate_time_series.py', data_path, label, area, method])
-    print("Computing rate time series auto kernel done")
+    # # Compute time series of firing rates convolved with a kernel
+    # # data_path = sys.argv[1]
+    # print(data_path)
+    # label = M.simulation.label
+    # method = 'auto_kernel'
+    # for area in raster_areas: 
+    #     subprocess.run(['python3', './figures/Schmidt2018_dyn/compute_rate_time_series.py', data_path, label, area, method])
+    # print("Computing rate time series auto kernel done")
     
     
     """

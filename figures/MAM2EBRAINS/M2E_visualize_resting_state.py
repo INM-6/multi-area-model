@@ -220,14 +220,14 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                           'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
-    # time series of firing rates convolved with a kernel
-    rate_time_series_auto_kernel = {}
-    for area in areas:
-        fn = os.path.join(data_path, label,
-                          'Analysis',
-                          'rate_time_series_auto_kernel',
-                          'rate_time_series_auto_kernel_{}.npy'.format(area))
-        rate_time_series_auto_kernel[area] = np.load(fn)
+    # # time series of firing rates convolved with a kernel
+    # rate_time_series_auto_kernel = {}
+    # for area in areas:
+    #     fn = os.path.join(data_path, label,
+    #                       'Analysis',
+    #                       'rate_time_series_auto_kernel',
+    #                       'rate_time_series_auto_kernel_{}.npy'.format(area))
+    #     rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
     fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
@@ -444,9 +444,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         binned_spikes = rate_time_series[area][np.where(
             np.logical_and(time >= t_min, time < t_max))]
         ax[i].plot(time, binned_spikes, color=colors[0], label=area)
-        rate = rate_time_series_auto_kernel[area]
-        # rate = rate_time_series[area]
-        ax[i].plot(time, rate, color=colors[2], label=area)
+        # rate = rate_time_series_auto_kernel[area]
+        # ax[i].plot(time, rate, color=colors[2], label=area)
         ax[i].set_xlim((t_min, t_max))
 
         ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
