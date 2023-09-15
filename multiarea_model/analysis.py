@@ -112,7 +112,7 @@ class Analysis:
                 "load membrane potentials, but these data have not been recorded"
                 d = 'vm_dict'
                 columns = ['senders', 'times', 'V_m']
-            print('loading {}'.format(data_type))
+            # print('loading {}'.format(data_type))
             data = {}
             # Check if the data has already been stored in binary file
             for area in self.areas_loaded:
@@ -147,7 +147,7 @@ class Analysis:
                                 dat = dat.append(pd.read_csv(f, **csv_args),
                                                  ignore_index=True)
                             self.all_spikes = dat
-                        print(area, pop)
+                        # print(area, pop)
                         gids = self.network_gids[(self.network_gids.area == area) &
                                                  (self.network_gids.population == pop)]
                         ind = ((self.all_spikes.senders >= gids.min_gid.values[0]) &
@@ -222,7 +222,7 @@ class Analysis:
                                                copy(iterator), params)
 
         if self.pop_rates is None:
-            print("Computing population rates")
+            # print("Computing population rates")
             d = nested_dict()
             d['Parameters'] = params
 
@@ -299,7 +299,7 @@ class Analysis:
                                                     iter_list, params)
 
         if self.pop_rate_dists is None:
-            print("Computing population dists")
+            # print("Computing population dists")
             d = nested_dict()
             d['Parameters'] = params
             for area, pop in iterator:
@@ -352,7 +352,7 @@ class Analysis:
                                                copy(iterator), params)
 
         if self.synchrony is None:
-            print("Computing synchrony")
+            # print("Computing synchrony")
             d = nested_dict()
             d['Parameters'] = params
             for area, pop in iterator:
@@ -426,7 +426,7 @@ class Analysis:
         self.rate_time_series_pops = ah._check_stored_data(fp, copy(iterator_pops), params)
 
         if self.rate_time_series is None:
-            print('Computing rate time series')
+            # print('Computing rate time series')
 
             # calculate area-averaged firing rates
             d = nested_dict()
@@ -443,7 +443,9 @@ class Analysis:
                                                           params['resolution'],
                                                           kernel=params['kernel'])
                 else:
-                    time_series = np.nan*np.ones(params['t_max'] - params['t_min'])
+                    # np.ones only takes integers as inputs
+                    # time_series = np.nan*np.ones(params['t_max'] - params['t_min'])
+                    time_series = np.nan*np.ones(int(params['t_max'] - params['t_min']))
                 d_pops[area][pop] = time_series
 
                 total_spikes = ah.area_spike_train(self.spike_data[area])
@@ -507,7 +509,7 @@ class Analysis:
         self.synaptic_input_pops = ah._check_stored_data(fp, copy(iterator_pops), params)
 
         if self.synaptic_input is None:
-            print('Computing rate time series')
+            # print('Computing rate time series')
             if 'rate_time_series' not in inspect.getmembers(self):
                 self.create_rate_time_series(**params)
 
@@ -590,7 +592,7 @@ class Analysis:
                                                 copy(iterator), params)
 
         if self.pop_cv_isi is None:
-            print("Computing population CV ISI")
+            # print("Computing population CV ISI")
             d = nested_dict()
             d['Parameters'] = params
             for area, pop in iterator:
@@ -633,7 +635,7 @@ class Analysis:
         self.pop_LvR = ah._check_stored_data(fp,
                                              copy(iterator), params)
         if self.pop_LvR is None:
-            print("Computing population LvR")
+            # print("Computing population LvR")
             d = nested_dict()
             d['Parameters'] = params
             for area, pop in iterator:
@@ -962,7 +964,7 @@ class Analysis:
         for i in range(0, len(members)):
             if members[i][0] in save_list_json:
                 f = open(self.output_dir + members[i][0] + '.json', 'w')
-                print(members[i][0])
+                # print(members[i][0])
                 json.dump(members[i][1], f)
                 f.close()
             if members[i][0] in save_list_npy:

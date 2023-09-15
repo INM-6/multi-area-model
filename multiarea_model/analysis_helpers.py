@@ -265,7 +265,7 @@ def _check_stored_data(fp, fn_iter, param_dict):
                 isinstance(param_dict2_copy[k], np.ndarray)):
             param_dict2_copy[k] = set(param_dict2_copy[k])
     if param_dict_copy == param_dict2_copy:
-        print("Loading data from file")
+        # print("Loading data from file")
         return data
     else:
         print("Stored data have been computed "

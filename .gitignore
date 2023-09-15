@@ -6,3 +6,18 @@ tests/.pytest_cache/*
 
 figures/*/.snakemake/*
 figures/*/tex/*
+
+.ipynb_checkpoints/*
+
+/multiarea_model/data_multiarea/viscortex_raw_data.json
+/multiarea_model/data_multiarea/viscortex_processed_data.json
+
+config.py
+
+figures/MAM2EBRAINS/.ipynb_checkpoints/*
+
+figures/Schmidt2018/.ipynb_checkpoints/*
+
+figures/Schmidt2018_dyn/.ipynb_checkpoints/*
+
+multiarea_model/.ipynb_checkpoints/*
