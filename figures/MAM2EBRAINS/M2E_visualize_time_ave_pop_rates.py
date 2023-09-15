@@ -70,7 +70,6 @@ def plot_time_averaged_population_rates(M, area_list=None, **keywords):
     x_ticks = [int(a + 0.5) for a in x_index]
     y_index = list(range(len(A.network.structure['V1'])))
     y_index = [a + 0.5 for a in y_index]
-    # print(A.network.structure['V1'])
     # ax.set_xticks(x_index)
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
     # ax.set_xticklabels(x_ticks)
