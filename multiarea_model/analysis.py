@@ -147,7 +147,7 @@ class Analysis:
                                 dat = dat.append(pd.read_csv(f, **csv_args),
                                                  ignore_index=True)
                             self.all_spikes = dat
-                        print(area, pop)
+                        # print(area, pop)
                         gids = self.network_gids[(self.network_gids.area == area) &
                                                  (self.network_gids.population == pop)]
                         ind = ((self.all_spikes.senders >= gids.min_gid.values[0]) &

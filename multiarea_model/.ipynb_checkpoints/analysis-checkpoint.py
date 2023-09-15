@@ -147,7 +147,7 @@ class Analysis:
                                 dat = dat.append(pd.read_csv(f, **csv_args),
                                                  ignore_index=True)
                             self.all_spikes = dat
-                        print(area, pop)
+                        # print(area, pop)
                         gids = self.network_gids[(self.network_gids.area == area) &
                                                  (self.network_gids.population == pop)]
                         ind = ((self.all_spikes.senders >= gids.min_gid.values[0]) &
@@ -443,8 +443,9 @@ class Analysis:
                                                           params['resolution'],
                                                           kernel=params['kernel'])
                 else:
-                    time_series = np.nan*np.ones(params['t_max'] - params['t_min'])
-                    # time_series = np.nan*np.ones(int(params['t_max'] - params['t_min']))
+                    # np.ones only takes integers as inputs
+                    # time_series = np.nan*np.ones(params['t_max'] - params['t_min'])
+                    time_series = np.nan*np.ones(int(params['t_max'] - params['t_min']))
                 d_pops[area][pop] = time_series
 
                 total_spikes = ah.area_spike_train(self.spike_data[area])
@@ -899,6 +900,7 @@ class Analysis:
 
         for i, area in enumerate(area_list):
             # print(i, area)
+            # self.network has no attribute structure_reversed
             # for j, pop in enumerate(self.network.structure_reversed['V1']):
             for j, pop in enumerate(self.network.structure['V1']):
                 if pop in self.network.structure[area]:
@@ -933,6 +935,7 @@ class Analysis:
         ax.set_xticks(x_index)
         ax.set_xticklabels(x_ticks)
         ax.set_yticks(y_index)
+        # self.network has no attribute structure_reversed
         # ax.set_yticklabels(self.network.structure_reversed['V1'])
         ax.set_yticklabels(self.network.structure['V1'])
         ax.set_ylabel('Population', size=18)
