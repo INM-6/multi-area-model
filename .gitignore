@@ -8,3 +8,6 @@ figures/*/.snakemake/*
 figures/*/tex/*
 
 .ipynb_checkpoints/*
+
+/multiarea_model/data_multiarea/viscortex_raw_data.json
+/multiarea_model/data_multiarea/viscortex_processed_data.json
