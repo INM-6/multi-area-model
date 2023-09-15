@@ -938,7 +938,7 @@ class Analysis:
         ax.set_yticks(y_index)
         # self.network has no attribute structure_reversed
         # ax.set_yticklabels(self.network.structure_reversed['V1'])
-        ax.set_yticklabels(list(reversed(self.network.structure['V1'])）
+        ax.set_yticklabels(list(reversed(self.network.structure['V1']))
         # ax.set_yticklabels(self.network.structure['V1'])
         ax.set_ylabel('Population', size=18)
         ax.set_xlabel('Area index', size=18)
