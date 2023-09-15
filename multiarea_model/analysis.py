@@ -928,6 +928,7 @@ class Analysis:
         x_index = np.arange(4.5, 31.6, 5.0)
         x_ticks = [int(a + 0.5) for a in x_index]
         y_index = list(range(len(self.network.structure['V1'])))
+        print(self.network.structure['V1'])
         y_index = [a + 0.5 for a in y_index]
         ax.set_xticks(x_index)
         ax.set_xticklabels(x_ticks)
