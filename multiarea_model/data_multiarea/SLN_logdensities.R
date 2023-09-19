@@ -1,7 +1,7 @@
 library('aod')
 args <- commandArgs(trailingOnly=TRUE)
-source(paste(args,'multiarea_model/data_multiarea/bbAlt.R', sep=""))
-f <- file(paste(args,'multiarea_model/data_multiarea/raw_data/RData_prepared_logdensities.txt', sep=""),'r')
+source(paste(args,'multiarea_model/data_multiarea/bbAlt.R', sep="/"))
+f <- file(paste(args,'multiarea_model/data_multiarea/raw_data/RData_prepared_logdensities.txt', sep="/"),'r')
 x <- read.table(f)
 close(f)
 
