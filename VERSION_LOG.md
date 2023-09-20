@@ -1,49 +1,41 @@
 ## MAM v1.1.0
 
-### New features
+### New Features:
 
-* Improved documentation: added in the README.md file the Try It On EBRAINS button and clear and detailed User instruction for users to be able to follow step-by-step instructions without much background knowledge or experience, delete section Testing on EBRAINS
+* Documentation Enhancements:
+  * Streamlined README.md with a Try It On EBRAINS button and step-by-step user instructions.
+  * Removed "Testing on EBRAINS" section for clarity.
+
+* Parameter Tuning Improvements:
+  * Segregated parameters in down-scale multi-area mode into Parameters to Tune and Default Parameters.
+  * Introduced exposure of four user-friendly parameters, while retaining others for internal tuning.
+
+* Visualization Augmentations:
+  * Introduced Extract and Visualize Interareal Connectivity to display area-level relative connectivity via heatmaps.
+  * Added Simulation Results Visualization section with separate code modules in “./figures/MAM2EBRAINS”.
+  * Enriched visualization with three new plots detailing instantaneous firing rate, resting state, and time-averaged population rates.
+  * Refined representation of resting state plots inspired from Schmidt M et al. (2018), allowing users flexible area selection, altered synchrony representation, and a focus on binned spike histograms.
+
+### Enhancements:
+
+* Notebook Refinements:
+  * Overhauled Jupyter Notebook structure with an accessible table of contents for user navigation.
+  * Enhanced parameter descriptions for both exposed and default sets.
+  * Incorporated model overview and concise description of the down-scaled multi-area model.
+  * Cross-referenced relevant publication figures for user benefit.
   
-* In down-scale multi-area mode, separated all external parameters to Parameters to tun and Default parameters. Parameters to tune consist of 4 parameters we decided to expose to users initially, and default parameters will be tuned by us and are not recommended for users to change
+### Code Optimizations:
 
-* Added section Extract and visualize interareal connectivity which plots the area-level relative connectivity as heatmaps. Two heatmaps represent the interareal connectivity of full-scale multi-area model (left) and down-scale multi-area model (right). There are small differences between them although we’re calculating relative connectivity as there’s randomness
+* Minimized irrelevant print statements in codebase for clearer user outputs.
+* Updated .gitignore to exclude checkpoint files.
 
-* Added section Simulation Results Visualization. The code is written in separate modules saved as .py files in “./figures/MAM2EBRAINS” to avoid displaying contents that are not relevant to users
+### Bug Fixes:
 
-* Added 3 plots in the section Simulation Results Visualization
-  * 3.1. Instantaneous and mean firing rate across all populations (existed in MAM v1.0.0, refined in MAM v1.1.0)
-  * 3.2 Resting state plots
-  * 3.3 Time-averaged population rates
-
-* The 3.2 Resting state plots figure is plotted based on Fig 5. of the paper Schmidt M, Bakker R, Shen K, Bezgin B, Diesmann M & van Albada SJ (2018) A multi-scale layer-resolved spiking network model of resting-state dynamics in macaque cortex. PLOS Computational Biology, 14(9): e1006359. https://doi.org/10.1371/journal.pcbi.1006359, yet there are a few differences:
-  * This plot provides the option for users to choose 3 areas to plot the raster plots instead of fixing  V1, V2, and FEF to plot
-  * The subplot E Correlation coefficient is replaced as Synchrony
-  * The subplot G only plots the binned spike histograms (gray), not the convolved histograms (black)
-
-### Enhancements
-
-* Reconstructed the Jupyter Notebook and added Notebook structure as table of contents that enables users to navigate quickly and easily between different sections. (see the notebook structure for details)
-  
-* Added detailed and easy-to-understand descriptions to the 4 exposed parameters and also brief comments for the default parameters
-
-* Added the model overview diagram and a short description of the down-scaled multi-area model at the beginning of the jupyter notebook 
-
-* Added descriptions of comparable figures in our publications whenever available so that users can compare the down-scaled model with their costumed parameters and the full-scaled model presented in the paper
-
-* Removed unnecessary print statements in ./multiarea_model/analysis.py and ./multiarea_model/analysis_helpers.py to avoid multiple print that are not relevant to users
-
-* Updated ./.gitignore file to ignore checkpoint files
-
-### Bug fixes
-
-* Corrected the separator from "" to "/" in ./multiarea_model/data_multiarea/SLN_logdensities.R to fix the file path of ./multiarea_model/data_multiarea/bbAlt.R
-  
-* Fixed bugs in ./multiarea-model/analysis.py: change np.nan*np.ones(params['t_max'] - params['t_min']) to np.nan*np.ones(int(params['t_max'] - params['t_min']))
-
+* Resolved file path separator issue in ./multiarea_model/data_multiarea/SLN_logdensities.R.
+* Addressed datatype concerns in ./multiarea-model/analysis.py for array initialization.
 
 ## MAM v1.0.0
 
-### Bug fixes
-* Corrected the URL of NEST logo in README.md
+### Bug Fixes:
 
-
+* Rectified incorrect NEST logo URL in README.md.
