@@ -65,7 +65,8 @@ def compute_rate_time_series(data_path, label, area, method):
                        area,
                        pop))
         fn = '{}/{}.npy'.format(load_path, fp)
-        spike_data = np.load(fn)
+        # spike_data = np.load(fn)
+        spike_data = np.load(fn, allow_pickle=True)
         spike_data = spike_data[np.logical_and(spike_data[:, 1] > 500.,
                                                spike_data[:, 1] <= T)]
         if method == 'subsample':
