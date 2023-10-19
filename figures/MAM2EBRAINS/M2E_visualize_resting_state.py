@@ -19,7 +19,7 @@ from matplotlib import gridspec
 icolor = myred
 ecolor = myblue
 
-from M2E_LOAD_DATA import load_and_create_data
+from M2E_load_data import load_and_create_data
 
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
