@@ -189,3 +189,4 @@ def load_and_create_data(M, A, raster_areas):
     #     subprocess.run(['python3', './Schmidt2018_dyn/compute_bold_signal.py'])
     # except FileNotFoundError:
     #     raise FileNotFoundError("Executing R failed. Did you install R?")
+    

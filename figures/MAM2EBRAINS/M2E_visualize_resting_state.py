@@ -20,6 +20,10 @@ icolor = myred
 ecolor = myblue
 
 from M2E_load_data import load_and_create_data
+from M2E_compute_correcoeff import compute_correcoeff
+from M2E_compute_synaptic_input import compute_synaptic_input
+from M2E_compute_convolved_firing_rates import compute_convolved_firing_rates
+from M2E_compute_rate_time_series import compute_rate_time_series
 
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
@@ -66,6 +70,13 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # load data
     load_and_create_data(M, A, raster_areas)
     
+    # compute correlation_coefficient
+    # compute_correcoeff(data_path, M.simulation.label)
+    
+    # compute rate_time_series_auto_kernel
+    for area in raster_areas:
+        compute_rate_time_series(data_path, M.simulation.label, area, 'auto_kernel')
+    
     t_sim = M.simulation.params["t_sim"]
     
     """
@@ -74,8 +85,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
 
     nrows = 4
     ncols = 4
-    # width = 7.0866
-    width = 12
+    width = 7.0866
+    # width = 12
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
@@ -220,14 +231,14 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                           'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
-    # # time series of firing rates convolved with a kernel
-    # rate_time_series_auto_kernel = {}
-    # for area in areas:
-    #     fn = os.path.join(data_path, label,
-    #                       'Analysis',
-    #                       'rate_time_series_auto_kernel',
-    #                       'rate_time_series_auto_kernel_{}.npy'.format(area))
-    #     rate_time_series_auto_kernel[area] = np.load(fn)
+    # time series of firing rates convolved with a kernel
+    rate_time_series_auto_kernel = {}
+    for area in areas:
+        fn = os.path.join(data_path, label,
+                          'Analysis',
+                          'rate_time_series_auto_kernel',
+                          'rate_time_series_auto_kernel_{}.npy'.format(area))
+        rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
     fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
@@ -444,8 +455,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         binned_spikes = rate_time_series[area][np.where(
             np.logical_and(time >= t_min, time < t_max))]
         ax[i].plot(time, binned_spikes, color=colors[0], label=area)
-        # rate = rate_time_series_auto_kernel[area]
-        # ax[i].plot(time, rate, color=colors[2], label=area)
+        rate = rate_time_series_auto_kernel[area]
+        ax[i].plot(time, rate, color=colors[2], label=area)
         ax[i].set_xlim((t_min, t_max))
 
         ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
