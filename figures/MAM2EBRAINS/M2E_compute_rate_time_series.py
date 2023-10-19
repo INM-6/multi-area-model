@@ -27,7 +27,7 @@ Implements three different methods:
 # area = sys.argv[3]
 # method = sys.argv[4]
 
-def compute_rate_time_series(data_path, label, area, method):
+def compute_rate_time_series(M, data_path, label, area, method):
     assert(method in ['subsample', 'full', 'auto_kernel'])
     # subsample : subsample spike data to 140 neurons to match the Chu 2014 data
     # full : use spikes of all neurons and compute spike histogram with bin size 1 ms
@@ -55,7 +55,7 @@ def compute_rate_time_series(data_path, label, area, method):
     """
     Create MultiAreaModel instance to have access to data structures
     """
-    M = MultiAreaModel({})
+    # M = MultiAreaModel({})
 
     time_series_list = []
     N_list = []

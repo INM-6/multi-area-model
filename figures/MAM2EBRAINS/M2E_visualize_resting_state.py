@@ -75,11 +75,11 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     
     # compute rate_time_series_full
     for area in raster_areas:
-        compute_rate_time_series(data_path, M.simulation.label, area, 'full')
+        compute_rate_time_series(M, data_path, M.simulation.label, area, 'full')
     
     # compute rate_time_series_auto_kernel
     for area in raster_areas:
-        compute_rate_time_series(data_path, M.simulation.label, area, 'auto_kernel')
+        compute_rate_time_series(M, data_path, M.simulation.label, area, 'auto_kernel')
     
     t_sim = M.simulation.params["t_sim"]
     
@@ -130,6 +130,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     for area in raster_areas:
         if area not in area_list:
             raise Exception("Error! Given raster areas are either not from complete_area_list, please input correct areas to diaply the raster plots.")
+            
     areas = raster_areas
 
     labels = ['A', 'B', 'C']
