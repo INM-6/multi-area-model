@@ -21,8 +21,8 @@ ecolor = myblue
 
 from M2E_load_data import load_and_create_data
 # from M2E_compute_corrcoeff import compute_corrcoeff
-from M2E_compute_synaptic_input import compute_synaptic_input
-from M2E_compute_convolved_firing_rates import compute_convolved_firing_rates
+# from M2E_compute_synaptic_input import compute_synaptic_input
+# from M2E_compute_convolved_firing_rates import compute_convolved_firing_rates
 from M2E_compute_rate_time_series import compute_rate_time_series
 
 def set_boxplot_props(d):
