@@ -73,6 +73,10 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # compute correlation_coefficient
     # compute_correcoeff(data_path, M.simulation.label)
     
+    # compute rate_time_series_full
+    for area in raster_areas:
+        compute_rate_time_series(data_path, M.simulation.label, area, 'full')
+    
     # compute rate_time_series_auto_kernel
     for area in raster_areas:
         compute_rate_time_series(data_path, M.simulation.label, area, 'auto_kernel')
@@ -222,13 +226,13 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # time series of firing rates
     rate_time_series = {}
     for area in areas:
-        # fn = os.path.join(data_path, label,
-        #                   'Analysis',
-        #                   'rate_time_series_full',
-        #                   'rate_time_series_full_{}.npy'.format(area))
         fn = os.path.join(data_path, label,
                           'Analysis',
-                          'rate_time_series-{}.npy'.format(area))
+                          'rate_time_series_full',
+                          'rate_time_series_full_{}.npy'.format(area))
+        # fn = os.path.join(data_path, label,
+        #                   'Analysis',
+        #                   'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
     # time series of firing rates convolved with a kernel
