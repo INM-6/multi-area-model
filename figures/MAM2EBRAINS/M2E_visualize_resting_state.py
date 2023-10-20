@@ -203,20 +203,21 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # """
     # M = MultiAreaModel({})
     
-    # spike_data = A.spike_data
+    spike_data = A.spike_data
     label_spikes = M.simulation.label
     label = M.simulation.label
     
-    # spike data
-    spike_data = {}
-    for area in areas:
-        spike_data[area] = {}
-        for pop in M.structure[area]:
-            spike_data[area][pop] = np.load(os.path.join(data_path,
-                                                         label_spikes,
-                                                         'recordings',
-                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
-                                                                                      area, pop)))
+    # # spike data
+    # spike_data = {}
+    # for area in areas:
+    #     spike_data[area] = {}
+    #     for pop in M.structure[area]:
+    #         spike_data[area][pop] = np.load(os.path.join(data_path,
+    #                                                      label_spikes,
+    #                                                      'recordings',
+    #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
+    #                                                                                   area, pop)))
+    
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
