@@ -216,7 +216,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                                                          label_spikes,
                                                          'recordings',
                                                          '{}-spikes-{}-{}.npy'.format(label_spikes,
-                                                                                      area, pop)
+                                                                                      area, pop))
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
