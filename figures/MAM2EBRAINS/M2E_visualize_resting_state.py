@@ -21,8 +21,6 @@ ecolor = myblue
 
 from M2E_load_data import load_and_create_data
 # from M2E_compute_corrcoeff import compute_corrcoeff
-# from M2E_compute_synaptic_input import compute_synaptic_input
-# from M2E_compute_convolved_firing_rates import compute_convolved_firing_rates
 from M2E_compute_rate_time_series import compute_rate_time_series
 
 def set_boxplot_props(d):
@@ -125,8 +123,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                  'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
-    # if len(raster_areas) !=3:
-    #     raise Exception("Error! Please give 3 areas to display as raster plots.")
+    if len(raster_areas) !=3:
+        raise Exception("Error! Please give 3 areas to display as raster plots.")
     for area in raster_areas:
         if area not in area_list:
             raise Exception("Error! Given raster areas are either not from complete_area_list, please input correct areas to diaply the raster plots.")
@@ -204,21 +202,21 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # Create MultiAreaModel instance to have access to data structures
     # """
     # M = MultiAreaModel({})
-
-    # spike data
-    # spike_data = {}
-    # for area in areas:
-    #     spike_data[area] = {}
-    #     for pop in M.structure[area]:
-    #         spike_data[area][pop] = np.load(os.path.join(data_path,
-    #                                                      label_spikes,
-    #                                                      'recordings',
-    #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
-    #                                                                                   area, pop)))
-    spike_data = A.spike_data
+    
+    # spike_data = A.spike_data
     label_spikes = M.simulation.label
     label = M.simulation.label
     
+    # spike data
+    spike_data = {}
+    for area in areas:
+        spike_data[area] = {}
+        for pop in M.structure[area]:
+            spike_data[area][pop] = np.load(os.path.join(data_path,
+                                                         label_spikes,
+                                                         'recordings',
+                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
+                                                                                      area, pop)
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
