@@ -59,6 +59,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         Default value is None and leads to loading of data for all
         simulated areas.
     """
+
     # Instantiate an analysis class and load spike data
     A = Analysis(network=M, 
                  simulation=M.simulation, 
@@ -123,11 +124,20 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                  'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
                  'STPa', '46', 'AITd', 'TH']
-    if len(raster_areas) !=3:
-        raise Exception("Error! Please give 3 areas to display as raster plots.")
+    
+    # if len(raster_areas) !=3:
+    #     raise Exception("Error! Please give 3 areas to display as raster plots.")
+    
+    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
+        sim_params = json.load(f)
+    
+    areas_simulated = sim_params['sim_params']['areas_simulated']
+    
     for area in raster_areas:
         if area not in area_list:
-            raise Exception("Error! Given raster areas are either not from complete_area_list, please input correct areas to diaply the raster plots.")
+            raise Exception("Error! Given raster areas are not from complete_area_list, please input correct areas to diaply the raster plots.")
+        if area not in areas_simulated:
+            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to diaply the raster plots.")
             
     areas = raster_areas
 
@@ -325,8 +335,19 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
 
     # print("plotting Population rates")
 
-    rates = np.zeros((len(M.area_list), 8))
-    for i, area in enumerate(M.area_list):
+    # rates = np.zeros((len(M.area_list), 8))
+    # for i, area in enumerate(M.area_list):
+    #     for j, pop in enumerate(M.structure[area][::-1]):
+    #         rate = pop_rates[area][pop][0]
+    #         if rate == 0.0:
+    #             rate = 1e-5
+    #         if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
+    #             rates[i][j + 2] = rate
+    #         else:
+    #             rates[i][j] = rate
+    
+    rates = np.zeros((len(areas), 8))
+    for i, area in enumerate(areas):
         for j, pop in enumerate(M.structure[area][::-1]):
             rate = pop_rates[area][pop][0]
             if rate == 0.0:
@@ -358,8 +379,19 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
 
     # print("plotting Synchrony")
     
-    syn = np.zeros((len(M.area_list), 8))
-    for i, area in enumerate(M.area_list):
+    # syn = np.zeros((len(M.area_list), 8))
+    # for i, area in enumerate(M.area_list):
+    #     for j, pop in enumerate(M.structure[area][::-1]):
+    #         value = corrcoeff[area][pop]
+    #         if value == 0.0:
+    #             value = 1e-5
+    #         if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
+    #             syn[i][j + 2] = value
+    #         else:
+    #             syn[i][j] = value
+    
+    syn = np.zeros((len(areas), 8))
+    for i, area in enumerate(areas):
         for j, pop in enumerate(M.structure[area][::-1]):
             value = corrcoeff[area][pop]
             if value == 0.0:
@@ -368,7 +400,6 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                 syn[i][j + 2] = value
             else:
                 syn[i][j] = value
-
 
     syn = np.transpose(syn)
     masked_syn = np.ma.masked_where(syn < 1e-4, syn)
@@ -385,15 +416,26 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
     # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
-    ax.set_xticks([0., 0.025, 0.05])
+    ax.set_xticks([0., 0.005, 0.01])
     ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
     # ax.set_xlabel('Synchrony', labelpad=-0.1)
 
 
     # print("plotting Irregularity")
 
-    LvR = np.zeros((len(M.area_list), 8))
-    for i, area in enumerate(M.area_list):
+    # LvR = np.zeros((len(M.area_list), 8))
+    # for i, area in enumerate(M.area_list):
+    #     for j, pop in enumerate(M.structure[area][::-1]):
+    #         value = pop_LvR[area][pop]
+    #         if value == 0.0:
+    #             value = 1e-5
+    #         if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
+    #             LvR[i][j + 2] = value
+    #         else:
+    #             LvR[i][j] = value
+    
+    LvR = np.zeros((len(areas), 8))
+    for i, area in enumerate(areas):
         for j, pop in enumerate(M.structure[area][::-1]):
             value = pop_LvR[area][pop]
             if value == 0.0:

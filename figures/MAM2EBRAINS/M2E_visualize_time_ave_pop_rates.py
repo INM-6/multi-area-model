@@ -1,11 +1,13 @@
 import numpy as np
+import os
+import json
 
 from multiarea_model import Analysis
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import FixedLocator
 
-def plot_time_averaged_population_rates(M, area_list=None, **keywords):
+def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords):
     """
     Plot overview over time-averaged population rates encoded in colors
     with areas along x-axis and populations along y-axis.
@@ -31,14 +33,21 @@ def plot_time_averaged_population_rates(M, area_list=None, **keywords):
                      'PO', 'VOT', 'DP', 'MIP', 'MDP', 'MSTd', 'VIP', 'LIP',
                      'PITv', 'PITd', 'AITv', 'MSTl', 'FST', 'CITv', 'CITd',
                      '7a', 'STPp', 'STPa', 'FEF', '46', 'TF', 'TH', 'AITd']
-
-    matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
+    
+    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
+        sim_params = json.load(f)
+    
+    areas_simulated = sim_params['sim_params']['areas_simulated']
+    
+    # matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
+    matrix = np.zeros((len(areas_simulated), len(A.network.structure['V1'])))
 
     fig = plt.figure(figsize=(12, 4))
     fig.suptitle('Time-averaged population rates encoded in colors', fontsize=15, x=0.43)
     ax = fig.add_subplot(111)
 
-    for i, area in enumerate(area_list):
+    # for i, area in enumerate(area_list):
+    for i, area in enumerate(areas_simulated):
         # print(i, area)
         # for j, pop in enumerate(A.network.structure_reversed['V1']):
         for j, pop in enumerate(A.network.structure['V1'][::-1]):
