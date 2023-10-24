@@ -20,7 +20,7 @@ icolor = myred
 ecolor = myblue
 
 from M2E_load_data import load_and_create_data
-# from M2E_compute_corrcoeff import compute_corrcoeff
+from M2E_compute_corrcoeff import compute_corrcoeff
 from M2E_compute_rate_time_series import compute_rate_time_series
 
 def set_boxplot_props(d):
@@ -69,7 +69,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     load_and_create_data(M, A, raster_areas)
     
     # compute correlation_coefficient
-    # compute_correcoeff(data_path, M.simulation.label)
+    compute_corrcoeff(M, data_path, M.simulation.label)
     
     # compute rate_time_series_full
     for area in raster_areas:
@@ -250,8 +250,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         pop_LvR = json.load(f)
 
     # correlation coefficients
-    # fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
-    fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
+    fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    # fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
@@ -386,8 +386,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_ylim((0., len(M.structure['V1']) + .5))
     # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
     ax.set_xticks(np.arange(0.0, 10., 2.0))
-    # ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
-    ax.set_xlabel('Synchrony', labelpad=-0.1)
+    ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
+    # ax.set_xlabel('Synchrony', labelpad=-0.1)
 
 
     # print("plotting Irregularity")
