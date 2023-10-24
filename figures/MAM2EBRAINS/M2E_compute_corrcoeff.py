@@ -23,6 +23,7 @@ def compute_corrcoeff(M, data_path, label):
         sim_params = json.load(f)
     # T = sim_params['T']
     T = sim_params['sim_params']['t_sim']
+    areas_simulated = sim_params['sim_params']['areas_simulated']
 
     tmin = 500.
     subsample = 2000
@@ -35,7 +36,8 @@ def compute_corrcoeff(M, data_path, label):
 
     spike_data = {}
     cc_dict = {}
-    for area in M.area_list:
+    # for area in M.area_list:
+    for area in areas_simulated:
         cc_dict[area] = {}
         LvR_list = []
         N = []
