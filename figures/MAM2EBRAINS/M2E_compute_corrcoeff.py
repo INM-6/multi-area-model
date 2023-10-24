@@ -11,7 +11,7 @@ Compute correlation coefficients for a subsample
 of neurons for the entire network from raw spike files of a given simulation.
 """
 
-def compute_corrcoeff(data_path, label):
+def compute_corrcoeff(M, data_path, label):
     load_path = os.path.join(data_path,
                              label,
                              'recordings')
@@ -21,7 +21,8 @@ def compute_corrcoeff(data_path, label):
 
     with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
         sim_params = json.load(f)
-    T = sim_params['T']
+    # T = sim_params['T']
+    T = sim_params['sim_params']['t_sim']
 
     tmin = 500.
     subsample = 2000
@@ -30,7 +31,7 @@ def compute_corrcoeff(data_path, label):
     """
     Create MultiAreaModel instance to have access to data structures
     """
-    M = MultiAreaModel({})
+    # M = MultiAreaModel({})
 
     spike_data = {}
     cc_dict = {}
@@ -45,7 +46,8 @@ def compute_corrcoeff(data_path, label):
                            pop))
             fn = '{}/{}.npy'.format(load_path, fp)
             # +1000 to ensure that we really have subsample non-silent neurons in the end
-            spikes = np.load(fn)
+            # spikes = np.load(fn)
+            spikes = np.load(fn, allow_pickle=True)
             ids = np.unique(spikes[:, 0])
             dat = ch.sort_gdf_by_id(spikes, idmin=ids[0], idmax=ids[0]+subsample+1000)
             bins, hist = ch.instantaneous_spike_count(dat[1], resolution, tmin=tmin, tmax=T)
