@@ -20,28 +20,13 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     output : {'pdf', 'png', 'eps'}, optional
         If given, the function stores the plot to a file of the given format.
     """
-    
-    # A = Analysis(network=M, 
-    #              simulation=M.simulation, 
-    #              data_list=['spikes'],
-    #              load_areas=None)
-    
-    # A.create_pop_rates()
-    
-    # if area_list is None:
-    #     area_list = ['V1', 'V2', 'VP', 'V3', 'PIP', 'V3A', 'MT', 'V4t', 'V4',
-    #                  'PO', 'VOT', 'DP', 'MIP', 'MDP', 'MSTd', 'VIP', 'LIP',
-    #                  'PITv', 'PITd', 'AITv', 'MSTl', 'FST', 'CITv', 'CITd',
-    #                  '7a', 'STPp', 'STPa', 'FEF', '46', 'TF', 'TH', 'AITd']
-    
+
     # with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
     #     sim_params = json.load(f)
     # areas_simulated = sim_params['sim_params']['areas_simulated']
-    areas_simulated = M.simulation.params["areas_simulated"]
-    area_list = areas_simulated
+    area_list = M.simulation.params["areas_simulated"]
     
     # matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
-    # matrix = np.zeros((len(areas_simulated), len(A.network.structure['V1'])))
     matrix = np.zeros((len(area_list), len(M.structure['V1'])))
 
     fig = plt.figure(figsize=(12, 4))
@@ -56,7 +41,6 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     for i, area in enumerate(area_list):
         # print(i, area)
         # for j, pop in enumerate(A.network.structure_reversed['V1']):
-        # for j, pop in enumerate(A.network.structure['V1'][::-1]):
         for j, pop in enumerate(M.structure['V1'][::-1]):
             if pop in M.structure[area]:
                 # rate = A.pop_rates[area][pop][0]
@@ -94,7 +78,6 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     ax.set_xticklabels(area_list, rotation=90, size=10.)
     ax.set_yticks(y_index)
     # ax.set_yticklabels(A.network.structure_reversed['V1'])
-    # ax.set_yticklabels(A.network.structure['V1'][::-1])
     ax.set_yticklabels(M.structure['V1'][::-1])
     ax.set_ylabel('Population', size=13)
     ax.set_xlabel('Area index', size=13)
