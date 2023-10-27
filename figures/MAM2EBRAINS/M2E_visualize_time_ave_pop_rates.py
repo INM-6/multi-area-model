@@ -46,14 +46,21 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     fig = plt.figure(figsize=(12, 4))
     fig.suptitle('Time-averaged population rates encoded in colors', fontsize=15, x=0.43)
     ax = fig.add_subplot(111)
-
+    
+    # stationary firing rates
+    fn = os.path.join(data_path, M.simulation.label, 'Analysis', 'pop_rates.json')
+    with open(fn, 'r') as f:
+        pop_rates = json.load(f)
+    
     # for i, area in enumerate(area_list):
     for i, area in enumerate(areas_simulated):
         # print(i, area)
         # for j, pop in enumerate(A.network.structure_reversed['V1']):
-        for j, pop in enumerate(A.network.structure['V1'][::-1]):
-            if pop in A.network.structure[area]:
-                rate = A.pop_rates[area][pop][0]
+        # for j, pop in enumerate(A.network.structure['V1'][::-1]):
+        for j, pop in enumerate(M.structure['V1'][::-1]):
+            if pop in M.structure[area]:
+                # rate = A.pop_rates[area][pop][0]
+                rate = pop_rates[area][pop]
                 if rate == 0.0:
                     rate = 1e-5  # To distinguish zero-rate from non-existing populations
             else:
