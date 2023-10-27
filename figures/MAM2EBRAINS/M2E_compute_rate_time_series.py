@@ -47,10 +47,11 @@ def compute_rate_time_series(M, data_path, label, area, method):
     except FileExistsError:
         pass
 
-    with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
-        sim_params = json.load(f)
+    # with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
+    #     sim_params = json.load(f)
     # T = sim_params['T']
-    T = sim_params['sim_params']['t_sim']
+    T = M.simulation.params["t_sim"]
+    areas_simulated = M.simulation.params["areas_simulated"]
 
     """
     Create MultiAreaModel instance to have access to data structures
