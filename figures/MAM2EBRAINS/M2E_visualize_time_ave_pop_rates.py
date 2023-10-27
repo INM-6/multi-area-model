@@ -34,10 +34,11 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
                      'PITv', 'PITd', 'AITv', 'MSTl', 'FST', 'CITv', 'CITd',
                      '7a', 'STPp', 'STPa', 'FEF', '46', 'TF', 'TH', 'AITd']
     
-    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
-        sim_params = json.load(f)
+    # with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
+    #     sim_params = json.load(f)
     
-    areas_simulated = sim_params['sim_params']['areas_simulated']
+    # areas_simulated = sim_params['sim_params']['areas_simulated']
+    areas_simulated = M.simulation.params["areas_simulated"]
     
     # matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
     matrix = np.zeros((len(areas_simulated), len(A.network.structure['V1'])))
