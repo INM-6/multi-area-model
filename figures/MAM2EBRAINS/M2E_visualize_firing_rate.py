@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as pl
 
-def plot_instan_mean_firing_rate(M):
+def plot_firing_rate(M):
     # load spike data and calculate instantaneous and mean firing rates
     data = np.loadtxt(M.simulation.data_dir + '/recordings/' + M.simulation.label + "-spikes-1-0.dat", skiprows=3)
     tsteps, spikecount = np.unique(data[:,1], return_counts=True)
