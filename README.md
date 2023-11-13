@@ -22,7 +22,7 @@ The model has been documented in the following publications:
 The code in this repository is self-contained and allows one to
 reproduce the results of all three papers.
 
-A video providing a brief introduction of the model and the code in this repository can be found [here](https://www.youtube.com/watch?v=NGAqe78vmHY&t=22s).
+A video providing a brief introduction to the model and the code in this repository can be found [here](https://www.youtube.com/watch?v=NGAqe78vmHY&t=22s).
 
 ## Try it on EBRAINS
 
@@ -35,7 +35,7 @@ Want to start using or simply run the model? Click the button below.<br>
 ### User instructions
 The Jupyter Notebook `multi-area-model.ipynb` illustrates the simulation workflow with a down-scaled version of the multi-area model. This notebook can be explored and executed online in the Jupyter Lab provided by EBRAINS without the need to install any software yourself.<br>
 * Prerequisites: an [EBRAINS](https://www.ebrains.eu/) account. If you don’t have it yet, register at [register page](https://iam.ebrains.eu/auth/realms/hbp/protocol/openid-connect/registrations?response_type=code&client_id=xwiki&redirect_uri=https://wiki.ebrains.eu). Please note: registering an EBRAINS account requires an institutional email.<br>
-* If you plan to only run the model, instead of making and saving changes you made, go to [Try it on EBRAINS](#try-it-on-ebrains-1); Shold you want to adjust the parameters, thereafter save the changes you made, go to [Fork the repository and save your changes](#fork-the-repository-and-save-your-changes).
+* If you plan to only run the model, instead of making and saving changes you made, go to [Try it on EBRAINS](#try-it-on-ebrains-1); Should you want to adjust the parameters, save the changes you made, go to [Fork the repository and save your changes](#fork-the-repository-and-save-your-changes).
    
 #### Try it on EBRAINS
 1. Click [Try it on EBRAINS](https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master). If any error happens during the following process, please close the browser tab and restart the [User instruction](https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master) process again.
@@ -55,9 +55,9 @@ With limited resources, EBRAINS Lab regularly deletes and cleans data loaded on 
 5. Click the field that displays `Python 3 (ipykernel)` in the upper right corner and switch the `kernel` to `EBRAINS-23.02`.
 6. Run the notebook! To run the model, click the `Run` on the title bar and choose `Run All Cells`. It takes several minutes until you get all results. 
 7. You can modify the exposed parameters before running the model. If you want to save the changes you made, press `Control+S` on the keyboard, click the `Git` icon on the most left toolbar, do git commits and push.<br> 
-To commit, on `Changed` bar, click the `+` icon, and filled a comment in the `Summary (Control+Enter to commit)` at lower left corner and click `COOMMIT`.<br> 
-To push, click the `Push commited changes` icon at upper left which is looks like cloud, you may be asked to enter your username and password (user name is your GitHUb username, password should be [Personal access tokens](https://github.com/settings/tokens) you generated on your GitHUb account, make sure you select the `repo` option when you generate the token), enter them and click `Ok`.
-8. If you would like to contribute to our model or bring your ideas to us, you’re most welcomed to contact us. It’s currently not possible to directly make changes to the original repository, since it is connected to our publications.
+To commit, on `Changed` bar, click the `+` icon, fill in a comment in the `Summary (Control+Enter to commit)` at lower left corner and click `COMMIT`.<br> 
+To push, click the `Push committed changes` icon at upper left which looks like cloud, you may be asked to enter your username and password (user name is your GitHUb username, password should be [Personal access tokens](https://github.com/settings/tokens) you generated on your GitHub account, make sure you select the `repo` option when you generate the token), enter them and click `Ok`.
+8. If you would like to contribute to our model or bring your ideas to us, you’re most welcome to contact us. It’s currently not possible to directly make changes to the original repository, since it is connected to our publications.
 
 ## Python framework for the multi-area model
 
@@ -78,7 +78,7 @@ A description of the requirements for the code can be found at the end of this R
 
 To start using the framework, the user has to define a few environment variables
 in a new file called `config.py`. The file `config_template.py` lists the required
-environment variables that need to specified by the user.
+environment variables that need to be specified by the user.
 
 Furthermore, please add the path to the repository to your PYTHONPATH:
 
@@ -99,7 +99,7 @@ its dynamical simulation or description via analytical theory.
 
 This class can be initialized by `MultiAreaModel` or as standalone and
 takes simulation parameters as input. These parameters include, e.g.,
-neuron and synapses parameters, the simulated biological time and also
+neuron and synapse parameters, the simulated biological time and also
 technical parameters such as the number of parallel MPI processes and
 threads. The simulation uses the network simulator NEST
 (https://www.nest-simulator.org). For the simulations in [2, 3], we
@@ -197,7 +197,7 @@ The multi-area model can be run in different modes.
 2. Down-scaled model
 
    Since simulating the entire network with approx. 4.13 million neurons and 24.2 billion
-   synapses requires a large amount of resources, the user has the option to scale down
+   synapses require a large amount of resources, the user has the option to scale down
    the network in terms of neuron numbers and synaptic indegrees (number of synapses
    per receiving neuron).
    This can be achieved by setting the parameters `N_scaling` and `K_scaling` in `network_params`
@@ -228,7 +228,7 @@ The multi-area model can be run in different modes.
 ## Test suite
 
 The `tests/` folder holds a test suite that tests different aspects of
-network model initalization and mean-field calculations. It can be
+network model initialization and mean-field calculations. It can be
 conveniently run by executing `pytest` in the `tests/` folder:
 
 	cd tests/
