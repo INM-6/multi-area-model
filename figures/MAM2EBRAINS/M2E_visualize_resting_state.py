@@ -332,12 +332,12 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
 
-    # x_max = 220.
-    x_max = 100.
+    x_max = 220.
+    # x_max = 100.
     ax.set_xlim((-1., x_max))
     ax.set_xlabel(r'Rate (spikes/s)', labelpad=-0.1)
-    # ax.set_xticks([0., 50., 100.])
-    ax.set_xticks([0., 25., 50., 75., 100.])
+    ax.set_xticks([0., 50., 100.])
+    # ax.set_xticks([0., 25., 50., 75., 100.])
 
     # print("plotting Synchrony")
     
