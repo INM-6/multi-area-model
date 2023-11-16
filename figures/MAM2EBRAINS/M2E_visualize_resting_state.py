@@ -16,12 +16,10 @@ from matplotlib import gridspec
 # from matplotlib import rc_file
 # rc_file('plotstyle.rc')
 
+from M2E_generate_data import generate_data
+
 icolor = myred
 ecolor = myblue
-
-from M2E_load_data import load_and_create_data
-from M2E_compute_corrcoeff import compute_corrcoeff
-from M2E_compute_rate_time_series import compute_rate_time_series
 
 def set_boxplot_props(d):
     for i in range(len(d['boxes'])):
@@ -39,47 +37,10 @@ def set_boxplot_props(d):
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
 def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
-    """
-    Analysis class.
-    An instance of the analysis class for the given network and simulation.
-    Can be created as a member class of a multiarea_model instance or standalone.
-
-    Parameters
-    ----------
-    network : MultiAreaModel
-        An instance of the multiarea_model class that specifies
-        the network to be analyzed.
-    simulation : Simulation
-        An instance of the simulation class that specifies
-        the simulation to be analyzed.
-    data_list : list of strings {'spikes', vm'}, optional
-        Specifies which type of data is to load. Defaults to ['spikes'].
-    load_areas : list of strings with area names, optional
-        Specifies the areas for which data is to be loaded.
-        Default value is None and leads to loading of data for all
-        simulated areas.
-    """
-
-    # Instantiate an analysis class and load spike data
-    A = Analysis(network=M, 
-                 simulation=M.simulation, 
-                 data_list=['spikes'],
-                 load_areas=None)
+    # Generate data for the following plotting
+    generate_data(M, data_path, M.simulation.label, raster_areas)
     
-    # load data
-    load_and_create_data(M, A, raster_areas)
-    
-    # compute correlation_coefficient
-    compute_corrcoeff(M, data_path, M.simulation.label)
-    
-    # compute rate_time_series_full
-    for area in raster_areas:
-        compute_rate_time_series(M, data_path, M.simulation.label, area, 'full')
-    
-    # compute rate_time_series_auto_kernel
-    for area in raster_areas:
-        compute_rate_time_series(M, data_path, M.simulation.label, area, 'auto_kernel')
-    
+    # Simulation time
     t_sim = M.simulation.params["t_sim"]
     
     """
@@ -213,20 +174,20 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # """
     # M = MultiAreaModel({})
     
-    spike_data = A.spike_data
     label_spikes = M.simulation.label
     label = M.simulation.label
     
-    # # spike data
-    # spike_data = {}
-    # for area in areas:
-    #     spike_data[area] = {}
-    #     for pop in M.structure[area]:
-    #         spike_data[area][pop] = np.load(os.path.join(data_path,
-    #                                                      label_spikes,
-    #                                                      'recordings',
-    #                                                      '{}-spikes-{}-{}.npy'.format(label_spikes,
-    #                                                                                   area, pop)))
+    # spike data
+    spike_data = {}
+    for area in areas:
+        spike_data[area] = {}
+        for pop in M.structure[area]:
+            spike_data[area][pop] = np.load(os.path.join(data_path,
+                                                         label_spikes,
+                                                         'recordings',
+                                                         '{}-spikes-{}-{}.npy'.format(label_spikes,
+                                                                                      # area, pop)))
+                                                                                      area, pop)), allow_pickle=True)
     
     # stationary firing rates
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
@@ -261,7 +222,6 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
 
     # correlation coefficients
     fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
-    # fn = os.path.join(data_path, label, 'Analysis', 'synchrony.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
@@ -349,14 +309,14 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     rates = np.zeros((len(areas), 8))
     for i, area in enumerate(areas):
         for j, pop in enumerate(M.structure[area][::-1]):
-            rate = pop_rates[area][pop][0]
+            # rate = pop_rates[area][pop][0]
+            rate = pop_rates[area][pop]
             if rate == 0.0:
                 rate = 1e-5
             if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
                 rates[i][j + 2] = rate
             else:
                 rates[i][j] = rate
-
 
     rates = np.transpose(rates)
     masked_rates = np.ma.masked_where(rates < 1e-4, rates)
