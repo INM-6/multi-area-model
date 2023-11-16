@@ -20,39 +20,31 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     output : {'pdf', 'png', 'eps'}, optional
         If given, the function stores the plot to a file of the given format.
     """
-    
-    A = Analysis(network=M, 
-                 simulation=M.simulation, 
-                 data_list=['spikes'],
-                 load_areas=None)
-    
-    A.create_pop_rates()
-    
-    if area_list is None:
-        area_list = ['V1', 'V2', 'VP', 'V3', 'PIP', 'V3A', 'MT', 'V4t', 'V4',
-                     'PO', 'VOT', 'DP', 'MIP', 'MDP', 'MSTd', 'VIP', 'LIP',
-                     'PITv', 'PITd', 'AITv', 'MSTl', 'FST', 'CITv', 'CITd',
-                     '7a', 'STPp', 'STPa', 'FEF', '46', 'TF', 'TH', 'AITd']
-    
-    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
-        sim_params = json.load(f)
-    
-    areas_simulated = sim_params['sim_params']['areas_simulated']
+
+    # with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
+    #     sim_params = json.load(f)
+    # areas_simulated = sim_params['sim_params']['areas_simulated']
+    area_list = M.simulation.params["areas_simulated"]
     
     # matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
-    matrix = np.zeros((len(areas_simulated), len(A.network.structure['V1'])))
+    matrix = np.zeros((len(area_list), len(M.structure['V1'])))
 
     fig = plt.figure(figsize=(12, 4))
     fig.suptitle('Time-averaged population rates encoded in colors', fontsize=15, x=0.43)
     ax = fig.add_subplot(111)
-
-    # for i, area in enumerate(area_list):
-    for i, area in enumerate(areas_simulated):
+    
+    # stationary firing rates
+    fn = os.path.join(data_path, M.simulation.label, 'Analysis', 'pop_rates.json')
+    with open(fn, 'r') as f:
+        pop_rates = json.load(f)
+    
+    for i, area in enumerate(area_list):
         # print(i, area)
         # for j, pop in enumerate(A.network.structure_reversed['V1']):
-        for j, pop in enumerate(A.network.structure['V1'][::-1]):
-            if pop in A.network.structure[area]:
-                rate = A.pop_rates[area][pop][0]
+        for j, pop in enumerate(M.structure['V1'][::-1]):
+            if pop in M.structure[area]:
+                # rate = A.pop_rates[area][pop][0]
+                rate = pop_rates[area][pop]
                 if rate == 0.0:
                     rate = 1e-5  # To distinguish zero-rate from non-existing populations
             else:
@@ -77,7 +69,8 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
 
     x_index = np.arange(4.5, 31.6, 5.0)
     x_ticks = [int(a + 0.5) for a in x_index]
-    y_index = list(range(len(A.network.structure['V1'])))
+    # y_index = list(range(len(A.network.structure['V1'])))
+    y_index = list(range(len(M.structure['V1'])))
     y_index = [a + 0.5 for a in y_index]
     # ax.set_xticks(x_index)
     ax.set_xticks([i + 0.5 for i in np.arange(0, len(area_list), 1)])
@@ -85,7 +78,7 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     ax.set_xticklabels(area_list, rotation=90, size=10.)
     ax.set_yticks(y_index)
     # ax.set_yticklabels(A.network.structure_reversed['V1'])
-    ax.set_yticklabels(A.network.structure['V1'][::-1])
+    ax.set_yticklabels(M.structure['V1'][::-1])
     ax.set_ylabel('Population', size=13)
     ax.set_xlabel('Area index', size=13)
     t = FixedLocator([0.01, 0.1, 1., 10., 100.])
@@ -93,7 +86,9 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     plt.colorbar(im, ticks=t)
 
     if 'output' in keywords:
-        plt.savefig(os.path.join(A.output_dir, '{}_rates.{}'.format(A.simulation.label,
+        # plt.savefig(os.path.join(A.output_dir, '{}_rates.{}'.format(A.simulation.label,
+        #                                                                keywords['output'])))
+        plt.savefig(os.path.join(M.output_dir, '{}_rates.{}'.format(M.simulation.label,
                                                                        keywords['output'])))
     else:
         fig.show()

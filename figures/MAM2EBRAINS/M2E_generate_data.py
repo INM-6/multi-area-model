@@ -3,6 +3,7 @@ from M2E_compute_pop_LvR import compute_pop_LvR
 from M2E_compute_corrcoeff import compute_corrcoeff
 from M2E_compute_rate_time_series import compute_rate_time_series
 
+
 def generate_data(M, data_path, label, raster_areas):
     # Compute pop_rates
     compute_pop_rates(M, data_path, label)
