@@ -19,7 +19,7 @@ def plot_firing_rate(M):
     # display the value of mean rate
     ax.text(0.7 * max(tsteps), mean_rate+2, f'Mean firing rate: {mean_rate:.2f}', fontsize=12)
 
-    ax.set_title('Instantaneous and mean firing rate across all populations', fontsize=15, pad=20)
+    ax.set_title('Instantaneous and mean firing rate across all populations', fontsize=15, pad=10)
     ax.set_xlabel('Time (ms)', fontsize=13)
     ax.set_ylabel('Firing rate (spikes / s)', fontsize=12)
     ax.set_xlim(0, M.simulation.params['t_sim'])
