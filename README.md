@@ -29,7 +29,6 @@ A video providing a brief introduction to the model and the code in this reposit
 Want to start using or simply run the model? Click the button below.<br>
 **Please note**: make sure you check and follow our [User instructions](#user-instructions), especially if you plan to make and save the changes, or if you simply need step-by-step instructions.<br>
 <a href="https://lab.ebrains.eu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmulti-area-model&branch=master&urlpath=lab%2Ftree%2Fmulti-area-model%2Fmulti-area-model.ipynb&branch=master"> <img src="https://nest-simulator.org/TryItOnEBRAINS.png" alt="Try it on EBRAINS" width="260"/></a>
-
 --------------------------------------------------------------------------------
 
 ### User instructions
