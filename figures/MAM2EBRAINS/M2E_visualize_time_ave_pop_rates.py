@@ -79,7 +79,7 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     ax.set_yticks(y_index)
     # ax.set_yticklabels(A.network.structure_reversed['V1'])
     # ax.set_yticklabels(M.structure['V1'][::-1])
-    ax.set_yticklabels(['6I', '6E', '5I', '5E', '4I'. '4E', '2/3I', '2/3E'])
+    ax.set_yticklabels(['6I', '6E', '5I', '5E', '4I', '4E', '2/3I', '2/3E'])
     ax.set_ylabel('Population', size=13)
     ax.set_xlabel('Area index', size=13)
     t = FixedLocator([0.01, 0.1, 1., 10., 100.])
