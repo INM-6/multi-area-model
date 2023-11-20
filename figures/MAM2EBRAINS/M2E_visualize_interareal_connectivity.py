@@ -190,7 +190,8 @@ def visualize_interareal_connectivity(M):
     ax.set_aspect(1. / ax.get_data_ratio())
 
     masked_matrix_full_scale = np.ma.masked_values(conn_matrix_full_scale, 0.0)
-    cmap = pl.get_cmap('inferno')
+    # cmap = pl.get_cmap('inferno')
+    cmap = pl.get_cmap('YlOrBr')
     cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
@@ -321,7 +322,7 @@ def visualize_interareal_connectivity(M):
     ax.set_aspect(1. / ax.get_data_ratio())
 
     masked_matrix_down_scale = np.ma.masked_values(conn_matrix_down_scale, 0.0)
-    cmap = pl.get_cmap('inferno')
+    # cmap = pl.get_cmap('inferno')
     cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
