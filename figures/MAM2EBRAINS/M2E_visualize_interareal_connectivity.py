@@ -36,7 +36,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=16, y=1.05)
+    fig.suptitle('Interareal connectivity for full-scale (left) and down-scaled (right) multi-area model', fontsize=16, y=1.05)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
