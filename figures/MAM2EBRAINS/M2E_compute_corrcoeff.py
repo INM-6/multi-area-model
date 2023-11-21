@@ -42,6 +42,7 @@ def compute_corrcoeff(M, data_path, label):
         LvR_list = []
         N = []
         for pop in M.structure[area]:
+            print(area, pop)
             fp = '-'.join((label,
                            'spikes',  # assumes that the default label for spike files was used
                            area,
@@ -54,7 +55,14 @@ def compute_corrcoeff(M, data_path, label):
             dat = ch.sort_gdf_by_id(spikes, idmin=ids[0], idmax=ids[0]+subsample+1000)
             bins, hist = ch.instantaneous_spike_count(dat[1], resolution, tmin=tmin, tmax=T)
             rates = ch.strip_binned_spiketrains(hist)[:subsample]
+            print(rates)
+            print("test")
+            print(rates.shape)
             cc = np.corrcoef(rates)
+            print(cc.shape)
+            print(cc[0].size)
+            # print(cc[0])
+            # print(cc)
             cc = np.extract(1-np.eye(cc[0].size), cc)
             cc[np.where(np.isnan(cc))] = 0.
             cc_dict[area][pop] = np.mean(cc)
