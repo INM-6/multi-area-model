@@ -36,7 +36,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal connectivity for full-scale (left) and down-scale (right) multi-area model', fontsize=16, y=1.05)
+    fig.suptitle('Interareal probabilistic connectivity for full-scale (left) and down-scaled (right) multi-area model', fontsize=16, y=1.05)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
@@ -189,8 +189,11 @@ def visualize_interareal_connectivity(M):
 
     ax.set_aspect(1. / ax.get_data_ratio())
 
-    masked_matrix_full_scale = np.ma.masked_values(conn_matrix_full_scale, 0.0)
-    cmap = pl.get_cmap('inferno')
+    # masked_matrix_full_scale = np.ma.masked_values(conn_matrix_full_scale, 0.0)
+    masked_matrix_full_scale = conn_matrix_full_scale
+    print(masked_matrix_full_scale[2])
+    # cmap = pl.get_cmap('inferno')
+    cmap = pl.get_cmap('YlOrBr')
     cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
@@ -320,8 +323,10 @@ def visualize_interareal_connectivity(M):
 
     ax.set_aspect(1. / ax.get_data_ratio())
 
-    masked_matrix_down_scale = np.ma.masked_values(conn_matrix_down_scale, 0.0)
-    cmap = pl.get_cmap('inferno')
+    # masked_matrix_down_scale = np.ma.masked_values(conn_matrix_down_scale, 0.0)
+    masked_matrix_down_scale = conn_matrix_down_scale
+    print(masked_matrix_down_scale[2])
+    # cmap = pl.get_cmap('inferno')
     cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
