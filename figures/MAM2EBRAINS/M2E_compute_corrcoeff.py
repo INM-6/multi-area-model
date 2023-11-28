@@ -42,7 +42,6 @@ def compute_corrcoeff(M, data_path, label):
         LvR_list = []
         N = []
         for pop in M.structure[area]:
-            print(area, pop)
             fp = '-'.join((label,
                            'spikes',  # assumes that the default label for spike files was used
                            area,
@@ -55,14 +54,15 @@ def compute_corrcoeff(M, data_path, label):
             dat = ch.sort_gdf_by_id(spikes, idmin=ids[0], idmax=ids[0]+subsample+1000)
             bins, hist = ch.instantaneous_spike_count(dat[1], resolution, tmin=tmin, tmax=T)
             rates = ch.strip_binned_spiketrains(hist)[:subsample]
-            print(rates)
-            print("test")
-            print(rates.shape)
+            
+            # test if only 1 of the neurons is firing, if yes, print warning message and continue
+            if rates.shape[0] < 2:
+                # print(area, pop)
+                print(f"WARNING: There are less than 2 neurons firing in the population: {area} {pop} due to a very small value being assigned to the parameter scale_down_to, the corresponding cross-correlation will not be computed.", area, pop)
+                continue
+            
+            # compute cross correlation coefficient
             cc = np.corrcoef(rates)
-            print(cc.shape)
-            print(cc[0].size)
-            # print(cc[0])
-            # print(cc)
             cc = np.extract(1-np.eye(cc[0].size), cc)
             cc[np.where(np.isnan(cc))] = 0.
             cc_dict[area][pop] = np.mean(cc)
