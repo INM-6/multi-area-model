@@ -16,7 +16,9 @@ from matplotlib import gridspec
 # from matplotlib import rc_file
 # rc_file('plotstyle.rc')
 
-from M2E_generate_data import generate_data
+from M2E_compute_pop_LvR import compute_pop_LvR
+from M2E_compute_corrcoeff import compute_corrcoeff
+from M2E_compute_rate_time_series import compute_rate_time_series
 
 icolor = myred
 ecolor = myblue
@@ -37,8 +39,21 @@ def set_boxplot_props(d):
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
 def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
-    # Generate data for the following plotting
-    generate_data(M, data_path, M.simulation.label, raster_areas)
+    label = M.simulation.label
+    
+    # Compute pop_LvR
+    compute_pop_LvR(M, data_path, label)
+    
+    # compute correlation_coefficient
+    compute_corrcoeff(M, data_path, label)
+    
+    # compute rate_time_series_full
+    for area in raster_areas:
+        compute_rate_time_series(M, data_path, label, area, 'full')
+    
+    # compute rate_time_series_auto_kernel
+    for area in raster_areas:
+        compute_rate_time_series(M, data_path, label, area, 'auto_kernel')
     
     # Simulation time
     t_sim = M.simulation.params["t_sim"]
