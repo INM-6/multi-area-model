@@ -225,6 +225,11 @@ The multi-area model can be run in different modes.
    combining this mode with the previous mode 'Subset of the
    network').
 
+5. Ground / Metastable state
+   As described in Schmidt et al. (2018) (https://doi.org/10.1371/journal.pcbi.1006359),
+   the model can switch between two activity regimes - the Ground state and the Metastable state.
+   The switching is achieved by altering the value of the parameter ```cc_weights_factor```.
+
 ## Test suite
 
 The `tests/` folder holds a test suite that tests different aspects of
