@@ -75,16 +75,6 @@ network_params = {
 Single-neuron parameters
 """
 
-sim_params.update(
-    {
-        'initial_state': {
-            # mean of initial membrane potential (in mV)
-            'V_m_mean': -58.0,
-            # std of initial membrane potential (in mV)
-            'V_m_std': 10.0
-        }
-    })
-
 # dictionary defining single-cell parameters
 single_neuron_dict = {
     # Leak potential of the neurons (in mV).
@@ -111,7 +101,7 @@ neuron_params = {
     'single_neuron_dict': single_neuron_dict,
     # Mean and standard deviation for the
     # distribution of initial membrane potentials
-    'V0_mean': -100.,
+    'V0_mean': -150.,
     'V0_sd': 50.}
 
 network_params.update({'neuron_params': neuron_params})
@@ -122,11 +112,12 @@ General connection parameters
 """
 connection_params = {
     # Whether to apply the stabilization method of
-    # Schuecker, Schmidt et al. (2017). Default is None.
-    # Options are True to perform the stabilization or
+    # Schuecker, Schmidt et al. (2017).
+    # Options are True to perform the stabilization,
+    # None to not perform the stabilization or
     # a string that specifies the name of a binary
-    # numpy file containing the connectivity matrix
-    'K_stable': None,
+    # numpy file containing the connectivity matrix.
+    'K_stable': os.path.join(base_path+'/figures/SchueckerSchmidt2017', 'K_prime_original.npy'),
 
     # Whether to replace all cortico-cortical connections by stationary
     # Poisson input with population-specific rates (het_poisson_stat)
@@ -158,7 +149,7 @@ connection_params = {
     'E_specificity': True,
 
     # Relative inhibitory synaptic strength (in relative units).
-    'g': -16.,
+    'g': -11.,
 
     # compute average indegree in V1 from data
     'av_indegree_V1': np.mean([av_indegree_Cragg, av_indegree_OKusky]),
@@ -169,10 +160,10 @@ connection_params = {
     'rho_syn': 'constant',
 
     # Increase the external Poisson indegree onto 5E and 6E
-    'fac_nu_ext_5E': 1.,
-    'fac_nu_ext_6E': 1.,
+    'fac_nu_ext_5E': 1.125,
+    'fac_nu_ext_6E': 1.41666667,
     # to increase the ext. input to 23E and 5E in area TH
-    'fac_nu_ext_TH': 1.,
+    'fac_nu_ext_TH': 1.2,
 
     # synapse weight parameters for current-based neurons
     # excitatory intracortical synaptic weight (mV)
@@ -187,10 +178,10 @@ connection_params = {
     'PSC_rel_sd_lognormal': 3.0,
 
     # scaling factor for cortico-cortical connections (chi)
-    'cc_weights_factor': 1.,
+    'cc_weights_factor': 1.9,
     # factor to scale cortico-cortical inh. weights in relation
     # to exc. weights (chi_I)
-    'cc_weights_I_factor': 1.,
+    'cc_weights_I_factor': 2.,
 
     # 'switch whether to distribute weights lognormally
     'lognormal_weights': False,
@@ -290,7 +281,7 @@ theory_params = {'neuron_params': neuron_params,
                  # The simulation time of the mean-field theory integration
                  'T': 50.,
                  # The time step of the mean-field theory integration
-                 'dt': 0.01,
+                 'dt': 0.1,
                  # Time interval for recording the trajectory of the mean-field calcuation
                  # If None, then the interval is set to dt
                  'rec_interval': None}

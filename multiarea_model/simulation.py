@@ -331,6 +331,7 @@ class Simulation:
         Write runtime and memory for the first 30 MPI processes
         to file.
         """
+        local_spike_counter = nest.GetKernelStatus('local_spike_counter')
         if nest.Rank() < 30:
             d = {'time_prepare': self.time_prepare,
                  'time_network_local': self.time_network_local,
@@ -338,7 +339,8 @@ class Simulation:
                  'time_simulate': self.time_simulate,
                  'base_memory': self.base_memory,
                  'network_memory': self.network_memory,
-                 'total_memory': self.total_memory}
+                 'total_memory': self.total_memory, 
+                 'local_spike_counter': local_spike_counter}
             fn = os.path.join(self.data_dir,
                               'recordings',
                               '_'.join((self.label,
