@@ -178,6 +178,9 @@ connection_params = {
     'PSC_rel_sd_lognormal': 3.0,
 
     # scaling factor for cortico-cortical connections (chi)
+    # Default value is 1.9 which reproduces the "Metastable" state
+    # activity described in Schmidt et al. (2018). 
+    # A weight factor of 1.0 produces Ground state activity.
     'cc_weights_factor': 1.9,
     # factor to scale cortico-cortical inh. weights in relation
     # to exc. weights (chi_I)
