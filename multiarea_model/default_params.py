@@ -99,8 +99,10 @@ neuron_params = {
     'neuron_model': 'iaf_psc_exp',
     # neuron parameters
     'single_neuron_dict': single_neuron_dict,
-    # Mean and standard deviation for the
-    # distribution of initial membrane potentials
+    # The initial membrane potential distribution is chosen 
+    # to be centered on a hyperpolarized state to limit synchronous 
+    # initial firing, which could bring the model into a high-activity 
+    # state when the parameters are set according to the metastable condition.
     'V0_mean': -150.,
     'V0_sd': 50.}
 
@@ -182,8 +184,9 @@ connection_params = {
     # activity described in Schmidt et al. (2018). 
     # A weight factor of 1.0 produces Ground state activity.
     'cc_weights_factor': 1.9,
-    # factor to scale cortico-cortical inh. weights in relation
-    # to exc. weights (chi_I)
+    # Factor to scale cortico-cortical inh. weights in relation
+    # to exc. weights (chi_I). Default is 2.0 to reproduce metastable state
+    # activity. For ground state activity, set to 1.0.
     'cc_weights_I_factor': 2.,
 
     # 'switch whether to distribute weights lognormally
