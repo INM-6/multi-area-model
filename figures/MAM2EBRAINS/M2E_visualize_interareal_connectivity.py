@@ -193,7 +193,6 @@ def visualize_interareal_connectivity(M):
 
     masked_matrix_full_scale = np.ma.masked_values(conn_matrix_full_scale, 0.0)
     print(conn_matrix_full_scale[0])
-
     # cmap = pl.get_cmap('inferno')
     cmap = pl.get_cmap('YlOrBr')
     cmap.set_bad('w', 1.0)
@@ -329,7 +328,6 @@ def visualize_interareal_connectivity(M):
 
     masked_matrix_down_scale = np.ma.masked_values(conn_matrix_down_scale, 0.0)
     # print(conn_matrix_down_scale[0])
-
     # cmap = pl.get_cmap('inferno')
     # cmap.set_bad('w', 1.0)
 
