@@ -120,8 +120,10 @@ class MultiAreaModel:
             dat = json.load(f)
 
         self.structure = OrderedDict()
+        self.structure_reversed = OrderedDict()
         for area in dat['area_list']:
             self.structure[area] = dat['structure'][area]
+            self.structure_reversed[area] = self.structure[area][::-1]
         self.N = dat['neuron_numbers']
         self.synapses = dat['synapses']
         self.W = dat['synapse_weights_mean']

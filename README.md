@@ -225,6 +225,12 @@ The multi-area model can be run in different modes.
    combining this mode with the previous mode 'Subset of the
    network').
 
+5. Dynamical regimes
+
+   As described in Schmidt et al. (2018) (https://doi.org/10.1371/journal.pcbi.1006359),
+   the model can be run in two dynamical regimes - the Ground state and the Metastable state.
+   The state is controlled by the value of the ```cc_weights_factor``` and ```cc_weights_I_factor``` parameters.
+
 ## Test suite
 
 The `tests/` folder holds a test suite that tests different aspects of
