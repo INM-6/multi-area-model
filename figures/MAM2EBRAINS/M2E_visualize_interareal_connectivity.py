@@ -182,6 +182,8 @@ def visualize_interareal_connectivity(M):
         for j, area2 in enumerate(area_list):
             conn_matrix_full_scale[i][j] = M_full_scale.K_areas[area1][
                 area2] / np.sum(list(M_full_scale.K_areas[area1].values()))
+    print(conn_matrix_full_scale[0][0])
+    # print(conn_matrix_full_scale[2])
 
     ax = axes['B']
     ax.yaxis.set_ticks_position("none")
@@ -189,9 +191,8 @@ def visualize_interareal_connectivity(M):
 
     ax.set_aspect(1. / ax.get_data_ratio())
 
-    # masked_matrix_full_scale = np.ma.masked_values(conn_matrix_full_scale, 0.0)
-    masked_matrix_full_scale = conn_matrix_full_scale
-    print(masked_matrix_full_scale[2])
+    masked_matrix_full_scale = np.ma.masked_values(conn_matrix_full_scale, 0.0)
+    print(conn_matrix_full_scale[0])
     # cmap = pl.get_cmap('inferno')
     cmap = pl.get_cmap('YlOrBr')
     cmap.set_bad('w', 1.0)
@@ -316,18 +317,19 @@ def visualize_interareal_connectivity(M):
         for j, area2 in enumerate(area_list):
             conn_matrix_down_scale[i][j] = M.K_areas[area1][
                 area2] / np.sum(list(M.K_areas[area1].values()))
-
+    print(conn_matrix_down_scale[0][0])
+    # print(conn_matrix_down_scale[2])
+    
     ax = axes['D']
     ax.yaxis.set_ticks_position("none")
     ax.xaxis.set_ticks_position("none")
 
     ax.set_aspect(1. / ax.get_data_ratio())
 
-    # masked_matrix_down_scale = np.ma.masked_values(conn_matrix_down_scale, 0.0)
-    masked_matrix_down_scale = conn_matrix_down_scale
-    print(masked_matrix_down_scale[2])
+    masked_matrix_down_scale = np.ma.masked_values(conn_matrix_down_scale, 0.0)
+    # print(conn_matrix_down_scale[0])
     # cmap = pl.get_cmap('inferno')
-    cmap.set_bad('w', 1.0)
+    # cmap.set_bad('w', 1.0)
 
     x = np.arange(0, len(area_list) + 1)
     y = np.arange(0, len(area_list[::-1]) + 1)
