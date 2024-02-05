@@ -25,7 +25,7 @@ def plot_firing_rate(M):
     # display the value of mean rate
     ax.text(0.7 * max(tsteps), mean_rate+2, f'Mean firing rate: {mean_rate:.2f}', fontsize=12)
 
-    ax.set_title('Instantaneous and mean firing rate across all populations', fontsize=15, pad=10)
+    ax.set_title('Instantaneous and mean firing rate of all populations', fontsize=15, pad=10)
     ax.set_xlabel('Time (ms)', fontsize=13)
     ax.set_ylabel('Firing rate (spikes / s)', fontsize=12)
     ax.set_xlim(0, M.simulation.params['t_sim'])
@@ -72,7 +72,7 @@ def plot_firing_rate_over_areas(M, data_path):
     normalized_matrix = (matrix - np.min(matrix)) / (np.max(matrix) - np.min(matrix))
     
     fig = pl.figure()
-    fig.suptitle('Normalized instantanous firing rate over simulated areas', fontsize=16, y=0.95, x=0.45)
+    fig.suptitle('Normalized instantanous firing rate over simulated areas', fontsize=16, x=0.45)
     ax = pl.subplot()
     
     cmap = pl.get_cmap('YlOrBr')
