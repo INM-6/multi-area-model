@@ -30,7 +30,7 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     matrix = np.zeros((len(area_list), len(M.structure['V1'])))
 
     fig = plt.figure(figsize=(12, 4))
-    fig.suptitle('Time-averaged firing rate over all populations', fontsize=15, x=0.43)
+    fig.suptitle('Time-averaged firing rate over simulated populations', fontsize=15, x=0.43)
     ax = fig.add_subplot(111)
     
     # stationary firing rates
