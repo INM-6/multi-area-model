@@ -95,7 +95,6 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
     axes['G'] = pl.subplot(gs3[:1, :1])
 
-    # areas = ['V1', 'V2', 'FEF']
     area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
                  'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
                  'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
@@ -113,12 +112,10 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         if area not in area_list:
             raise Exception("Error! Given raster areas are not from complete_area_list, please input correct areas to diaply the raster plots.")
         if area not in areas_simulated:
-            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to diaply the raster plots.")
-            
-    areas = raster_areas
+            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to display the raster plots.")
 
     labels = ['A', 'B', 'C']
-    for area, label in zip(areas, labels):
+    for area, label in zip(raster_areas, labels):
         label_pos = [-0.2, 1.01]
         # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label + ': ' + area,
         #         fontdict={'fontsize': 10, 'weight': 'bold',
@@ -194,7 +191,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     
     # spike data
     spike_data = {}
-    for area in areas:
+    for area in areas_simulated:
         spike_data[area] = {}
         for pop in M.structure[area]:
             spike_data[area][pop] = np.load(os.path.join(data_path,
@@ -211,7 +208,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
 
     # time series of firing rates
     rate_time_series = {}
-    for area in areas:
+    for area in raster_areas:
         fn = os.path.join(data_path, label,
                           'Analysis',
                           'rate_time_series_full',
@@ -223,7 +220,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
 
     # time series of firing rates convolved with a kernel
     rate_time_series_auto_kernel = {}
-    for area in areas:
+    for area in raster_areas:
         fn = os.path.join(data_path, label,
                           'Analysis',
                           'rate_time_series_auto_kernel',
@@ -256,7 +253,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # frac_neurons = 0.03
     frac_neurons = 1
 
-    for i, area in enumerate(areas):
+    for i, area in enumerate(raster_areas):
         ax = axes[labels[i]]
 
         if area in spike_data:
@@ -321,8 +318,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     #         else:
     #             rates[i][j] = rate
     
-    rates = np.zeros((len(areas), 8))
-    for i, area in enumerate(areas):
+    rates = np.zeros((len(areas_simulated), 8))
+    for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
             # rate = pop_rates[area][pop][0]
             rate = pop_rates[area][pop]
@@ -367,8 +364,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     #         else:
     #             syn[i][j] = value
     
-    syn = np.zeros((len(areas), 8))
-    for i, area in enumerate(areas):
+    syn = np.zeros((len(areas_simulated), 8))
+    for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
             value = corrcoeff[area][pop]
             if value == 0.0:
@@ -393,7 +390,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
     # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
-    ax.set_xticks([0., 0.005, 0.01])
+    # ax.set_xticks([0., 0.005, 0.02])
     ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
     # ax.set_xlabel('Synchrony', labelpad=-0.1)
 
@@ -411,8 +408,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     #         else:
     #             LvR[i][j] = value
     
-    LvR = np.zeros((len(areas), 8))
-    for i, area in enumerate(areas):
+    LvR = np.zeros((len(areas_simulated), 8))
+    for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
             value = pop_LvR[area][pop]
             if value == 0.0:
@@ -469,7 +466,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     t_max = t_sim
     # time = np.arange(500., t_max)
     time = np.arange(500, t_max)
-    for i, area in enumerate(areas[::-1]):
+    for i, area in enumerate(raster_areas[::-1]):
         ax[i].spines['right'].set_color('none')
         ax[i].spines['top'].set_color('none')
         ax[i].yaxis.set_ticks_position("left")
@@ -498,7 +495,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
             r = t_max/1000
             # ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
             ax[i].set_xticklabels([f'{l:.2f}', f'{m:.2f}', f'{r:.2f}'])
-            ax[i].set_yticks([0., 5.])
+            # ax[i].set_yticks([0., 5.])
+            ax[i].set_yticks([0., 30.])
         if i == 1:
             ax[i].set_ylabel(r'Rate (spikes/s)')
 
