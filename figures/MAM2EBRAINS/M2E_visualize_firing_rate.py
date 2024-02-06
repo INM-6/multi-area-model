@@ -72,7 +72,7 @@ def plot_firing_rate_over_areas(M, data_path):
     normalized_matrix = (matrix - np.min(matrix)) / (np.max(matrix) - np.min(matrix))
     
     fig = pl.figure()
-    fig.suptitle('Normalized instantanous firing rate over simulated areas', fontsize=16, x=0.45, y=0.95)
+    fig.suptitle('Normalized instantaneous firing rate over simulated areas', fontsize=16, x=0.45, y=0.95)
     ax = pl.subplot()
     
     cmap = pl.get_cmap('YlOrBr')
