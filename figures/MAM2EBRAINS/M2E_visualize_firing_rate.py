@@ -3,45 +3,42 @@ import matplotlib.pyplot as pl
 import os
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import FixedLocator
+import json
 
 from M2E_compute_pop_rates import compute_pop_rates
 from M2E_compute_rate_time_series import compute_rate_time_series
 
-def plot_firing_rate(M):
-    # load spike data and calculate instantaneous and mean firing rates
-    data = np.loadtxt(M.simulation.data_dir + '/recordings/' + M.simulation.label + "-spikes-1-0.dat", skiprows=3)
-    tsteps, spikecount = np.unique(data[:,1], return_counts=True)
-    rate = spikecount / M.simulation.params['dt'] * 1e3 / np.sum(M.N_vec)
-    
-    # visualize calculate instantaneous and mean firing rates
-    fig = pl.figure(figsize=(10, 5))
-    ax = fig.add_subplot()
-    ax.plot(tsteps, rate)
-    
-    # visualize the mean rate
-    mean_rate = np.average(rate)
-    ax.plot(tsteps, mean_rate*np.ones(len(tsteps)), label='mean')
-    
-    # display the value of mean rate
-    ax.text(0.7 * max(tsteps), mean_rate+2, f'Mean firing rate: {mean_rate:.2f}', fontsize=12)
-
-    ax.set_title('Instantaneous and mean firing rate of simulated populations', fontsize=15, pad=10)
-    ax.set_xlabel('Time (ms)', fontsize=13)
-    ax.set_ylabel('Firing rate (spikes / s)', fontsize=12)
-    ax.set_xlim(0, M.simulation.params['t_sim'])
-    ax.set_ylim(0, 50)
-    ax.legend()
-    pl.show()
-    
-    
-def plot_firing_rate_over_areas(M, data_path):
-    label = M.simulation.label
+def mean_firing_rate(M, data_path):
     area_list = M.simulation.params["areas_simulated"]
+    label = M.simulation.label
     
-    # Compute pop_rates
     compute_pop_rates(M, data_path, label)
     
-    # compute rate_time_series_full
+    fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
+    with open(fn, 'r') as f:
+        pop_rates = json.load(f)
+        
+    rates = np.zeros((len(area_list), 8))
+    for i, area in enumerate(area_list):
+        for j, pop in enumerate(M.structure[area][::-1]):
+            # rate = pop_rates[area][pop][0]
+            rate = pop_rates[area][pop]
+            if rate == 0.0:
+                rate = 1e-5
+            if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
+                rates[i][j + 2] = rate
+            else:
+                rates[i][j] = rate
+
+    rates = np.transpose(rates)
+    masked_rates = np.ma.masked_where(rates < 1e-4, rates)
+    mfr = np.mean(np.mean(rates, axis=1))
+    print("The mean firing rate across all populations of the simulated model is {0:.3f} spikes/s.".format(mfr))
+    
+def plot_firing_rate_over_areas(M, data_path):
+    area_list = M.simulation.params["areas_simulated"]
+    label = M.simulation.label
+    
     for area in area_list:
         compute_rate_time_series(M, data_path, label, area, 'full')
     

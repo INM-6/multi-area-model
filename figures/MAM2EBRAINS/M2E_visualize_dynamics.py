@@ -52,7 +52,7 @@ def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         compute_rate_time_series(M, data_path, label_spikes, area, 'full')
     
     # compute rate_time_series_auto_kernel for raster_areas
-    rate_auto_kernel = False
+    rate_auto_kernel = True
     try:
         for area in raster_areas:
             compute_rate_time_series(M, data_path, label_spikes, area, 'auto_kernel')
