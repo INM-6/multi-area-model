@@ -38,7 +38,7 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
+def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     label = M.simulation.label
     
     # Compute pop_LvR
