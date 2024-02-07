@@ -39,24 +39,42 @@ def set_boxplot_props(d):
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
 def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
-    label = M.simulation.label
+    label_spikes = M.simulation.label
     
-    # Compute pop_LvR
-    compute_pop_LvR(M, data_path, label)
+    # Compute pop_LvR for simulated area
+    compute_pop_LvR(M, data_path, label_spikes)
     
-    # compute correlation_coefficient
-    compute_corrcoeff(M, data_path, label)
+    # compute correlation_coefficient for simulated area
+    compute_corrcoeff(M, data_path, label_spikes)
     
-    # compute rate_time_series_full
+    # compute rate_time_series_full for raster_areas
     for area in raster_areas:
-        compute_rate_time_series(M, data_path, label, area, 'full')
+        compute_rate_time_series(M, data_path, label_spikes, area, 'full')
     
-    # compute rate_time_series_auto_kernel
+    # compute rate_time_series_auto_kernel for raster_areas
+    rate_auto_kernel = False
+    try:
+        for area in raster_areas:
+            compute_rate_time_series(M, data_path, label_spikes, area, 'auto_kernel')
+    except:
+        rate_auto_kernel = False
+    
+    # Simulation time and areas_simulated
+    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
+        sim_params = json.load(f)
+    t_sim = sim_params['sim_params']['t_sim']
+    areas_simulated = sim_params['sim_params']['areas_simulated']
+    
+    # Test if the areas in raster_areas are in the complete_area_list and areas_simulated
+    complete_area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
+                          'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
+                          'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
+                          'STPa', '46', 'AITd', 'TH']
     for area in raster_areas:
-        compute_rate_time_series(M, data_path, label, area, 'auto_kernel')
-    
-    # Simulation time
-    t_sim = M.simulation.params["t_sim"]
+        if area not in complete_area_list:
+            raise Exception("Error! Given raster areas are not from complete_area_list, please input correct areas to display the raster plots.")
+        if area not in areas_simulated:
+            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to display the raster plots.")
     
     """
     Figure layout
@@ -94,25 +112,6 @@ def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     gs3 = gridspec.GridSpec(1, 1)
     gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
     axes['G'] = pl.subplot(gs3[:1, :1])
-
-    area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
-                 'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
-                 'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
-                 'STPa', '46', 'AITd', 'TH']
-    
-    # if len(raster_areas) !=3:
-    #     raise Exception("Error! Please give 3 areas to display as raster plots.")
-    
-    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
-        sim_params = json.load(f)
-    
-    areas_simulated = sim_params['sim_params']['areas_simulated']
-    
-    for area in raster_areas:
-        if area not in area_list:
-            raise Exception("Error! Given raster areas are not from complete_area_list, please input correct areas to diaply the raster plots.")
-        if area not in areas_simulated:
-            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to display the raster plots.")
 
     labels = ['A', 'B', 'C']
     for area, label in zip(raster_areas, labels):
@@ -186,9 +185,6 @@ def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # """
     # M = MultiAreaModel({})
     
-    label_spikes = M.simulation.label
-    label = M.simulation.label
-    
     # spike data
     spike_data = {}
     for area in areas_simulated:
@@ -202,38 +198,39 @@ def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                                                                                       area, pop)), allow_pickle=True)
     
     # stationary firing rates
-    fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
+    fn = os.path.join(data_path, label_spikes, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
         pop_rates = json.load(f)
 
     # time series of firing rates
     rate_time_series = {}
     for area in raster_areas:
-        fn = os.path.join(data_path, label,
+        fn = os.path.join(data_path, label_spikes,
                           'Analysis',
                           'rate_time_series_full',
                           'rate_time_series_full_{}.npy'.format(area))
-        # fn = os.path.join(data_path, label,
+        # fn = os.path.join(data_path, label_spikes,
         #                   'Analysis',
         #                   'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
     # time series of firing rates convolved with a kernel
-    rate_time_series_auto_kernel = {}
-    for area in raster_areas:
-        fn = os.path.join(data_path, label,
-                          'Analysis',
-                          'rate_time_series_auto_kernel',
-                          'rate_time_series_auto_kernel_{}.npy'.format(area))
-        rate_time_series_auto_kernel[area] = np.load(fn)
+    if rate_auto_kernel == True:
+        rate_time_series_auto_kernel = {}
+        for area in raster_areas:
+            fn = os.path.join(data_path, label_spikes,
+                              'Analysis',
+                              'rate_time_series_auto_kernel',
+                              'rate_time_series_auto_kernel_{}.npy'.format(area))
+            rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
-    fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
+    fn = os.path.join(data_path, label_spikes, 'Analysis', 'pop_LvR.json')
     with open(fn, 'r') as f:
         pop_LvR = json.load(f)
 
     # correlation coefficients
-    fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    fn = os.path.join(data_path, label_spikes, 'Analysis', 'corrcoeff.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
@@ -367,23 +364,34 @@ def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     syn = np.zeros((len(areas_simulated), 8))
     for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
-            value = corrcoeff[area][pop]
-            if value == 0.0:
-                value = 1e-5
+            try:
+                value = corrcoeff[area][pop]
+                if value == 0.0:
+                    # print(i, area, j, pop, value)
+                    value = 1e-5
+            except:
+                value = 0.0
+            
             if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
                 syn[i][j + 2] = value
             else:
-                syn[i][j] = value
+                syn[i][j] = value         
+    # print(syn)
 
     syn = np.transpose(syn)
-    masked_syn = np.ma.masked_where(syn < 1e-4, syn)
+    masked_syn = np.ma.masked_where(syn == 0, syn)
+    # print(masked_syn)
 
     ax = axes['E']
-    d = ax.boxplot(np.transpose(syn), vert=False,
+    # d = ax.boxplot(np.transpose(syn), vert=False,
+    #                patch_artist=True, whis=1.5, showmeans=True)
+    d = ax.boxplot(np.transpose(masked_syn), vert=False,
                    patch_artist=True, whis=1.5, showmeans=True)
     set_boxplot_props(d)
 
-    ax.plot(np.mean(syn, axis=1), np.arange(
+    # ax.plot(np.mean(syn, axis=1), np.arange(
+    #     1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
+    ax.plot(np.mean(masked_syn, axis=1), np.arange(
         1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
 
     ax.set_yticklabels(population_labels[::-1], size=8)
@@ -475,10 +483,11 @@ def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         binned_spikes = rate_time_series[area][np.where(
             np.logical_and(time >= t_min, time < t_max))]
         ax[i].plot(time, binned_spikes, color=colors[0], label=area)
-        # rate = rate_time_series_auto_kernel[area]
-        rate = rate_time_series_auto_kernel[area][np.where(
-            np.logical_and(time >= t_min, time < t_max))]
-        ax[i].plot(time, rate, color=colors[2], label=area)
+        if rate_auto_kernel == True:
+            # rate = rate_time_series_auto_kernel[area]
+            rate = rate_time_series_auto_kernel[area][np.where(
+                np.logical_and(time >= t_min, time < t_max))]
+            ax[i].plot(time, rate, color=colors[2], label=area)
         ax[i].set_xlim((t_min, t_max))
 
         ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
