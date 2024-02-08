@@ -1,25 +1,28 @@
 import numpy as np
 import matplotlib.pyplot as pl
 import os
+import json
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import FixedLocator
-import json
 
 from M2E_compute_pop_rates import compute_pop_rates
 from M2E_compute_rate_time_series import compute_rate_time_series
 
+# Function for computing and printing the mean firing rate for all and only all simulated populations
 def mean_firing_rate(M, data_path):
-    area_list = M.simulation.params["areas_simulated"]
     label = M.simulation.label
     
+    # Compute firing rate for all simulated populations
     compute_pop_rates(M, data_path, label)
     
+    # Load the pop_rates data
     fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
         pop_rates = json.load(f)
-        
-    rates = np.zeros((len(area_list), 8))
-    for i, area in enumerate(area_list):
+    
+    # Calculate mean firing rate over all simulated populations
+    rates = np.zeros((len(M.area_list), 8))
+    for i, area in enumerate(M.area_list):
         for j, pop in enumerate(M.structure[area][::-1]):
             # rate = pop_rates[area][pop][0]
             rate = pop_rates[area][pop]
@@ -31,10 +34,11 @@ def mean_firing_rate(M, data_path):
                 rates[i][j] = rate
 
     rates = np.transpose(rates)
-    masked_rates = np.ma.masked_where(rates < 1e-4, rates)
     mfr = np.mean(np.mean(rates, axis=1))
-    print("The mean firing rate across all populations of the simulated model is {0:.3f} spikes/s.".format(mfr))
     
+    print("The mean firing rate over all simulated populations is {0:.3f} spikes/s.".format(mfr))
+
+# Function for visualizing the instantaneous firing rate over all simulated areas
 def plot_firing_rate_over_areas(M, data_path):
     area_list = M.simulation.params["areas_simulated"]
     label = M.simulation.label
