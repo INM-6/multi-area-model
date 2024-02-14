@@ -38,25 +38,43 @@ def set_boxplot_props(d):
     pl.setp(d['means'], marker='x', color='k',
             markerfacecolor='k', markeredgecolor='k', markersize=3.)
 
-def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
-    label = M.simulation.label
+def visual_dynamics(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
+    label_spikes = M.simulation.label
     
-    # Compute pop_LvR
-    compute_pop_LvR(M, data_path, label)
+    # Compute pop_LvR for simulated area
+    compute_pop_LvR(M, data_path, label_spikes)
     
-    # compute correlation_coefficient
-    compute_corrcoeff(M, data_path, label)
+    # compute correlation_coefficient for simulated area
+    compute_corrcoeff(M, data_path, label_spikes)
     
-    # compute rate_time_series_full
+    # compute rate_time_series_full for raster_areas
     for area in raster_areas:
-        compute_rate_time_series(M, data_path, label, area, 'full')
+        compute_rate_time_series(M, data_path, label_spikes, area, 'full')
     
-    # compute rate_time_series_auto_kernel
+    # compute rate_time_series_auto_kernel for raster_areas
+    rate_auto_kernel = True
+    try:
+        for area in raster_areas:
+            compute_rate_time_series(M, data_path, label_spikes, area, 'auto_kernel')
+    except:
+        rate_auto_kernel = False
+    
+    # Simulation time and areas_simulated
+    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
+        sim_params = json.load(f)
+    t_sim = sim_params['sim_params']['t_sim']
+    areas_simulated = sim_params['sim_params']['areas_simulated']
+    
+    # Test if the areas in raster_areas are in the complete_area_list and areas_simulated
+    complete_area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
+                          'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
+                          'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
+                          'STPa', '46', 'AITd', 'TH']
     for area in raster_areas:
-        compute_rate_time_series(M, data_path, label, area, 'auto_kernel')
-    
-    # Simulation time
-    t_sim = M.simulation.params["t_sim"]
+        if area not in complete_area_list:
+            raise Exception("Error! Given raster areas are not from complete_area_list, please input correct areas to display the raster plots.")
+        if area not in areas_simulated:
+            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to display the raster plots.")
     
     """
     Figure layout
@@ -95,30 +113,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     gs3.update(left=0.1, right=0.95, top=0.3, bottom=0.075)
     axes['G'] = pl.subplot(gs3[:1, :1])
 
-    # areas = ['V1', 'V2', 'FEF']
-    area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
-                 'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',
-                 'MSTl', 'CITv', 'CITd', 'FEF', 'TF', 'AITv', 'FST', '7a', 'STPp',
-                 'STPa', '46', 'AITd', 'TH']
-    
-    # if len(raster_areas) !=3:
-    #     raise Exception("Error! Please give 3 areas to display as raster plots.")
-    
-    with open(os.path.join(data_path, M.simulation.label, 'custom_params_{}'.format(M.simulation.label)), 'r') as f:
-        sim_params = json.load(f)
-    
-    areas_simulated = sim_params['sim_params']['areas_simulated']
-    
-    for area in raster_areas:
-        if area not in area_list:
-            raise Exception("Error! Given raster areas are not from complete_area_list, please input correct areas to diaply the raster plots.")
-        if area not in areas_simulated:
-            raise Exception("Error! At least one of the given raster areas are not from the simulated areas, please input correct areas to diaply the raster plots.")
-            
-    areas = raster_areas
-
     labels = ['A', 'B', 'C']
-    for area, label in zip(areas, labels):
+    for area, label in zip(raster_areas, labels):
         label_pos = [-0.2, 1.01]
         # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label + ': ' + area,
         #         fontdict={'fontsize': 10, 'weight': 'bold',
@@ -189,12 +185,9 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # """
     # M = MultiAreaModel({})
     
-    label_spikes = M.simulation.label
-    label = M.simulation.label
-    
     # spike data
     spike_data = {}
-    for area in areas:
+    for area in areas_simulated:
         spike_data[area] = {}
         for pop in M.structure[area]:
             spike_data[area][pop] = np.load(os.path.join(data_path,
@@ -205,38 +198,39 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
                                                                                       area, pop)), allow_pickle=True)
     
     # stationary firing rates
-    fn = os.path.join(data_path, label, 'Analysis', 'pop_rates.json')
+    fn = os.path.join(data_path, label_spikes, 'Analysis', 'pop_rates.json')
     with open(fn, 'r') as f:
         pop_rates = json.load(f)
 
     # time series of firing rates
     rate_time_series = {}
-    for area in areas:
-        fn = os.path.join(data_path, label,
+    for area in raster_areas:
+        fn = os.path.join(data_path, label_spikes,
                           'Analysis',
                           'rate_time_series_full',
                           'rate_time_series_full_{}.npy'.format(area))
-        # fn = os.path.join(data_path, label,
+        # fn = os.path.join(data_path, label_spikes,
         #                   'Analysis',
         #                   'rate_time_series-{}.npy'.format(area))
         rate_time_series[area] = np.load(fn)
 
     # time series of firing rates convolved with a kernel
-    rate_time_series_auto_kernel = {}
-    for area in areas:
-        fn = os.path.join(data_path, label,
-                          'Analysis',
-                          'rate_time_series_auto_kernel',
-                          'rate_time_series_auto_kernel_{}.npy'.format(area))
-        rate_time_series_auto_kernel[area] = np.load(fn)
+    if rate_auto_kernel == True:
+        rate_time_series_auto_kernel = {}
+        for area in raster_areas:
+            fn = os.path.join(data_path, label_spikes,
+                              'Analysis',
+                              'rate_time_series_auto_kernel',
+                              'rate_time_series_auto_kernel_{}.npy'.format(area))
+            rate_time_series_auto_kernel[area] = np.load(fn)
 
     # local variance revised (LvR)
-    fn = os.path.join(data_path, label, 'Analysis', 'pop_LvR.json')
+    fn = os.path.join(data_path, label_spikes, 'Analysis', 'pop_LvR.json')
     with open(fn, 'r') as f:
         pop_LvR = json.load(f)
 
     # correlation coefficients
-    fn = os.path.join(data_path, label, 'Analysis', 'corrcoeff.json')
+    fn = os.path.join(data_path, label_spikes, 'Analysis', 'corrcoeff.json')
     with open(fn, 'r') as f:
         corrcoeff = json.load(f)
 
@@ -256,7 +250,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     # frac_neurons = 0.03
     frac_neurons = 1
 
-    for i, area in enumerate(areas):
+    for i, area in enumerate(raster_areas):
         ax = axes[labels[i]]
 
         if area in spike_data:
@@ -321,8 +315,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     #         else:
     #             rates[i][j] = rate
     
-    rates = np.zeros((len(areas), 8))
-    for i, area in enumerate(areas):
+    rates = np.zeros((len(areas_simulated), 8))
+    for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
             # rate = pop_rates[area][pop][0]
             rate = pop_rates[area][pop]
@@ -347,12 +341,12 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
 
-    x_max = 220.
-    # x_max = 100.
+    # x_max = 220.
+    x_max = 100.
     ax.set_xlim((-1., x_max))
     ax.set_xlabel(r'Rate (spikes/s)', labelpad=-0.1)
-    ax.set_xticks([0., 50., 100.])
-    # ax.set_xticks([0., 25., 50., 75., 100.])
+    # ax.set_xticks([0., 25., 50.])
+    ax.set_xticks([0., 25., 50., 75., 100.])
 
     # print("plotting Synchrony")
     
@@ -367,33 +361,44 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     #         else:
     #             syn[i][j] = value
     
-    syn = np.zeros((len(areas), 8))
-    for i, area in enumerate(areas):
+    syn = np.zeros((len(areas_simulated), 8))
+    for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
-            value = corrcoeff[area][pop]
-            if value == 0.0:
-                value = 1e-5
+            try:
+                value = corrcoeff[area][pop]
+                if value == 0.0:
+                    # print(i, area, j, pop, value)
+                    value = 1e-5
+            except:
+                value = 0.0
+            
             if area == 'TH' and j > 3:  # To account for missing layer 4 in TH
                 syn[i][j + 2] = value
             else:
-                syn[i][j] = value
+                syn[i][j] = value         
+    # print(syn)
 
     syn = np.transpose(syn)
-    masked_syn = np.ma.masked_where(syn < 1e-4, syn)
+    masked_syn = np.ma.masked_where(syn == 0, syn)
+    # print(masked_syn)
 
     ax = axes['E']
-    d = ax.boxplot(np.transpose(syn), vert=False,
+    # d = ax.boxplot(np.transpose(syn), vert=False,
+    #                patch_artist=True, whis=1.5, showmeans=True)
+    d = ax.boxplot(np.transpose(masked_syn), vert=False,
                    patch_artist=True, whis=1.5, showmeans=True)
     set_boxplot_props(d)
 
-    ax.plot(np.mean(syn, axis=1), np.arange(
+    # ax.plot(np.mean(syn, axis=1), np.arange(
+    #     1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
+    ax.plot(np.mean(masked_syn, axis=1), np.arange(
         1., len(M.structure['V1']) + 1., 1.), 'x', color='k', markersize=3)
 
     ax.set_yticklabels(population_labels[::-1], size=8)
     ax.set_yticks(np.arange(1., len(M.structure['V1']) + 1., 1.))
     ax.set_ylim((0., len(M.structure['V1']) + .5))
     # ax.set_xticks(np.arange(0.0, 0.601, 0.2))
-    ax.set_xticks([0., 0.005, 0.01])
+    # ax.set_xticks([0., 0.005, 0.02])
     ax.set_xlabel('Correlation coefficient', labelpad=-0.1)
     # ax.set_xlabel('Synchrony', labelpad=-0.1)
 
@@ -411,8 +416,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     #         else:
     #             LvR[i][j] = value
     
-    LvR = np.zeros((len(areas), 8))
-    for i, area in enumerate(areas):
+    LvR = np.zeros((len(areas_simulated), 8))
+    for i, area in enumerate(areas_simulated):
         for j, pop in enumerate(M.structure[area][::-1]):
             value = pop_LvR[area][pop]
             if value == 0.0:
@@ -469,7 +474,7 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
     t_max = t_sim
     # time = np.arange(500., t_max)
     time = np.arange(500, t_max)
-    for i, area in enumerate(areas[::-1]):
+    for i, area in enumerate(raster_areas[::-1]):
         ax[i].spines['right'].set_color('none')
         ax[i].spines['top'].set_color('none')
         ax[i].yaxis.set_ticks_position("left")
@@ -478,10 +483,11 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
         binned_spikes = rate_time_series[area][np.where(
             np.logical_and(time >= t_min, time < t_max))]
         ax[i].plot(time, binned_spikes, color=colors[0], label=area)
-        # rate = rate_time_series_auto_kernel[area]
-        rate = rate_time_series_auto_kernel[area][np.where(
-            np.logical_and(time >= t_min, time < t_max))]
-        ax[i].plot(time, rate, color=colors[2], label=area)
+        if rate_auto_kernel == True:
+            # rate = rate_time_series_auto_kernel[area]
+            rate = rate_time_series_auto_kernel[area][np.where(
+                np.logical_and(time >= t_min, time < t_max))]
+            ax[i].plot(time, rate, color=colors[2], label=area)
         ax[i].set_xlim((t_min, t_max))
 
         ax[i].text(0.8, 0.7, area, transform=ax[i].transAxes)
@@ -498,7 +504,8 @@ def plot_resting_state(M, data_path, raster_areas=['V1', 'V2', 'FEF']):
             r = t_max/1000
             # ax[i].set_xticklabels([r'$1.$', r'$5.$', r'$10.$'])
             ax[i].set_xticklabels([f'{l:.2f}', f'{m:.2f}', f'{r:.2f}'])
-            ax[i].set_yticks([0., 5.])
+            # ax[i].set_yticks([0., 5.])
+            ax[i].set_yticks([0., 30.])
         if i == 1:
             ax[i].set_ylabel(r'Rate (spikes/s)')
 

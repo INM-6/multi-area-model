@@ -57,8 +57,8 @@ def compute_corrcoeff(M, data_path, label):
             
             # test if only 1 of the neurons is firing, if yes, print warning message and continue
             if rates.shape[0] < 2:
-                # print(area, pop)
-                print(f"WARNING: There are less than 2 neurons firing in the population: {area} {pop} due to a very small value being assigned to the parameter scale_down_to, the corresponding cross-correlation will not be computed.", area, pop)
+                print(f"WARNING: There are less than 2 neurons firing in the population: {area} {pop}, the corresponding cross-correlation will not be computed.")
+                # cc_dict[area][pop] = 0.
                 continue
             
             # compute cross correlation coefficient
