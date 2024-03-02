@@ -23,6 +23,24 @@ sys.path.append('./figures/Schmidt2018')
 from M2E_compute_fc import compute_fc
 from M2E_compute_louvain_communities import compute_communities
 
+cmap = pl.cm.coolwarm
+cmap = cmap.from_list('mycmap', [myblue, 'white', myred], N=256)
+cmap2 = cmap.from_list('mycmap', ['white', myred], N=256)
+
+# """
+# Create MultiAreaModel instance to have access to data structures
+# """
+# conn_params = {'g': -11.,
+#                'fac_nu_ext_TH': 1.2,
+#                'fac_nu_ext_5E': 1.125,
+#                'fac_nu_ext_6E': 1.41666667,
+#                'av_indegree_V1': 3950.,
+#                'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
+# network_params = {'N_scaling': 1.,
+#                   'K_scaling': 1.,
+#                   'connection_params': conn_params}
+# M = MultiAreaModel(network_params)
+
 def zero_diagonal(matrix):
     """
     Return copy of a matrix with diagonal set to zero.
@@ -33,7 +51,7 @@ def zero_diagonal(matrix):
     return M
 
 
-def matrix_plot(ax, matrix, index, vlim, pos=None):
+def matrix_plot(M, ax, matrix, index, vlim, pos=None):
     """
     Plot matrix into matplotlib axis sorted according to index.
     """
@@ -61,11 +79,11 @@ def matrix_plot(ax, matrix, index, vlim, pos=None):
     cb.ax.tick_params(labelsize=14)
     ax.set_yticks([])
 
-    if pos != (0, 2):
-        cb.remove()
-    else:
-        ax.text(1.25, 0.52, r'FC', rotation=90,
-                transform=ax.transAxes, size=14)
+    # if pos != (0, 2):
+    #     cb.remove()
+    # else:
+    #     ax.text(1.25, 0.52, r'FC', rotation=90,
+    #             transform=ax.transAxes, size=14)
     ax.set_xticks([])
 
     ax.set_xlabel('Cortical area', size=14)
@@ -80,20 +98,17 @@ def visualize_fc(M, data_path, label):
     """
     Figure layout
     """
-    cmap = pl.cm.coolwarm
-    cmap = cmap.from_list('mycmap', [myblue, 'white', myred], N=256)
-    cmap2 = cmap.from_list('mycmap', ['white', myred], N=256)
-
-
-    width = 7.0866
+    width = 15
     # n_horz_panels = 2.
     n_horz_panels = 1.
     # n_vert_panels = 3.
     n_vert_panels = 2.
 
-    fig = pl.figure()
+    fig = pl.figure(figsize=(10, 5))
+    fig.suptitle('Simulated functional connectivity (left) and FC of macaque resting-state fMRI', fontsize=14, x=0.5, y=1.05)
     axes = {}
-    gs1 = gridspec.GridSpec(1, 3)
+    # gs1 = gridspec.GridSpec(1, 3)
+    gs1 = gridspec.GridSpec(1, 2)
     gs1.update(left=0.05, right=0.95, top=0.95,
                bottom=0.52, wspace=0., hspace=0.4)
     axes['A'] = pl.subplot(gs1[:, 0])
@@ -121,7 +136,11 @@ def visualize_fc(M, data_path, label):
             label_pos = [-0.08, 1.01]
         else:
             label_pos = [-0.1, 1.01]
-        pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
+        # pl.text(label_pos[0], label_pos[1], r'\bfseries{}' + label,
+        #         fontdict={'fontsize': 16, 'weight': 'bold',
+        #                   'horizontalalignment': 'left', 'verticalalignment':
+        #                   'bottom'}, transform=axes[label].transAxes)
+        pl.text(label_pos[0], label_pos[1], label,
                 fontdict={'fontsize': 16, 'weight': 'bold',
                           'horizontalalignment': 'left', 'verticalalignment':
                           'bottom'}, transform=axes[label].transAxes)
@@ -144,20 +163,6 @@ def visualize_fc(M, data_path, label):
     """
     Load data
     """
-
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    # conn_params = {'g': -11.,
-    #                'fac_nu_ext_TH': 1.2,
-    #                'fac_nu_ext_5E': 1.125,
-    #                'fac_nu_ext_6E': 1.41666667,
-    #                'av_indegree_V1': 3950.,
-    #                'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
-    # network_params = {'N_scaling': 1.,
-    #                   'K_scaling': 1.,
-    #                   'connection_params': conn_params}
-    # M = MultiAreaModel(network_params)
 
     # Load experimental functional connectivity
     func_conn_data = {}
@@ -252,10 +257,10 @@ def visualize_fc(M, data_path, label):
     Plotting
     """
     ax = axes['A']
-    label = label_plot
+    # label = label_plot
 
 
-    matrix_plot(ax, zero_diagonal(sim_FC[label]),
+    matrix_plot(M, ax, zero_diagonal(sim_FC[label]),
                 part_sim_index, 1., pos=(0, 0))
 
     # ax = axes['B']
@@ -266,8 +271,10 @@ def visualize_fc(M, data_path, label):
 
     # ax = axes['C']
     ax = axes['B']
-    matrix_plot(ax, zero_diagonal(exp_FC),
-                part_sim_index, 1., pos=(0, 2))
+    # matrix_plot(M, ax, zero_diagonal(exp_FC),
+    #             part_sim_index, 1., pos=(0, 2))
+    matrix_plot(M, ax, zero_diagonal(exp_FC),
+                part_sim_index, 1., pos=(0, 0))
 
     areas = np.array(M.area_list)[part_sim_index]
     area_string = areas[0]
@@ -275,9 +282,10 @@ def visualize_fc(M, data_path, label):
         area_string += ' '
         area_string += area
 
-    pl.text(0.02, 0.45, r'\bfseries{}Order of cortical areas', transform=fig.transFigure, fontsize=13)
+    # pl.text(0.02, 0.45, r'\bfseries{}Order of cortical areas:', transform=fig.transFigure, fontsize=12)
+    pl.text(0.02, 0.45, 'Order of cortical areas', transform=fig.transFigure, fontsize=12)
     pl.text(0.02, 0.42, area_string,
-            transform=fig.transFigure, fontsize=13)
+            transform=fig.transFigure, fontsize=10)
 
 
     # ax = axes['D']

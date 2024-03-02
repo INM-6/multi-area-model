@@ -1,4 +1,5 @@
-import community
+# import community
+from community import community_louvain
 import csv
 import json
 import networkx as nx
@@ -72,7 +73,8 @@ def compute_communities(M, data_path, label):
             edges.append((area, area2, FC[i][j]))
     G.add_weighted_edges_from(edges)
 
-    part = community.best_partition(G)
+    # part = community.best_partition(G)
+    part = community_louvain.best_partition(G)
 
     if label == 'exp':
         fn = os.path.join('FC_exp_communities.json')
