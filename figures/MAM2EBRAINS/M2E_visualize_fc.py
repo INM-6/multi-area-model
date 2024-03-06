@@ -98,21 +98,25 @@ def visualize_fc(M, data_path, label):
     """
     Figure layout
     """
+    # width = 7.0866
     width = 15
     # n_horz_panels = 2.
     n_horz_panels = 1.
     # n_vert_panels = 3.
     n_vert_panels = 2.
 
-    fig = pl.figure(figsize=(10, 5))
-    fig.suptitle('Simulated functional connectivity (left) and FC of macaque resting-state fMRI', fontsize=14, x=0.5, y=1.05)
+    fig = pl.figure()
+    fig.suptitle('Simulated functional connectivity (left) and FC of macaque resting-state fMRI', 
+                 fontsize=17, x=0.5, y=0.9)
     axes = {}
     # gs1 = gridspec.GridSpec(1, 3)
     gs1 = gridspec.GridSpec(1, 2)
-    gs1.update(left=0.05, right=0.95, top=0.95,
-               bottom=0.52, wspace=0., hspace=0.4)
-    axes['A'] = pl.subplot(gs1[:, 0])
-    axes['B'] = pl.subplot(gs1[:, 1])
+    # gs1.update(left=0.05, right=0.95, top=0.95,
+    #            bottom=0.52, wspace=0., hspace=0.4)
+    gs1.update(left=0.15, right=0.85, top=1,
+               bottom=0, wspace=0.3, hspace=0)
+    axes['A'] = pl.subplot(gs1[:1, :1])
+    axes['B'] = pl.subplot(gs1[:1, 1:2])
     # axes['C'] = pl.subplot(gs1[:, 2])
 
     # gs1 = gridspec.GridSpec(1, 1)
@@ -282,10 +286,10 @@ def visualize_fc(M, data_path, label):
         area_string += ' '
         area_string += area
 
-    # pl.text(0.02, 0.45, r'\bfseries{}Order of cortical areas:', transform=fig.transFigure, fontsize=12)
-    pl.text(0.02, 0.45, 'Order of cortical areas', transform=fig.transFigure, fontsize=12)
-    pl.text(0.02, 0.42, area_string,
-            transform=fig.transFigure, fontsize=10)
+    # # pl.text(0.02, 0.45, r'\bfseries{}Order of cortical areas:', transform=fig.transFigure, fontsize=12)
+    # pl.text(0.02, 0.3, 'Order of cortical areas:', transform=fig.transFigure, fontsize=17)
+    # pl.text(0.02, 0.25, area_string,
+    #         transform=fig.transFigure, fontsize=15)
 
 
     # ax = axes['D']
