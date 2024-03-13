@@ -70,18 +70,18 @@ def plot_firing_rate_over_areas(M, data_path):
         matrix.append(binned_spikes)
     
     matrix = np.array(matrix)
-    normalized_matrix = (matrix - np.min(matrix)) / (np.max(matrix) - np.min(matrix))
+    # normalized_matrix = (matrix - np.min(matrix)) / (np.max(matrix) - np.min(matrix))
     
-    fig = pl.figure()
-    fig.suptitle('Normalized instantaneous firing rate over simulated areas', fontsize=16, x=0.45, y=0.95)
+    fig = pl.figure(figsize=(12, 5))
+    fig.suptitle('Instantaneous firing rate over simulated areas', fontsize=16, x=0.45, y=0.95)
     ax = pl.subplot()
     
     cmap = pl.get_cmap('YlOrBr')
 
     # masked_matrix = np.ma.masked_where(np.isnan(matrix), matrix)
     ax.patch.set_hatch('x')
-    im = ax.pcolormesh(normalized_matrix, cmap=cmap, edgecolors='None')
-    ax.set_xlim(0, normalized_matrix[0].size)
+    im = ax.pcolormesh(matrix, cmap=cmap, edgecolors='None', vmin=0)
+    ax.set_xlim(0, matrix[0].size)
     
     ax.set_xticks([i for i in np.arange(0, 100, 10)])
     ax.set_xticklabels([i for i in np.arange(500, 600, 10)])
