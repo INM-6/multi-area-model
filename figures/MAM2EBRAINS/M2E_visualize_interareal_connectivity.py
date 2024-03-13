@@ -28,7 +28,7 @@ def visualize_interareal_connectivity(M):
     nrows = 1
     ncols = 2
     # width = 6.8556
-    width = 15
+    width = 12
     panel_wh_ratio = 0.7 * (1. + np.sqrt(5)) / 2.  # golden ratio
 
     height = width / panel_wh_ratio * float(nrows) / ncols
@@ -36,13 +36,13 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Interareal probabilistic connectivity for full-scale (left) and down-scaled (right) multi-area model', fontsize=16, x=0.5, y=1.05)
+    fig.suptitle('Area-level connectivity of the full-scale and down-scaled MAM expressed as relative indegrees for each target area', fontsize=15, x=0.5, y=1.05)
     axes = {}
 
     # gs1 = gridspec.GridSpec(2, 2)
     gs1 = gridspec.GridSpec(1, 2)
     # gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.1, hspace=0.3)
-    gs1.update(left=0.06, right=0.95, top=0.95, bottom=0.1, wspace=0.3, hspace=0.3)
+    gs1.update(left=0.1, right=0.95, top=0.95, bottom=0.1, wspace=0.3, hspace=0.3)
     
     # axes['A'] = pl.subplot(gs1[:1, :1])
     # axes['B'] = pl.subplot(gs1[:1, 1:2])
