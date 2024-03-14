@@ -90,7 +90,9 @@ def matrix_plot(M, ax, matrix, index, vlim, pos=None):
     ax.set_ylabel('Cortical area', size=14)
     
     
-def visualize_fc(M, data_path, label):
+def visualize_fc(M, data_path):
+    label = M.simulation.label
+    
     # compute functional connectivity
     compute_fc(M, data_path, label)
     compute_communities(M, data_path, label)
