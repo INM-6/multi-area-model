@@ -29,7 +29,7 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     # matrix = np.zeros((len(area_list), len(A.network.structure['V1'])))
     matrix = np.zeros((len(area_list), len(M.structure['V1'])))
 
-    fig = plt.figure(figsize=(12, 4))
+    fig = plt.figure(figsize=(12, 3))
     fig.suptitle('Time-averaged firing rate over simulated populations', fontsize=15, x=0.43)
     ax = fig.add_subplot(111)
     
@@ -51,20 +51,23 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
                 rate = np.nan
             matrix[i][j] = rate
 
-    cm = plt.cm.jet
-    cm = cm.from_list('mycmap', [(0., 64./255., 192./255.),  # custom dark blue
-                                 (0., 128./255., 192./255.),  # custom light blue
-                                 'white',
-                                 (245./255., 157./255., 115./255.),  # custom light red
-                                 (192./255., 64./255., 0.)], N=256)  # custom dark red
+    # cm = plt.cm.jet
+    # cm = cm.from_list('mycmap', [(0., 64./255., 192./255.),  # custom dark blue
+    #                              (0., 128./255., 192./255.),  # custom light blue
+    #                              'white',
+    #                              (245./255., 157./255., 115./255.),  # custom light red
+    #                              (192./255., 64./255., 0.)], N=256)  # custom dark red
+    cm = plt.get_cmap('YlOrBr')
     cm.set_under('0.3')
-    cm.set_bad('k')
+    # cm.set_bad('k')
+    cm.set_bad('white')
 
     matrix = np.transpose(matrix)
     masked_matrix = np.ma.masked_where(np.isnan(matrix), matrix)
     ax.patch.set_hatch('x')
-    im = ax.pcolormesh(masked_matrix, cmap=cm, edgecolors='None', norm=LogNorm(
-        vmin=0.01, vmax=100.))
+    # im = ax.pcolormesh(masked_matrix, cmap=cm, edgecolors='None', norm=LogNorm(
+    #     vmin=0.01, vmax=100.))
+    im = ax.pcolormesh(masked_matrix, cmap=cm, edgecolors='None', vmin=0)
     ax.set_xlim(0, matrix[0].size)
 
     x_index = np.arange(4.5, 31.6, 5.0)
@@ -82,9 +85,17 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
     ax.set_yticklabels(['6I', '6E', '5I', '5E', '4I', '4E', '2/3I', '2/3E'])
     ax.set_ylabel('Population', size=13)
     ax.set_xlabel('Area index', size=13)
-    t = FixedLocator([0.01, 0.1, 1., 10., 100.])
+    # t = FixedLocator([0.01, 0.1, 1., 10., 100.])
+    # t = FixedLocator([0, 10, 20, 30, 40, 50])
+    
+    # Iterate over the data and add 'X' for masked cells
+    for i in range(masked_matrix.shape[0]):
+        for j in range(masked_matrix.shape[1]):
+            if masked_matrix.mask[i, j]:
+                ax.text(j + 0.5, i + 0.5, 'X', va='center', ha='center', color='black', fontsize=23)
 
-    plt.colorbar(im, ticks=t)
+    # plt.colorbar(im, ticks=t)
+    plt.colorbar(im)
 
     if 'output' in keywords:
         # plt.savefig(os.path.join(A.output_dir, '{}_rates.{}'.format(A.simulation.label,
