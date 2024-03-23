@@ -73,7 +73,6 @@ def plot_firing_rate_over_areas(M, data_path):
 
     t_min = 500.
     t_max = M.simulation.params['t_sim']
-    time = np.arange(t_min, t_max)
     matrix = []
     for area in area_list:
         binned_spikes = rate_time_series[area][500:600]

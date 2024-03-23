@@ -32,8 +32,6 @@ def compute_pop_LvR(M, data_path, label):
 
     for area in areas_simulated:
         pop_LvR_dict[area] = {}
-        LvR_list = []
-        N = []
         for pop in M.structure[area]:
             fp = '-'.join((label,
                            'spikes',  # Assumes that the default label for spike files was used

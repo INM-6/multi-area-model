@@ -90,7 +90,6 @@ def visualize_fc(M, data_path):
     Returns:
         None
     """
-    area_list = M.simulation.params["areas_simulated"]
     label = M.simulation.label
     
     # Compute functional connectivity

@@ -32,11 +32,8 @@ def compute_corrcoeff(M, data_path, label):
     resolution = 1.
 
     cc_dict = {}
-
     for area in areas_simulated:
         cc_dict[area] = {}
-        LvR_list = []
-        N = []
         for pop in M.structure[area]:
             fp = '-'.join((label,
                            'spikes',  # assumes that the default label for spike files was used

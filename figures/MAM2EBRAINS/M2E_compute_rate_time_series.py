@@ -52,7 +52,7 @@ def compute_rate_time_series(M, data_path, label, area, method):
     N_list = []
     for pop in M.structure[area]:
         fp = '-'.join((label,
-                       'spikes',  # assumes that the default label for spike files was used
+                       'spikes',  # Assumes that the default label for spike files was used
                        area,
                        pop))
         fn = '{}/{}.npy'.format(load_path, fp)
