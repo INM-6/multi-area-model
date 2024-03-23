@@ -1,17 +1,22 @@
 import json
 import numpy as np
 import os
-
 import correlation_toolbox.helper as ch
-from multiarea_model import MultiAreaModel
-import sys
-
-"""
-Compute correlation coefficients for a subsample
-of neurons for the entire network from raw spike files of a given simulation.
-"""
 
 def compute_corrcoeff(M, data_path, label):
+    """
+    Compute the correlation coefficient between 
+    the spiking rates of different populations 
+    in different areas.
+    
+    Parameters:
+        - M (MultiAreaModel): The MultiAreaModel instance.
+        - data_path (str): The path to the directory where the data is stored.
+        - label (str): The label used to identify the specific data set.
+    
+    Returns:
+        None
+    """
     load_path = os.path.join(data_path,
                              label,
                              'recordings')
@@ -19,9 +24,6 @@ def compute_corrcoeff(M, data_path, label):
                              label,
                              'Analysis')
 
-    # with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
-    #     sim_params = json.load(f)
-    # T = sim_params['T']
     T = M.simulation.params["t_sim"]
     areas_simulated = M.simulation.params["areas_simulated"]
 
@@ -29,14 +31,8 @@ def compute_corrcoeff(M, data_path, label):
     subsample = 2000
     resolution = 1.
 
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    # M = MultiAreaModel({})
-
-    spike_data = {}
     cc_dict = {}
-    # for area in M.area_list:
+
     for area in areas_simulated:
         cc_dict[area] = {}
         LvR_list = []
@@ -48,20 +44,18 @@ def compute_corrcoeff(M, data_path, label):
                            pop))
             fn = '{}/{}.npy'.format(load_path, fp)
             # +1000 to ensure that we really have subsample non-silent neurons in the end
-            # spikes = np.load(fn)
             spikes = np.load(fn, allow_pickle=True)
             ids = np.unique(spikes[:, 0])
             dat = ch.sort_gdf_by_id(spikes, idmin=ids[0], idmax=ids[0]+subsample+1000)
             bins, hist = ch.instantaneous_spike_count(dat[1], resolution, tmin=tmin, tmax=T)
             rates = ch.strip_binned_spiketrains(hist)[:subsample]
             
-            # test if only 1 of the neurons is firing, if yes, print warning message and continue
+            # Test if only 1 of the neurons is firing, if yes, print warning message and continue
             if rates.shape[0] < 2:
                 print(f"WARNING: There are less than 2 neurons firing in the population: {area} {pop}, the corresponding cross-correlation will not be computed.")
-                # cc_dict[area][pop] = 0.
                 continue
             
-            # compute cross correlation coefficient
+            # Compute cross correlation coefficient
             cc = np.corrcoef(rates)
             cc = np.extract(1-np.eye(cc[0].size), cc)
             cc[np.where(np.isnan(cc))] = 0.

@@ -1,17 +1,20 @@
-import correlation_toolbox.helper as ch
-import correlation_toolbox.correlation_analysis as corr
 import json
 import numpy as np
 import os
-import sys
-
-from multiarea_model.multiarea_model import MultiAreaModel
-
-# data_path = sys.argv[1]
-# label = sys.argv[2]
-# area = sys.argv[3]
 
 def compute_synaptic_input(M, data_path, label, area):
+    """
+    Compute the synaptic input for a given area.
+
+    Parameters:
+        - M (MultiAreaModel): An instance of the MultiAreaModel class.
+        - data_path (str): The path to the data directory.
+        - label (str): The label for the data.
+        - area (str): The area for which to compute the synaptic input.
+
+    Returns:
+        None
+    """
     load_path = os.path.join(data_path,
                              label,
                              'Analysis',
@@ -21,22 +24,7 @@ def compute_synaptic_input(M, data_path, label, area):
                              'Analysis',
                              'synaptic_input')
 
-    with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
-        sim_params = json.load(f)
-    # T = sim_params['T']
     T = M.simulation.params['t_sim']
-
-
-    # """
-    # Create MultiAreaModel instance to have access to data structures
-    # """
-    # connection_params = {'g': -11.,
-    #                      'cc_weights_factor': sim_params['cc_weights_factor'],
-    #                      'cc_weights_I_factor': sim_params['cc_weights_I_factor'],
-    #                      'K_stable': '../SchueckerSchmidt2017/K_prime_original.npy'}
-    # network_params = {'connection_params': connection_params}
-    # M = MultiAreaModel(network_params)
-
 
     """
     Synaptic filtering kernel

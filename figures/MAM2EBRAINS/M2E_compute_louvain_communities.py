@@ -5,27 +5,22 @@ import json
 import networkx as nx
 import numpy as np
 import os
-import sys
-
-from multiarea_model.multiarea_model import MultiAreaModel
-
-"""
-Determines communities in the functional connectivity of either the
-experimental fMRI data used in Schmidt et al. 2018 or of a given
-simulation (the functional connectivity being based either on spike
-rates or an estimated BOLD signal).
-"""
-
-# data_path = sys.argv[1]
-# label = sys.argv[2]
-# method = sys.argv[3]
-
-# """
-# Create MultiAreaModel instance to have access to data structures
-# """
-# M = MultiAreaModel({})
 
 def compute_communities(M, data_path, label):
+    """
+    Determines communities in the functional connectivity of either the
+    experimental fMRI data used in Schmidt et al. 2018 or of a given
+    simulation (the functional connectivity being based either on spike
+    rates or an estimated BOLD signal).
+
+    Parameters:
+        - M (MultiAreaModel): The M object containing the area list.
+        - data_path (str): The path to the data directory.
+        - label (str): The label for the data.
+
+    Returns:
+        None
+    """
     method = "synaptic_input"
     
     if label == 'exp':
@@ -73,7 +68,6 @@ def compute_communities(M, data_path, label):
             edges.append((area, area2, FC[i][j]))
     G.add_weighted_edges_from(edges)
 
-    # part = community.best_partition(G)
     part = community_louvain.best_partition(G)
 
     if label == 'exp':
