@@ -6,28 +6,27 @@ import quantities as pq
 
 from multiarea_model.analysis_helpers import pop_rate_time_series
 from elephant.statistics import instantaneous_rate
-from multiarea_model import MultiAreaModel
-import sys
-
-"""
-Compute time series of population-averaged spike rates for a given
-area from raw spike files of a given simulation.
-
-Implements three different methods:
-- binned spike histograms on all neurons ('full')
-- binned spike histograms on a subsample of 140 neurons ('subsample')
-- spike histograms convolved with a Gaussian kernel of optimal width
-  after Shimazaki et al. (2010)
-"""
-
-# assert(len(sys.argv) == 5)
-
-# data_path = sys.argv[1]
-# label = sys.argv[2]
-# area = sys.argv[3]
-# method = sys.argv[4]
 
 def compute_rate_time_series(M, data_path, label, area, method):
+    """
+    Compute time series of population-averaged spike rates for a given
+    area from raw spike files of a given simulation.
+
+    Implements three different methods:
+        - binned spike histograms on all neurons ('full')
+        - binned spike histograms on a subsample of 140 neurons ('subsample')
+        - spike histograms convolved with a Gaussian kernel of optimal width after Shimazaki et al. (2010)
+
+    Parameters:
+        - M (MultiAreaModel): The MultiAreaModel instance representing the model.
+        - data_path (str): The path to the data directory.
+        - label (str): The label for the data.
+        - area (str): The area for which to compute the rate time series.
+        - method (str): The method to use for computing the rate time series. Must be one of 'subsample', 'full', or 'auto_kernel'.
+
+    Returns:
+        None
+    """
     assert(method in ['subsample', 'full', 'auto_kernel'])
     # subsample : subsample spike data to 140 neurons to match the Chu 2014 data
     # full : use spikes of all neurons and compute spike histogram with bin size 1 ms
@@ -47,26 +46,16 @@ def compute_rate_time_series(M, data_path, label, area, method):
     except FileExistsError:
         pass
 
-    # with open(os.path.join(data_path, label, 'custom_params_{}'.format(label)), 'r') as f:
-    #     sim_params = json.load(f)
-    # T = sim_params['T']
     T = M.simulation.params["t_sim"]
-    areas_simulated = M.simulation.params["areas_simulated"]
-
-    """
-    Create MultiAreaModel instance to have access to data structures
-    """
-    # M = MultiAreaModel({})
 
     time_series_list = []
     N_list = []
     for pop in M.structure[area]:
         fp = '-'.join((label,
-                       'spikes',  # assumes that the default label for spike files was used
+                       'spikes',  # Assumes that the default label for spike files was used
                        area,
                        pop))
         fn = '{}/{}.npy'.format(load_path, fp)
-        # spike_data = np.load(fn)
         spike_data = np.load(fn, allow_pickle=True)
         spike_data = spike_data[np.logical_and(spike_data[:, 1] > 500.,
                                                spike_data[:, 1] <= T)]
