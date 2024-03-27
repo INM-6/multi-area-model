@@ -4,7 +4,7 @@ stages:
   - test
   - deploy
 
-# List variables and they can be called by the varaible names
+# List variables and they can be called by the variable names
 # variables:
   # GITLAB_BUILD_ENV_DOCKER_IMAGE: docker-registry.ebrains.eu/tc/ebrains-spack-build-env/gitlab_runners_nfs:gitlab_runners_nfs_23.06
   # SYSTEMNAME: ebrainslab
