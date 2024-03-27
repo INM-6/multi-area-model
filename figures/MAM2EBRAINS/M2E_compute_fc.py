@@ -1,26 +1,25 @@
 import correlation_toolbox.helper as ch
 import numpy as np
 import os
-import sys
 
-from multiarea_model import MultiAreaModel
 from scipy.spatial.distance import pdist
 from scipy.spatial.distance import squareform
 
 from M2E_compute_synaptic_input import compute_synaptic_input
 
-"""
-Compute the functional connectivity between all areas of a given
-simulation based on their time series of spiking rates or their
-estimated BOLD signal.
-"""
-
-# data_path = sys.argv[1]
-# label = sys.argv[2]
-# method = sys.argv[3]
-
 def compute_fc(M, data_path, label):
-    # compute synaptic input
+    """
+    Compute the functional connectivity between different areas of the brain using synaptic input.
+
+    Parameters:
+        - M (MultiAreaModel): An instance of the MultiAreaModel class representing the brain model.
+        - data_path (str): The path to the directory where the data is stored.
+        - label (str): The label used to identify the specific data set.
+
+    Returns:
+        None
+    """
+    # Compute synaptic input
     for area in M.area_list:
         compute_synaptic_input(M, data_path, label, area)
         
@@ -33,11 +32,6 @@ def compute_fc(M, data_path, label):
     save_path = os.path.join(data_path,
                              label,
                              'Analysis')
-
-    # """
-    # Create MultiAreaModel instance to have access to data structures
-    # """
-    # M = MultiAreaModel({})
     
     time_series = []
     for area in M.area_list:

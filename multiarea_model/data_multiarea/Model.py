@@ -646,7 +646,7 @@ def compute_Model_params(out_label='', mode='default'):
             # if there is laminar information in CoCoMac, use it
             if Coco_Data[target_area][source_area]['source_pattern'] is not None:
                 sp = np.array(Coco_Data[target_area][source_area][
-                              'source_pattern'], dtype=np.float)
+                              'source_pattern'], dtype=float)
 
                 # Manually determine SLN, based on CoCoMac:
                 # from supragranular, then SLN=0.,
