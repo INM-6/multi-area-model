@@ -1,0 +1,37 @@
+# Specify stages in this CI workflow
+stages:
+  - build
+  - test
+  - deploy
+
+# List variables and they can be called by the variable names
+# variables:
+  # GITLAB_BUILD_ENV_DOCKER_IMAGE: docker-registry.ebrains.eu/tc/ebrains-spack-build-env/gitlab_runners_nfs:gitlab_runners_nfs_23.06
+  # SYSTEMNAME: ebrainslab
+
+run_notebooks:
+  stage: test
+  tags:
+    # Add tags for runner to select runners that meet the requirement
+    - docker-runner
+
+  before_script:
+    # - cat /mnt/ebrains_env/ebrains-23.09/bin/load_env.sh
+    - . /mnt/ebrains_env/ebrains-23.09/bin/load_env.sh
+
+
+  script:
+    - echo "Starting testing..."
+    # List all kernels
+    # - jupyter kernelspec list
+    - echo "Testing multi-area-model.ipynb..."
+    # Replace all ebrains-23.09 with python3 as the kernel ebrains-23.09 is now actually named as python3
+    - sed -i -e "s/ebrains-23.09/python3/" multi-area-model.ipynb
+    # Convert jupyter notebook to python file and execute it
+    - jupyter nbconvert --to notebook --execute ./multi-area-model.ipynb
+    - echo "Testing M2E_statistical_test.ipynb..."
+    # Replace all ebrains-23.09 with python3 as the kernel ebrains-23.09 is now actually named as python3
+    - sed -i -e "s/ebrains-23.09/python3/" M2E_statistical_test.ipynb
+    # Convert jupyter notebook to python file and execute it
+    - jupyter nbconvert --to notebook --execute ./M2E_statistical_test.ipynb
+    - echo "Testing are finished and passed!"
