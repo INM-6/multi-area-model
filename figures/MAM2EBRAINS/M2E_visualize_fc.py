@@ -99,13 +99,13 @@ def visualize_fc(M, data_path):
     """
     Figure layout
     """
-    fig = pl.figure(figsize=(10, 4))
+    fig = pl.figure(figsize=(9, 4))
     fig.suptitle('Simulated functional connectivity (left) and FC of macaque resting-state fMRI', 
-                 fontsize=17, x=0.5, y=1.1)
+                 fontsize=17, x=0.53, y=1.15)
     axes = {}
     gs1 = gridspec.GridSpec(1, 2)
     gs1.update(left=0.05, right=0.95, top=1,
-               bottom=0, wspace=0.3, hspace=0)
+               bottom=0.3, wspace=0.3, hspace=0)
     axes['A'] = pl.subplot(gs1[:1, :1])
     axes['B'] = pl.subplot(gs1[:1, 1:2])
 
@@ -188,9 +188,13 @@ def visualize_fc(M, data_path):
     ax = axes['B']
     matrix_plot(M, ax, zero_diagonal(exp_FC),
                 part_sim_index, 1., pos=(0, 0))
-
+        
     areas = np.array(M.area_list)[part_sim_index]
     area_string = areas[0]
     for area in areas[1:]:
         area_string += ' '
         area_string += area
+
+    pl.text(0.00, 0.15, r'Order of cortical areas:', transform=fig.transFigure, fontsize=13, fontweight='bold')
+    pl.text(0.00, 0.1, area_string,
+        transform=fig.transFigure, fontsize=11)
