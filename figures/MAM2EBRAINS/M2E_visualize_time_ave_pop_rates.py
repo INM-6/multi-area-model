@@ -67,7 +67,8 @@ def plot_time_averaged_population_rates(M, data_path, area_list=None, **keywords
             if masked_matrix.mask[i, j]:
                 ax.text(j + 0.5, i + 0.5, 'X', va='center', ha='center', color='black', fontsize=23)
 
-    plt.colorbar(im)
+    cbar = plt.colorbar(im)
+    cbar.set_label('spikes/s', fontsize=13)
 
     if 'output' in keywords:
         plt.savefig(os.path.join(M.output_dir, '{}_rates.{}'.format(M.simulation.label,

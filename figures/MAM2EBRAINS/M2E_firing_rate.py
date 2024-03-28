@@ -97,4 +97,5 @@ def plot_firing_rate_over_areas(M, data_path):
     ax.set_ylabel('Area', size=13)
     ax.set_xlabel('Time (ms)', size=13)
 
-    pl.colorbar(im)
+    cbar = pl.colorbar(im)
+    cbar.set_label('spikes/s', fontsize=13)
