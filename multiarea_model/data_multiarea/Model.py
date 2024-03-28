@@ -698,7 +698,7 @@ def compute_Model_params(out_label='', mode='default'):
             # if there is laminar data in CoCoMac, use this
             if Coco_Data[target_area][source_area]['target_pattern'] is not None:
                 tp = np.array(Coco_Data[target_area][source_area][
-                              'target_pattern'], dtype=np.float)
+                              'target_pattern'], dtype=float)
 
                 # If there is a '?' (=-1) in the data, check if this layer is in
                 # the termination pattern induced by hierarchy and insert a 2 if
