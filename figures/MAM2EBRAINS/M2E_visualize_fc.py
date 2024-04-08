@@ -15,7 +15,6 @@ from matplotlib import gridspec
 sys.path.append('./figures/Schmidt2018')
 
 from M2E_compute_fc import compute_fc
-from M2E_compute_louvain_communities import compute_communities
 
 cmap = pl.cm.coolwarm
 cmap = cmap.from_list('mycmap', [myblue, 'white', myred], N=256)
@@ -94,7 +93,6 @@ def visualize_fc(M, data_path):
     
     # Compute functional connectivity
     compute_fc(M, data_path, label)
-    compute_communities(M, data_path, label)
     
     """
     Figure layout
@@ -161,21 +159,13 @@ def visualize_fc(M, data_path):
         sim_FC[label] = np.load(fn)
 
     label = M.simulation.label
-    fn = os.path.join(data_path,
-                      label,
-                      'Analysis',
-                      'FC_synaptic_input_communities.json')
-    with open(fn, 'r') as f:
-        part_sim = json.load(f)
-    part_sim_list = [part_sim[area] for area in M.area_list]
-    part_sim_index = np.argsort(part_sim_list, kind='mergesort')
-    # Manually position MDP in between the two clusters for visual purposes
-    ind_MDP = M.area_list.index('MDP')
-    ind_MDP_index = np.where(part_sim_index == ind_MDP)[0][0]
-    part_sim_index = np.append(part_sim_index[:ind_MDP_index], part_sim_index[ind_MDP_index+1:])
-    new_ind_MDP_index = np.where(np.array(part_sim_list)[part_sim_index] == 0.)[0][-1]
-    part_sim_index = np.insert(part_sim_index, new_ind_MDP_index+1, ind_MDP)
+    areas_reordered = ['V1', 'V2', 'VP', 'V4t', 'V4', 'VOT', 'MSTd', 'PITv', 
+                   'PITd', 'CITv', 'CITd', 'AITv', 'AITd', 'MDP', 'V3', 'V3A',
+                   'MT', 'PIP', 'PO', 'DP', 'MIP', 'VIP', 'LIP', 'MSTI', 
+                   'FEF', 'TF', 'FST', '7a', 'STPp', 'STPa', '46', 'TH']
 
+    part_sim = {area: M.area_list.index(area) for area in areas_reordered if area in M.area_list}
+    part_sim_index = list(part_sim.values())
 
     """
     Plotting
