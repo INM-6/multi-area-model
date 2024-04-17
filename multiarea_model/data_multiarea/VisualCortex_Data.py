@@ -1326,7 +1326,7 @@ def process_raw_data():
         R_fit = [float(out.split('\n')[1].split(' ')[1]),
                      float(out.split('\n')[1].split(' ')[3])]
     except (OSError, IndexError, ValueError):
-        print("No R installation or IndexError, taking hard-coded SLN fit parameters.")
+        print("No R installation or IndexError/ValueError, taking hard-coded SLN fit parameters.")
         R_fit = [-0.1516142, -1.5343200]
 
     """
