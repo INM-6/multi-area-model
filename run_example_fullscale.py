@@ -21,8 +21,12 @@ resources, for instance on a compute cluster.
 """
 d = {}
 
+conn_params = {'cc_weights_factor': 1.0, # run model in Ground State
+               'cc_weights_I_factor': 1.0}
+
 network_params = {'N_scaling': 1.,
-                  'K_scaling': 1.}
+                  'K_scaling': 1.,
+                  'connection_params': conn_params}
 
 sim_params = {'t_sim': 2000.,
               'num_processes': 720,
