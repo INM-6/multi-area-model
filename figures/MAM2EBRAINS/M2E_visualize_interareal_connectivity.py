@@ -12,7 +12,7 @@ from multiarea_model import MultiAreaModel
 
 def visualize_interareal_connectivity(M):
     """
-    Visualize inter-area connectivity for a comparison of the full-scale model and the down-scaled model
+    Visualize inter-area connectivity for a comparison of the full-scale model and the downscaled model
     
     Parameters:
         - M ((MultiAreaModel)): Object containing simulation data.
@@ -35,7 +35,7 @@ def visualize_interareal_connectivity(M):
     pl.rcParams['figure.figsize'] = (width, height)
 
     fig = pl.figure()
-    fig.suptitle('Area-level connectivity of the full-scale and down-scaled MAM expressed as relative indegrees for each target area', fontsize=15, x=0.5, y=1.05)
+    fig.suptitle('Area-level connectivity of the full-scale and downscaled MAM expressed as relative indegrees for each target area', fontsize=15, x=0.5, y=1.05)
     axes = {}
 
     gs1 = gridspec.GridSpec(1, 2)
@@ -47,7 +47,7 @@ def visualize_interareal_connectivity(M):
     pos2 = axes['D'].get_position()
 
     labels = ['B', 'D']
-    labels_display = ['Full-scale model', 'Down-scaled model']
+    labels_display = ['Full-scale model', 'Downscaled model']
     for i in range(len(labels)):
         label = labels[i]
         label_display = labels_display[i]
@@ -100,7 +100,7 @@ def visualize_interareal_connectivity(M):
     cbar.set_alpha(0.)
 
     """
-    Panel D: Interareal connectivity of down-scaling multi-area model
+    Panel D: Interareal connectivity of downscaling multi-area model
     """
     conn_matrix_down_scale = np.zeros((32, 32))
     for i, area1 in enumerate(area_list[::-1]):
