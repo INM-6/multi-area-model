@@ -185,6 +185,6 @@ def visualize_fc(M, data_path):
         area_string += ' '
         area_string += area
 
-    pl.text(0.00, 0.15, r'Order of cortical areas:', transform=fig.transFigure, fontsize=13, fontweight='bold')
+    pl.text(0.00, 0.15, r'Order of cortical areas from top to bottom and left to right:', transform=fig.transFigure, fontsize=13, fontweight='bold')
     pl.text(0.00, 0.1, area_string,
         transform=fig.transFigure, fontsize=11)

@@ -199,7 +199,7 @@ class Simulation:
         for area_name in self.areas_simulated:
             a = Area(self, self.network, area_name)
             self.areas.append(a)
-            print("Memory after {0} : {1:.2f} MB".format(area_name, self.memory() / 1024.))
+            print("Memory after the creation of area {0} : {1:.2f} MB".format(area_name, self.memory() / 1024.))
 
     def cortico_cortical_input(self):
         """
@@ -419,9 +419,8 @@ class Area:
         self.create_populations()
         self.connect_devices()
         self.connect_populations()
-        print("Rank {}: created area {} with {} local nodes".format(nest.Rank(),
-                                                                    self.name,
-                                                                    self.num_local_nodes))
+        print()
+        print("Created area {}.".format(self.name))
 
     def __str__(self):
         s = "Area {} with {} neurons.".format(
