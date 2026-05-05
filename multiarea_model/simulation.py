@@ -320,7 +320,10 @@ class Simulation:
         try:
             mem = nest.ll_api.sli_func('memory_thisjob')
         except AttributeError:
-            mem = nest.sli_func('memory_thisjob')
+            try:
+                mem = nest.sli_func('memory_thisjob')
+            except AttributeError:
+                mem = nest.memory_size
         if isinstance(mem, dict):
             return mem['heap']
         else:
