@@ -22,6 +22,7 @@ import os
 import pprint
 import shutil
 import time
+import math
 
 from .analysis_helpers import _load_npy_to_dict, model_iter
 from config import base_path, data_path
@@ -644,76 +645,80 @@ def connect(simulation,
     if network.params['USING_NEST_3']:
         for target in target_area.populations:
             for source in source_area.populations:
-                conn_spec = {'rule': 'fixed_total_number',
-                             'N': int(synapses[target][source])}
+                
+                number_of_synapses = math.ceil(synapses[target][source])
 
-                if target_area == source_area:
-                    if 'E' in source:
+                if number_of_synapses > 0:
+                    conn_spec = {'rule': 'fixed_total_number',
+                                 'N': int(synapses[target][source])}
+    
+                    if target_area == source_area:
+                        if 'E' in source:
+                            w_min = 0.
+                            w_max = np.Inf
+                            mean_delay = network.params['delay_params']['delay_e']
+                        elif 'I' in source:
+                            w_min = np.NINF
+                            w_max = 0.
+                            mean_delay = network.params['delay_params']['delay_i']
+                    else:
                         w_min = 0.
                         w_max = np.Inf
-                        mean_delay = network.params['delay_params']['delay_e']
-                    elif 'I' in source:
-                        w_min = np.NINF
-                        w_max = 0.
-                        mean_delay = network.params['delay_params']['delay_i']
-                else:
-                    w_min = 0.
-                    w_max = np.Inf
-                    v = network.params['delay_params']['interarea_speed']
-                    s = network.distances[target_area.name][source_area.name]
-                    mean_delay = s / v
-
-                syn_spec = {
-                    'synapse_model': 'static_synapse',
-                    'weight': nest.math.redraw(
-                        nest.random.normal(mean=W[target][source],
-                                           std=W_sd[target][source]),
-                                           min=w_min,
-                                           max=w_max),
-                    'delay': nest.math.redraw(
-                        nest.random.normal(
-                            mean=mean_delay,
-                            std=(mean_delay *
-                                 network.params['delay_params']['delay_rel'])),
-                            min=simulation.params['dt'],
-                            max=np.Inf)
-                    }
-
-                nest.Connect(source_area.gids[source],
-                             target_area.gids[target],
-                             conn_spec,
-                             syn_spec)
-    else:
-        for target in target_area.populations:
-            for source in source_area.populations:
-                conn_spec = {'rule': 'fixed_total_number',
-                             'N': int(synapses[target][source])}
-
-                syn_weight = {'distribution': 'normal_clipped',
-                              'mu': W[target][source],
-                              'sigma': W_sd[target][source]}
-                if target_area == source_area:
-                    if 'E' in source:
-                        syn_weight.update({'low': 0.})
-                        mean_delay = network.params['delay_params']['delay_e']
-                    elif 'I' in source:
-                        syn_weight.update({'high': 0.})
-                        mean_delay = network.params['delay_params']['delay_i']
-                else:
-                    v = network.params['delay_params']['interarea_speed']
-                    s = network.distances[target_area.name][source_area.name]
-                    mean_delay = s / v
-                syn_delay = {'distribution': 'normal_clipped',
-                             'low': simulation.params['dt'],
-                             'mu': mean_delay,
-                             'sigma': mean_delay * network.params['delay_params']['delay_rel']}
-                syn_spec = {'weight': syn_weight,
-                            'delay': syn_delay,
-                            'model': 'static_synapse'}
-
-                nest.Connect(tuple(range(source_area.gids[source][0],
-                                         source_area.gids[source][1] + 1)),
-                             tuple(range(target_area.gids[target][0],
-                                         target_area.gids[target][1] + 1)),
-                             conn_spec,
-                             syn_spec)
+                        v = network.params['delay_params']['interarea_speed']
+                        s = network.distances[target_area.name][source_area.name]
+                        mean_delay = s / v
+    
+                    syn_spec = {
+                        'synapse_model': 'static_synapse',
+                        'weight': nest.math.redraw(
+                            nest.random.normal(mean=W[target][source],
+                                               std=W_sd[target][source]),
+                                               min=w_min,
+                                               max=w_max),
+                        'delay': nest.math.redraw(
+                            nest.random.normal(
+                                mean=mean_delay,
+                                std=(mean_delay *
+                                     network.params['delay_params']['delay_rel'])),
+                                min=simulation.params['dt'],
+                                max=np.Inf)
+                        }
+    
+                    nest.Connect(source_area.gids[source],
+                                 target_area.gids[target],
+                                 conn_spec,
+                                 syn_spec)
+        else:
+            for target in target_area.populations:
+                for source in source_area.populations:
+                    conn_spec = {'rule': 'fixed_total_number',
+                                 'N': int(synapses[target][source])}
+    
+                    syn_weight = {'distribution': 'normal_clipped',
+                                  'mu': W[target][source],
+                                  'sigma': W_sd[target][source]}
+                    if target_area == source_area:
+                        if 'E' in source:
+                            syn_weight.update({'low': 0.})
+                            mean_delay = network.params['delay_params']['delay_e']
+                        elif 'I' in source:
+                            syn_weight.update({'high': 0.})
+                            mean_delay = network.params['delay_params']['delay_i']
+                    else:
+                        v = network.params['delay_params']['interarea_speed']
+                        s = network.distances[target_area.name][source_area.name]
+                        mean_delay = s / v
+                    syn_delay = {'distribution': 'normal_clipped',
+                                 'low': simulation.params['dt'],
+                                 'mu': mean_delay,
+                                 'sigma': mean_delay * network.params['delay_params']['delay_rel']}
+                    syn_spec = {'weight': syn_weight,
+                                'delay': syn_delay,
+                                'model': 'static_synapse'}
+    
+                    nest.Connect(tuple(range(source_area.gids[source][0],
+                                             source_area.gids[source][1] + 1)),
+                                 tuple(range(target_area.gids[target][0],
+                                             target_area.gids[target][1] + 1)),
+                                 conn_spec,
+                                 syn_spec)
