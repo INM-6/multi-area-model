@@ -655,15 +655,15 @@ def connect(simulation,
                     if target_area == source_area:
                         if 'E' in source:
                             w_min = 0.
-                            w_max = np.Inf
+                            w_max = np.inf
                             mean_delay = network.params['delay_params']['delay_e']
                         elif 'I' in source:
-                            w_min = np.NINF
+                            w_min = -np.inf
                             w_max = 0.
                             mean_delay = network.params['delay_params']['delay_i']
                     else:
                         w_min = 0.
-                        w_max = np.Inf
+                        w_max = np.inf
                         v = network.params['delay_params']['interarea_speed']
                         s = network.distances[target_area.name][source_area.name]
                         mean_delay = s / v
@@ -681,7 +681,7 @@ def connect(simulation,
                                 std=(mean_delay *
                                      network.params['delay_params']['delay_rel'])),
                                 min=simulation.params['dt'],
-                                max=np.Inf)
+                                max=np.inf)
                         }
     
                     nest.Connect(source_area.gids[source],

@@ -340,7 +340,7 @@ def create_vector_mask(structure, pops=population_list,
     mask = np.array([], dtype=bool)
     for area in complete_area_list:
         if area in areas:
-            mask = np.append(mask, np.in1d(np.array(structure[area]), pops))
+            mask = np.append(mask, np.isin(np.array(structure[area]), pops))
         else:
             mask = np.append(mask, np.zeros_like(structure[area], dtype=bool))
     return mask
