@@ -1,8 +1,10 @@
-future
-numpy
-matplotlib
-pandas
-scipy
-pytest
-nested_dict
-dicthash
+dicthash>=0.0
+elephant>=1.2
+# future
+matplotlib>=3.11
+nest-simulator>=3.10
+nested_dict>=1.61
+numpy>=2.5
+pandas>=3.0
+# pytest
+scipy>=1.18
