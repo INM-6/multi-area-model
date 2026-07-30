@@ -1,6 +1,6 @@
 [project]
 name = "multi-area-model"
-version = "0.1.0"
+version = "1.2.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
