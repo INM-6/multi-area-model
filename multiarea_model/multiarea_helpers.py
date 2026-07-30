@@ -29,17 +29,20 @@ convert_syn_weight : Convert a PSC amplitude into an integral of the PSP
 """
 
 import json
-import numpy as np
 import os
 from itertools import product
+
+import numpy as np
+
 try:
     from collections.abc import Iterable
 except ImportError:
     from collections import Iterable
 
-from config import base_path
-from .default_params import complete_area_list, population_list
 from nested_dict import nested_dict
+
+from config import base_path
+from multiarea_model.default_params import complete_area_list, population_list
 
 
 def load_degree_data(fn):

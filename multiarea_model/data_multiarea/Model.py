@@ -17,18 +17,20 @@ Sacha van Albada
 
 """
 
-import numpy as np
 import json
-import re
 import os
+import pprint
+import re
+from copy import deepcopy
+from itertools import product
+
+import numpy as np
 import scipy
 import scipy.integrate
-import pprint
-from copy import deepcopy
 from nested_dict import nested_dict
-from itertools import product
-from multiarea_model.default_params import network_params, nested_update
+
 from multiarea_model.data_multiarea.VisualCortex_Data import process_raw_data
+from multiarea_model.default_params import nested_update, network_params
 
 
 def compute_Model_params(out_label='', mode='default'):

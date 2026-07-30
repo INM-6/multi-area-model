@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 analysis_helpers
 ============
@@ -40,13 +38,13 @@ Sacha van Albada
 
 """
 
-from copy import copy
-from nested_dict import nested_dict
-import numpy as np
 import json
+from copy import copy
 from itertools import product
-from scipy.signal import welch
 
+import numpy as np
+from nested_dict import nested_dict
+from scipy.signal import welch
 
 area_list = ['V1', 'V2', 'VP', 'V3', 'PIP', 'V3A', 'MT', 'V4t', 'V4',
              'PO', 'VOT', 'DP', 'MIP', 'MDP', 'MSTd', 'VIP', 'LIP',

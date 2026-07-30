@@ -22,8 +22,8 @@ Moritz Helias
 import numpy as np
 import scipy
 import scipy.integrate
-import scipy.stats
 import scipy.special
+import scipy.stats
 
 
 def nu0_fb(mu, sigma, tau_m, tau_s, tau_r, V_th, V_r):

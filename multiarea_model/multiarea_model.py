@@ -25,31 +25,31 @@ label. As members, it may contain three classes:
 - analysis: provides methods to load data and perform data analysis
 
 """
+
 import json
-import numpy as np
 import os
 import pprint
 import shutil
-from .default_params import complete_area_list, nested_update, network_params
-from .default_params import check_custom_params
 from collections import OrderedDict
 from copy import deepcopy
-from .data_multiarea.Model import compute_Model_params
-from .analysis import Analysis
-from config import base_path
+
+import numpy as np
 from dicthash import dicthash
-from .multiarea_helpers import (
-    area_level_dict,
-    load_degree_data,
-    convert_syn_weight,
-    dict_to_matrix,
-    dict_to_vector,
-    indegree_to_synapse_numbers,
-    matrix_to_dict,
-    vector_to_dict,
-)
-from .simulation import Simulation
-from .theory import Theory
+
+from config import base_path
+from multiarea_model.analysis import Analysis
+from multiarea_model.data_multiarea.Model import compute_Model_params
+from multiarea_model.default_params import (check_custom_params,
+                                            complete_area_list, nested_update,
+                                            network_params)
+from multiarea_model.multiarea_helpers import (area_level_dict,
+                                               convert_syn_weight,
+                                               dict_to_matrix, dict_to_vector,
+                                               indegree_to_synapse_numbers,
+                                               load_degree_data,
+                                               matrix_to_dict, vector_to_dict)
+from multiarea_model.simulation import Simulation
+from multiarea_model.theory import Theory
 
 # Set precision of dicthash library to 1e-4
 # because this is sufficient for indegrees

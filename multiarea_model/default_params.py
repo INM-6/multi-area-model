@@ -11,12 +11,13 @@ Authors
 Maximilian Schmidt
 """
 
-from config import base_path
 import json
 import os
-import nest
 
+import nest
 import numpy as np
+
+from config import base_path
 
 complete_area_list = ['V1', 'V2', 'VP', 'V3', 'V3A', 'MT', 'V4t', 'V4', 'VOT', 'MSTd',
                       'PIP', 'PO', 'DP', 'MIP', 'MDP', 'VIP', 'LIP', 'PITv', 'PITd',

@@ -70,20 +70,20 @@ Maximilian Schmidt
 Sacha van Albada
 
 """
-import numpy as np
-import re
 import copy
-import json
 import csv
+import json
 import os
-import pandas as pd
+import re
 import subprocess
-
 from itertools import product
-from config import base_path
+
+import numpy as np
+import pandas as pd
 from nested_dict import nested_dict
-from scipy import stats
-from scipy import integrate
+from scipy import integrate, stats
+
+from config import base_path
 
 
 def process_raw_data():

@@ -1,10 +1,12 @@
-from config import data_path
-from sumatra.projects import load_project
-from sumatra.parameters import build_parameters
-import os
 import glob
 import json
+import os
+
 import numpy as np
+from sumatra.parameters import build_parameters
+from sumatra.projects import load_project
+
+from config import data_path
 
 
 def register_record(label, reason=None, tag=None):
