@@ -1,10 +1,11 @@
-import numpy as np
 import os
 
-from multiarea_model import MultiAreaModel
+import numpy as np
+
+from config import base_path, jobscript_template, submit_cmd
+from multiarea_model.multiarea_model import MultiAreaModel
 from start_jobs import start_job
-from config import submit_cmd, jobscript_template
-from config import base_path
+
 
 """
 Example script showing how to simulate the multi-area model
