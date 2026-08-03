@@ -1,9 +1,3 @@
-import numpy as np
-from .multiarea_helpers import create_mask, create_vector_mask
-from copy import deepcopy
-from .theory_helpers import d_nu_d_mu_fb_numeric, d_nu_d_sigma_fb_numeric
-import copy
-
 """
 Implementation of the stabilization method of [1].
 The notation follows Eqs. (6-13) of [1].
@@ -13,6 +7,15 @@ The notation follows Eqs. (6-13) of [1].
    PLOS Computational Biology, 13(2).
    [https://doi.org/10.1371/journal.pcbi.1005179](https://doi.org/10.1371/journal.pcbi.1005179)
 """
+
+import copy
+from copy import deepcopy
+
+import numpy as np
+
+from multiarea_model.multiarea_helpers import create_mask, create_vector_mask
+from multiarea_model.theory_helpers import (d_nu_d_mu_fb_numeric,
+                                            d_nu_d_sigma_fb_numeric)
 
 
 def stabilize(theo, theo_prime, fixed_point, a='fac_nu_ext_5E_6E', b='indegree'):

@@ -1,4 +1,3 @@
-
 """
 multiarea_model
 ==============
@@ -16,23 +15,26 @@ is identified by a unique hash label.
 """
 
 import json
-import nest
-import numpy as np
+import math
 import os
 import pprint
 import shutil
 import time
-import math
-
-from .analysis_helpers import _load_npy_to_dict, model_iter
-from config import base_path, data_path
 from copy import deepcopy
-from .default_params import nested_update, sim_params
-from .default_params import check_custom_params
+
+import nest
+import numpy as np
 from dicthash import dicthash
-from .multiarea_helpers import extract_area_dict, create_vector_mask
+
+from config import base_path, data_path
+from multiarea_model.analysis_helpers import _load_npy_to_dict, model_iter
+from multiarea_model.default_params import (check_custom_params, nested_update,
+                                            sim_params)
+from multiarea_model.multiarea_helpers import (create_vector_mask,
+                                               extract_area_dict)
+
 try:
-    from .sumatra_helpers import register_runtime
+    from multiarea_model.sumatra_helpers import register_runtime
     sumatra_found = True
 except ImportError:
     sumatra_found = False

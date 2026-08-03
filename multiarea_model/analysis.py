@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 analysis
 ============
@@ -20,17 +18,17 @@ Maximilian Schmidt
 Sacha van Albada
 
 """
-from . import analysis_helpers as ah
+
 import glob
 import inspect
-from itertools import chain, product
 import json
+import os
+from copy import copy
+from itertools import chain, product
+
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 import pandas as pd
-
-from copy import copy
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import FixedLocator
 from nested_dict import nested_dict
@@ -39,6 +37,8 @@ try:
     import seaborn as sns
 except ImportError:
     pass
+
+import multiarea_model.analysis_helpers as ah
 
 
 class Analysis:

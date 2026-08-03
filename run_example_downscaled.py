@@ -1,8 +1,10 @@
-import numpy as np
 import os
 
-from multiarea_model import MultiAreaModel
+import numpy as np
+
+from multiarea_model.multiarea_model import MultiAreaModel
 from config import base_path
+
 
 """
 Down-scaled model.
