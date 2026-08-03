@@ -1,8 +1,8 @@
-future
-numpy
-matplotlib
-pandas
-scipy
-pytest
-nested_dict
-dicthash
+dicthash>=0.0
+elephant>=1.1           # compatible for Python 3.11, latest: 1.2
+matplotlib>=3.7         # compatible for Python 3.11, latest: 3.11
+nest-simulator>=3.10
+nested_dict>=1.61
+numpy>=1.25             # compatible for Python 3.11, latest: 2.5
+pandas>=2.0             # compatible for Python 3.11, latest: 3.0
+scipy>=1.11             # compatible for Python 3.11, latest: 1.18
