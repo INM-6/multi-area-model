@@ -1,7 +1,6 @@
 # global imports
 import numpy as np
 import copy
-from future.builtins import range
 
 ##################################################################
 # functions for handling spike train data
